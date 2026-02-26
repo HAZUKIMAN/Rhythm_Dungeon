@@ -1,0 +1,225 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="ソース ファイル">
+      <UniqueIdentifier>{4FC737F1-C7A5-4376-A066-2A32D752A2FF}</UniqueIdentifier>
+      <Extensions>cpp;c;cc;cxx;c++;cppm;ixx;def;odl;idl;hpj;bat;asm;asmx</Extensions>
+    </Filter>
+    <Filter Include="ヘッダー ファイル">
+      <UniqueIdentifier>{93995380-89BD-4b04-88EB-625FBE52EBFB}</UniqueIdentifier>
+      <Extensions>h;hh;hpp;hxx;h++;hm;inl;inc;ipp;xsd</Extensions>
+    </Filter>
+    <Filter Include="リソース ファイル">
+      <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
+      <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
+    </Filter>
+    <Filter Include="ソース ファイル\game">
+      <UniqueIdentifier>{93ebb4ff-c4c3-4140-908c-75322f69d81f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ソース ファイル\lib">
+      <UniqueIdentifier>{2c5525a9-9334-44a9-8a61-26b23b432695}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ソース ファイル\lib\fade">
+      <UniqueIdentifier>{2ef733c4-5364-4a1b-995d-fbb869af2ef1}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ソース ファイル\lib\frame">
+      <UniqueIdentifier>{4c3e74e6-3f48-4a92-9bf8-31caaf5d7bb5}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ソース ファイル\lib\input">
+      <UniqueIdentifier>{e9417da5-b833-4ea4-9357-b7b74bda77aa}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ソース ファイル\lib\math">
+      <UniqueIdentifier>{494e0497-8d11-4194-9567-9bca9d67f9bf}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ソース ファイル\game\score">
+      <UniqueIdentifier>{b2a191e8-0e9b-48af-adf1-0a733a823ede}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ソース ファイル\game\system">
+      <UniqueIdentifier>{a17299cf-c905-47dc-8f2a-41481aac919f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ソース ファイル\game\scene">
+      <UniqueIdentifier>{9186c726-c435-4437-9f60-b388209c9393}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ソース ファイル\game\player">
+      <UniqueIdentifier>{e58a5058-b9c9-4925-ae44-a8e7a3d7bdfb}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ソース ファイル\game\field">
+      <UniqueIdentifier>{8d6f7f79-bed7-4308-a631-2a1bc82f849f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ソース ファイル\game\enemy">
+      <UniqueIdentifier>{a28c4005-dadc-4bb8-9439-ec5c4528157c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ソース ファイル\game\effect">
+      <UniqueIdentifier>{a773cec8-0b2e-4864-904a-f5593bde4101}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ソース ファイル\game\collision">
+      <UniqueIdentifier>{fc16c594-809d-4e2d-b9eb-01e694df80bb}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ソース ファイル\game\camera">
+      <UniqueIdentifier>{bb1eca69-590a-4dd2-8fc9-0bebd62803db}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ソース ファイル\game\field\sky">
+      <UniqueIdentifier>{8bad29d7-a852-4cb8-bf51-c3d77a3bd99e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ソース ファイル\game\object">
+      <UniqueIdentifier>{1f7526f0-1208-4906-b5ae-be9ca4443170}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="src\Main.cpp">
+      <Filter>ソース ファイル</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Data.cpp">
+      <Filter>ソース ファイル\lib</Filter>
+    </ClCompile>
+    <ClCompile Include="src\lib\math\Hit.cpp">
+      <Filter>ソース ファイル\lib\math</Filter>
+    </ClCompile>
+    <ClCompile Include="src\lib\math\Vector.cpp">
+      <Filter>ソース ファイル\lib\math</Filter>
+    </ClCompile>
+    <ClCompile Include="src\lib\Input\Input.cpp">
+      <Filter>ソース ファイル\lib\input</Filter>
+    </ClCompile>
+    <ClCompile Include="src\lib\frame\Frame.cpp">
+      <Filter>ソース ファイル\lib\frame</Filter>
+    </ClCompile>
+    <ClCompile Include="src\lib\fade\Fade.cpp">
+      <Filter>ソース ファイル\lib\fade</Filter>
+    </ClCompile>
+    <ClCompile Include="src\game\system\SoundManager.cpp">
+      <Filter>ソース ファイル\game\system</Filter>
+    </ClCompile>
+    <ClCompile Include="src\game\score\Score.cpp">
+      <Filter>ソース ファイル\game\score</Filter>
+    </ClCompile>
+    <ClCompile Include="src\game\scene\SceneClear.cpp">
+      <Filter>ソース ファイル\game\scene</Filter>
+    </ClCompile>
+    <ClCompile Include="src\game\scene\SceneGame.cpp">
+      <Filter>ソース ファイル\game\scene</Filter>
+    </ClCompile>
+    <ClCompile Include="src\game\scene\SceneGameover.cpp">
+      <Filter>ソース ファイル\game\scene</Filter>
+    </ClCompile>
+    <ClCompile Include="src\game\scene\SceneManager.cpp">
+      <Filter>ソース ファイル\game\scene</Filter>
+    </ClCompile>
+    <ClCompile Include="src\game\scene\SceneTitle.cpp">
+      <Filter>ソース ファイル\game\scene</Filter>
+    </ClCompile>
+    <ClCompile Include="src\game\field\Field.cpp">
+      <Filter>ソース ファイル\game\field</Filter>
+    </ClCompile>
+    <ClCompile Include="src\game\field\Sky.cpp">
+      <Filter>ソース ファイル\game\field\sky</Filter>
+    </ClCompile>
+    <ClCompile Include="src\game\effect\effekseer.cpp">
+      <Filter>ソース ファイル\game\effect</Filter>
+    </ClCompile>
+    <ClCompile Include="src\game\collision\CollisionManager.cpp">
+      <Filter>ソース ファイル\game\collision</Filter>
+    </ClCompile>
+    <ClCompile Include="src\game\camera\CameraBase.cpp">
+      <Filter>ソース ファイル\game\camera</Filter>
+    </ClCompile>
+    <ClCompile Include="src\game\camera\CameraManager.cpp">
+      <Filter>ソース ファイル\game\camera</Filter>
+    </ClCompile>
+    <ClCompile Include="src\game\camera\PlayCamera.cpp">
+      <Filter>ソース ファイル\game\camera</Filter>
+    </ClCompile>
+    <ClCompile Include="src\game\object\Object.cpp">
+      <Filter>ソース ファイル\game\object</Filter>
+    </ClCompile>
+    <ClCompile Include="src\game\player\Player.cpp">
+      <Filter>ソース ファイル\game\player</Filter>
+    </ClCompile>
+    <ClCompile Include="src\game\object\Actor.cpp">
+      <Filter>ソース ファイル\game\object</Filter>
+    </ClCompile>
+    <ClCompile Include="src\game\camera\DebugCamera.cpp">
+      <Filter>ソース ファイル\game\camera</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="src\Data.h">
+      <Filter>ソース ファイル\lib</Filter>
+    </ClInclude>
+    <ClInclude Include="src\lib\math\Hit.h">
+      <Filter>ソース ファイル\lib\math</Filter>
+    </ClInclude>
+    <ClInclude Include="src\lib\math\Vector.h">
+      <Filter>ソース ファイル\lib\math</Filter>
+    </ClInclude>
+    <ClInclude Include="src\lib\Input\Input.h">
+      <Filter>ソース ファイル\lib\input</Filter>
+    </ClInclude>
+    <ClInclude Include="src\lib\frame\Frame.h">
+      <Filter>ソース ファイル\lib\frame</Filter>
+    </ClInclude>
+    <ClInclude Include="src\lib\fade\Fade.h">
+      <Filter>ソース ファイル\lib\fade</Filter>
+    </ClInclude>
+    <ClInclude Include="src\game\system\SoundManager.h">
+      <Filter>ソース ファイル\game\system</Filter>
+    </ClInclude>
+    <ClInclude Include="src\game\score\Score.h">
+      <Filter>ソース ファイル\game\score</Filter>
+    </ClInclude>
+    <ClInclude Include="src\game\scene\SceneBase.h">
+      <Filter>ソース ファイル\game\scene</Filter>
+    </ClInclude>
+    <ClInclude Include="src\game\scene\SceneClear.h">
+      <Filter>ソース ファイル\game\scene</Filter>
+    </ClInclude>
+    <ClInclude Include="src\game\scene\SceneGame.h">
+      <Filter>ソース ファイル\game\scene</Filter>
+    </ClInclude>
+    <ClInclude Include="src\game\scene\SceneGameover.h">
+      <Filter>ソース ファイル\game\scene</Filter>
+    </ClInclude>
+    <ClInclude Include="src\game\scene\SceneManager.h">
+      <Filter>ソース ファイル\game\scene</Filter>
+    </ClInclude>
+    <ClInclude Include="src\game\scene\SceneTitle.h">
+      <Filter>ソース ファイル\game\scene</Filter>
+    </ClInclude>
+    <ClInclude Include="src\game\field\Field.h">
+      <Filter>ソース ファイル\game\field</Filter>
+    </ClInclude>
+    <ClInclude Include="src\game\field\Sky.h">
+      <Filter>ソース ファイル\game\field\sky</Filter>
+    </ClInclude>
+    <ClInclude Include="src\game\effect\effekseer.h">
+      <Filter>ソース ファイル\game\effect</Filter>
+    </ClInclude>
+    <ClInclude Include="src\game\collision\CollisionManager.h">
+      <Filter>ソース ファイル\game\collision</Filter>
+    </ClInclude>
+    <ClInclude Include="src\game\camera\CameraBase.h">
+      <Filter>ソース ファイル\game\camera</Filter>
+    </ClInclude>
+    <ClInclude Include="src\game\camera\CameraManager.h">
+      <Filter>ソース ファイル\game\camera</Filter>
+    </ClInclude>
+    <ClInclude Include="src\game\camera\PlayCamera.h">
+      <Filter>ソース ファイル\game\camera</Filter>
+    </ClInclude>
+    <ClInclude Include="src\game\common.h">
+      <Filter>ソース ファイル</Filter>
+    </ClInclude>
+    <ClInclude Include="src\game\object\Object.h">
+      <Filter>ソース ファイル\game\object</Filter>
+    </ClInclude>
+    <ClInclude Include="src\game\player\Player.h">
+      <Filter>ソース ファイル\game\player</Filter>
+    </ClInclude>
+    <ClInclude Include="src\game\object\Actor.h">
+      <Filter>ソース ファイル\game\object</Filter>
+    </ClInclude>
+    <ClInclude Include="src\game\camera\DebugCamera.h">
+      <Filter>ソース ファイル\game\camera</Filter>
+    </ClInclude>
+  </ItemGroup>
+</Project>

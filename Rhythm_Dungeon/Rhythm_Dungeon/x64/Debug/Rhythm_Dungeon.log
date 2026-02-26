@@ -1,0 +1,10 @@
+﻿  effekseer.cpp
+C:\Users\2409407\Desktop\提出フォルダー\Rhythm_Dungeon\src\game\effect\effekseer.h(19,10): error C1083: include ファイルを開けません。'Effekseer.h':No such file or directory
+  (ソース ファイル 'src/game/effect/effekseer.cpp' をコンパイルしています)
+  
+  Field.cpp
+  Main.cpp
+C:\Users\2409407\Desktop\提出フォルダー\Rhythm_Dungeon\src\game\effect\effekseer.h(19,10): error C1083: include ファイルを開けません。'Effekseer.h':No such file or directory
+  (ソース ファイル 'src/Main.cpp' をコンパイルしています)
+  
+  コードを生成中...
