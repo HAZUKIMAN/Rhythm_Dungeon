@@ -21,7 +21,7 @@ private:
 	CSceneBase* m_base;								// 各シーンを格納
 	int	m_state;									// 現在の状態
 	int m_next;										// 次に移動するシーン
-	void (CSceneManager::* m_step[SCENEID_NUM])();	// シーンを関数ポインタで管理するためのもの
+	void (CSceneManager::* m_step[STATEID_NUM])();	// シーンを関数ポインタで管理するためのもの
 
 public:
 	//		コンストラクタ

@@ -1,7 +1,6 @@
 #pragma once
 
 //	シーン基本クラス
-//	@memo	:	継承後も基本はpublicは増やさない
 class CSceneBase {
 public:
 
@@ -12,7 +11,6 @@ public:
 	//		データロード
 	virtual void Load() = 0;
 	//		実行処理
-	//	@戻り値	:	次のシーン(-1なら変更なし)
 	virtual int Step() = 0;
 	//		描画
 	virtual void Draw() = 0;

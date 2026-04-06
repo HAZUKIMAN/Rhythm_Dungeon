@@ -2,7 +2,6 @@
 #include "SceneBase.h"
 
 //	タイトルクラス
-//	@memo	:	継承後も基本はpublicは増やさない
 class CSceneTitle : public CSceneBase{
 private:
 	int m_hndl;
