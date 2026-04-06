@@ -30,8 +30,9 @@ void CSceneTitle::Load()
 int CSceneTitle::Step()
 {
 	int ret = -1;
-	if (CheckHitKey(KEY_INPUT_Z))
-		ret = SCENEID_GAME;
+
+	if (CheckHitKey(KEY_INPUT_Z))ret = SCENEID_GAME;
+
 	return ret;
 }
 
@@ -42,6 +43,8 @@ int CSceneTitle::Step()
 void CSceneTitle::Draw()
 {
 	DrawGraph(0, 0, m_hndl, TRUE);
+
+	DrawString(1000, 16 , "Title" , GetColor(255, 0, 0));
 }
 
 

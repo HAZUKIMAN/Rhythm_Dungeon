@@ -42,6 +42,7 @@ int CSceneClear::Step()
 void CSceneClear::Draw()
 {
 	DrawGraph(0, 0, m_hndl, TRUE);
+	DrawString(1000, 16, "gameclear", GetColor(255, 0, 0));
 }
 
 

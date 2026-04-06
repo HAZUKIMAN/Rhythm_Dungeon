@@ -1,5 +1,6 @@
 #include "Fade.h"
 #include <DxLib.h>
+#include "../../game/common.h"
 
 CFade*	CFade::m_instance = nullptr;
 
@@ -93,8 +94,11 @@ void	CFade::Draw(void)
 {
 	if (m_fade == FadeState::FADE_NON) return;
 
+	
+
 	SetDrawBlendMode(DX_BLENDMODE_ALPHA, (int)m_cnt);
 	DrawBox(0, 0, m_windowX, m_windowY, GetColor(0, 0, 0), TRUE);
+	DrawString(1000, 16, "フェイド中", GetColor(255, 0, 0));
 	SetDrawBlendMode(DX_BLENDMODE_NOBLEND, 0);
 }
 

@@ -27,6 +27,9 @@ static constexpr int WINDOW_HEIGHT_HALF = WINDOW_HEIGHT / 2;
 static constexpr int FRAME_RATE = 60;								// 1秒辺りのフレーム数
 static constexpr int FRAME_RATE_MILLI_SECOND = 1000 / FRAME_RATE;	// 何ミリ秒で1フレームか
 
+//現在の位置情報
+static constexpr int STATE_POSITION = 1400;
+
 // 増加していく数値
 static constexpr int COUNTUP_NUM = 10;
 

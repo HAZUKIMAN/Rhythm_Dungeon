@@ -3,8 +3,8 @@
 #include "../Common.h"
 #include "../collision/CollisionManager.h"
 #include "../system/SoundManager.h"
+#include "../../lib/Input/Input.h"
 
-static const int CLEAR_NUMBER = 15;		// クリアに必要な撃破数
 
 
 //-------------------------------
@@ -34,6 +34,7 @@ void CSceneGame::Init()
 
 	// プレイヤー初期化
 	m_player.Init();
+
 	//// 敵初期化
 	//m_enemyManager.Init();
 	//// ショット初期化
@@ -41,7 +42,6 @@ void CSceneGame::Init()
 	// 背景初期化
 	//m_backgroundManager.Init();
 
-	m_destroyCnt = 0;
 }
 
 
@@ -73,10 +73,11 @@ int CSceneGame::Step()
 	int ret = -1;
 	Calc();
 
-	if (!m_player.IsActiveFlag())
-		ret = SCENEID_GAMEOVER;
-	else if (m_destroyCnt >= CLEAR_NUMBER)
-		ret = SCENEID_CLEAR;
+	//if (!m_player.IsActiveFlag())ret = SCENEID_GAMEOVER;
+	//else if (m_destroyCnt >= CLEAR_NUMBER)
+	//	ret = SCENEID_CLEAR;
+
+	if (Input::Key::Push(KEY_INPUT_Z))ret = SCENEID_GAMEOVER;
 	return ret;
 }
 
@@ -91,8 +92,6 @@ void CSceneGame::Draw()
 	m_player.Draw();
 	//m_enemyManager.Draw();
 	//m_shotManager.Draw();*/
-
-	DrawFormatString(32, 32, GetColor(255, 0, 0), "クリアまであと%d体", CLEAR_NUMBER - m_destroyCnt);
 }
 
 
@@ -140,6 +139,7 @@ void CSceneGame::Calc()
 		m_cameraManager.ChangeCamera(CCameraManager::CAMERA_ID_DEBUG);
 	else if (CheckHitKey(KEY_INPUT_V))
 		m_cameraManager.ChangeCamera(CCameraManager::CAMERA_ID_PLAY);
+
 	// カメラ更新処理
 	m_cameraManager.Step(m_player);
 	m_cameraManager.Update();

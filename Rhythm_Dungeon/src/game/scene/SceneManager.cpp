@@ -58,6 +58,7 @@ void CSceneManager::Draw()
 {
 	// 基本的にm_baseはnullにならないが、心配ならnullチェックを
 	m_base->Draw();
+
 	CFade::GetInstance()->Draw(); //必ずフェードは最後にする
 }
 
@@ -91,6 +92,7 @@ void CSceneManager::Step()
 	if (!CFade::GetInstance()->IsEnd()) return;
 
 	m_next = m_base->Step();
+
 	if (m_next != -1)
 	{
 		m_state = STATEID_FIN;

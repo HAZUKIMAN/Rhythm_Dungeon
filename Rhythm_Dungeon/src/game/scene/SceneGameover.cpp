@@ -42,6 +42,7 @@ int CSceneGameover::Step()
 void CSceneGameover::Draw()
 {
 	DrawGraph(0, 0, m_hndl, TRUE);
+	DrawString(1000, 16, "gameover", GetColor(255, 0, 0));
 }
 
 

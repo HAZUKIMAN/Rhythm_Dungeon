@@ -16,7 +16,7 @@ private:
 	//CEnemyManager m_enemyManager;			// “G‘S”Êˆ—
 	//CShotManager m_shotManager;				// ƒVƒ‡ƒbƒgŠÇ—
 	//CBackgroundManager m_backgroundManager;	// ”wŒi
-	int m_destroyCnt;						// “G‚Ì“|‚µ‚½”
+	
 
 public:
 	CSceneGame();
