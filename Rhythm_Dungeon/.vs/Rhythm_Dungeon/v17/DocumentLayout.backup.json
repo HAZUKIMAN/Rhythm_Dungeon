@@ -78,8 +78,7 @@
               "RelativeToolTip": "src\\game\\scene\\SceneClear.h",
               "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000680|",
-              "WhenOpened": "2026-04-06T06:40:02.03Z",
-              "EditorCaption": ""
+              "WhenOpened": "2026-04-06T06:40:02.03Z"
             },
             {
               "$type": "Document",
@@ -91,8 +90,7 @@
               "RelativeToolTip": "src\\game\\common.h",
               "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000680|",
-              "WhenOpened": "2026-04-06T06:39:54.808Z",
-              "EditorCaption": ""
+              "WhenOpened": "2026-04-06T06:39:54.808Z"
             },
             {
               "$type": "Document",
@@ -104,8 +102,7 @@
               "RelativeToolTip": "src\\game\\effect\\effekseer.h",
               "ViewState": "AgIAAAAAAAAAAAAAAAAAABoAAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000680|",
-              "WhenOpened": "2026-04-06T06:28:25.764Z",
-              "EditorCaption": ""
+              "WhenOpened": "2026-04-06T06:28:25.764Z"
             },
             {
               "$type": "Document",
@@ -117,8 +114,7 @@
               "RelativeToolTip": "src\\game\\scene\\SceneManager.cpp",
               "ViewState": "AgIAAFEAAAAAAAAAAAAAAHEAAAABAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000677|",
-              "WhenOpened": "2026-04-06T05:58:13.541Z",
-              "EditorCaption": ""
+              "WhenOpened": "2026-04-06T05:58:13.541Z"
             },
             {
               "$type": "Document",
@@ -143,8 +139,7 @@
               "RelativeToolTip": "src\\game\\scene\\SceneGameover.h",
               "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000680|",
-              "WhenOpened": "2026-04-06T05:44:01.647Z",
-              "EditorCaption": ""
+              "WhenOpened": "2026-04-06T05:44:01.647Z"
             },
             {
               "$type": "Document",
@@ -156,8 +151,7 @@
               "RelativeToolTip": "src\\game\\scene\\SceneTitle.h",
               "ViewState": "AgIAAAAAAAAAAAAAAAAAABIAAAAJAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000680|",
-              "WhenOpened": "2026-04-06T05:39:59.635Z",
-              "EditorCaption": ""
+              "WhenOpened": "2026-04-06T05:39:59.635Z"
             },
             {
               "$type": "Document",
@@ -169,8 +163,7 @@
               "RelativeToolTip": "src\\game\\scene\\SceneBase.h",
               "ViewState": "AgIAAAAAAAAAAAAAAAAAABEAAAAYAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000680|",
-              "WhenOpened": "2026-04-06T05:33:10.863Z",
-              "EditorCaption": ""
+              "WhenOpened": "2026-04-06T05:33:10.863Z"
             },
             {
               "$type": "Document",
@@ -182,8 +175,7 @@
               "RelativeToolTip": "src\\game\\scene\\SceneGame.h",
               "ViewState": "AgIAAAAAAAAAAAAAAAAAABYAAAAPAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000680|",
-              "WhenOpened": "2026-04-06T05:49:30.395Z",
-              "EditorCaption": ""
+              "WhenOpened": "2026-04-06T05:49:30.395Z"
             },
             {
               "$type": "Document",
@@ -195,8 +187,7 @@
               "RelativeToolTip": "src\\game\\scene\\SceneManager.h",
               "ViewState": "AgIAAAAAAAAAAAAAAAAAAA8AAAAOAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000680|",
-              "WhenOpened": "2026-04-06T05:41:05.66Z",
-              "EditorCaption": ""
+              "WhenOpened": "2026-04-06T05:41:05.66Z"
             },
             {
               "$type": "Document",
@@ -208,8 +199,7 @@
               "RelativeToolTip": "src\\game\\scene\\SceneClear.cpp",
               "ViewState": "AgIAABUAAAAAAAAAAAAAADoAAAABAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000677|",
-              "WhenOpened": "2026-04-06T05:37:55.378Z",
-              "EditorCaption": ""
+              "WhenOpened": "2026-04-06T05:37:55.378Z"
             },
             {
               "$type": "Document",
@@ -221,8 +211,7 @@
               "RelativeToolTip": "src\\game\\scene\\SceneGame.cpp",
               "ViewState": "AgIAAAAAAAAAAAAAAAAAAA8AAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000677|",
-              "WhenOpened": "2026-04-06T05:49:25.498Z",
-              "EditorCaption": ""
+              "WhenOpened": "2026-04-06T05:49:25.498Z"
             },
             {
               "$type": "Document",
@@ -234,8 +223,7 @@
               "RelativeToolTip": "src\\game\\scene\\SceneTitle.cpp",
               "ViewState": "AgIAABsAAAAAAAAAAAAAADwAAAABAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000677|",
-              "WhenOpened": "2026-04-06T05:39:35.76Z",
-              "EditorCaption": ""
+              "WhenOpened": "2026-04-06T05:39:35.76Z"
             },
             {
               "$type": "Document",
@@ -247,8 +235,7 @@
               "RelativeToolTip": "src\\Main.cpp",
               "ViewState": "AgIAABgAAAAAAAAAAAAAADsAAAAVAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000677|",
-              "WhenOpened": "2026-04-06T05:09:17.439Z",
-              "EditorCaption": ""
+              "WhenOpened": "2026-04-06T05:09:17.439Z"
             }
           ]
         }
