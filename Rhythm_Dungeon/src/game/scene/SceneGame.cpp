@@ -135,9 +135,9 @@ void CSceneGame::Calc()
 	}
 
 	// カメラ切り替え処理
-	if (CheckHitKey(KEY_INPUT_C))
+	if (Input::Key::Push(KEY_INPUT_C))
 		m_cameraManager.ChangeCamera(CCameraManager::CAMERA_ID_DEBUG);
-	else if (CheckHitKey(KEY_INPUT_V))
+	else if (Input::Key::Push(KEY_INPUT_V))
 		m_cameraManager.ChangeCamera(CCameraManager::CAMERA_ID_PLAY);
 
 	// カメラ更新処理

@@ -1,6 +1,7 @@
 #include <DxLib.h>
 #include "SceneGameover.h"
 #include "../Common.h"
+#include "../../lib/Input/Input.h"
 
 static const char FILE_NAME[] = "data/graph/gameover.png";
 
@@ -30,7 +31,7 @@ void CSceneGameover::Load()
 int CSceneGameover::Step()
 {
 	int ret = -1;
-	if (CheckHitKey(KEY_INPUT_V))
+	if (Input::Key::Push(KEY_INPUT_V))
 		ret = SCENEID_TITLE;
 	return ret;
 }
@@ -43,6 +44,7 @@ void CSceneGameover::Draw()
 {
 	DrawGraph(0, 0, m_hndl, TRUE);
 	DrawString(1000, 16, "gameover", GetColor(255, 0, 0));
+	DrawString(1000, 30, "v‚Åƒ^ƒCƒgƒ‹‚Ö", GetColor(255, 0, 0));
 }
 
 

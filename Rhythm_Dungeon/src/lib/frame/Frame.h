@@ -10,13 +10,13 @@ private:
 	static int m_lastTime;				// 1フレーム前のPC時間
 
 public:
-	//		フレームレート初期化
+	// フレームレート初期化
 	static void Init();
-	//		フレームを進めていいか判断
+	// フレームを進めていいか判断
 	static bool CheckNext();
-	//		フレームレート計算
+	// フレームレート計算
 	static void Calc();
-	//		FPS表示
+	// FPS表示
 	static void PrintFps();
 
 };

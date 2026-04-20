@@ -1,6 +1,7 @@
 #include <DxLib.h>
 #include "SceneTitle.h"
 #include "../Common.h"
+#include "../../lib/Input/Input.h"
 
 static const char FILE_NAME[] = "data/graph/title.png";
 
@@ -31,7 +32,7 @@ int CSceneTitle::Step()
 {
 	int ret = -1;
 
-	if (CheckHitKey(KEY_INPUT_Z))ret = SCENEID_GAME;
+	if (Input::Key::Push(KEY_INPUT_Z))ret = SCENEID_GAME;
 
 	return ret;
 }

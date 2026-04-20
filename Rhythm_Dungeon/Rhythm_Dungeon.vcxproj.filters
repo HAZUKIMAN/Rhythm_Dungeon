@@ -64,6 +64,12 @@
     <Filter Include="ソース ファイル\game\object">
       <UniqueIdentifier>{1f7526f0-1208-4906-b5ae-be9ca4443170}</UniqueIdentifier>
     </Filter>
+    <Filter Include="ソース ファイル\game\NewFilter1">
+      <UniqueIdentifier>{38913931-c9d6-45e6-91bb-54f644500965}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ソース ファイル\game\field\Field">
+      <UniqueIdentifier>{33e842d5-0097-4259-a2e2-03a2e9bd8116}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\Main.cpp">
@@ -108,9 +114,6 @@
     <ClCompile Include="src\game\scene\SceneTitle.cpp">
       <Filter>ソース ファイル\game\scene</Filter>
     </ClCompile>
-    <ClCompile Include="src\game\field\Field.cpp">
-      <Filter>ソース ファイル\game\field</Filter>
-    </ClCompile>
     <ClCompile Include="src\game\field\Sky.cpp">
       <Filter>ソース ファイル\game\field\sky</Filter>
     </ClCompile>
@@ -140,6 +143,12 @@
     </ClCompile>
     <ClCompile Include="src\game\camera\DebugCamera.cpp">
       <Filter>ソース ファイル\game\camera</Filter>
+    </ClCompile>
+    <ClCompile Include="src\game\field\BackGroundManager.cpp">
+      <Filter>ソース ファイル\game\field</Filter>
+    </ClCompile>
+    <ClCompile Include="src\game\field\Field.cpp">
+      <Filter>ソース ファイル\game\field\Field</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -185,9 +194,6 @@
     <ClInclude Include="src\game\scene\SceneTitle.h">
       <Filter>ソース ファイル\game\scene</Filter>
     </ClInclude>
-    <ClInclude Include="src\game\field\Field.h">
-      <Filter>ソース ファイル\game\field</Filter>
-    </ClInclude>
     <ClInclude Include="src\game\field\Sky.h">
       <Filter>ソース ファイル\game\field\sky</Filter>
     </ClInclude>
@@ -220,6 +226,12 @@
     </ClInclude>
     <ClInclude Include="src\game\camera\DebugCamera.h">
       <Filter>ソース ファイル\game\camera</Filter>
+    </ClInclude>
+    <ClInclude Include="src\game\field\BackGroundManager.h">
+      <Filter>ソース ファイル\game\field</Filter>
+    </ClInclude>
+    <ClInclude Include="src\game\field\Field.h">
+      <Filter>ソース ファイル\game\field\Field</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

@@ -50,3 +50,6 @@ static constexpr int COMBO_SIZE_Y = 24;
 
 //色(代入する値が定数でないためconstを使用)
 static const UnInt WHITE = GetColor(255, 255, 255);			//白
+static const UnInt RED	 = GetColor(255,   0,   0);			//赤
+static const UnInt BLUE  = GetColor(  0,   0, 255);			//青
+static const UnInt GREEN = GetColor(  0, 255,   0);			//青

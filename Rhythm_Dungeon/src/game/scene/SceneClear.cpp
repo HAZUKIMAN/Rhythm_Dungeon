@@ -1,6 +1,7 @@
 #include <DxLib.h>
 #include "SceneClear.h"
 #include "../Common.h"
+#include "../../lib/Input/Input.h"
 
 static const char FILE_NAME[] = "data/graph/clear.png";
 
@@ -30,8 +31,10 @@ void CSceneClear::Load()
 int CSceneClear::Step()
 {
 	int ret = -1;
-	if (CheckHitKey(KEY_INPUT_V))
+
+	if (Input::Key::Push(KEY_INPUT_V))
 		ret = SCENEID_TITLE;
+
 	return ret;
 }
 

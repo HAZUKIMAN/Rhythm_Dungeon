@@ -150,6 +150,7 @@
     <ClCompile Include="src\game\camera\PlayCamera.cpp" />
     <ClCompile Include="src\game\collision\CollisionManager.cpp" />
     <ClCompile Include="src\game\effect\effekseer.cpp" />
+    <ClCompile Include="src\game\field\BackGroundManager.cpp" />
     <ClCompile Include="src\game\field\Field.cpp" />
     <ClCompile Include="src\game\field\Sky.cpp" />
     <ClCompile Include="src\game\object\Actor.cpp" />
@@ -178,6 +179,7 @@
     <ClInclude Include="src\game\collision\CollisionManager.h" />
     <ClInclude Include="src\game\common.h" />
     <ClInclude Include="src\game\effect\effekseer.h" />
+    <ClInclude Include="src\game\field\BackGroundManager.h" />
     <ClInclude Include="src\game\field\Field.h" />
     <ClInclude Include="src\game\field\Sky.h" />
     <ClInclude Include="src\game\object\Actor.h" />

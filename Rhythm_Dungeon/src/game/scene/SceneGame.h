@@ -4,9 +4,9 @@
 #include "../player/Player.h"
 //#include "../object/shot/ShotManager.h"
 //#include "../object/enemy/EnemyManager.h"
-//#include "../object/background/BackgroundManager.h"
+#include "../field/BackGroundManager.h"
 
-//	タイトルクラス
+//タイトルクラス
 //	@memo	:	継承後も基本はpublicは増やさない
 class CSceneGame : public CSceneBase{
 private:
@@ -15,27 +15,27 @@ private:
 	CCameraManager m_cameraManager;			// カメラマネージャ
 	//CEnemyManager m_enemyManager;			// 敵全般処理
 	//CShotManager m_shotManager;				// ショット管理
-	//CBackgroundManager m_backgroundManager;	// 背景
+	CBackGroundManager m_backgroundManager;	// 背景
 	
 
 public:
 	CSceneGame();
 	~CSceneGame();
 
-	//		初期化
+	//初期化
 	void Init();
-	//		データロード
+	//データロード
 	void Load();
-	//		実行処理
+	//実行処理
 	//	@戻り値	:	次のシーン(-1なら変更なし)
 	int Step();
-	//		描画
+	//描画
 	void Draw();
-	//		終了処理
+	//終了処理
 	void Fin();
 
 private:
-	//		ゲーム本体の処理
+	//ゲーム本体の処理
 	void Calc();
 };
 

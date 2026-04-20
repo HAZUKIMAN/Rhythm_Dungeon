@@ -12,7 +12,7 @@ CField::~CField(){
 void CField::Init() {
 	m_vPosition = VGet(0.0f, 300.0f, 0.0f);
 	m_iModelHdl = MV1LoadModel("Data/object/NewBossStage/UpStage.mv1");
-	//Data/object/field/field.x
+
 	//ƒRƒŠƒWƒ‡ƒ“î•ñ
 	MV1SetPosition(m_iModelHdl, m_vPosition);
 	MV1SetScale(m_iModelHdl, VGet(0.4f, 0.2f, 0.4f));

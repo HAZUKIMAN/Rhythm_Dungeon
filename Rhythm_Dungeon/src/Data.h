@@ -1,5 +1,8 @@
 #pragma once
 
+//　シングルトンの見本でおいているだけなので消します
+
+
 class Data
 {
 public:
