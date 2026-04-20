@@ -9,7 +9,7 @@ CSky::~CSky() {}
 void CSky::Init() {
 	m_vPosition = VGet(0.0f, 0.0f, 0.0f);
 	m_Rot= VGet(0.0f, 0.0f, 0.0f);
-	m_iModelHdl = MV1LoadModel("data/object/sky/Sky1.mv1");//"data/object/sky/sky.mv1"
+	m_iModelHdl = MV1LoadModel("Data/object/sky/Sky1.mv1");//"data/object/sky/sky.mv1"
 	MV1SetPosition(m_iModelHdl, m_vPosition);
 	MV1SetScale(m_iModelHdl, VGet(8.8f, 8.8f, 8.8f));
 }

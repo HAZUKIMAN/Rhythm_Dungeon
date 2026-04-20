@@ -70,6 +70,12 @@
     <Filter Include="ソース ファイル\game\field\Field">
       <UniqueIdentifier>{33e842d5-0097-4259-a2e2-03a2e9bd8116}</UniqueIdentifier>
     </Filter>
+    <Filter Include="ソース ファイル\game\camera\Editor">
+      <UniqueIdentifier>{94e7cd77-23d1-4513-a2f8-e0277fbd04ea}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ソース ファイル\game\field\MapEditor">
+      <UniqueIdentifier>{2efb3f63-e931-4f2b-b86e-bed757e84908}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\Main.cpp">
@@ -149,6 +155,12 @@
     </ClCompile>
     <ClCompile Include="src\game\field\Field.cpp">
       <Filter>ソース ファイル\game\field\Field</Filter>
+    </ClCompile>
+    <ClCompile Include="src\game\camera\CameraEditor.cpp">
+      <Filter>ソース ファイル\game\camera\Editor</Filter>
+    </ClCompile>
+    <ClCompile Include="src\game\map\MapEditor.cpp">
+      <Filter>ソース ファイル\game\field\MapEditor</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -232,6 +244,12 @@
     </ClInclude>
     <ClInclude Include="src\game\field\Field.h">
       <Filter>ソース ファイル\game\field\Field</Filter>
+    </ClInclude>
+    <ClInclude Include="src\game\camera\CameraEditor.h">
+      <Filter>ソース ファイル\game\camera\Editor</Filter>
+    </ClInclude>
+    <ClInclude Include="src\game\map\MapEditor.h">
+      <Filter>ソース ファイル\game\field\MapEditor</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

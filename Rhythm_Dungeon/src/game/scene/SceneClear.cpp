@@ -46,6 +46,7 @@ void CSceneClear::Draw()
 {
 	DrawGraph(0, 0, m_hndl, TRUE);
 	DrawString(1000, 16, "gameclear", GetColor(255, 0, 0));
+	DrawString(1000, 30, "v‚Åƒ^ƒCƒgƒ‹‚Ö", GetColor(255, 0, 0));
 }
 
 

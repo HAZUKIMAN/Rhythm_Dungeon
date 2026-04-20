@@ -6,7 +6,6 @@
 //-------------------------------
 CBackGroundManager::CBackGroundManager()
 {
-	m_state = PLAYER_STATE_NORMAL;
 }
 
 
@@ -25,7 +24,7 @@ CBackGroundManager::~CBackGroundManager()
 //-------------------------------
 void CBackGroundManager::Init()
 {
-
+	c_sky.Init();
 }
 
 
@@ -34,15 +33,15 @@ void CBackGroundManager::Init()
 //-------------------------------
 void CBackGroundManager::Load()
 {
-	
 }
 
 
 //-------------------------------
 //		–ˆƒtƒŒ[ƒ€ŒÄ‚Ôˆ—
 //-------------------------------
-void CBackGroundManager::Step()
+int  CBackGroundManager::Step()
 {
+	return 0;
 }
 
 
@@ -51,5 +50,14 @@ void CBackGroundManager::Step()
 //-------------------------------
 void CBackGroundManager::Draw()
 {
-	
+	c_sky.Draw();
+
+}
+
+
+//-------------------------------
+//		I—¹ˆ—
+//-------------------------------
+void CBackGroundManager::Fin()
+{
 }

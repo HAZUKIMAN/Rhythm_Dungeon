@@ -17,7 +17,7 @@ enum tagScene {
 };
 
 //ウィンドウの幅・高さ
-static constexpr int WINDOW_WIDTH = 1440;
+static constexpr int WINDOW_WIDTH = 1600;
 static constexpr int WINDOW_HEIGHT = 900;
 
 //ウィンドウの中心

@@ -44,7 +44,7 @@ void	CFade::Release(void)
 //		コンストラクタ
 //---------------------------------
 CFade::CFade(void) : m_cnt(0.0f), m_spd(0.0f), m_fade(FadeState::FADE_NON),
-						m_windowX(1280), m_windowY(960)
+						m_windowX(WINDOW_WIDTH), m_windowY(WINDOW_HEIGHT)
 {
 }
 

@@ -40,7 +40,7 @@ void CSceneGame::Init()
 	//// ショット初期化
 	//m_shotManager.Init();
 	// 背景初期化
-	//m_backgroundManager.Init();
+	m_backgroundManager.Init();
 
 }
 
@@ -59,7 +59,6 @@ void CSceneGame::Load()
 	m_player.Update();
 	//m_enemyManager.Update();
 	//m_shotManager.Update();
-	//m_backgroundManager.Update();
 	//m_cameraManager.Step();
 	m_cameraManager.Update();
 }
@@ -87,11 +86,14 @@ int CSceneGame::Step()
 //-------------------------------
 void CSceneGame::Draw()
 {
-	//m_backgroundManager.Draw();
+	m_backgroundManager.Draw();
 	m_cameraManager.Draw();
 	m_player.Draw();
 	//m_enemyManager.Draw();
 	//m_shotManager.Draw();*/
+
+	//カメラの切り替え表示
+	DrawFormatString(1200,20,WHITE,"デバックカメラ切り替え処理:Key C \nエディターカメラ切り替え処理:Key B\nプレイカメラへの切り替え:key V");
 }
 
 
@@ -102,6 +104,8 @@ void CSceneGame::Fin()
 {
 	m_cameraManager.Fin();
 	m_player.Fin();
+	m_backgroundManager.Fin();
+
 	/*m_enemyManager.Fin();
 	m_shotManager.Fin();
 	m_backgroundManager.Fin();*/
@@ -134,9 +138,13 @@ void CSceneGame::Calc()
 		m_backgroundManager.Update();*/
 	}
 
-	// カメラ切り替え処理
+	//デバックカメラ切り替え処理
 	if (Input::Key::Push(KEY_INPUT_C))
 		m_cameraManager.ChangeCamera(CCameraManager::CAMERA_ID_DEBUG);
+	//エディターカメラ切り替え処理
+	if (Input::Key::Push(KEY_INPUT_B))
+		m_cameraManager.ChangeCamera(CCameraManager::CAMERA_ID_EDITOR);
+	//プレイカメラへの切り替え
 	else if (Input::Key::Push(KEY_INPUT_V))
 		m_cameraManager.ChangeCamera(CCameraManager::CAMERA_ID_PLAY);
 

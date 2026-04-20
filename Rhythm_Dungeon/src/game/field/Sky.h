@@ -16,7 +16,6 @@ public:
 
 	// ‰Šú‰»
 	void Init();
-
 	// •`‰æ
 	void Draw();
 };

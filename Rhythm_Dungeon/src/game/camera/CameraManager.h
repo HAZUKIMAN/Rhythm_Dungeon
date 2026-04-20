@@ -14,6 +14,7 @@ public:
 	{
 		CAMERA_ID_PLAY,		// ゲーム中のカメラ
 		CAMERA_ID_DEBUG,	// デバッグ用のカメラ(今後作成)
+		CAMERA_ID_EDITOR,	// エディター中のカメラ
 
 		CAMERA_ID_NUM
 	};

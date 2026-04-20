@@ -2,6 +2,7 @@
 #include <DxLib.h>
 #include "PlayCamera.h"
 #include "DebugCamera.h"
+#include "CameraEditor.h"
 
 //	定義関連------------------------------
 // 基本となる視点・注視点・アップベクトル
@@ -20,6 +21,7 @@ CCameraManager::CCameraManager() : m_eCurrentCameraID(CAMERA_ID_PLAY)
 	// enumの順番通りにpush
 	m_cam.push_back(new CPlayCamera);
 	m_cam.push_back(new CDebugCamera);
+	m_cam.push_back(new CEditorCamera);
 }
 
 

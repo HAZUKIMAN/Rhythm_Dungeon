@@ -1,10 +1,12 @@
 C:\Users\2409407\Desktop\Github\Rhythm_Dungeon\Rhythm_Dungeon\src\Data.cpp;C:\Users\2409407\Desktop\Github\Rhythm_Dungeon\Rhythm_Dungeon\Dungeon\x64\Debug\Data.obj
 C:\Users\2409407\Desktop\Github\Rhythm_Dungeon\Rhythm_Dungeon\src\game\camera\CameraBase.cpp;C:\Users\2409407\Desktop\Github\Rhythm_Dungeon\Rhythm_Dungeon\Dungeon\x64\Debug\CameraBase.obj
+C:\Users\2409407\Desktop\Github\Rhythm_Dungeon\Rhythm_Dungeon\src\game\camera\CameraEditor.cpp;C:\Users\2409407\Desktop\Github\Rhythm_Dungeon\Rhythm_Dungeon\Dungeon\x64\Debug\CameraEditor.obj
 C:\Users\2409407\Desktop\Github\Rhythm_Dungeon\Rhythm_Dungeon\src\game\camera\CameraManager.cpp;C:\Users\2409407\Desktop\Github\Rhythm_Dungeon\Rhythm_Dungeon\Dungeon\x64\Debug\CameraManager.obj
 C:\Users\2409407\Desktop\Github\Rhythm_Dungeon\Rhythm_Dungeon\src\game\camera\DebugCamera.cpp;C:\Users\2409407\Desktop\Github\Rhythm_Dungeon\Rhythm_Dungeon\Dungeon\x64\Debug\DebugCamera.obj
 C:\Users\2409407\Desktop\Github\Rhythm_Dungeon\Rhythm_Dungeon\src\game\camera\PlayCamera.cpp;C:\Users\2409407\Desktop\Github\Rhythm_Dungeon\Rhythm_Dungeon\Dungeon\x64\Debug\PlayCamera.obj
 C:\Users\2409407\Desktop\Github\Rhythm_Dungeon\Rhythm_Dungeon\src\game\collision\CollisionManager.cpp;C:\Users\2409407\Desktop\Github\Rhythm_Dungeon\Rhythm_Dungeon\Dungeon\x64\Debug\CollisionManager.obj
 C:\Users\2409407\Desktop\Github\Rhythm_Dungeon\Rhythm_Dungeon\src\game\effect\effekseer.cpp;C:\Users\2409407\Desktop\Github\Rhythm_Dungeon\Rhythm_Dungeon\Dungeon\x64\Debug\effekseer.obj
+C:\Users\2409407\Desktop\Github\Rhythm_Dungeon\Rhythm_Dungeon\src\game\field\BackGroundManager.cpp;C:\Users\2409407\Desktop\Github\Rhythm_Dungeon\Rhythm_Dungeon\Dungeon\x64\Debug\BackGroundManager.obj
 C:\Users\2409407\Desktop\Github\Rhythm_Dungeon\Rhythm_Dungeon\src\game\field\Field.cpp;C:\Users\2409407\Desktop\Github\Rhythm_Dungeon\Rhythm_Dungeon\Dungeon\x64\Debug\Field.obj
 C:\Users\2409407\Desktop\Github\Rhythm_Dungeon\Rhythm_Dungeon\src\game\field\Sky.cpp;C:\Users\2409407\Desktop\Github\Rhythm_Dungeon\Rhythm_Dungeon\Dungeon\x64\Debug\Sky.obj
 C:\Users\2409407\Desktop\Github\Rhythm_Dungeon\Rhythm_Dungeon\src\game\object\Actor.cpp;C:\Users\2409407\Desktop\Github\Rhythm_Dungeon\Rhythm_Dungeon\Dungeon\x64\Debug\Actor.obj
