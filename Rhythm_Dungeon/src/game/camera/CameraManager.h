@@ -22,7 +22,7 @@ public:
 private:
 
 	std::vector<CCameraBase*> m_cam;		// 各種カメラ
-	tagCAMERA_ID m_eCurrentCameraID;	// 現在のカメラID
+	tagCAMERA_ID m_eCurrentCameraID;		// 現在のカメラID
 
 public:
 	// コンストラクタ・デストラクタ

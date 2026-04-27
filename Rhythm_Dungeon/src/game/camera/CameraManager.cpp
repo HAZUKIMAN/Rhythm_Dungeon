@@ -105,11 +105,21 @@ void CCameraManager::ChangeCamera(tagCAMERA_ID ID)
 		VECTOR pos = m_cam[CAMERA_ID_PLAY]->GetPosition();
 		VECTOR focus = m_cam[CAMERA_ID_PLAY]->GetFocus();
 		VECTOR up = m_cam[CAMERA_ID_PLAY]->GetUpvec();
+
 		m_cam[CAMERA_ID_DEBUG]->SetPosition(pos);
 		m_cam[CAMERA_ID_DEBUG]->SetPosition(focus);
 		m_cam[CAMERA_ID_DEBUG]->SetPosition(up);
 	}
 		break;
+	case CAMERA_ID_EDITOR:
+
+		VECTOR pos = m_cam[CAMERA_ID_PLAY]->GetPosition();
+		VECTOR focus = m_cam[CAMERA_ID_PLAY]->GetFocus();
+		VECTOR up = m_cam[CAMERA_ID_PLAY]->GetUpvec();
+
+		m_cam[CAMERA_ID_DEBUG]->SetPosition(pos);
+		m_cam[CAMERA_ID_DEBUG]->SetPosition(focus);
+		m_cam[CAMERA_ID_DEBUG]->SetPosition(up);
 	}
 }
 

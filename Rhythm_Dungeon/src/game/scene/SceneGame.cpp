@@ -34,13 +34,14 @@ void CSceneGame::Init()
 
 	// プレイヤー初期化
 	m_player.Init();
-
 	//// 敵初期化
 	//m_enemyManager.Init();
 	//// ショット初期化
 	//m_shotManager.Init();
 	// 背景初期化
 	m_backgroundManager.Init();
+
+	m_mapeditor.Init();
 
 }
 
@@ -54,6 +55,7 @@ void CSceneGame::Load()
 	m_player.Load();
 	/*m_enemyManager.Load();
 	m_shotManager.Load();*/
+	m_mapeditor.Load();
 
 	//// 各種更新
 	m_player.Update();
@@ -71,7 +73,6 @@ int CSceneGame::Step()
 {
 	int ret = -1;
 	Calc();
-
 	//if (!m_player.IsActiveFlag())ret = SCENEID_GAMEOVER;
 	//else if (m_destroyCnt >= CLEAR_NUMBER)
 	//	ret = SCENEID_CLEAR;
@@ -89,6 +90,8 @@ void CSceneGame::Draw()
 	m_backgroundManager.Draw();
 	m_cameraManager.Draw();
 	m_player.Draw();
+
+	m_mapeditor.Draw();
 	//m_enemyManager.Draw();
 	//m_shotManager.Draw();*/
 
@@ -105,7 +108,7 @@ void CSceneGame::Fin()
 	m_cameraManager.Fin();
 	m_player.Fin();
 	m_backgroundManager.Fin();
-
+	m_mapeditor.Fin();
 	/*m_enemyManager.Fin();
 	m_shotManager.Fin();
 	m_backgroundManager.Fin();*/
@@ -137,6 +140,13 @@ void CSceneGame::Calc()
 		m_shotManager.Update();
 		m_backgroundManager.Update();*/
 	}
+
+	if (m_cameraManager.GetCameraID() == CCameraManager::CAMERA_ID_EDITOR)
+	{
+		m_mapeditor.Step();
+		m_mapeditor.Update();
+	}
+	
 
 	//デバックカメラ切り替え処理
 	if (Input::Key::Push(KEY_INPUT_C))

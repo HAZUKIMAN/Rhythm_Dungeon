@@ -5,6 +5,7 @@
 //#include "../object/shot/ShotManager.h"
 //#include "../object/enemy/EnemyManager.h"
 #include "../field/BackGroundManager.h"
+#include "../map/MapEditor.h"
 
 //タイトルクラス
 //	@memo	:	継承後も基本はpublicは増やさない
@@ -16,7 +17,8 @@ private:
 	//CEnemyManager m_enemyManager;			// 敵全般処理
 	//CShotManager m_shotManager;				// ショット管理
 	CBackGroundManager m_backgroundManager;	// 背景
-	
+	MapEditor m_mapeditor;					//マップエディター
+
 
 public:
 	CSceneGame();

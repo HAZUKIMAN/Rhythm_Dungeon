@@ -1,11 +1,2 @@
 ﻿  MapEditor.cpp
-C:\Users\2409407\Desktop\Github\Rhythm_Dungeon\Rhythm_Dungeon\src\game\map\MapEditor.cpp(121,38): warning C4244: '引数': 'int' から 'float' への変換です。データが失われる可能性があります。
-C:\Users\2409407\Desktop\Github\Rhythm_Dungeon\Rhythm_Dungeon\src\game\map\MapEditor.cpp(121,28): warning C4244: '引数': 'int' から 'float' への変換です。データが失われる可能性があります。
-C:\Users\2409407\Desktop\Github\Rhythm_Dungeon\Rhythm_Dungeon\src\game\map\MapEditor.cpp(122,46): warning C4244: '引数': 'int' から 'float' への変換です。データが失われる可能性があります。
-C:\Users\2409407\Desktop\Github\Rhythm_Dungeon\Rhythm_Dungeon\src\game\map\MapEditor.cpp(122,32): warning C4244: '引数': 'int' から 'float' への変換です。データが失われる可能性があります。
-C:\Users\2409407\Desktop\Github\Rhythm_Dungeon\Rhythm_Dungeon\src\game\map\MapEditor.cpp(128,38): warning C4244: '引数': 'int' から 'float' への変換です。データが失われる可能性があります。
-C:\Users\2409407\Desktop\Github\Rhythm_Dungeon\Rhythm_Dungeon\src\game\map\MapEditor.cpp(128,28): warning C4244: '引数': 'int' から 'float' への変換です。データが失われる可能性があります。
-C:\Users\2409407\Desktop\Github\Rhythm_Dungeon\Rhythm_Dungeon\src\game\map\MapEditor.cpp(129,46): warning C4244: '引数': 'int' から 'float' への変換です。データが失われる可能性があります。
-C:\Users\2409407\Desktop\Github\Rhythm_Dungeon\Rhythm_Dungeon\src\game\map\MapEditor.cpp(129,32): warning C4244: '引数': 'int' から 'float' への変換です。データが失われる可能性があります。
-C:\Users\2409407\Desktop\Github\Rhythm_Dungeon\Rhythm_Dungeon\src\game\map\MapEditor.cpp(167,16): error C4996: 'fopen': This function or variable may be unsafe. Consider using fopen_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
-C:\Users\2409407\Desktop\Github\Rhythm_Dungeon\Rhythm_Dungeon\src\game\map\MapEditor.cpp(191,16): error C4996: 'fopen': This function or variable may be unsafe. Consider using fopen_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+  Rhythm_Dungeon.vcxproj -> C:\Users\2409407\Desktop\Github\Rhythm_Dungeon\Rhythm_Dungeon\x64\Debug\Dungeon.exe

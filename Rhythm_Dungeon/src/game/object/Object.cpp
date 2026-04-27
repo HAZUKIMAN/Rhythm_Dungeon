@@ -7,9 +7,7 @@ static constexpr int  ENEMY__NUM(50);
 
 // デストラクタ
 CObject::~CObject() {
-	if (m_iModelHdl != -1) {
-		MV1DeleteModel(m_iModelHdl);
-	}
+	Fin();
 }
 //------------------------------
 //		初期化

@@ -3,10 +3,11 @@
 #include "../common.h"
 
 
-const int MAP_W = 50;
-const int MAP_H = 50;
+constexpr int MAP_W = 50;
+constexpr int MAP_H = 50;
+constexpr float WALL_HIGHT = 5.0f;
 
-const float TILE_SIZE = 5.0f;
+constexpr float TILE_SIZE = 5.0f;
 
 enum TileType {
     TILE_NONE,
@@ -30,14 +31,21 @@ MapEditor::~MapEditor()
 // 初期化
 void MapEditor::Init()
 {
-
+    m_iModelHdl = -1;
 }
 
 
 // データロード
 void MapEditor::Load()
 {
+    VECTOR size = VGet(0.05f, 0.05f, 0.05f);
 
+    if (m_iModelHdl == -1)
+    {
+        m_iModelHdl = MV1LoadModel("Data/object/stage/StageTexture.mv1");
+    }
+
+    MV1SetScale(m_iModelHdl, size);
 }
 
 
@@ -56,8 +64,9 @@ int  MapEditor::Step()
         LoadMap("map.dat");
     }
    
-
+    return 0;
 }
+
 // 更新処理
 void MapEditor::Update()
 {
@@ -72,13 +81,15 @@ void MapEditor::Update()
 
     VECTOR hitPos;
 
+    //マウスの位置当たり判定
     if (GetMouseHitPosition(&hitPos)) {
+
+        printf("Hit: %f %f %f\n", hitPos.x, hitPos.y, hitPos.z);
 
         int gx, gz;
 
         if (GetGridPos(hitPos, &gx, &gz)) {
 
-           
             // 左クリック（押した瞬間）
             //今押してる状態かつ前は押してない状態
             if ((mouseState & MOUSE_INPUT_LEFT) &&
@@ -103,6 +114,8 @@ void MapEditor::Update()
                 map[gz][gx] = TILE_NONE;
             }
         }
+
+
     }
 
     prevMouseState = mouseState;
@@ -112,37 +125,48 @@ void MapEditor::Update()
 // 描画
 void MapEditor::Draw()
 {
+    //------------------------------------------------------
+    //モデル作るのが大変なのでとりあえずキューブで誤魔化す。
+    //-------------------------------------------------------
     //ブロックの表示
     for (int z = 0; z < MAP_H; z++) {
         for (int x = 0; x < MAP_W; x++) {
 
+            float worldX = (x + 0.5f) * TILE_SIZE;
+            float worldZ = (z + 0.5f) * TILE_SIZE;
+
             if (map[z][x] == TILE_FLOOR) {
-                DrawCube3D(
+                MV1SetPosition(m_iModelHdl, VGet(worldX, 0, worldZ));
+                MV1DrawModel(m_iModelHdl);
+               /* DrawCube3D(
                     VGet(x * 5, 0, z * 5),
                     VGet(x * 5 + 5, 1, z * 5 + 5),
-                    GetColor(100, 100, 100), GetColor(100, 100, 100), TRUE);
+                    GetColor(100, 100, 100), GetColor(100, 100, 100),true);*/
             }
 
             if (map[z][x] == TILE_WALL) {
-                DrawCube3D(
+                MV1SetPosition(m_iModelHdl, VGet(worldX, WALL_HIGHT, worldZ));
+                MV1DrawModel(m_iModelHdl);
+                /*DrawCube3D(
                     VGet(x * 5, 0, z * 5),
                     VGet(x * 5 + 5, 5, z * 5 + 5),
-                    GetColor(200, 200, 200), GetColor(200, 200, 200), TRUE);
+                    GetColor(200, 200, 200), GetColor(200, 200, 200), TRUE);*/
             }
         }
     }
 
-    VECTOR hitPos;
+    //連続で置きたいならやってもいいよ
+    //VECTOR hitPos;
+    ////グリッドの表示
+    //if (GetMouseHitPosition(&hitPos)) {
+    //    printf("Hit: %f %f %f\n", hitPos.x, hitPos.y, hitPos.z);
 
-    //グリッドの表示
-    if (GetMouseHitPosition(&hitPos)) {
-        printf("Hit: %f %f %f\n", hitPos.x, hitPos.y, hitPos.z);
+    //    int gx, gz;
 
-        int gx, gz;
-        if (GetGridPos(hitPos, &gx, &gz)) {
-            map[gz][gx] = TILE_FLOOR;
-        }
-    }
+    //    if (GetGridPos(hitPos, &gx, &gz)) {
+    //        map[gz][gx] = TILE_FLOOR;
+    //    }
+    //}
 
     DrawString(1400,50,"Sでセーブ\nLでロード",WHITE);
 
@@ -152,7 +176,11 @@ void MapEditor::Draw()
 // 終了処理
 void MapEditor::Fin()
 {
-
+    if (m_iModelHdl != -1)
+    {
+        MV1DeleteModel(m_iModelHdl);
+        m_iModelHdl = -1;
+    }
 }
 
 
@@ -164,7 +192,10 @@ void MapEditor::SaveMap(const char* filename)
     //-------------------------
     // 個人作成なのでバイナリで
     //-------------------------
-    FILE* fp = fopen(filename, "wb");
+    FILE* fp;
+
+    fopen_s(&fp,filename, "wb");
+
     if (fp == NULL) return;
 
     // サイズも一緒に保存（重要）
@@ -183,12 +214,13 @@ void MapEditor::SaveMap(const char* filename)
 //------------------------------------
 void MapEditor::LoadMap(const char* filename)
 {
-
    //-------------------------
    // 個人作成なのでバイナリで
    //-------------------------
+    FILE* fp;
 
-    FILE* fp = fopen(filename, "rb");
+    fopen_s(&fp , filename, "rb");
+
     if (fp == NULL) return;
 
     int w, h;

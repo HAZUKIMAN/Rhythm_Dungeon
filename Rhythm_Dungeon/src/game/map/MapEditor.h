@@ -5,6 +5,8 @@ class MapEditor
 {
 public:
 
+	int m_iModelHdl;		//ステージのモデルハンドル
+
 	//コンストラクタ
 	MapEditor();
 	//デストラクタ
@@ -22,6 +24,8 @@ public:
 	void Update();
 	// 終了処理
 	void Fin();
+
+
 	//マップのセーブ
 	void SaveMap(const char* filename);
 	//マップの読み込み
