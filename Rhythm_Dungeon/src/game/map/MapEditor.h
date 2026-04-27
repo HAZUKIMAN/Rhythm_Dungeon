@@ -1,5 +1,9 @@
 #pragma once
 #include <DxLib.h>
+#include <vector>
+
+
+
 
 class MapEditor
 {
@@ -33,14 +37,26 @@ public:
 	//マウスの当たり判定の取得
 	bool GetMouseHitPosition(VECTOR* outPos);
 	//グリッドの取得
-	bool GetGridPos(VECTOR hitPos, int* gx, int* gz);
+	bool GetGridPos(VECTOR hitPos, int* _x, int* _z);
+	//選択しているマスを赤く表示する
+	void DrawSelectedTile();
 
 private:
 
-	struct RemoveMouse
-	{
-		float mouseX;
-		float mouseY;
+	//インスタンス用の構造体
+	struct Instance {
+		int m_iModelHdl;
+		VECTOR m_vPosition;
+		VECTOR m_vRotation;
+		VECTOR m_vScale;
 	};
-	//ここに変数を宣言
+
+	//インスタンス確保
+	std::vector<Instance> instances;
+
+	void BuildInstances();   //インスタンスの生成用
+
+
+	//グリッドは位置情報の管理のしやすさとマウスを使用したレイキャストを使用したかったため（岡松対策）
+	//バイナリを使用した理由データの軽量化テキストよりバイナリの方が軽くて高速：セーブとか使用したかったのでコンパクトの方がよかった。
 };

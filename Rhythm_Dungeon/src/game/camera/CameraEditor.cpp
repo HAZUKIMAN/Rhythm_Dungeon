@@ -22,6 +22,8 @@ CEditorCamera::CEditorCamera()
 	m_pos = VGet(0, 10, -20);
 }
 
+//インスタンス管理
+//描画バッチ化
 
 //-------------------------------
 //		デストラクタ
@@ -43,6 +45,11 @@ void CEditorCamera::Step(CPlayer& player)
 	MoveLeftRight();
 	// カメラの回転
 	RotateLeftRight();
+
+	if (Input::Key::Keep(KEY_INPUT_SPACE))
+	{
+		m_pos.y += 0.2f;
+	}
 }
 
 //-------------------------------
@@ -50,11 +57,11 @@ void CEditorCamera::Step(CPlayer& player)
 //-------------------------------
 void CEditorCamera::MoveUpDown()
 {
-	if (Input::Key::Push(KEY_INPUT_UP))
+	if (Input::Key::Keep(KEY_INPUT_UP))
 	{
 		m_focus.y = m_focus.y + FOCUS_Y_SPEED > FOCUS_Y_MAX ? FOCUS_Y_MAX : m_focus.y + FOCUS_Y_SPEED;
 	}
-	else if (Input::Key::Push(KEY_INPUT_DOWN))
+	else if (Input::Key::Keep(KEY_INPUT_DOWN))
 	{
 		m_focus.y = m_focus.y - FOCUS_Y_SPEED < FOCUS_Y_MIN ? FOCUS_Y_MIN : m_focus.y - FOCUS_Y_SPEED;
 	}
@@ -69,7 +76,7 @@ void CEditorCamera::MoveFrontBack()
 {
 	VECTOR dir;
 	// 前進
-	if (Input::Key::Push(KEY_INPUT_W))
+	if (Input::Key::Keep(KEY_INPUT_W))
 	{
 		// 視点・注視点から方向ベクトルを取得
 		dir = VSub(m_focus, m_pos);
@@ -81,7 +88,7 @@ void CEditorCamera::MoveFrontBack()
 		m_pos = VAdd(m_pos, dir);
 		m_focus = VAdd(m_focus, dir);
 	}
-	else if (Input::Key::Push(KEY_INPUT_S))
+	else if (Input::Key::Keep(KEY_INPUT_S))
 	{
 		// 視点・注視点から方向ベクトルを取得
 		dir = VSub(m_pos, m_focus);
@@ -105,7 +112,7 @@ void CEditorCamera::MoveLeftRight()
 {
 	VECTOR vec1, vec2, cross;
 	// 前進
-	if (Input::Key::Push(KEY_INPUT_A))
+	if (Input::Key::Keep(KEY_INPUT_A))
 	{
 		// 視点・注視点から2つの方向ベクトルを取得
 		vec1 = VSub(m_pos, m_focus);
@@ -119,7 +126,7 @@ void CEditorCamera::MoveLeftRight()
 		m_pos = VAdd(m_pos, cross);
 		m_focus = VAdd(m_focus, cross);
 	}
-	else if (Input::Key::Push(KEY_INPUT_D))
+	else if (Input::Key::Keep(KEY_INPUT_D))
 	{
 		// 視点・注視点から2つの方向ベクトルを取得
 		vec1 = VSub(m_pos, m_focus);
@@ -145,11 +152,11 @@ void CEditorCamera::RotateLeftRight()
 {
 	float fDir = 0.0f;
 	// 入力したキーに応じて回転方向を変える
-	if (Input::Key::Push(KEY_INPUT_RIGHT))
+	if (Input::Key::Keep(KEY_INPUT_RIGHT))
 	{
 		fDir = -1.0f;
 	}
-	else if (Input::Key::Push(KEY_INPUT_LEFT))
+	else if (Input::Key::Keep(KEY_INPUT_LEFT))
 	{
 		fDir = 1.0f;
 	}

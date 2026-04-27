@@ -1,6 +1,7 @@
 #include"MapEditor.h"
 #include <corecrt_math.h>
 #include "../common.h"
+#include "../../lib/Input/Input.h"
 
 
 constexpr int MAP_W = 50;
@@ -20,22 +21,27 @@ TileType map[MAP_H][MAP_W];
 // コンストラクタ
 MapEditor::MapEditor()
 {
-
+    Init();
 }
 // デストラクタ
 MapEditor::~MapEditor()
 {
-
+    Fin();
 }
 
-// 初期化
+//-------------------------------
+//		初期化
+//-------------------------------
 void MapEditor::Init()
 {
     m_iModelHdl = -1;
+    memset(map, 0, sizeof(map));
 }
 
 
-// データロード
+//-------------------------------
+//		データロード
+//-------------------------------
 void MapEditor::Load()
 {
     VECTOR size = VGet(0.05f, 0.05f, 0.05f);
@@ -45,29 +51,32 @@ void MapEditor::Load()
         m_iModelHdl = MV1LoadModel("Data/object/stage/StageTexture.mv1");
     }
 
+    LoadMap("map.dat");
+
     MV1SetScale(m_iModelHdl, size);
 }
 
-
-// 実行処理
+//--------------------------------
+//      実行処理
+//--------------------------------
 int  MapEditor::Step()
 {
-
-//------------------------------------
 //    データの保存・読み取り
-//------------------------------------
-    if (CheckHitKey(KEY_INPUT_S)) {
+    if (Input::Key::Push(KEY_INPUT_P)) {
         SaveMap("map.dat");
     }
 
-    if (CheckHitKey(KEY_INPUT_L)) {
+    if (Input::Key::Push(KEY_INPUT_L)) {
         LoadMap("map.dat");
     }
    
     return 0;
 }
 
-// 更新処理
+
+//--------------------------------
+//      更新処理
+//---------------------------------
 void MapEditor::Update()
 {
     //ビット
@@ -75,9 +84,9 @@ void MapEditor::Update()
     //MOUSE_INPUT_RIGHT;  // 右クリック
     //MOUSE_INPUT_MIDDLE; // 中クリック
 
-    static int prevMouseState = 0;
-
     int mouseState = GetMouseInput();
+
+    bool needRebuild = false;//生成時のみtrue
 
     VECTOR hitPos;
 
@@ -92,88 +101,61 @@ void MapEditor::Update()
 
             // 左クリック（押した瞬間）
             //今押してる状態かつ前は押してない状態
-            if ((mouseState & MOUSE_INPUT_LEFT) &&
-                !(prevMouseState & MOUSE_INPUT_LEFT)) {
+            if ((mouseState & MOUSE_INPUT_LEFT)) {
 
                 map[gz][gx] = TILE_FLOOR;
+                needRebuild = true;
             }
 
             // 右クリック
             //今押してる状態かつ前は押してない状態
-            if ((mouseState & MOUSE_INPUT_RIGHT) &&
-                !(prevMouseState & MOUSE_INPUT_RIGHT)) {
+            if ((mouseState & MOUSE_INPUT_RIGHT)) {
 
                 map[gz][gx] = TILE_WALL;
+                needRebuild = true;
             }
 
             // 中クリック
             //今押してる状態かつ前は押してない状態
-            if ((mouseState & MOUSE_INPUT_MIDDLE) &&
-                !(prevMouseState & MOUSE_INPUT_MIDDLE)) {
+            if ((mouseState & MOUSE_INPUT_MIDDLE)) {
 
                 map[gz][gx] = TILE_NONE;
+                needRebuild = true;
             }
         }
-
-
     }
-
-    prevMouseState = mouseState;
-
+    //モデルの生成時のみ
+    if (needRebuild) {
+        BuildInstances();
+        needRebuild = false;
+    }
 }
 
-// 描画
+//-------------------------------
+//		描画
+//-------------------------------
 void MapEditor::Draw()
 {
-    //------------------------------------------------------
-    //モデル作るのが大変なのでとりあえずキューブで誤魔化す。
-    //-------------------------------------------------------
+   
     //ブロックの表示
-    for (int z = 0; z < MAP_H; z++) {
-        for (int x = 0; x < MAP_W; x++) {
-
-            float worldX = (x + 0.5f) * TILE_SIZE;
-            float worldZ = (z + 0.5f) * TILE_SIZE;
-
-            if (map[z][x] == TILE_FLOOR) {
-                MV1SetPosition(m_iModelHdl, VGet(worldX, 0, worldZ));
-                MV1DrawModel(m_iModelHdl);
-               /* DrawCube3D(
-                    VGet(x * 5, 0, z * 5),
-                    VGet(x * 5 + 5, 1, z * 5 + 5),
-                    GetColor(100, 100, 100), GetColor(100, 100, 100),true);*/
-            }
-
-            if (map[z][x] == TILE_WALL) {
-                MV1SetPosition(m_iModelHdl, VGet(worldX, WALL_HIGHT, worldZ));
-                MV1DrawModel(m_iModelHdl);
-                /*DrawCube3D(
-                    VGet(x * 5, 0, z * 5),
-                    VGet(x * 5 + 5, 5, z * 5 + 5),
-                    GetColor(200, 200, 200), GetColor(200, 200, 200), TRUE);*/
-            }
-        }
+    //インスタンスで配置情報だけをとって表示
+    for (auto& inst : instances) {
+        MV1SetPosition(inst.m_iModelHdl, inst.m_vPosition);
+        MV1DrawModel(inst.m_iModelHdl);
     }
 
-    //連続で置きたいならやってもいいよ
-    //VECTOR hitPos;
-    ////グリッドの表示
-    //if (GetMouseHitPosition(&hitPos)) {
-    //    printf("Hit: %f %f %f\n", hitPos.x, hitPos.y, hitPos.z);
+    //選択しているところを赤くする
+    DrawSelectedTile();
 
-    //    int gx, gz;
-
-    //    if (GetGridPos(hitPos, &gx, &gz)) {
-    //        map[gz][gx] = TILE_FLOOR;
-    //    }
-    //}
-
-    DrawString(1400,50,"Sでセーブ\nLでロード",WHITE);
+    //ザップフャイルの作成
+    DrawString(1400,50,"Pでセーブ\nLでロード",WHITE);
 
 }
 
 
-// 終了処理
+//-------------------------------
+//		終了処理
+//-------------------------------
 void MapEditor::Fin()
 {
     if (m_iModelHdl != -1)
@@ -189,9 +171,9 @@ void MapEditor::Fin()
 //------------------------------------
 void MapEditor::SaveMap(const char* filename)
 {
-    //-------------------------
+    //-----------------------------
     // 個人作成なのでバイナリで
-    //-------------------------
+    //-----------------------------
     FILE* fp;
 
     fopen_s(&fp,filename, "wb");
@@ -210,13 +192,13 @@ void MapEditor::SaveMap(const char* filename)
 
 
 //------------------------------------
-//          マップの読み取り
+//      マップの読み取り
 //------------------------------------
 void MapEditor::LoadMap(const char* filename)
 {
-   //-------------------------
+   //----------------------------
    // 個人作成なのでバイナリで
-   //-------------------------
+   //----------------------------
     FILE* fp;
 
     fopen_s(&fp , filename, "rb");
@@ -236,18 +218,21 @@ void MapEditor::LoadMap(const char* filename)
     fread(map, sizeof(TileType), MAP_W * MAP_H, fp);
 
     fclose(fp);
+
+    BuildInstances();
 }
 
-
-//マウスの当たり判定の取得
+//-----------------------------------
+//      マウスの当たり判定の取得
+//-----------------------------------
 bool MapEditor::GetMouseHitPosition(VECTOR* outPos)
 {
-    //@メモ
-    //---------------------------
+   //@メモ
+   //---------------------------
    /* レイの式
     P = near + t * (far - near)
     y=0 にぶつかる t
-    t = -near.y / (far.y - near.y)*/
+    t = -near.y / (far.y - near.y)*///レイキャスト(簡単に言ってせんで捉える)
     //-----------------------------
     int mouseX, mouseY;
     GetMousePoint(&mouseX, &mouseY);
@@ -261,7 +246,7 @@ bool MapEditor::GetMouseHitPosition(VECTOR* outPos)
     // 地面と平行ならヒットしない
     if (fabs(dir.y) < 0.0001f) return false;
 
-    float t = -nearPos.y / dir.y;
+    float t = -nearPos.y / dir.y; 
 
     // カメラの後ろは無視
     if (t < 0.0f) return false;
@@ -272,18 +257,76 @@ bool MapEditor::GetMouseHitPosition(VECTOR* outPos)
     return true;
 }
 
-
-//グリッドの取得
-bool MapEditor::GetGridPos(VECTOR hitPos, int* gx, int* gz)
+//---------------------------------
+//         グリッドの取得
+//---------------------------------
+bool MapEditor::GetGridPos(VECTOR hitPos, int* pos_x, int* pos_z)
 {
-    *gx = (int)floor(hitPos.x / TILE_SIZE);
-    *gz = (int)floor(hitPos.z / TILE_SIZE);
+    *pos_x = (int)floor(hitPos.x / TILE_SIZE);//グリッドズレずれを起こさない(-にも対応できるようにfloor)
+    *pos_z = (int)floor(hitPos.z / TILE_SIZE);//グリッドズレずれを起こさない(-にも対応できるようにfloor)
 
     // 範囲チェック（超重要）
-    if (*gx < 0 || *gx >= MAP_W ||
-        *gz < 0 || *gz >= MAP_H) {
+    if (*pos_x < 0 || *pos_x >= MAP_W ||
+        *pos_z < 0 || *pos_z >= MAP_H) {
         return false;
     }
 
     return true;
+}
+
+//塗りつぶしなし（枠だけ）
+//選択しているマスを赤く表示する
+void MapEditor::DrawSelectedTile()
+{
+    VECTOR hitPos;
+
+    if (GetMouseHitPosition(&hitPos)) {
+
+        int pos_x, pos_z;
+
+        if (GetGridPos(hitPos, &pos_x, &pos_z)) {
+
+            float num0_x = pos_x * TILE_SIZE;
+            float num0_z = pos_z * TILE_SIZE;
+
+            float num1_x = num0_x + TILE_SIZE;
+            float num1_z = num0_z + TILE_SIZE;
+
+            float num0_y = 0.1f;   // 少し浮かせる（Zファイティング防止）意味：地面と重なるとチラつく
+            float num1_y = 1.1f;
+
+            DrawCube3D(VGet(num0_x, num0_y, num0_z),VGet(num1_x, num1_y, num1_z),
+                GetColor(255, 0, 0), GetColor(255, 0, 0),FALSE);
+
+        }
+    }
+}
+
+
+//----------------------------
+//  インスタンスの生成用
+//----------------------------
+void MapEditor::BuildInstances()
+{
+    //中身をクリア
+    instances.clear();
+
+    for (int z = 0; z < MAP_H; z++) {
+        for (int x = 0; x < MAP_W; x++) {
+
+            float worldX = (x + 0.5f) * TILE_SIZE;
+            float worldZ = (z + 0.5f) * TILE_SIZE;
+
+            //床用(角度とスケールも足してよし！！今は使ってないけどね)
+            if (map[z][x] == TILE_FLOOR) {
+                instances.push_back({ m_iModelHdl, VGet(worldX, 0, worldZ)});
+            }
+
+            //壁用(角度とスケールも足してよし！！今は使ってないけどね)
+            if (map[z][x] == TILE_WALL) {
+                instances.push_back({m_iModelHdl,VGet(worldX, WALL_HIGHT, worldZ)});
+            }
+
+        }
+    }
 }
