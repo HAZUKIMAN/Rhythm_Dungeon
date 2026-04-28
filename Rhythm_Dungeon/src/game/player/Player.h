@@ -6,7 +6,8 @@ class CPlayer : public CActor
 {
 public:
 	enum tagPlayerState {
-		PLAYER_STATE_NORMAL,	// 待機・歩き中
+		PLAYER_STATE_NORMAL,	// 待機
+		PLAYER_STATE_RUN,		// 歩き中
 		PLAYER_STATE_JUMP,		// ジャンプ中
 
 		PLAYER_STATE_NUM

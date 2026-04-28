@@ -144,6 +144,7 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="src\Data.cpp" />
+    <ClCompile Include="src\game\Anime\Anime.cpp" />
     <ClCompile Include="src\game\camera\CameraBase.cpp" />
     <ClCompile Include="src\game\camera\CameraEditor.cpp" />
     <ClCompile Include="src\game\camera\CameraManager.cpp" />
@@ -174,6 +175,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\Data.h" />
+    <ClInclude Include="src\game\Anime\Anime.h" />
     <ClInclude Include="src\game\camera\CameraBase.h" />
     <ClInclude Include="src\game\camera\CameraEditor.h" />
     <ClInclude Include="src\game\camera\CameraManager.h" />
