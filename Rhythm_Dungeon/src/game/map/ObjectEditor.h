@@ -37,6 +37,8 @@ public:
 	void DrawObjects();
 
 
+private:
+
 	enum ObjectType {
 		OBJ_NONE,
 		OBJ_PLAYER,

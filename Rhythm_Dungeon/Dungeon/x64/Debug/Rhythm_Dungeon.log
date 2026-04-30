@@ -1,7 +1,5 @@
 ﻿  MapEditor.cpp
-  ObjectEditor.cpp
-C:\Users\2409407\Desktop\Github\Rhythm_Dungeon\Rhythm_Dungeon\src\game\map\ObjectEditor.cpp(59,18): warning C4267: '初期化中': 'size_t' から 'int' に変換しました。データが失われているかもしれません。
   SceneGame.cpp
   SceneManager.cpp
   コードを生成中...
-  Rhythm_Dungeon.vcxproj -> C:\Users\2409407\Desktop\Github\Rhythm_Dungeon\Rhythm_Dungeon\x64\Debug\Dungeon.exe
+  Rhythm_Dungeon.vcxproj -> D:\Users\2409407\Desktop\Rhythm_Dungeon\Rhythm_Dungeon\x64\Debug\Dungeon.exe

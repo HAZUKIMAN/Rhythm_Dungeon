@@ -10,6 +10,8 @@ class MapEditor
 {
 public:
 
+	ObjectEditor cobjected;
+
 	int m_iModelHdl;		//ステージのモデルハンドル
 	int m_iModelHdl_Wall;	//ステージ用モデルの壁
 
@@ -51,9 +53,6 @@ private:
 		OBJ_ENEMY,
 		OBJ_ITEM
 	};
-
-
-	ObjectEditor cobjected;
 
 	//インスタンス用の構造体
 	struct Instance {

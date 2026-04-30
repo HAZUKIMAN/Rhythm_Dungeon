@@ -162,6 +162,8 @@ void MapEditor::Draw()
         MV1DrawModel(inst.m_iModelHdl);
     }
 
+    cobjected.Draw();
+
     //選択しているところを赤くする
     DrawSelectedTile();
 
@@ -207,6 +209,7 @@ void MapEditor::SaveMap(const char* filename)
     fwrite(&MAP_W, sizeof(int), 1, fp);
     fwrite(&MAP_H, sizeof(int), 1, fp);
    
+    cobjected.SaveMap(filename);
 
     // マップ本体
     fwrite(map, sizeof(TileType), MAP_W * MAP_H, fp);
@@ -239,6 +242,8 @@ void MapEditor::LoadMap(const char* filename)
         fclose(fp);
         return;
     }
+
+    cobjected.LoadMap(filename);
 
     fread(map, sizeof(TileType), MAP_W * MAP_H, fp);
 
