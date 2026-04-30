@@ -10,6 +10,7 @@ class MapEditor
 public:
 
 	int m_iModelHdl;		//ステージのモデルハンドル
+	int m_iModelHdl_Wall;	//ステージ用モデルの壁
 
 	//コンストラクタ
 	MapEditor();
@@ -46,6 +47,7 @@ private:
 	//インスタンス用の構造体
 	struct Instance {
 		int m_iModelHdl;
+		/*int m_iModelHdl_Wall;*/
 		VECTOR m_vPosition;
 		VECTOR m_vRotation;
 		VECTOR m_vScale;

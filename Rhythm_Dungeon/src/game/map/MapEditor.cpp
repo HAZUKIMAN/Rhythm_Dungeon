@@ -35,6 +35,8 @@ MapEditor::~MapEditor()
 void MapEditor::Init()
 {
     m_iModelHdl = -1;
+    m_iModelHdl_Wall = -1;
+
     memset(map, 0, sizeof(map));
 }
 
@@ -49,11 +51,13 @@ void MapEditor::Load()
     if (m_iModelHdl == -1)
     {
         m_iModelHdl = MV1LoadModel("Data/object/stage/StageTexture.mv1");
+        m_iModelHdl_Wall = MV1LoadModel("Data/object/stage/Wall.mv1");
     }
 
     LoadMap("map.dat");
 
     MV1SetScale(m_iModelHdl, size);
+    MV1SetScale(m_iModelHdl_Wall, size);
 }
 
 //--------------------------------
@@ -140,7 +144,8 @@ void MapEditor::Draw()
     //ブロックの表示
     //インスタンスで配置情報だけをとって表示
     for (auto& inst : instances) {
-        MV1SetPosition(inst.m_iModelHdl, inst.m_vPosition);
+        MV1SetPosition(inst.m_iModelHdl, inst.m_vPosition);         //床用
+        //MV1SetPosition(inst.m_iModelHdl_Wall, inst.m_vPosition);    //壁用
         MV1DrawModel(inst.m_iModelHdl);
     }
 
@@ -162,6 +167,11 @@ void MapEditor::Fin()
     {
         MV1DeleteModel(m_iModelHdl);
         m_iModelHdl = -1;
+    }
+    if (m_iModelHdl_Wall != -1)
+    {
+        MV1DeleteModel(m_iModelHdl_Wall);
+        m_iModelHdl_Wall = -1;
     }
 }
 
@@ -324,7 +334,7 @@ void MapEditor::BuildInstances()
 
             //壁用(角度とスケールも足してよし！！今は使ってないけどね)
             if (map[z][x] == TILE_WALL) {
-                instances.push_back({m_iModelHdl,VGet(worldX, WALL_HIGHT, worldZ)});
+                instances.push_back({ m_iModelHdl_Wall,VGet(worldX, WALL_HIGHT, worldZ)});
             }
 
         }
