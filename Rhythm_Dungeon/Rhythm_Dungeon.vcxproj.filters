@@ -73,6 +73,9 @@
     <Filter Include="ソース ファイル\game\field\MapEditor">
       <UniqueIdentifier>{2efb3f63-e931-4f2b-b86e-bed757e84908}</UniqueIdentifier>
     </Filter>
+    <Filter Include="ソース ファイル\game\field\objecteditor">
+      <UniqueIdentifier>{fc0d28e3-3dc4-4e8e-bf28-4f6cf7bdfb48}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\Main.cpp">
@@ -161,6 +164,9 @@
     </ClCompile>
     <ClCompile Include="src\game\Anime\Anime.cpp">
       <Filter>ソース ファイル\game\object</Filter>
+    </ClCompile>
+    <ClCompile Include="src\game\map\ObjectEditor.cpp">
+      <Filter>ソース ファイル\game\field\objecteditor</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -253,6 +259,9 @@
     </ClInclude>
     <ClInclude Include="src\game\Anime\Anime.h">
       <Filter>ソース ファイル\game\object</Filter>
+    </ClInclude>
+    <ClInclude Include="src\game\map\ObjectEditor.h">
+      <Filter>ソース ファイル\game\field\objecteditor</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

@@ -1,6 +1,7 @@
 #pragma once
 #include <DxLib.h>
 #include <vector>
+#include "ObjectEditor.h"
 
 
 
@@ -41,8 +42,18 @@ public:
 	bool GetGridPos(VECTOR hitPos, int* _x, int* _z);
 	//選択しているマスを赤く表示する
 	void DrawSelectedTile();
-
+	
 private:
+
+	enum ObjectType {
+		OBJ_NONE,
+		OBJ_PLAYER,
+		OBJ_ENEMY,
+		OBJ_ITEM
+	};
+
+
+	ObjectEditor cobjected;
 
 	//インスタンス用の構造体
 	struct Instance {
@@ -52,13 +63,12 @@ private:
 		VECTOR m_vRotation;
 		VECTOR m_vScale;
 	};
-
 	//インスタンス確保
 	std::vector<Instance> instances;
 
-	void BuildInstances();   //インスタンスの生成用
 
-
+	void BuildInstances();					//インスタンスの生成用
+	
 	//グリッドは位置情報の管理のしやすさとマウスを使用したレイキャストを使用したかったため（岡松対策）
 	//バイナリを使用した理由データの軽量化テキストよりバイナリの方が軽くて高速：セーブとか使用したかったのでコンパクトの方がよかった。
 };

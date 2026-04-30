@@ -74,6 +74,7 @@ int  MapEditor::Step()
         LoadMap("map.dat");
     }
    
+
     return 0;
 }
 
@@ -126,6 +127,18 @@ void MapEditor::Update()
                 map[gz][gx] = TILE_NONE;
                 needRebuild = true;
             }
+            if ((mouseState & MOUSE_INPUT_LEFT) &&
+               Input::Key::Keep(KEY_INPUT_O)){ // Oキーでオブジェクトモード
+
+                cobjected.AddObject(gx, gz, OBJ_ENEMY);
+           }
+
+           if ((mouseState & MOUSE_INPUT_LEFT) &&
+               Input::Key::Keep(KEY_INPUT_U)){ // Uキーでオブジェクトモード
+
+               cobjected.RemoveObject(gx, gz);
+           }
+
         }
     }
     //モデルの生成時のみ
@@ -145,7 +158,7 @@ void MapEditor::Draw()
     //インスタンスで配置情報だけをとって表示
     for (auto& inst : instances) {
         MV1SetPosition(inst.m_iModelHdl, inst.m_vPosition);         //床用
-        //MV1SetPosition(inst.m_iModelHdl_Wall, inst.m_vPosition);    //壁用
+        //MV1SetPosition(inst.m_iModelHdl_Wall, inst.m_vPosition);  //壁用
         MV1DrawModel(inst.m_iModelHdl);
     }
 
@@ -153,7 +166,7 @@ void MapEditor::Draw()
     DrawSelectedTile();
 
     //ザップフャイルの作成
-    DrawString(1400,50,"Pでセーブ\nLでロード",WHITE);
+    DrawString(1400,100,"Pでセーブ\nLでロード",RED);
 
 }
 
@@ -186,18 +199,20 @@ void MapEditor::SaveMap(const char* filename)
     //-----------------------------
     FILE* fp;
 
-    fopen_s(&fp,filename, "wb");
+    fopen_s(&fp, filename, "wb");
 
     if (fp == NULL) return;
 
     // サイズも一緒に保存（重要）
     fwrite(&MAP_W, sizeof(int), 1, fp);
     fwrite(&MAP_H, sizeof(int), 1, fp);
+   
 
     // マップ本体
     fwrite(map, sizeof(TileType), MAP_W * MAP_H, fp);
 
-    fclose(fp);
+
+   
 }
 
 
@@ -230,6 +245,8 @@ void MapEditor::LoadMap(const char* filename)
     fclose(fp);
 
     BuildInstances();
+
+    
 }
 
 //-----------------------------------
@@ -340,3 +357,4 @@ void MapEditor::BuildInstances()
         }
     }
 }
+

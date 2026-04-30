@@ -156,6 +156,7 @@
     <ClCompile Include="src\game\field\Field.cpp" />
     <ClCompile Include="src\game\field\Sky.cpp" />
     <ClCompile Include="src\game\map\MapEditor.cpp" />
+    <ClCompile Include="src\game\map\ObjectEditor.cpp" />
     <ClCompile Include="src\game\object\Actor.cpp" />
     <ClCompile Include="src\game\object\Object.cpp" />
     <ClCompile Include="src\game\player\Player.cpp" />
@@ -188,6 +189,7 @@
     <ClInclude Include="src\game\field\Field.h" />
     <ClInclude Include="src\game\field\Sky.h" />
     <ClInclude Include="src\game\map\MapEditor.h" />
+    <ClInclude Include="src\game\map\ObjectEditor.h" />
     <ClInclude Include="src\game\object\Actor.h" />
     <ClInclude Include="src\game\object\Object.h" />
     <ClInclude Include="src\game\player\Player.h" />
