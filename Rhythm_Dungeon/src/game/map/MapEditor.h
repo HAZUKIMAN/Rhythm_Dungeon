@@ -10,8 +10,6 @@ class MapEditor
 {
 public:
 
-	ObjectEditor cobjected;
-
 	int m_iModelHdl;		//ステージのモデルハンドル
 	int m_iModelHdl_Wall;	//ステージ用モデルの壁
 
@@ -47,13 +45,6 @@ public:
 	
 private:
 
-	enum ObjectType {
-		OBJ_NONE,
-		OBJ_PLAYER,
-		OBJ_ENEMY,
-		OBJ_ITEM
-	};
-
 	//インスタンス用の構造体
 	struct Instance {
 		int m_iModelHdl;
@@ -65,6 +56,15 @@ private:
 	//インスタンス確保
 	std::vector<Instance> instances;
 
+	enum ObjectType {
+		OBJ_NONE,
+		OBJ_PLAYER,
+		OBJ_ENEMY,
+		OBJ_ITEM,
+		OBJ_GOAL,
+	};
+
+	ObjectType objstate;
 
 	void BuildInstances();					//インスタンスの生成用
 	

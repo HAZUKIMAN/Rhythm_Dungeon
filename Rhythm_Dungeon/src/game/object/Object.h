@@ -34,13 +34,13 @@ public:
 	//		ゲッタ・セッタ
 	//==============================
 	//	座標
-	VECTOR GetPos() { return m_vPosition; }
+	inline VECTOR GetPos() { return m_vPosition; }
 	//角度
-	VECTOR GetRot() { return m_vRotation; }
+	inline VECTOR GetRot() { return m_vRotation; }
 
-	void SetPos(VECTOR pos) { m_vPosition = pos; }
+	inline void SetPos(VECTOR pos) { m_vPosition = pos; }
 	//	アクティブフラグ
-	bool IsActiveFlag() { return m_isActive; }
-	void SetActiveFlag(bool isActive) { m_isActive = isActive; }
+	inline bool IsActiveFlag() { return m_isActive; }
+	inline void SetActiveFlag(bool isActive) { m_isActive = isActive; }
 
 };

@@ -26,6 +26,8 @@ public:
 	void Fin();
 
 
+private:
+
 	//マップのセーブ
 	void SaveMap(const char* filename);
 	//マップの読み込み
@@ -35,16 +37,11 @@ public:
 	void AddObject(int x, int z, int type);	//設置処理
 	void RemoveObject(int x, int z);		//削除処理
 	void DrawObjects();
+	//マウスの当たり判定の取得
+	bool GetMouseHitPosition(VECTOR* outPos);
+	//グリッドの取得
+	bool GetGridPos(VECTOR hitPos, int* _x, int* _z);
 
-
-private:
-
-	enum ObjectType {
-		OBJ_NONE,
-		OBJ_PLAYER,
-		OBJ_ENEMY,
-		OBJ_ITEM
-	};
 
 	struct Object {
 		int x, z;
@@ -54,4 +51,17 @@ private:
 
 	std::vector<Object> objects;
 
+	enum ObjectType {
+		OBJ_NONE,
+		OBJ_PLAYER,
+		OBJ_ENEMY,
+		OBJ_ITEM,
+		OBJ_GOAL,
+	};
+
+	ObjectType objstate;
+
+public:
+	//場所の取得
+	const std::vector<Object>& GetObjects() const;
 };

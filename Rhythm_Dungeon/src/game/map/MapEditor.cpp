@@ -22,6 +22,7 @@ TileType map[MAP_H][MAP_W];
 MapEditor::MapEditor()
 {
     Init();
+    objstate = OBJ_NONE;
 }
 // デストラクタ
 MapEditor::~MapEditor()
@@ -65,7 +66,7 @@ void MapEditor::Load()
 //--------------------------------
 int  MapEditor::Step()
 {
-//    データの保存・読み取り
+    //データの保存・読み取り
     if (Input::Key::Push(KEY_INPUT_P)) {
         SaveMap("map.dat");
     }
@@ -111,7 +112,6 @@ void MapEditor::Update()
                 map[gz][gx] = TILE_FLOOR;
                 needRebuild = true;
             }
-
             // 右クリック
             //今押してる状態かつ前は押してない状態
             if ((mouseState & MOUSE_INPUT_RIGHT)) {
@@ -119,7 +119,6 @@ void MapEditor::Update()
                 map[gz][gx] = TILE_WALL;
                 needRebuild = true;
             }
-
             // 中クリック
             //今押してる状態かつ前は押してない状態
             if ((mouseState & MOUSE_INPUT_MIDDLE)) {
@@ -127,20 +126,10 @@ void MapEditor::Update()
                 map[gz][gx] = TILE_NONE;
                 needRebuild = true;
             }
-            if ((mouseState & MOUSE_INPUT_LEFT) &&
-               Input::Key::Keep(KEY_INPUT_O)){ // Oキーでオブジェクトモード
-
-                cobjected.AddObject(gx, gz, OBJ_ENEMY);
-           }
-
-           if ((mouseState & MOUSE_INPUT_LEFT) &&
-               Input::Key::Keep(KEY_INPUT_U)){ // Uキーでオブジェクトモード
-
-               cobjected.RemoveObject(gx, gz);
-           }
 
         }
     }
+
     //モデルの生成時のみ
     if (needRebuild) {
         BuildInstances();
@@ -162,13 +151,13 @@ void MapEditor::Draw()
         MV1DrawModel(inst.m_iModelHdl);
     }
 
-    cobjected.Draw();
-
     //選択しているところを赤くする
     DrawSelectedTile();
 
     //ザップフャイルの作成
     DrawString(1400,100,"Pでセーブ\nLでロード",RED);
+    //ザップフャイルの作成
+    DrawString(200, 100, "左クリックかつOでプレイヤーの位置用のオブジェクトを配置\n左クリックかつUでオブジェクト関係の削除", RED);
 
 }
 
@@ -208,14 +197,10 @@ void MapEditor::SaveMap(const char* filename)
     // サイズも一緒に保存（重要）
     fwrite(&MAP_W, sizeof(int), 1, fp);
     fwrite(&MAP_H, sizeof(int), 1, fp);
-   
-    cobjected.SaveMap(filename);
 
     // マップ本体
     fwrite(map, sizeof(TileType), MAP_W * MAP_H, fp);
 
-
-   
 }
 
 
@@ -242,8 +227,6 @@ void MapEditor::LoadMap(const char* filename)
         fclose(fp);
         return;
     }
-
-    cobjected.LoadMap(filename);
 
     fread(map, sizeof(TileType), MAP_W * MAP_H, fp);
 

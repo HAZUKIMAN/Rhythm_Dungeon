@@ -23,12 +23,12 @@ public:
 	//		取得・設定関連
 	//===============================
 	// 半径
-	float GetRadius(void){ return m_radius; }
-	void SetRadius(float rad) { m_radius = rad; }
+	inline float GetRadius(void){ return m_radius; }
+	inline void SetRadius(float rad) { m_radius = rad; }
 
 	// 速度
-	VECTOR GetSpeed(void) { return m_speed; }
-	void SetSpeed(const VECTOR& speed) { m_speed = speed; }
+	inline VECTOR GetSpeed(void) { return m_speed; }
+	inline void SetSpeed(const VECTOR& speed) { m_speed = speed; }
 
 	// 当たり判定に使う中心の座標
 	virtual VECTOR GetCenter();

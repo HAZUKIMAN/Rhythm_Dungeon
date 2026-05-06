@@ -52,4 +52,5 @@ static constexpr int COMBO_SIZE_Y = 24;
 static const UnInt WHITE = GetColor(255, 255, 255);			//”’
 static const UnInt RED	 = GetColor(255,   0,   0);			//Ô
 static const UnInt BLUE  = GetColor(  0,   0, 255);			//Â
-static const UnInt GREEN = GetColor(  0, 255,   0);			//Â
+static const UnInt GREEN = GetColor(  0, 255,   0);			//—Î
+static const UnInt PINKU = GetColor(255, 100, 1000);		//ƒsƒ“ƒN

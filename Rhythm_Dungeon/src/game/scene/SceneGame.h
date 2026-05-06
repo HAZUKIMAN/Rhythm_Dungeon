@@ -6,6 +6,7 @@
 //#include "../object/enemy/EnemyManager.h"
 #include "../field/BackGroundManager.h"
 #include "../map/MapEditor.h"
+#include "../object/Object.h"
 
 //タイトルクラス
 //	@memo	:	継承後も基本はpublicは増やさない
@@ -18,7 +19,7 @@ private:
 	//CShotManager m_shotManager;				// ショット管理
 	CBackGroundManager m_backgroundManager;	// 背景
 	MapEditor m_mapeditor;					//マップエディター
-
+	ObjectEditor m_objEditor;
 
 public:
 	CSceneGame();
@@ -39,6 +40,14 @@ public:
 private:
 	//ゲーム本体の処理
 	void Calc();
+
+	enum ObjectType {
+		OBJ_NONE,
+		OBJ_PLAYER,
+		OBJ_ENEMY,
+		OBJ_ITEM,
+		OBJ_GOAL,
+	};
 };
 
 

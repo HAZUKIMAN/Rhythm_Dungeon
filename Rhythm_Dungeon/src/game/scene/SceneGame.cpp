@@ -7,6 +7,7 @@
 
 
 
+
 //-------------------------------
 //		コンストラクタ
 //-------------------------------
@@ -42,7 +43,7 @@ void CSceneGame::Init()
 	m_backgroundManager.Init();
 
 	m_mapeditor.Init();
-
+	m_objEditor.Init();
 }
 
 
@@ -55,7 +56,9 @@ void CSceneGame::Load()
 	m_player.Load();
 	/*m_enemyManager.Load();
 	m_shotManager.Load();*/
+
 	m_mapeditor.Load();
+	m_objEditor.Load();
 
 	//// 各種更新
 	m_player.Update();
@@ -77,7 +80,25 @@ int CSceneGame::Step()
 	//else if (m_destroyCnt >= CLEAR_NUMBER)
 	//	ret = SCENEID_CLEAR;
 
-	if (Input::Key::Push(KEY_INPUT_Z))ret = SCENEID_GAMEOVER;
+	if (Input::Key::Push(KEY_INPUT_Z))
+		ret = SCENEID_GAMEOVER;
+
+
+	if (Input::Key::Keep(KEY_INPUT_R))
+	{
+		auto& objs = m_objEditor.GetObjects();
+
+		printf("size = %d\n", (int)objs.size());
+
+		for (const auto& obj : objs) {
+			if (obj.type == OBJ_PLAYER) 
+			{
+				// プレイヤー位置に使う
+				m_player.SetPos(VGet(obj.x, 5.0f, obj.z));
+			}
+		}
+	}
+
 	return ret;
 }
 
@@ -92,11 +113,14 @@ void CSceneGame::Draw()
 	m_player.Draw();
 
 	m_mapeditor.Draw();
+	m_objEditor.Draw();
 	//m_enemyManager.Draw();
 	//m_shotManager.Draw();*/
 
 	//カメラの切り替え表示
 	DrawFormatString(1200,20,WHITE,"デバックカメラ切り替え処理:Key C \nエディターカメラ切り替え処理:Key B\nプレイカメラへの切り替え:key V");
+
+	DrawFormatString(700, 100, RED, "プレイヤーのＸ軸：%f", m_player.GetPos().x);
 }
 
 
@@ -109,6 +133,7 @@ void CSceneGame::Fin()
 	m_player.Fin();
 	m_backgroundManager.Fin();
 	m_mapeditor.Fin();
+	m_objEditor.Fin();
 	/*m_enemyManager.Fin();
 	m_shotManager.Fin();
 	m_backgroundManager.Fin();*/
@@ -145,6 +170,8 @@ void CSceneGame::Calc()
 	{
 		m_mapeditor.Step();
 		m_mapeditor.Update();
+		m_objEditor.Step();
+		m_objEditor.Update();
 	}
 	
 

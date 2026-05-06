@@ -11,7 +11,7 @@ static const float JUMP_POWER = 5.0f;		// ジャンプ力
 static const float GRAVITY = 0.1f;			// 重力
 static const float RADIUS = 5.0f;			// 当たり判定半径
 
-static const char PLAYER_MODEL_PATH[] = { "Data/AddData/Chara/Player1.mv1" };
+static const char PLAYER_MODEL_PATH[] = { "Data/Character/Player/Player.mv1" };
 //----------------------------------------
 
 
@@ -109,7 +109,7 @@ void CPlayer::Draw()
 void CPlayer::Move()
 {
 	//	重力処理
-	m_speed.y -= GRAVITY;
+	//m_speed.y -= GRAVITY;
 
 	// 移動速度加算
 	m_vPosition = VAdd(m_vPosition, m_speed);

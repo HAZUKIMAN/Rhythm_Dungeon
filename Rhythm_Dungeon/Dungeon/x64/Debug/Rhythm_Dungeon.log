@@ -1,5 +1,6 @@
-﻿  MapEditor.cpp
-  SceneGame.cpp
+﻿  SceneGame.cpp
+C:\Users\Owner\Desktop\GitHub\Rhythm_Dungeon\Rhythm_Dungeon\src\game\scene\SceneGame.cpp(97,42): warning C4244: '引数': 'const int' から 'float' への変換です。データが失われる可能性があります。
+C:\Users\Owner\Desktop\GitHub\Rhythm_Dungeon\Rhythm_Dungeon\src\game\scene\SceneGame.cpp(97,29): warning C4244: '引数': 'const int' から 'float' への変換です。データが失われる可能性があります。
   SceneManager.cpp
   コードを生成中...
-  Rhythm_Dungeon.vcxproj -> D:\Users\2409407\Desktop\Rhythm_Dungeon\Rhythm_Dungeon\x64\Debug\Dungeon.exe
+  Rhythm_Dungeon.vcxproj -> C:\Users\Owner\Desktop\GitHub\Rhythm_Dungeon\Rhythm_Dungeon\x64\Debug\Dungeon.exe
