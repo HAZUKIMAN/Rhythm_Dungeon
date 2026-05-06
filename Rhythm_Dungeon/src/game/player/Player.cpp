@@ -42,6 +42,7 @@ void CPlayer::Init()
 	m_state = PLAYER_STATE_NORMAL;
 	m_vRotation.y = DX_PI_F;
 	m_radius = RADIUS;
+	m_isActive = true;
 }
 
 
@@ -50,8 +51,12 @@ void CPlayer::Init()
 //-------------------------------
 void CPlayer::Load()
 {
+	VECTOR size = VGet(0.05f, 0.05f, 0.05f);
+
 	int hndl= MV1LoadModel(PLAYER_MODEL_PATH);
+	MV1SetScale(hndl, size);
 	CObject::Load(hndl);
+
 }
 
 
@@ -60,6 +65,8 @@ void CPlayer::Load()
 //-------------------------------
 void CPlayer::Step()
 {
+	if (!m_isActive)return;
+
 	Data::GetInstance()->AddScore(1);
 	// 状態に合わせて行動変化
 	switch (m_state)
@@ -96,6 +103,7 @@ void CPlayer::Step()
 //-------------------------------
 void CPlayer::Draw()
 {
+	if (!m_isActive)return;
 	CObject::Draw();
 #ifdef MY_DEBUG
 	DrawSphere3D(m_vPos, RADIUS, 16, GetColor(0, 0, 255), GetColor(0, 0, 0), FALSE);
@@ -128,19 +136,19 @@ void CPlayer::Move()
 void CPlayer::NormalExec()
 {
 	float speed = 0.0f;
-	if (Input::Key::Push(KEY_INPUT_UP))
+	if (Input::Key::Push(KEY_INPUT_W))
 	{
 		speed = MOVE_SPEED;
 	}
-	if (Input::Key::Push(KEY_INPUT_DOWN))
+	if (Input::Key::Push(KEY_INPUT_S))
 	{
 		speed = -MOVE_SPEED;
 	}
-	if (Input::Key::Push(KEY_INPUT_RIGHT))
+	if (Input::Key::Push(KEY_INPUT_D))
 	{
 		m_vRotation.y += ROT_SPEED;
 	}
-	if (Input::Key::Push(KEY_INPUT_LEFT))
+	if (Input::Key::Push(KEY_INPUT_A))
 	{
 		m_vRotation.y -= ROT_SPEED;
 	}
@@ -156,12 +164,12 @@ void CPlayer::NormalExec()
 		m_speed.x = m_speed.z = 0.0f;
 	}
 
-	// ジャンプ処理
-	if (Input::Key::Push(KEY_INPUT_SPACE))
-	{
-		m_speed.y = JUMP_POWER;
-		m_state = PLAYER_STATE_JUMP;
-	}
+	//// ジャンプ処理
+	//if (Input::Key::Push(KEY_INPUT_SPACE))
+	//{
+	//	m_speed.y = JUMP_POWER;
+	//	m_state = PLAYER_STATE_JUMP;
+	//}
 }
 
 
@@ -198,4 +206,9 @@ void CPlayer::JumpExec()
 	{
 		m_speed.x = m_speed.z = 0.0f;
 	}
+}
+
+void CPlayer::SetPos(VECTOR pos)
+{
+	m_vPosition = pos;
 }

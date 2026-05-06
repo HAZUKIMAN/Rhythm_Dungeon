@@ -38,9 +38,10 @@ public:
 	//角度
 	inline VECTOR GetRot() { return m_vRotation; }
 
-	inline void SetPos(VECTOR pos) { m_vPosition = pos; }
+	//void SetPos(VECTOR pos);
+	// 
 	//	アクティブフラグ
 	inline bool IsActiveFlag() { return m_isActive; }
-	inline void SetActiveFlag(bool isActive) { m_isActive = isActive; }
+	//inline void SetActiveFlag(bool isActive) { m_isActive = isActive; }
 
 };

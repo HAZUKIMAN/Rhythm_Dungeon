@@ -31,6 +31,8 @@ public:
 	// •`‰æˆ—
 	void Draw() override;
 
+	void SetPos(VECTOR pos);
+
 private:
 	// ˆÚ“®ŒvZŒ‹‰Ê‚ğ”½‰f
 	void Move();

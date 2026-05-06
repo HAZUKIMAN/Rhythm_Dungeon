@@ -3,7 +3,7 @@
 #include <math.h>
 
 //	定義関連------------------------------
-static const float CAMERA_LENGTH = 60.0f;		// 注視点から視点までの距離
+static const float CAMERA_LENGTH = 100.0f;		// 注視点から視点までの距離
 static const float CAMERA_OFFSET_Y = 30.0f;		// 視点の高さ
 //----------------------------------------
 
@@ -38,6 +38,9 @@ void CPlayCamera::Step(CPlayer& player)
 	dir.z = cosf(rot) * CAMERA_LENGTH;
 	// 視点の高さは固定
 	dir.y = CAMERA_OFFSET_Y;
+
+	//ためし
+	focus = {0, 0, 0};
 
 	// 注視点(プレイヤー)の位置から計算結果の距離を移動させれば
 	// カメラの視点になる

@@ -19,13 +19,13 @@ void CObject::Init()
 	memset(&m_vSpeed, 0, sizeof(VECTOR));
 
 	m_iModelHdl = -1;
-	m_isActive = true;
 }
 //------------------------------
 //		ロード
 //------------------------------
 void CObject::Load(int hndl)
 {
+	m_iModelHdl = hndl;
 }
 //------------------------------
 //		ゲームメイン更新
@@ -38,8 +38,6 @@ void CObject::Update()
 //------------------------------
 void CObject::Draw()
 {
-	if (!m_isActive) return;
-
 	if (m_iModelHdl != -1)
 	{
 		MV1DrawModel(m_iModelHdl);
@@ -56,4 +54,5 @@ void CObject::Fin()
 		MV1DeleteModel(m_iModelHdl);
 		m_iModelHdl = -1;
 	}
-}
+} //m_vPosition = pos;
+

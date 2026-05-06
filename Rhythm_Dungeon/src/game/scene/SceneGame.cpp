@@ -6,7 +6,7 @@
 #include "../../lib/Input/Input.h"
 
 
-
+constexpr float TILE_SIZE = 5.0f;
 
 //-------------------------------
 //		コンストラクタ
@@ -60,12 +60,7 @@ void CSceneGame::Load()
 	m_mapeditor.Load();
 	m_objEditor.Load();
 
-	//// 各種更新
-	m_player.Update();
-	//m_enemyManager.Update();
-	//m_shotManager.Update();
-	//m_cameraManager.Step();
-	m_cameraManager.Update();
+
 }
 
 
@@ -84,7 +79,7 @@ int CSceneGame::Step()
 		ret = SCENEID_GAMEOVER;
 
 
-	if (Input::Key::Keep(KEY_INPUT_R))
+	if (Input::Key::Push(KEY_INPUT_R))
 	{
 		auto& objs = m_objEditor.GetObjects();
 
@@ -93,8 +88,9 @@ int CSceneGame::Step()
 		for (const auto& obj : objs) {
 			if (obj.type == OBJ_PLAYER) 
 			{
-				// プレイヤー位置に使う
-				m_player.SetPos(VGet(obj.x, 5.0f, obj.z));
+				float gridSize = 50.0f;
+
+				m_player.SetPos(VGet(obj.x * gridSize,5.0f,obj.z * gridSize));
 			}
 		}
 	}
@@ -164,6 +160,7 @@ void CSceneGame::Calc()
 		/*m_enemyManager.Update();
 		m_shotManager.Update();
 		m_backgroundManager.Update();*/
+
 	}
 
 	if (m_cameraManager.GetCameraID() == CCameraManager::CAMERA_ID_EDITOR)
@@ -185,7 +182,11 @@ void CSceneGame::Calc()
 	else if (Input::Key::Push(KEY_INPUT_V))
 		m_cameraManager.ChangeCamera(CCameraManager::CAMERA_ID_PLAY);
 
+
+
 	// カメラ更新処理
 	m_cameraManager.Step(m_player);
 	m_cameraManager.Update();
+
+
 }
