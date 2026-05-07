@@ -4,7 +4,8 @@
 
 class CPlayer : public CActor
 {
-public:
+private:
+
 	enum tagPlayerState {
 		PLAYER_STATE_NORMAL,	// 待機
 		PLAYER_STATE_RUN,		// 歩き中
@@ -12,6 +13,17 @@ public:
 
 		PLAYER_STATE_NUM
 	};
+
+	enum tagDirection
+	{
+		ROTATION_RIGHT,
+		ROTATION_LEFT,
+		ROTATION_UP,
+		ROTATION_DOWN,
+	};
+
+	tagDirection direction;
+
 
 private:
 	tagPlayerState m_state;	// プレイヤーの状態
@@ -31,11 +43,13 @@ public:
 	// 描画処理
 	void Draw() override;
 
+	void AddPos(VECTOR Hit);
+
 private:
+	// 移動角度処理
+	void Direction();
 	// 移動計算結果を反映
 	void Move();
 	// 待機･移動中処理
 	void NormalExec();
-	// ジャンプ中処理
-	void JumpExec();
 };

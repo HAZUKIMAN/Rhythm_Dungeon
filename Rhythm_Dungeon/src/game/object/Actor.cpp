@@ -46,3 +46,4 @@ VECTOR CActor::GetCenter()
 	pos.y += m_radius;
 	return pos;
 }
+

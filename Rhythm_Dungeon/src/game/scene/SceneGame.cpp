@@ -99,13 +99,13 @@ int CSceneGame::Step()
 			{
 				float gridSize = 5.0f;
 
-				m_player.SetPos(VGet(obj.x * gridSize + 2.5f ,5.0f,obj.z * gridSize + 2.5f));//2.5fはマスの真ん中に持っていくよう
+				m_player.SetPos(VGet(obj.x * gridSize + 2.5f , 10.0f,obj.z * gridSize + 2.5f));//2.5fはマスの真ん中に持っていくよう
 			}
 			if (obj.type == OBJ_ENEMY)
 			{
 				float gridSize = 5.0f;
 
-				m_cat.SetPos(VGet(obj.x * gridSize + 2.5f, 5.0f, obj.z * gridSize + 2.5f));//2.5fはマスの真ん中に持っていくよう
+				m_cat.SetPos(VGet(obj.x * gridSize + 2.5f, 10.0f, obj.z * gridSize + 2.5f));//2.5fはマスの真ん中に持っていくよう
 			}
 			if (obj.type == OBJ_ITEM)
 			{
@@ -179,8 +179,24 @@ void CSceneGame::Calc()
 		// 背景更新
 		//m_backgroundManager.Step();
 		// 当たり判定処理
-		/*m_destroyCnt += CCollisionManager::CheckHitShotToEnemy(m_enemyManager, m_shotManager);
-		CCollisionManager::CheckHitPlayerToEnemy(m_player, m_enemyManager);*/
+		/*m_destroyCnt += CCollisionManager::CheckHitShotToEnemy(m_enemyManager, m_shotManager);*/
+
+		m_collision.CheckHitPlayerToCat(m_player, m_cat);
+
+		m_player.AddPos(CCollisionManager::HitMap(
+			m_player.GetCenter(),
+			1.0f,
+			m_mapeditor
+		));
+
+		//ステージとプレーヤーの床判定
+		VECTOR push = m_collision.HitObject(
+			m_player.GetPos(),
+			1.0f,
+			m_objEditor
+		);
+		m_player.AddPos(push);
+
 
 		// 各種更新
 		m_player.Update();

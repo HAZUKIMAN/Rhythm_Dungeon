@@ -63,3 +63,5 @@ void CObject::SetPos(VECTOR pos)
 {
 	m_vPosition = pos;
 }
+
+

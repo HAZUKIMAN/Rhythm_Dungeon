@@ -8,6 +8,7 @@
 #include "../object/Object.h"
 #include "../cat/Cat.h"
 #include "../field/InstalledItem.h"
+#include "../collision/CollisionManager.h"
 
 //タイトルクラス
 //	@memo	:	継承後も基本はpublicは増やさない
@@ -21,8 +22,8 @@ private:
 	//CShotManager m_shotManager;			// ショット管理
 	CBackGroundManager m_backgroundManager;	// 背景
 	MapEditor m_mapeditor;					//マップエディター
-	ObjectEditor m_objEditor;
-
+	ObjectEditor m_objEditor;				//オブジェクトエディター
+	CCollisionManager m_collision;
 public:
 	CSceneGame();
 	~CSceneGame();

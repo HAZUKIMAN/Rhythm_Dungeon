@@ -4,6 +4,7 @@
 #include "../../Data.h"
 #include "../../lib/Input/Input.h"
 #include "../Anime/Anime.h"
+#include "../common.h"
 
 //	定義関連------------------------------
 static const float MOVE_SPEED = 1.0f;		// 移動速度
@@ -107,6 +108,8 @@ void CCat::Draw()
 {
 	if (!m_isActive)return;
 	CObject::Draw();
+
+	DrawFormatString(100,600,RED,"ねこのY座標：%f",m_vPosition.y);
 #ifdef MY_DEBUG
 	DrawSphere3D(m_vPos, RADIUS, 16, GetColor(0, 0, 255), GetColor(0, 0, 0), FALSE);
 #endif
@@ -124,12 +127,12 @@ void CCat::Move()
 	// 移動速度加算
 	m_vPosition = VAdd(m_vPosition, m_speed);
 
-	if (m_vPosition.y < 1000.0f)
+	/*if (m_vPosition.y < 1000.0f)
 	{
 		m_vPosition.y = 0.0f;
 		m_speed.y = 0.0f;
 		m_state = PLAYER_STATE_NORMAL;
-	}
+	}*/
 }
 
 
@@ -209,9 +212,4 @@ void CCat::JumpExec()
 	{
 		m_speed.x = m_speed.z = 0.0f;
 	}
-}
-
-void CCat::SetPos(VECTOR pos)
-{
-	m_vPosition = pos;
 }

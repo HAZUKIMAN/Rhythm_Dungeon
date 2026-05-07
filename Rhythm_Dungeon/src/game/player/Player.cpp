@@ -4,12 +4,13 @@
 #include "../../Data.h"
 #include "../../lib/Input/Input.h"
 #include "../Anime/Anime.h"
+#include "../common.h"
 
 //	定義関連------------------------------
-static const float MOVE_SPEED = 1.0f;		// 移動速度
+static const float MOVE_SPEED = 0.1f;		// 移動速度
 static const float ROT_SPEED = 0.03f;		// 回転速度
 static const float JUMP_POWER = 5.0f;		// ジャンプ力
-static const float GRAVITY = 0.1f;			// 重力
+static const float GRAVITY = 0.01f;			// 重力
 static const float RADIUS = 5.0f;			// 当たり判定半径
 
 static const char PLAYER_MODEL_PATH[] = { "Data/Character/Player/Player.mv1" };
@@ -22,6 +23,7 @@ static const char PLAYER_MODEL_PATH[] = { "Data/Character/Player/Player.mv1" };
 CPlayer::CPlayer()
 {
 	m_state = PLAYER_STATE_NORMAL;
+	direction = ROTATION_RIGHT;
 }
 
 
@@ -77,25 +79,10 @@ void CPlayer::Step()
 		NormalExec();
 		break;
 	case PLAYER_STATE_JUMP:
-		JumpExec();
 		break;
 	}
 
-	// 以下共通処理-----------------------------
-	// Zキーで弾を発射
-	if (Input::Key::Push(KEY_INPUT_Z))
-	{
-		// プレイヤーの体から出るように座標を上げる
-		VECTOR pos = m_vPosition;
-		pos.y += 5.0f;
-		// 速度はプレイヤーと同じ方法で移動方向を決める
-		VECTOR spd;
-		const float SHOT_SPEED = 5.0f;
-		spd.x = sinf(m_vRotation.y) * -SHOT_SPEED;
-		spd.z = cosf(m_vRotation.y) * -SHOT_SPEED;
-		spd.y = 0.0f;
-	}
-
+	Direction();
 	Move();
 }
 
@@ -107,6 +94,8 @@ void CPlayer::Draw()
 {
 	if (!m_isActive)return;
 	CObject::Draw();
+	DrawFormatString(100, 500, RED, "プレイヤーY角度：%f", m_vRotation.y);
+
 #ifdef MY_DEBUG
 	DrawSphere3D(m_vPos, RADIUS, 16, GetColor(0, 0, 255), GetColor(0, 0, 0), FALSE);
 #endif
@@ -119,17 +108,17 @@ void CPlayer::Draw()
 void CPlayer::Move()
 {
 	//	重力処理
-	//m_speed.y -= GRAVITY;
+	m_speed.y -= GRAVITY;
 
 	// 移動速度加算
 	m_vPosition = VAdd(m_vPosition, m_speed);
 
-	if (m_vPosition.y < 1000.0f)
+	/*if (m_vPosition.y < 1000.0f)
 	{
 		m_vPosition.y = 0.0f;
 		m_speed.y = 0.0f;
 		m_state = PLAYER_STATE_NORMAL;
-	}
+	}*/
 }
 
 
@@ -139,14 +128,11 @@ void CPlayer::Move()
 void CPlayer::NormalExec()
 {
 	float speed = 0.0f;
-	if (Input::Key::Keep(KEY_INPUT_W))
-	{
-		speed = MOVE_SPEED;
-	}
-	if (Input::Key::Keep(KEY_INPUT_S))
-	{
-		speed = -MOVE_SPEED;
-	}
+	
+	speed = MOVE_SPEED;
+	
+	m_vRotation.y = -DX_PI_F/2;//これは右を向いているとき
+
 	if (Input::Key::Keep(KEY_INPUT_D))
 	{
 		m_vRotation.y += ROT_SPEED;
@@ -176,37 +162,50 @@ void CPlayer::NormalExec()
 }
 
 
-//-------------------------------
-//		ジャンプ中処理
-//-------------------------------
-void CPlayer::JumpExec()
+//----------------------------
+//		移動角度処理
+//----------------------------
+void CPlayer::Direction()
 {
-	float speed = 0.0f;
-	if (Input::Key::Keep(KEY_INPUT_UP))
+	switch (direction)
 	{
-		speed = MOVE_SPEED;
-	}
-	if (Input::Key::Keep(KEY_INPUT_DOWN))
-	{
-		speed = -MOVE_SPEED;
-	}
-	if (Input::Key::Keep(KEY_INPUT_RIGHT))
-	{
-		m_vRotation.y += ROT_SPEED;
-	}
-	if (Input::Key::Keep(KEY_INPUT_LEFT))
-	{
-		m_vRotation.y -= ROT_SPEED;
-	}
+	case ROTATION_RIGHT:	//右を向いている
+		m_vRotation.y = -DX_PI_F / 2;
 
-	// 移動したようであれば、移動用計算を行う
-	if (speed != 0.0f)
-	{
-		m_speed.x = sinf(m_vRotation.y) * -speed;
-		m_speed.z = cosf(m_vRotation.y) * -speed;
+		if (Input::Key::Push(KEY_INPUT_H))direction = ROTATION_DOWN;
+
+		break;
+	case ROTATION_DOWN:		//下を向いている
+
+		m_vRotation.y = 0;
+
+		if (Input::Key::Push(KEY_INPUT_H))direction = ROTATION_LEFT;
+
+		break;
+
+	case ROTATION_LEFT:		//左を向いている
+
+		m_vRotation.y = DX_PI_F / 2;
+
+		if (Input::Key::Push(KEY_INPUT_H))direction = ROTATION_UP;
+
+		break;
+	case ROTATION_UP:		//上を向いている
+
+		m_vRotation.y = DX_PI_F;
+
+		if (Input::Key::Push(KEY_INPUT_H))direction = ROTATION_RIGHT;
+
+		break;
 	}
-	else
-	{
-		m_speed.x = m_speed.z = 0.0f;
-	}
+}
+
+void  CPlayer::AddPos(VECTOR Hit)
+{
+	if (Hit.x == 0.0f && Hit.y == 0.0f && Hit.z == 0.0f)return;
+	VECTOR pos;
+	pos = Hit;
+	m_vPosition = VAdd(m_vPosition, pos);
+	MV1SetPosition(m_iModelHdl, pos);
+	m_vPosition.y = 0.0f;
 }

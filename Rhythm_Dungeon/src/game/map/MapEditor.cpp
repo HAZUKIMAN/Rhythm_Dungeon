@@ -3,7 +3,6 @@
 #include "../common.h"
 #include "../../lib/Input/Input.h"
 
-
 constexpr int MAP_W = 50;
 constexpr int MAP_H = 50;
 constexpr float WALL_HIGHT = 5.0f;
@@ -22,7 +21,6 @@ TileType map[MAP_H][MAP_W];
 MapEditor::MapEditor()
 {
     Init();
-    objstate = OBJ_NONE;
 }
 // デストラクタ
 MapEditor::~MapEditor()
@@ -344,5 +342,10 @@ void MapEditor::BuildInstances()
 
         }
     }
+}
+
+int MapEditor::GetMap(int z, int x)const
+{
+    return map[z][x];
 }
 

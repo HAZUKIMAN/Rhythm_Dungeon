@@ -4,8 +4,6 @@
 #include "ObjectEditor.h"
 
 
-
-
 class MapEditor
 {
 public:
@@ -43,6 +41,11 @@ public:
 	//選択しているマスを赤く表示する
 	void DrawSelectedTile();
 	
+
+	inline int GetHndl(){ return m_iModelHdl; };
+
+	int GetMap(int z, int x)const;
+
 private:
 
 	//インスタンス用の構造体
@@ -56,18 +59,14 @@ private:
 	//インスタンス確保
 	std::vector<Instance> instances;
 
-	enum ObjectType {
-		OBJ_NONE,
-		OBJ_PLAYER,
-		OBJ_ENEMY,
-		OBJ_ITEM,
-		OBJ_GOAL,
-	};
-
-	ObjectType objstate;
-
 	void BuildInstances();					//インスタンスの生成用
 	
+	//当たり判定処理
+	//@center :当たり判定をする相手の座標
+	//@radius :相手を球として判定するのでその半径
+	//@return :押し戻す方向&距離
+	VECTOR	HitCheck(VECTOR start, VECTOR end);
+
 	//グリッドは位置情報の管理のしやすさとマウスを使用したレイキャストを使用したかったため（岡松対策）
 	//バイナリを使用した理由データの軽量化テキストよりバイナリの方が軽くて高速：セーブとか使用したかったのでコンパクトの方がよかった。
 };

@@ -79,6 +79,9 @@
     <Filter Include="ソース ファイル\game\field\Installed item">
       <UniqueIdentifier>{99b013b6-a33a-454e-a634-44c7984f9252}</UniqueIdentifier>
     </Filter>
+    <Filter Include="ソース ファイル\game\NewFilter1">
+      <UniqueIdentifier>{6172c72a-1593-4a45-9854-9801d0e9b6f1}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\Main.cpp">

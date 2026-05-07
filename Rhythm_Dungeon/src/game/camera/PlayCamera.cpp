@@ -3,7 +3,7 @@
 #include <math.h>
 
 //	定義関連------------------------------
-static const float CAMERA_LENGTH = 100.0f;		// 注視点から視点までの距離
+static const float CAMERA_LENGTH = 70.0f;		// 注視点から視点までの距離
 static const float CAMERA_OFFSET_Y = 30.0f;		// 視点の高さ
 //----------------------------------------
 
