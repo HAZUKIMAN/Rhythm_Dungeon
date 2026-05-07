@@ -3,6 +3,7 @@
 
 #include "../../Data.h"
 #include "../../lib/Input/Input.h"
+#include "../Anime/Anime.h"
 
 //	定義関連------------------------------
 static const float MOVE_SPEED = 1.0f;		// 移動速度
@@ -51,9 +52,10 @@ void CPlayer::Init()
 //-------------------------------
 void CPlayer::Load()
 {
-	VECTOR size = VGet(0.05f, 0.05f, 0.05f);
+	VECTOR size = VGet(0.01f, 0.01f, 0.01f);
 
 	int hndl= MV1LoadModel(PLAYER_MODEL_PATH);
+
 	MV1SetScale(hndl, size);
 	CObject::Load(hndl);
 
@@ -121,7 +123,8 @@ void CPlayer::Move()
 
 	// 移動速度加算
 	m_vPosition = VAdd(m_vPosition, m_speed);
-	if (m_vPosition.y < 0.0f)
+
+	if (m_vPosition.y < 1000.0f)
 	{
 		m_vPosition.y = 0.0f;
 		m_speed.y = 0.0f;
@@ -136,19 +139,19 @@ void CPlayer::Move()
 void CPlayer::NormalExec()
 {
 	float speed = 0.0f;
-	if (Input::Key::Push(KEY_INPUT_W))
+	if (Input::Key::Keep(KEY_INPUT_W))
 	{
 		speed = MOVE_SPEED;
 	}
-	if (Input::Key::Push(KEY_INPUT_S))
+	if (Input::Key::Keep(KEY_INPUT_S))
 	{
 		speed = -MOVE_SPEED;
 	}
-	if (Input::Key::Push(KEY_INPUT_D))
+	if (Input::Key::Keep(KEY_INPUT_D))
 	{
 		m_vRotation.y += ROT_SPEED;
 	}
-	if (Input::Key::Push(KEY_INPUT_A))
+	if (Input::Key::Keep(KEY_INPUT_A))
 	{
 		m_vRotation.y -= ROT_SPEED;
 	}
@@ -179,19 +182,19 @@ void CPlayer::NormalExec()
 void CPlayer::JumpExec()
 {
 	float speed = 0.0f;
-	if (Input::Key::Push(KEY_INPUT_UP))
+	if (Input::Key::Keep(KEY_INPUT_UP))
 	{
 		speed = MOVE_SPEED;
 	}
-	if (Input::Key::Push(KEY_INPUT_DOWN))
+	if (Input::Key::Keep(KEY_INPUT_DOWN))
 	{
 		speed = -MOVE_SPEED;
 	}
-	if (Input::Key::Push(KEY_INPUT_RIGHT))
+	if (Input::Key::Keep(KEY_INPUT_RIGHT))
 	{
 		m_vRotation.y += ROT_SPEED;
 	}
-	if (Input::Key::Push(KEY_INPUT_LEFT))
+	if (Input::Key::Keep(KEY_INPUT_LEFT))
 	{
 		m_vRotation.y -= ROT_SPEED;
 	}
@@ -206,9 +209,4 @@ void CPlayer::JumpExec()
 	{
 		m_speed.x = m_speed.z = 0.0f;
 	}
-}
-
-void CPlayer::SetPos(VECTOR pos)
-{
-	m_vPosition = pos;
 }

@@ -38,6 +38,7 @@ public:
 	//角度
 	inline VECTOR GetRot() { return m_vRotation; }
 
+	virtual void SetPos(VECTOR pos);
 	//void SetPos(VECTOR pos);
 	// 
 	//	アクティブフラグ

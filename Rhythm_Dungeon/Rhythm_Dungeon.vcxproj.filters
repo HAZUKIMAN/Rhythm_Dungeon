@@ -61,9 +61,6 @@
     <Filter Include="ソース ファイル\game\object">
       <UniqueIdentifier>{1f7526f0-1208-4906-b5ae-be9ca4443170}</UniqueIdentifier>
     </Filter>
-    <Filter Include="ソース ファイル\game\NewFilter1">
-      <UniqueIdentifier>{38913931-c9d6-45e6-91bb-54f644500965}</UniqueIdentifier>
-    </Filter>
     <Filter Include="ソース ファイル\game\field\Field">
       <UniqueIdentifier>{33e842d5-0097-4259-a2e2-03a2e9bd8116}</UniqueIdentifier>
     </Filter>
@@ -75,6 +72,12 @@
     </Filter>
     <Filter Include="ソース ファイル\game\field\objecteditor">
       <UniqueIdentifier>{fc0d28e3-3dc4-4e8e-bf28-4f6cf7bdfb48}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ソース ファイル\game\cat">
+      <UniqueIdentifier>{38913931-c9d6-45e6-91bb-54f644500965}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ソース ファイル\game\field\Installed item">
+      <UniqueIdentifier>{99b013b6-a33a-454e-a634-44c7984f9252}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -167,6 +170,12 @@
     </ClCompile>
     <ClCompile Include="src\game\map\ObjectEditor.cpp">
       <Filter>ソース ファイル\game\field\objecteditor</Filter>
+    </ClCompile>
+    <ClCompile Include="src\game\cat\Cat.cpp">
+      <Filter>ソース ファイル\game\cat</Filter>
+    </ClCompile>
+    <ClCompile Include="src\game\field\InstalledItem.cpp">
+      <Filter>ソース ファイル\game\field\Installed item</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -262,6 +271,12 @@
     </ClInclude>
     <ClInclude Include="src\game\map\ObjectEditor.h">
       <Filter>ソース ファイル\game\field\objecteditor</Filter>
+    </ClInclude>
+    <ClInclude Include="src\game\cat\Cat.h">
+      <Filter>ソース ファイル\game\cat</Filter>
+    </ClInclude>
+    <ClInclude Include="src\game\field\InstalledItem.h">
+      <Filter>ソース ファイル\game\field\Installed item</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

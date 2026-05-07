@@ -32,6 +32,9 @@ void CObject::Load(int hndl)
 //------------------------------
 void CObject::Update()
 {
+	//AnimeUpdate(m_iModelHdl);
+	MV1SetRotationXYZ(m_iModelHdl, m_vRotation);
+	MV1SetPosition(m_iModelHdl, m_vPosition);
 }
 //------------------------------
 //		•`‰æ
@@ -56,3 +59,7 @@ void CObject::Fin()
 	}
 } //m_vPosition = pos;
 
+void CObject::SetPos(VECTOR pos)
+{
+	m_vPosition = pos;
+}

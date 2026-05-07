@@ -40,7 +40,7 @@ void CPlayCamera::Step(CPlayer& player)
 	dir.y = CAMERA_OFFSET_Y;
 
 	//ためし
-	focus = {0, 0, 0};
+	//focus = {0, 0, 0};
 
 	// 注視点(プレイヤー)の位置から計算結果の距離を移動させれば
 	// カメラの視点になる

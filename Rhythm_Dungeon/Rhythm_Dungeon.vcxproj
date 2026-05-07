@@ -150,10 +150,12 @@
     <ClCompile Include="src\game\camera\CameraManager.cpp" />
     <ClCompile Include="src\game\camera\DebugCamera.cpp" />
     <ClCompile Include="src\game\camera\PlayCamera.cpp" />
+    <ClCompile Include="src\game\cat\Cat.cpp" />
     <ClCompile Include="src\game\collision\CollisionManager.cpp" />
     <ClCompile Include="src\game\effect\effekseer.cpp" />
     <ClCompile Include="src\game\field\BackGroundManager.cpp" />
     <ClCompile Include="src\game\field\Field.cpp" />
+    <ClCompile Include="src\game\field\InstalledItem.cpp" />
     <ClCompile Include="src\game\field\Sky.cpp" />
     <ClCompile Include="src\game\map\MapEditor.cpp" />
     <ClCompile Include="src\game\map\ObjectEditor.cpp" />
@@ -182,11 +184,13 @@
     <ClInclude Include="src\game\camera\CameraManager.h" />
     <ClInclude Include="src\game\camera\DebugCamera.h" />
     <ClInclude Include="src\game\camera\PlayCamera.h" />
+    <ClInclude Include="src\game\cat\Cat.h" />
     <ClInclude Include="src\game\collision\CollisionManager.h" />
     <ClInclude Include="src\game\common.h" />
     <ClInclude Include="src\game\effect\effekseer.h" />
     <ClInclude Include="src\game\field\BackGroundManager.h" />
     <ClInclude Include="src\game\field\Field.h" />
+    <ClInclude Include="src\game\field\InstalledItem.h" />
     <ClInclude Include="src\game\field\Sky.h" />
     <ClInclude Include="src\game\map\MapEditor.h" />
     <ClInclude Include="src\game\map\ObjectEditor.h" />

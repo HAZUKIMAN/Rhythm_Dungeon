@@ -3,10 +3,11 @@
 #include "../camera/CameraManager.h"
 #include "../player/Player.h"
 //#include "../object/shot/ShotManager.h"
-//#include "../object/enemy/EnemyManager.h"
 #include "../field/BackGroundManager.h"
 #include "../map/MapEditor.h"
 #include "../object/Object.h"
+#include "../cat/Cat.h"
+#include "../field/InstalledItem.h"
 
 //タイトルクラス
 //	@memo	:	継承後も基本はpublicは増やさない
@@ -15,8 +16,9 @@ private:
 
 	CPlayer m_player;						// プレイヤー処理
 	CCameraManager m_cameraManager;			// カメラマネージャ
-	//CEnemyManager m_enemyManager;			// 敵全般処理
-	//CShotManager m_shotManager;				// ショット管理
+	CCat m_cat;								//猫（操作キャラ）
+	CInstalledItem m_institem;				//運べる用のオブジェクト
+	//CShotManager m_shotManager;			// ショット管理
 	CBackGroundManager m_backgroundManager;	// 背景
 	MapEditor m_mapeditor;					//マップエディター
 	ObjectEditor m_objEditor;
