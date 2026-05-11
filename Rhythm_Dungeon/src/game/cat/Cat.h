@@ -1,5 +1,7 @@
 #pragma once
 #include "../object/Actor.h"
+#include "../field/InstalledItem.h"
+#include "../map/MapEditor.h"
 
 
 class CCat : public CActor
@@ -16,6 +18,12 @@ public:
 private:
 	tagCatState m_state;	// プレイヤーの状態
 
+	enum TileType {
+		TILE_NONE  = 0,
+		TILE_FLOOR = 1,
+		TILE_WALL  = 2
+	};
+
 public:
 	// コンストラクタ・デストラクタ
 	CCat();
@@ -31,11 +39,12 @@ public:
 	// 描画処理
 	void Draw() override;
 
+	void PlaceBlock(MapEditor& map);
+
 private:
 	// 移動計算結果を反映
 	void Move();
 	// 待機･移動中処理
 	void NormalExec();
-	// ジャンプ中処理
-	void JumpExec();
+
 };

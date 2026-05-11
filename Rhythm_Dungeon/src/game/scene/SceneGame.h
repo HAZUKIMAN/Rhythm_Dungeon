@@ -8,7 +8,7 @@
 #include "../object/Object.h"
 #include "../cat/Cat.h"
 #include "../field/InstalledItem.h"
-#include "../collision/CollisionManager.h"
+#include "../field/Goal.h"
 
 //タイトルクラス
 //	@memo	:	継承後も基本はpublicは増やさない
@@ -21,9 +21,9 @@ private:
 	CInstalledItem m_institem;				//運べる用のオブジェクト
 	//CShotManager m_shotManager;			// ショット管理
 	CBackGroundManager m_backgroundManager;	// 背景
-	MapEditor m_mapeditor;					//マップエディター
+	MapEditor m_mapedit;					//マップエディター
 	ObjectEditor m_objEditor;				//オブジェクトエディター
-	CCollisionManager m_collision;
+	CGoal m_goal;							//ゴール
 public:
 	CSceneGame();
 	~CSceneGame();
@@ -51,6 +51,15 @@ private:
 		OBJ_ITEM,
 		OBJ_GOAL,
 	};
+
+	enum tagMove
+	{
+		NONE,
+		CARRY,
+		PUT,
+	};
+	tagMove move_box;
+
 };
 
 

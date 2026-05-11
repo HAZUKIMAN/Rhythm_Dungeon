@@ -4,6 +4,7 @@
 #include "DxLib.h"
 #include "../map/ObjectEditor.h"
 #include "../map/MapEditor.h"
+#include "../field/Goal.h"
 
 class CPlayer;
 class CObjectEditor;
@@ -31,20 +32,31 @@ struct Object
 class CCollisionManager
 {
 public:
-	//// 敵と弾の当たり判定
-	//// @return : 倒した敵の数
-	//static int CheckHitShotToEnemy(CEnemyManager &enemyManager,
-	//								CShotManager &shotManager);
-	// 猫とプレイヤーの当たり判定
-	static void CheckHitPlayerToCat(CPlayer& player,
-		CCat& cat);
+
+	static int m_time;
+
+	CCollisionManager();
+
+	// ブロックとプレイヤーの当たり判定
+	static void CheckHitPlayerToBlock(CPlayer& player,
+		CInstalledItem& inst);
+
+	// ゴールとプレイヤーの当たり判定
+	static bool CheckHitPlayerToGoal(CPlayer& player,
+		CGoal& inst);
 
 	
-	static VECTOR HitObject(VECTOR center,
+	static VECTOR HitPlayerToObject(VECTOR center,
 		float radius,
-		ObjectEditor&object
+		ObjectEditor&object,
+		CPlayer& player
 	);
 
+	//猫とオブジェクトの計算
+	static VECTOR HitCatToObject(VECTOR center,
+		float radius,
+		ObjectEditor& object
+	);
 
 	//プレイヤーの座標をマップ座標にして計算を行う
 	static VECTOR HitMap(

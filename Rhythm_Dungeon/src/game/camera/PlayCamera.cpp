@@ -13,6 +13,7 @@ static const float CAMERA_OFFSET_Y = 30.0f;		// 視点の高さ
 //-------------------------------
 CPlayCamera::CPlayCamera()
 {
+	
 }
 
 
@@ -32,10 +33,16 @@ void CPlayCamera::Step(CPlayer& player)
 	// プレイヤーが原点にいて、Y軸回転が0度である事を前提考える
 	float rot = player.GetRot().y;
 	VECTOR focus = player.GetPos();
+
+	focus.z = 40.0f;
 	// プレイヤーの回転角度にあわせて上記方向ベクトルを回転させる
 	VECTOR dir;
-	dir.x = sinf(rot) * CAMERA_LENGTH;
-	dir.z = cosf(rot) * CAMERA_LENGTH;
+	dir.x = 0.0f;
+	dir.z = - CAMERA_LENGTH;
+	 
+	//dir.x = /*sinf(rot) **/ CAMERA_LENGTH;
+	//dir.z = /*cosf(rot) **/ CAMERA_LENGTH;
+
 	// 視点の高さは固定
 	dir.y = CAMERA_OFFSET_Y;
 
@@ -48,6 +55,6 @@ void CPlayCamera::Step(CPlayer& player)
 
 	// 注視点はそのままカメラの位置
 	m_focus = focus;
-	m_focus.y += 30.0f;
+	m_focus.y = 10.0f;
 }
 

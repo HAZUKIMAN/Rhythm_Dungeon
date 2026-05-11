@@ -30,6 +30,8 @@ public:
 	inline VECTOR GetSpeed(void) { return m_speed; }
 	inline void SetSpeed(const VECTOR& speed) { m_speed = speed; }
 
+	virtual void AddPos(VECTOR Hit);
+
 	// “–‚½‚è”»’è‚Ég‚¤’†S‚ÌÀ•W
 	virtual VECTOR GetCenter();
 };

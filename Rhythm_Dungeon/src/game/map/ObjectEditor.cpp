@@ -3,10 +3,6 @@
 #include "../../lib/Input/Input.h"
 #include "../common.h"
 
-constexpr int MAP_W = 50;
-constexpr int MAP_H = 50;
-constexpr float TILE_SIZE = 5.0f;
-
 //コンストラクタ
 ObjectEditor::ObjectEditor()
 {

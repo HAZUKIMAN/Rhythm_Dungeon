@@ -47,3 +47,20 @@ VECTOR CActor::GetCenter()
 	return pos;
 }
 
+void  CActor::AddPos(VECTOR Hit)
+{
+	// ‰Ÿ‚µ–ß‚µ‚ª–³‚¯‚ê‚ÎI—¹
+	if (Hit.x == 0.0f &&
+		Hit.y == 0.0f &&
+		Hit.z == 0.0f) return;
+
+	// Œ»İˆÊ’u‚É‰Ÿ‚µ–ß‚µ‚ğ‰ÁZ
+	m_vPosition = VAdd(m_vPosition, Hit);
+
+	// °‚É–„‚Ü‚ç‚È‚¢‚æ‚¤ŒÅ’è
+	m_vPosition.y = 2.5f;
+
+	// ƒ‚ƒfƒ‹‚Ö”½‰f
+	MV1SetPosition(m_iModelHdl, m_vPosition);
+}
+

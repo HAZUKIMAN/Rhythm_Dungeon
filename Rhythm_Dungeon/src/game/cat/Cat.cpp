@@ -5,10 +5,11 @@
 #include "../../lib/Input/Input.h"
 #include "../Anime/Anime.h"
 #include "../common.h"
+#include "../../lib/math/MyMatrix.h"
 
 //	定義関連------------------------------
 static const float MOVE_SPEED = 1.0f;		// 移動速度
-static const float ROT_SPEED = 0.03f;		// 回転速度
+static const float ROT_SPEED = 0.1f;		// 回転速度
 static const float JUMP_POWER = 5.0f;		// ジャンプ力
 static const float GRAVITY = 0.1f;			// 重力
 static const float RADIUS = 5.0f;			// 当たり判定半径
@@ -78,7 +79,7 @@ void CCat::Step()
 		NormalExec();
 		break;
 	case PLAYER_STATE_JUMP:
-		JumpExec();
+		
 		break;
 	}
 
@@ -122,17 +123,11 @@ void CCat::Draw()
 void CCat::Move()
 {
 	//	重力処理
-	//m_speed.y -= GRAVITY;
+	m_speed.y -= GRAVITY;
 
 	// 移動速度加算
 	m_vPosition = VAdd(m_vPosition, m_speed);
 
-	/*if (m_vPosition.y < 1000.0f)
-	{
-		m_vPosition.y = 0.0f;
-		m_speed.y = 0.0f;
-		m_state = PLAYER_STATE_NORMAL;
-	}*/
 }
 
 
@@ -141,75 +136,87 @@ void CCat::Move()
 //-------------------------------
 void CCat::NormalExec()
 {
-	float speed = 0.0f;
-	if (Input::Key::Keep(KEY_INPUT_W))
-	{
-		speed = MOVE_SPEED;
-	}
-	if (Input::Key::Keep(KEY_INPUT_S))
-	{
-		speed = -MOVE_SPEED;
-	}
-	if (Input::Key::Keep(KEY_INPUT_D))
-	{
+	bool Hit = false;
+
+	// キャラクターの回転
+	if (Input::Key::Keep(KEY_INPUT_D)) {
 		m_vRotation.y += ROT_SPEED;
+		Hit = true;
 	}
-	if (Input::Key::Keep(KEY_INPUT_A))
-	{
+	else if (Input::Key::Keep(KEY_INPUT_A)) {
 		m_vRotation.y -= ROT_SPEED;
+		Hit = true;
 	}
 
-	// 移動したようであれば、移動用計算を行う
-	if (speed != 0.0f)
-	{
-		m_speed.x = sinf(m_vRotation.y) * -speed;
-		m_speed.z = cosf(m_vRotation.y) * -speed;
-	}
-	else
-	{
-		m_speed.x = m_speed.z = 0.0f;
-	}
+	// キャラクターの移動
+	float fSpd = 0.0f;
 
-	//// ジャンプ処理
-	//if (Input::Key::Push(KEY_INPUT_SPACE))
-	//{
-	//	m_speed.y = JUMP_POWER;
-	//	m_state = PLAYER_STATE_JUMP;
-	//}
+	if (Input::Key::Keep(KEY_INPUT_W)) {
+		fSpd = -MOVE_SPEED;
+		Hit = true;
+	}
+	else if (Input::Key::Keep(KEY_INPUT_S)) {
+		fSpd = MOVE_SPEED;
+		Hit = true;
+	}
+	if (Hit)
+	{
+		MATRIX ANGLE;
+
+		//プレイヤーの移動を三角形で-----------------
+		ANGLE = MyMatrix::GetYawMatrix(m_vRotation.y);
+		VECTOR v = VGet(0, 0, fSpd);
+		VECTOR ves = MyMatrix::MatTransform(ANGLE, v);
+		//計算した速度を座標に足し算する
+		m_vPosition = VAdd(m_vPosition, ves);
+
+		VECTOR v1 = VGet(10, 10, 0);
+		VECTOR Vc = MyMatrix::MatTransform(ANGLE, v1);
+	}
 }
 
-
-//-------------------------------
-//		ジャンプ中処理
-//-------------------------------
-void CCat::JumpExec()
+//---------------------------------
+// ブロック設置
+//---------------------------------
+void CCat::PlaceBlock(MapEditor& map)
 {
-	float speed = 0.0f;
-	if (Input::Key::Keep(KEY_INPUT_UP))
-	{
-		speed = MOVE_SPEED;
-	}
-	if (Input::Key::Keep(KEY_INPUT_DOWN))
-	{
-		speed = -MOVE_SPEED;
-	}
-	if (Input::Key::Keep(KEY_INPUT_RIGHT))
-	{
-		m_vRotation.y += ROT_SPEED;
-	}
-	if (Input::Key::Keep(KEY_INPUT_LEFT))
-	{
-		m_vRotation.y -= ROT_SPEED;
-	}
+	//---------------------------------
+	// 今いるマス
+	//---------------------------------
+	int mapX = (int)(m_vPosition.x / TILE_SIZE);
+	int mapZ = (int)(m_vPosition.z / TILE_SIZE);
 
-	// 移動したようであれば、移動用計算を行う
-	if (speed != 0.0f)
-	{
-		m_speed.x = sinf(m_vRotation.y) * -speed;
-		m_speed.z = cosf(m_vRotation.y) * -speed;
-	}
-	else
-	{
-		m_speed.x = m_speed.z = 0.0f;
-	}
+	//---------------------------------
+	// 向いている方向
+	//---------------------------------
+	int dirX = 0;
+	int dirZ = 0;
+
+	float rot = m_vRotation.y;
+
+	//---------------------------------
+	// 前方1マス
+	//---------------------------------
+	dirX = (int)roundf(-sinf(rot));
+	dirZ = (int)roundf(-cosf(rot));
+
+	//---------------------------------
+	// 設置位置
+	//---------------------------------
+	int placeX = mapX + dirX;
+	int placeZ = mapZ + dirZ;
+
+	//---------------------------------
+	// 範囲チェック
+	//---------------------------------
+	if (placeX < 0 || placeZ < 0)
+		return;
+
+	if (placeX >= MAP_W || placeZ >= MAP_H)
+		return;
+
+	//---------------------------------
+	// ブロック設置
+	//---------------------------------
+	map.SetMap(placeZ, placeX, 2);
 }

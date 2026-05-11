@@ -43,7 +43,7 @@ CPlayer::~CPlayer()
 void CPlayer::Init()
 {
 	m_state = PLAYER_STATE_NORMAL;
-	m_vRotation.y = DX_PI_F;
+	m_vRotation.y = -DX_PI_F / 2;
 	m_radius = RADIUS;
 	m_isActive = true;
 }
@@ -76,14 +76,14 @@ void CPlayer::Step()
 	switch (m_state)
 	{
 	case PLAYER_STATE_NORMAL:
-		NormalExec();
 		break;
 	case PLAYER_STATE_JUMP:
 		break;
 	}
 
 	Direction();
-	Move();
+	NormalExec();
+	//Move();
 }
 
 
@@ -113,7 +113,7 @@ void CPlayer::Move()
 	// 移動速度加算
 	m_vPosition = VAdd(m_vPosition, m_speed);
 
-	/*if (m_vPosition.y < 1000.0f)
+	/*if (m_vPosition.y < 0.0f)
 	{
 		m_vPosition.y = 0.0f;
 		m_speed.y = 0.0f;
@@ -127,21 +127,8 @@ void CPlayer::Move()
 //-------------------------------
 void CPlayer::NormalExec()
 {
-	float speed = 0.0f;
+	float speed = MOVE_SPEED;
 	
-	speed = MOVE_SPEED;
-	
-	m_vRotation.y = -DX_PI_F/2;//これは右を向いているとき
-
-	if (Input::Key::Keep(KEY_INPUT_D))
-	{
-		m_vRotation.y += ROT_SPEED;
-	}
-	if (Input::Key::Keep(KEY_INPUT_A))
-	{
-		m_vRotation.y -= ROT_SPEED;
-	}
-
 	// 移動したようであれば、移動用計算を行う
 	if (speed != 0.0f)
 	{
@@ -152,7 +139,6 @@ void CPlayer::NormalExec()
 	{
 		m_speed.x = m_speed.z = 0.0f;
 	}
-
 	//// ジャンプ処理
 	//if (Input::Key::Push(KEY_INPUT_SPACE))
 	//{
@@ -200,12 +186,40 @@ void CPlayer::Direction()
 	}
 }
 
-void  CPlayer::AddPos(VECTOR Hit)
+//void  CPlayer::AddPos(VECTOR Hit)
+//{
+//	// 押し戻しが無ければ終了
+//	if (Hit.x == 0.0f &&
+//		Hit.y == 0.0f &&
+//		Hit.z == 0.0f) return;
+//
+//	// 現在位置に押し戻しを加算
+//	m_vPosition = VAdd(m_vPosition, Hit);
+//
+//	// 床に埋まらないよう固定
+//	m_vPosition.y = 2.5f;
+//
+//	// モデルへ反映
+//	MV1SetPosition(m_iModelHdl, m_vPosition);
+//}
+
+void CPlayer::SetDirect(int dir)
 {
-	if (Hit.x == 0.0f && Hit.y == 0.0f && Hit.z == 0.0f)return;
-	VECTOR pos;
-	pos = Hit;
-	m_vPosition = VAdd(m_vPosition, pos);
-	MV1SetPosition(m_iModelHdl, pos);
-	m_vPosition.y = 0.0f;
+	switch (dir)
+	{
+	case 0:
+		direction = ROTATION_RIGHT;
+		break;
+	case 1:
+		direction = ROTATION_DOWN;
+		break;
+	case 2:
+		direction = ROTATION_LEFT;
+		break;
+	case 3:
+		direction = ROTATION_DOWN;
+		break;
+	default:
+		break;
+	}
 }

@@ -2,11 +2,27 @@
 #include <DxLib.h>
 #include <vector>
 #include "ObjectEditor.h"
+#include "../common.h"
+
+
+
 
 
 class MapEditor
 {
+private:
+
+	enum TileType {
+		TILE_NONE  = 0,
+		TILE_FLOOR = 1,
+		TILE_WALL  = 2
+	};
+
 public:
+
+	
+
+	TileType map[MAP_H][MAP_W];
 
 	int m_iModelHdl;		//ステージのモデルハンドル
 	int m_iModelHdl_Wall;	//ステージ用モデルの壁
@@ -40,11 +56,12 @@ public:
 	bool GetGridPos(VECTOR hitPos, int* _x, int* _z);
 	//選択しているマスを赤く表示する
 	void DrawSelectedTile();
-	
-
-	inline int GetHndl(){ return m_iModelHdl; };
-
+	//
 	int GetMap(int z, int x)const;
+	// マップ設定
+	void SetMap(int z, int x, int value);
+
+	void BuildInstances();					//インスタンスの生成用
 
 private:
 
@@ -59,13 +76,9 @@ private:
 	//インスタンス確保
 	std::vector<Instance> instances;
 
-	void BuildInstances();					//インスタンスの生成用
 	
-	//当たり判定処理
-	//@center :当たり判定をする相手の座標
-	//@radius :相手を球として判定するのでその半径
-	//@return :押し戻す方向&距離
-	VECTOR	HitCheck(VECTOR start, VECTOR end);
+
+	
 
 	//グリッドは位置情報の管理のしやすさとマウスを使用したレイキャストを使用したかったため（岡松対策）
 	//バイナリを使用した理由データの軽量化テキストよりバイナリの方が軽くて高速：セーブとか使用したかったのでコンパクトの方がよかった。

@@ -1,21 +1,7 @@
 #include"MapEditor.h"
 #include <corecrt_math.h>
-#include "../common.h"
 #include "../../lib/Input/Input.h"
 
-constexpr int MAP_W = 50;
-constexpr int MAP_H = 50;
-constexpr float WALL_HIGHT = 5.0f;
-
-constexpr float TILE_SIZE = 5.0f;
-
-enum TileType {
-    TILE_NONE,
-    TILE_FLOOR,
-    TILE_WALL
-};
-
-TileType map[MAP_H][MAP_W];
 
 // コンストラクタ
 MapEditor::MapEditor()
@@ -348,4 +334,13 @@ int MapEditor::GetMap(int z, int x)const
 {
     return map[z][x];
 }
+
+//--------------------------------
+// マップ設定
+//--------------------------------
+void MapEditor::SetMap(int z, int x, int value)
+{
+    map[z][x] = (TileType)value;
+}
+
 

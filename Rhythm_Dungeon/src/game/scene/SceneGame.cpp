@@ -6,13 +6,12 @@
 #include "../../lib/Input/Input.h"
 
 
-constexpr float TILE_SIZE = 5.0f;
-
 //-------------------------------
 //		コンストラクタ
 //-------------------------------
 CSceneGame::CSceneGame()
 {
+	move_box = NONE;
 }
 
 
@@ -43,8 +42,10 @@ void CSceneGame::Init()
 	m_institem.Init();
 	// 背景初期化
 	m_backgroundManager.Init();
+	//ゴール
+	m_goal.Init();
 
-	m_mapeditor.Init();
+	m_mapedit.Init();
 	m_objEditor.Init();
 }
 
@@ -58,8 +59,7 @@ void CSceneGame::Load()
 	m_player.Load();
 	m_cat.Load();
 	//m_shotManager.Load();
-
-	m_mapeditor.Load();
+	m_mapedit.Load();
 	m_objEditor.Load();
 
 
@@ -77,9 +77,12 @@ int CSceneGame::Step()
 	//else if (m_destroyCnt >= CLEAR_NUMBER)
 	//	ret = SCENEID_CLEAR;
 
-	if (Input::Key::Push(KEY_INPUT_Z))
-		ret = SCENEID_GAMEOVER;
-
+	////ゴールとプレイヤーの判定
+	//if (CCollisionManager::CheckHitPlayerToGoal(m_player, m_goal))
+	//{
+	//	ret = SCENEID_GAMEOVER;
+	//}
+		
 
 	if (Input::Key::Push(KEY_INPUT_R))
 	{
@@ -104,7 +107,6 @@ int CSceneGame::Step()
 			if (obj.type == OBJ_ENEMY)
 			{
 				float gridSize = 5.0f;
-
 				m_cat.SetPos(VGet(obj.x * gridSize + 2.5f, 10.0f, obj.z * gridSize + 2.5f));//2.5fはマスの真ん中に持っていくよう
 			}
 			if (obj.type == OBJ_ITEM)
@@ -116,6 +118,15 @@ int CSceneGame::Step()
 				VECTOR vec = VGet(worldpos_x, 5.0f, worldpos_z);
 				m_institem.SetPos(vec);
 				
+			}
+			if (obj.type == OBJ_GOAL)
+			{
+				float gridSize = 5.0f;
+				float worldpos_x = obj.x * gridSize + 2.5f;
+				float worldpos_z = obj.z * gridSize + 2.5f;
+
+				VECTOR vec = VGet(worldpos_x, 5.0f, worldpos_z);
+				m_goal.SetPos(vec);
 			}
 		}
 	}
@@ -134,15 +145,18 @@ void CSceneGame::Draw()
 	m_player.Draw();
 	m_cat.Draw();
 	m_institem.Draw();
-	m_mapeditor.Draw();
+	
+	m_goal.Draw();		//ゴール
+	m_mapedit.Draw();
 	m_objEditor.Draw();
+
 	//m_enemyManager.Draw();
 	//m_shotManager.Draw();*/
 
 	//カメラの切り替え表示
 	DrawFormatString(1200,20,WHITE,"デバックカメラ切り替え処理:Key C \nエディターカメラ切り替え処理:Key B\nプレイカメラへの切り替え:key V");
 
-	DrawFormatString(700, 100, RED, "プレイヤーのＸ軸：%f", m_player.GetPos().x);
+	DrawFormatString(700, 100, RED, "プレイヤーのＸ軸：%f\n プレイヤーのY軸：%f\nプレイヤーのZ軸：%f", m_player.GetPos().x, m_player.GetPos().y, m_player.GetPos().z);
 }
 
 
@@ -155,7 +169,7 @@ void CSceneGame::Fin()
 	m_player.Fin();
 	m_cat.Fin();
 	m_backgroundManager.Fin();
-	m_mapeditor.Fin();
+	m_mapedit.Fin();
 	m_objEditor.Fin();
 	/*m_enemyManager.Fin();
 	m_shotManager.Fin();
@@ -174,29 +188,70 @@ void CSceneGame::Calc()
 		m_player.Step();
 		// 猫の更新処理
 		m_cat.Step();
-		// ショット更新
-		//m_shotManager.Step();
-		// 背景更新
-		//m_backgroundManager.Step();
-		// 当たり判定処理
-		/*m_destroyCnt += CCollisionManager::CheckHitShotToEnemy(m_enemyManager, m_shotManager);*/
+		
+		//--------------------------------------------
+		//		猫がボックスを運ぶかどうかの判定
+		//--------------------------------------------
+		VECTOR Memo = VGet(0, 0, 0);
+		//1回差をとります//正規化//アークタンジェント
+		Memo = VSub(m_cat.GetPos(), m_institem.GetPos());
+		if (VSize(Memo) > 5.0f) {
+			if (Input::Key::Keep(KEY_INPUT_J))
+			{
+				move_box = CARRY;
+			}
+		}
+		if (move_box == CARRY)
+		{
+			
+		}
+		
+		if (Input::Key::Push(KEY_INPUT_G))
+			m_cat.PlaceBlock(m_mapedit);
 
-		m_collision.CheckHitPlayerToCat(m_player, m_cat);
 
+		//ボックスとプレイヤーの当たり判定
+		CCollisionManager::CheckHitPlayerToBlock(m_player, m_institem);
+
+		//-------------------------------------
+		//  プレイヤーと床と壁との当たり判定
+		//-------------------------------------
 		m_player.AddPos(CCollisionManager::HitMap(
 			m_player.GetCenter(),
-			1.0f,
-			m_mapeditor
+			2.0f,
+			m_mapedit
 		));
 
-		//ステージとプレーヤーの床判定
-		VECTOR push = m_collision.HitObject(
-			m_player.GetPos(),
-			1.0f,
-			m_objEditor
-		);
-		m_player.AddPos(push);
+		//-------------------------------------
+		//  猫と床と壁との当たり判定
+		//-------------------------------------
+		m_cat.AddPos(CCollisionManager::HitMap(
+			m_cat.GetCenter(),
+			2.0f,
+			m_mapedit
+		));
 
+		
+		////------------------------------------------------
+		////	マップにあるオブジェクトとプレーヤーの床判定
+		////------------------------------------------------
+		//VECTOR push = CCollisionManager::HitPlayerToObject(
+		//	m_player.GetPos(),
+		//	2.0f,
+		//	m_objEditor,
+		//	m_player
+		//);
+		//m_player.AddPos(push);
+
+		////------------------------------------------------
+		////		マップにあるオブジェクトと猫の床判定
+		////------------------------------------------------
+		//VECTOR cat_push = CCollisionManager::HitCatToObject(
+		//	m_cat.GetPos(),
+		//	2.0f,
+		//	m_objEditor
+		//);
+		//m_cat.AddPos(cat_push);
 
 		// 各種更新
 		m_player.Update();
@@ -204,16 +259,12 @@ void CSceneGame::Calc()
 		m_cat.Update();
 		//アイテムの更新処理
 		m_institem.Update();
-		/*m_enemyManager.Update();
-		m_shotManager.Update();
-		m_backgroundManager.Update();*/
-
 	}
 
 	if (m_cameraManager.GetCameraID() == CCameraManager::CAMERA_ID_EDITOR)
 	{
-		m_mapeditor.Step();
-		m_mapeditor.Update();
+		m_mapedit.Step();
+		m_mapedit.Update();
 		m_objEditor.Step();
 		m_objEditor.Update();
 	}

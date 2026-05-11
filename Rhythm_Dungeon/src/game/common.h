@@ -48,6 +48,12 @@ static constexpr int COMBO_Y = WINDOW_HEIGHT_HALF - 90;
 static constexpr int COMBO_SIZE_X = 12;
 static constexpr int COMBO_SIZE_Y = 24;
 
+//マップエディター関連
+constexpr int MAP_W = 50;
+constexpr int MAP_H = 50;
+constexpr float WALL_HIGHT = 5.0f;
+constexpr float TILE_SIZE = 5.0f;
+
 //色(代入する値が定数でないためconstを使用)
 static const UnInt WHITE = GetColor(255, 255, 255);			//白
 static const UnInt RED	 = GetColor(255,   0,   0);			//赤

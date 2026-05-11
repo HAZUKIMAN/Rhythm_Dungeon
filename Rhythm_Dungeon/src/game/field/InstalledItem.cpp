@@ -13,7 +13,7 @@ CInstalledItem::~CInstalledItem(){
 void CInstalledItem::Init() {
 	m_vPosition = VGet(0.0f, 0.0f, 0.0f);
 	m_iModelHdl = MV1LoadModel("Data/object/stage/Wall.mv1");
-	VECTOR size = VGet(0.05f, 0.05f, 0.05f);
+	VECTOR size = VGet(0.03f, 0.03f, 0.03f);
 
 	//コリジョン情報
 	MV1SetPosition(m_iModelHdl, m_vPosition);
@@ -21,6 +21,12 @@ void CInstalledItem::Init() {
 	MV1SetupCollInfo(m_iModelHdl);
 	m_isHitFlag = false;
 	
+}
+//更新処理
+void CInstalledItem::Update()
+{
+	// モデルへ反映
+	MV1SetPosition(m_iModelHdl, m_vPosition);
 }
 
 // 描画

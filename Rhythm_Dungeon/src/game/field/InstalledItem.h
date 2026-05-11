@@ -2,6 +2,8 @@
 #include "../Object/Object.h"
 
 class CInstalledItem : public CObject {
+private:
+	
 public:
 
 	bool m_isHitFlag;	// ヒットしているかどうかを判断(通常はいらない)
@@ -12,6 +14,8 @@ public:
 
 	// 初期化
 	void Init();
+	//更新処理
+	void Update();
 	// 描画
 	void Draw();
 

@@ -82,6 +82,9 @@
     <Filter Include="ソース ファイル\game\NewFilter1">
       <UniqueIdentifier>{6172c72a-1593-4a45-9854-9801d0e9b6f1}</UniqueIdentifier>
     </Filter>
+    <Filter Include="ソース ファイル\game\field\Goal">
+      <UniqueIdentifier>{14c1304c-b0b8-4700-93ca-81c8da740456}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\Main.cpp">
@@ -179,6 +182,15 @@
     </ClCompile>
     <ClCompile Include="src\game\field\InstalledItem.cpp">
       <Filter>ソース ファイル\game\field\Installed item</Filter>
+    </ClCompile>
+    <ClCompile Include="src\lib\math\myMath.cpp">
+      <Filter>ソース ファイル\lib\math</Filter>
+    </ClCompile>
+    <ClCompile Include="src\lib\math\MyMatrix.cpp">
+      <Filter>ソース ファイル\lib\math</Filter>
+    </ClCompile>
+    <ClCompile Include="src\game\field\Goal.cpp">
+      <Filter>ソース ファイル\game\field\Goal</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -280,6 +292,15 @@
     </ClInclude>
     <ClInclude Include="src\game\field\InstalledItem.h">
       <Filter>ソース ファイル\game\field\Installed item</Filter>
+    </ClInclude>
+    <ClInclude Include="src\lib\math\myMath.h">
+      <Filter>ソース ファイル\lib\math</Filter>
+    </ClInclude>
+    <ClInclude Include="src\lib\math\MyMatrix.h">
+      <Filter>ソース ファイル\lib\math</Filter>
+    </ClInclude>
+    <ClInclude Include="src\game\field\Goal.h">
+      <Filter>ソース ファイル\game\field\Goal</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

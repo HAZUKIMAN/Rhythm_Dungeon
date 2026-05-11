@@ -155,6 +155,7 @@
     <ClCompile Include="src\game\effect\effekseer.cpp" />
     <ClCompile Include="src\game\field\BackGroundManager.cpp" />
     <ClCompile Include="src\game\field\Field.cpp" />
+    <ClCompile Include="src\game\field\Goal.cpp" />
     <ClCompile Include="src\game\field\InstalledItem.cpp" />
     <ClCompile Include="src\game\field\Sky.cpp" />
     <ClCompile Include="src\game\map\MapEditor.cpp" />
@@ -173,6 +174,8 @@
     <ClCompile Include="src\lib\frame\Frame.cpp" />
     <ClCompile Include="src\lib\Input\Input.cpp" />
     <ClCompile Include="src\lib\math\Hit.cpp" />
+    <ClCompile Include="src\lib\math\myMath.cpp" />
+    <ClCompile Include="src\lib\math\MyMatrix.cpp" />
     <ClCompile Include="src\lib\math\Vector.cpp" />
     <ClCompile Include="src\Main.cpp" />
   </ItemGroup>
@@ -190,6 +193,7 @@
     <ClInclude Include="src\game\effect\effekseer.h" />
     <ClInclude Include="src\game\field\BackGroundManager.h" />
     <ClInclude Include="src\game\field\Field.h" />
+    <ClInclude Include="src\game\field\Goal.h" />
     <ClInclude Include="src\game\field\InstalledItem.h" />
     <ClInclude Include="src\game\field\Sky.h" />
     <ClInclude Include="src\game\map\MapEditor.h" />
@@ -209,6 +213,8 @@
     <ClInclude Include="src\lib\frame\Frame.h" />
     <ClInclude Include="src\lib\Input\Input.h" />
     <ClInclude Include="src\lib\math\Hit.h" />
+    <ClInclude Include="src\lib\math\myMath.h" />
+    <ClInclude Include="src\lib\math\MyMatrix.h" />
     <ClInclude Include="src\lib\math\Vector.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

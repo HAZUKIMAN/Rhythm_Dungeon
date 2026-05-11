@@ -17,9 +17,9 @@ private:
 	enum tagDirection
 	{
 		ROTATION_RIGHT,
+		ROTATION_DOWN,
 		ROTATION_LEFT,
 		ROTATION_UP,
-		ROTATION_DOWN,
 	};
 
 	tagDirection direction;
@@ -43,8 +43,9 @@ public:
 	// •`‰æˆ—
 	void Draw() override;
 
-	void AddPos(VECTOR Hit);
+	void SetDirect(int dir);
 
+	int  GetDirect() { return direction; }
 private:
 	// ˆÚ“®Šp“xˆ—
 	void Direction();
