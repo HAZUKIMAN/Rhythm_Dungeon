@@ -54,7 +54,7 @@ void CPlayer::Init()
 //-------------------------------
 void CPlayer::Load()
 {
-	VECTOR size = VGet(0.01f, 0.01f, 0.01f);
+	VECTOR size = VGet(0.015f, 0.015f, 0.015f);
 
 	int hndl= MV1LoadModel(PLAYER_MODEL_PATH);
 

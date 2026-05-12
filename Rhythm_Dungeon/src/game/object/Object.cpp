@@ -62,6 +62,10 @@ void CObject::Fin()
 void CObject::SetPos(VECTOR pos)
 {
 	m_vPosition = pos;
+	MV1SetPosition(
+		m_iModelHdl,
+		m_vPosition
+	);
 }
 
 

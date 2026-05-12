@@ -50,6 +50,7 @@ private:
 		OBJ_ENEMY,
 		OBJ_ITEM,
 		OBJ_GOAL,
+		OBJ_PUT_BOX,
 	};
 
 	enum tagMove

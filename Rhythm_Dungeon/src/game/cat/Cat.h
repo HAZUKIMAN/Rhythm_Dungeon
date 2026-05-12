@@ -19,13 +19,15 @@ public:
 private:
 	tagCatState m_state;	// プレイヤーの状態
 
-	enum ObjectType
-	{
+	enum ObjectType {
+		OBJ_NONE,
 		OBJ_PLAYER,
 		OBJ_ENEMY,
 		OBJ_ITEM,
-		OBJ_BLOCK
+		OBJ_GOAL,
+		OBJ_PUT_BOX,
 	};
+
 
 public:
 	// コンストラクタ・デストラクタ

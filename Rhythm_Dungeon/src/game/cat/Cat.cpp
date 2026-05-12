@@ -200,6 +200,8 @@ void CCat::PlaceBlock(ObjectEditor& objEditor)
 	objEditor.AddObject(
 		placeX,
 		placeZ,
-		OBJ_BLOCK
+		OBJ_PUT_BOX
 	);
+
+
 }

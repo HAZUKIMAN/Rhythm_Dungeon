@@ -254,19 +254,23 @@ void ObjectEditor::DrawObjects()
         switch (obj.type) {
 
         case OBJ_PLAYER:
-            DrawSphere3D(pos, 1.5f, 16, GetColor(0, 0, 255), GetColor(0, 0, 255), TRUE);
+            DrawSphere3D(pos, 1.5f, 16, BLUE, BLUE, TRUE);
             break;
 
         case OBJ_ENEMY:
-            DrawSphere3D(pos, 1.5f, 16, GetColor(255, 0, 0), GetColor(255, 0, 0), TRUE);
+            DrawSphere3D(pos, 1.5f, 16, RED, RED, TRUE);
             break;
 
         case OBJ_ITEM:
-            DrawSphere3D(pos, 1.0f, 16, GetColor(0, 255, 0), GetColor(0, 255, 0), TRUE);
+            DrawSphere3D(pos, 1.0f, 16, GREEN, GREEN, TRUE);
             break;
         case OBJ_GOAL:
             DrawSphere3D(pos, 1.0f, 16, GetColor(0, 255, 255), GetColor(0, 255, 255), TRUE);
             break;
+        
+        case OBJ_PUT_BOX:
+            DrawSphere3D(pos, 1.0f, 16, PINKU, PINKU, TRUE);
+          break;
         }
     }
 }

@@ -39,11 +39,14 @@ public:
 		OBJ_ENEMY,
 		OBJ_ITEM,
 		OBJ_GOAL,
+		OBJ_PUT_BOX,
 	};
 
 	ObjectType objstate;
 
 	void AddObject(int x, int z, int type);	//設置処理
+	void RemoveObject(int x, int z);		//削除処理
+
 private:
 
 	//マップのセーブ
@@ -53,9 +56,6 @@ private:
 
 	bool IsObjectAt(int x, int z);			//置く前にチェック
 
-	//void AddObject(int x, int z, int type);	//設置処理
-
-	void RemoveObject(int x, int z);		//削除処理
 	void DrawObjects();
 	//マウスの当たり判定の取得
 	bool GetMouseHitPosition(VECTOR* outPos);

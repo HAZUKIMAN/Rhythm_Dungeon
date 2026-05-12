@@ -90,42 +90,43 @@ int CSceneGame::Step()
 
 		printf("size = %d\n", (int)objs.size());
 
-		/*enum ObjectType {
-			OBJ_NONE,
-			OBJ_PLAYER,
-			OBJ_ENEMY,
-			OBJ_ITEM,
-			OBJ_GOAL,
-		};*/
 		for (const auto& obj : objs) {
+
+
 			if (obj.type == OBJ_PLAYER)
 			{
 				float gridSize = 5.0f;
+				float worldpos_x = (obj.x + 0.5f) * TILE_SIZE;
+				float worldpos_z = (obj.z + 0.5f) * TILE_SIZE;
 
-				m_player.SetPos(VGet(obj.x * gridSize + 2.5f , 10.0f,obj.z * gridSize + 2.5f));//2.5fはマスの真ん中に持っていくよう
+				m_player.SetPos(VGet(worldpos_x, gridSize, worldpos_z));//2.5fはマスの真ん中に持っていくよう
 			}
 			if (obj.type == OBJ_ENEMY)
 			{
 				float gridSize = 5.0f;
-				m_cat.SetPos(VGet(obj.x * gridSize + 2.5f, 10.0f, obj.z * gridSize + 2.5f));//2.5fはマスの真ん中に持っていくよう
+				float worldpos_x = (obj.x + 0.5f) * TILE_SIZE;
+				float worldpos_z = (obj.z + 0.5f) * TILE_SIZE;
+
+				m_cat.SetPos(VGet(worldpos_x, gridSize, worldpos_z));//2.5fはマスの真ん中に持っていくよう
 			}
 			if (obj.type == OBJ_ITEM)
 			{
 				float gridSize = 5.0f;
-				float worldpos_x = obj.x * gridSize + 2.5f;
-				float worldpos_z = obj.z * gridSize + 2.5f;
 
-				VECTOR vec = VGet(worldpos_x, 5.0f, worldpos_z);
+				float worldpos_x = (obj.x + 0.5f) * TILE_SIZE;
+				float worldpos_z = (obj.z + 0.5f) * TILE_SIZE;
+
+				VECTOR vec = VGet(worldpos_x, gridSize, worldpos_z);
 				m_institem.SetPos(vec);
 				
 			}
 			if (obj.type == OBJ_GOAL)
 			{
 				float gridSize = 5.0f;
-				float worldpos_x = obj.x * gridSize + 2.5f;
-				float worldpos_z = obj.z * gridSize + 2.5f;
+				float worldpos_x = (obj.x + 0.5f) * TILE_SIZE;
+				float worldpos_z = (obj.z + 0.5f) * TILE_SIZE;
 
-				VECTOR vec = VGet(worldpos_x, 5.0f, worldpos_z);
+				VECTOR vec = VGet(worldpos_x, gridSize, worldpos_z);
 				m_goal.SetPos(vec);
 			}
 		}
@@ -201,13 +202,38 @@ void CSceneGame::Calc()
 				move_box = CARRY;
 			}
 		}
+
 		if (move_box == CARRY)
 		{
-			
+			VECTOR vec = VGet( m_cat.GetPos().x, 5.0f, m_cat.GetPos().z );
+			m_institem.SetPos(vec);
+
+			if (Input::Key::Push(KEY_INPUT_G))
+			{
+				m_cat.PlaceBlock(m_objEditor);
+
+				auto& objs = m_objEditor.GetObjects();
+
+				for (const auto& obj : objs) {
+
+					if (obj.type == OBJ_PUT_BOX)
+					{
+						float gridSize = 3.0f;
+
+						float worldX = (obj.x + 0.5f) * TILE_SIZE;
+						float worldZ = (obj.z + 0.5f) * TILE_SIZE;
+
+						m_institem.SetPos(VGet(worldX, gridSize, worldZ));//2.5fはマスの真ん中に持っていくよう
+
+						m_objEditor.RemoveObject(obj.x, obj.z);
+					}
+					
+				}
+				move_box = NONE;
+			}
 		}
 		
-		if (Input::Key::Push(KEY_INPUT_G))
-			m_cat.PlaceBlock(m_objEditor);
+		
 
 
 		//ボックスとプレイヤーの当たり判定
