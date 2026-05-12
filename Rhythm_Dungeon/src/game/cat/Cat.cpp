@@ -178,45 +178,28 @@ void CCat::NormalExec()
 //---------------------------------
 // ブロック設置
 //---------------------------------
-void CCat::PlaceBlock(MapEditor& map)
+void CCat::PlaceBlock(ObjectEditor& objEditor)
 {
-	//---------------------------------
-	// 今いるマス
-	//---------------------------------
 	int mapX = (int)(m_vPosition.x / TILE_SIZE);
 	int mapZ = (int)(m_vPosition.z / TILE_SIZE);
 
-	//---------------------------------
-	// 向いている方向
-	//---------------------------------
-	int dirX = 0;
-	int dirZ = 0;
-
 	float rot = m_vRotation.y;
 
-	//---------------------------------
-	// 前方1マス
-	//---------------------------------
-	dirX = (int)roundf(-sinf(rot));
-	dirZ = (int)roundf(-cosf(rot));
+	int dirX = (int)roundf(-sinf(rot));
+	int dirZ = (int)roundf(-cosf(rot));
 
-	//---------------------------------
-	// 設置位置
-	//---------------------------------
 	int placeX = mapX + dirX;
 	int placeZ = mapZ + dirZ;
 
-	//---------------------------------
-	// 範囲チェック
-	//---------------------------------
 	if (placeX < 0 || placeZ < 0)
 		return;
 
 	if (placeX >= MAP_W || placeZ >= MAP_H)
 		return;
 
-	//---------------------------------
-	// ブロック設置
-	//---------------------------------
-	map.SetMap(placeZ, placeX, 2);
+	objEditor.AddObject(
+		placeX,
+		placeZ,
+		OBJ_BLOCK
+	);
 }

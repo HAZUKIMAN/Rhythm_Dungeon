@@ -170,29 +170,6 @@ void ObjectEditor::SaveMap(const char* filename)
 //マップの読み込み
 void ObjectEditor::LoadMap(const char* filename)
 {
-   /* FILE* fp;
-
-    fopen_s(&fp, filename, "rb");
-
-    if (fp == NULL) return;
-
-    objects.clear();
-
-    int objCount;
-    fread(&objCount, sizeof(int), 1, fp);
-
-    for (int i = 0; i < objCount; i++) {
-        Object obj;
-
-        fread(&obj.x, sizeof(int), 1, fp);
-        fread(&obj.z, sizeof(int), 1, fp);
-        fread(&obj.type, sizeof(int), 1, fp);
-        fread(&obj.rotY, sizeof(float), 1, fp);
-
-        objects.push_back(obj);
-    }
-
-    fclose(fp);*/
 
     FILE* fp;
 
@@ -218,7 +195,6 @@ void ObjectEditor::LoadMap(const char* filename)
 
     fclose(fp);
 
-    //BuildInstances();
 }
 
 
@@ -337,6 +313,7 @@ bool ObjectEditor::GetMouseHitPosition(VECTOR* outPos)
 
     return true;
 }
+
 
 //---------------------------------
 //         グリッドの取得

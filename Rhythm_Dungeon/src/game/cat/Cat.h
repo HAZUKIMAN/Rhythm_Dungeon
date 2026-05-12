@@ -7,6 +7,7 @@
 class CCat : public CActor
 {
 public:
+
 	enum tagCatState {
 		PLAYER_STATE_NORMAL,	// 待機
 		PLAYER_STATE_RUN,		// 歩き中
@@ -18,10 +19,12 @@ public:
 private:
 	tagCatState m_state;	// プレイヤーの状態
 
-	enum TileType {
-		TILE_NONE  = 0,
-		TILE_FLOOR = 1,
-		TILE_WALL  = 2
+	enum ObjectType
+	{
+		OBJ_PLAYER,
+		OBJ_ENEMY,
+		OBJ_ITEM,
+		OBJ_BLOCK
 	};
 
 public:
@@ -38,8 +41,8 @@ public:
 	void Step();
 	// 描画処理
 	void Draw() override;
-
-	void PlaceBlock(MapEditor& map);
+	//ブロックの設置
+	void PlaceBlock(ObjectEditor& objEditor);
 
 private:
 	// 移動計算結果を反映

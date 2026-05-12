@@ -11,26 +11,19 @@ class CObjectEditor;
 //--------------------------------------
 // オブジェクト種類
 //--------------------------------------
-enum ObjectType
-{
-	OBJ_PLAYER,
-	OBJ_ENEMY,
-	OBJ_ITEM,
-	OBJ_BLOCK
-};
-
-//--------------------------------------
-// オブジェクト情報
-//--------------------------------------
-struct Object
-{
-	int x;
-	int z;
-	int type;
-};
 
 class CCollisionManager
 {
+private:
+
+	enum ObjectType
+	{
+		OBJ_PLAYER,
+		OBJ_ENEMY,
+		OBJ_ITEM,
+		OBJ_BLOCK
+	};
+
 public:
 
 	static int m_time;

@@ -207,7 +207,7 @@ void CSceneGame::Calc()
 		}
 		
 		if (Input::Key::Push(KEY_INPUT_G))
-			m_cat.PlaceBlock(m_mapedit);
+			m_cat.PlaceBlock(m_objEditor);
 
 
 		//ボックスとプレイヤーの当たり判定

@@ -25,24 +25,6 @@ public:
 	// 終了処理
 	void Fin();
 
-
-private:
-
-	//マップのセーブ
-	void SaveMap(const char* filename);
-	//マップの読み込み
-	void LoadMap(const char* filename);
-
-	bool IsObjectAt(int x, int z);			//置く前にチェック
-	void AddObject(int x, int z, int type);	//設置処理
-	void RemoveObject(int x, int z);		//削除処理
-	void DrawObjects();
-	//マウスの当たり判定の取得
-	bool GetMouseHitPosition(VECTOR* outPos);
-	//グリッドの取得
-	bool GetGridPos(VECTOR hitPos, int* _x, int* _z);
-
-
 	struct Object {
 		int x, z;
 		int type;
@@ -60,6 +42,26 @@ private:
 	};
 
 	ObjectType objstate;
+
+	void AddObject(int x, int z, int type);	//設置処理
+private:
+
+	//マップのセーブ
+	void SaveMap(const char* filename);
+	//マップの読み込み
+	void LoadMap(const char* filename);
+
+	bool IsObjectAt(int x, int z);			//置く前にチェック
+
+	//void AddObject(int x, int z, int type);	//設置処理
+
+	void RemoveObject(int x, int z);		//削除処理
+	void DrawObjects();
+	//マウスの当たり判定の取得
+	bool GetMouseHitPosition(VECTOR* outPos);
+	//グリッドの取得
+	bool GetGridPos(VECTOR hitPos, int* _x, int* _z);
+
 
 public:
 	//場所の取得
