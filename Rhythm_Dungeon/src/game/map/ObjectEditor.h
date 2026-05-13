@@ -26,7 +26,7 @@ public:
 	void Fin();
 
 	struct Object {
-		int x, z;
+		int x, z, y;
 		int type;
 		float rotY;   // 向き
 	};
@@ -44,17 +44,19 @@ public:
 
 	ObjectType objstate;
 
-	void AddObject(int x, int z, int type);	//設置処理
-	void RemoveObject(int x, int z);		//削除処理
+	void AddObject(int x, int y, int z, int type);	//設置処理
+	void RemoveObject(int x, int y, int z);			//削除処理
+
+	bool IsObjectAt(int x, int y, int z);			//置く前にチェック
 
 private:
+	//置く位置を見やすくするもの
+	void DrawSelectedTile();
 
 	//マップのセーブ
 	void SaveMap(const char* filename);
 	//マップの読み込み
 	void LoadMap(const char* filename);
-
-	bool IsObjectAt(int x, int z);			//置く前にチェック
 
 	void DrawObjects();
 	//マウスの当たり判定の取得
@@ -62,7 +64,7 @@ private:
 	//グリッドの取得
 	bool GetGridPos(VECTOR hitPos, int* _x, int* _z);
 
-
+	int m_currentY;
 public:
 	//場所の取得
 	const std::vector<Object>& GetObjects() const;

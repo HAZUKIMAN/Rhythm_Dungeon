@@ -51,6 +51,7 @@ static constexpr int COMBO_SIZE_Y = 24;
 //マップエディター関連
 constexpr int MAP_W = 50;
 constexpr int MAP_H = 50;
+constexpr int MAP_Y = 10;
 constexpr float WALL_HIGHT = 5.0f;
 constexpr float TILE_SIZE = 5.0f;
 
@@ -59,4 +60,6 @@ static const UnInt WHITE = GetColor(255, 255, 255);			//白
 static const UnInt RED	 = GetColor(255,   0,   0);			//赤
 static const UnInt BLUE  = GetColor(  0,   0, 255);			//青
 static const UnInt GREEN = GetColor(  0, 255,   0);			//緑
-static const UnInt PINKU = GetColor(255, 100, 1000);		//ピンク
+static const UnInt YELLOW= GetColor(  0, 255, 255);			//黄色	
+static const UnInt PINKU = GetColor(255, 100, 100);			//ピンク
+static const UnInt GRAY  = GetColor(180, 180, 180);			//グレー

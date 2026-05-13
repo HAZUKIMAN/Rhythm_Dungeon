@@ -221,11 +221,12 @@ void CSceneGame::Calc()
 						float gridSize = 3.0f;
 
 						float worldX = (obj.x + 0.5f) * TILE_SIZE;
+						float worldY = (obj.y + 0.5f) * TILE_SIZE;
 						float worldZ = (obj.z + 0.5f) * TILE_SIZE;
 
-						m_institem.SetPos(VGet(worldX, gridSize, worldZ));//2.5fはマスの真ん中に持っていくよう
+						m_institem.SetPos(VGet(worldX, worldY, worldZ));//2.5fはマスの真ん中に持っていくよう
 
-						m_objEditor.RemoveObject(obj.x, obj.z);
+						m_objEditor.RemoveObject(obj.x, obj.y, obj.z);
 					}
 					
 				}
@@ -242,20 +243,12 @@ void CSceneGame::Calc()
 		//-------------------------------------
 		//  プレイヤーと床と壁との当たり判定
 		//-------------------------------------
-		m_player.AddPos(CCollisionManager::HitMap(
-			m_player.GetCenter(),
-			2.0f,
-			m_mapedit
-		));
+		m_player.AddPos(CCollisionManager::HitMap(m_player.GetCenter(),2.0f,m_mapedit));
 
 		//-------------------------------------
 		//  猫と床と壁との当たり判定
 		//-------------------------------------
-		m_cat.AddPos(CCollisionManager::HitMap(
-			m_cat.GetCenter(),
-			2.0f,
-			m_mapedit
-		));
+		m_cat.AddPos(CCollisionManager::HitMap(m_cat.GetCenter(),2.0f,m_mapedit));
 
 		
 		////------------------------------------------------

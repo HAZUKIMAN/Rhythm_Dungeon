@@ -108,7 +108,7 @@ void CPlayer::Draw()
 void CPlayer::Move()
 {
 	//	d—Íˆ—
-	m_speed.y -= GRAVITY;
+	//m_speed.y -= GRAVITY;
 
 	// ˆÚ“®‘¬“x‰ÁZ
 	m_vPosition = VAdd(m_vPosition, m_speed);

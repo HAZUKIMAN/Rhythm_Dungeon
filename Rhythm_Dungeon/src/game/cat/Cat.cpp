@@ -23,7 +23,7 @@ static const char CAT_MODEL_PATH[] = { "Data/Character/Cat/cat.mv1" };
 //-------------------------------
 CCat::CCat()
 {
-	m_state = PLAYER_STATE_NORMAL;
+	Init();
 }
 
 
@@ -43,6 +43,7 @@ CCat::~CCat()
 void CCat::Init()
 {
 	m_state = PLAYER_STATE_NORMAL;
+	m_moveMode = MOVE_GROUND;
 	m_vRotation.y = DX_PI_F;
 	m_radius = RADIUS;
 	m_isActive = true;
@@ -71,7 +72,21 @@ void CCat::Step()
 {
 	if (!m_isActive)return;
 
-	Data::GetInstance()->AddScore(1);
+
+	if (Input::Key::Push(KEY_INPUT_M))
+	{
+		switch (m_moveMode)
+		{
+		case MOVE_GROUND:
+			m_moveMode = MOVE_WALL;
+			break;
+
+		case MOVE_WALL:
+			m_moveMode = MOVE_GROUND;
+			break;
+		}
+	}
+
 	// 状態に合わせて行動変化
 	switch (m_state)
 	{
@@ -111,6 +126,19 @@ void CCat::Draw()
 	CObject::Draw();
 
 	DrawFormatString(100,600,RED,"ねこのY座標：%f",m_vPosition.y);
+
+	//---------------------------------
+	// モード表示
+	//---------------------------------
+	if (m_moveMode == MOVE_GROUND)
+	{
+		DrawString(100, 100, "GROUND", GREEN);
+	}
+	else
+	{
+		DrawString(100, 100, "WALL", RED);
+	}
+
 #ifdef MY_DEBUG
 	DrawSphere3D(m_vPos, RADIUS, 16, GetColor(0, 0, 255), GetColor(0, 0, 0), FALSE);
 #endif
@@ -123,7 +151,7 @@ void CCat::Draw()
 void CCat::Move()
 {
 	//	重力処理
-	m_speed.y -= GRAVITY;
+	//m_speed.y -= GRAVITY;
 
 	// 移動速度加算
 	m_vPosition = VAdd(m_vPosition, m_speed);
@@ -137,14 +165,34 @@ void CCat::Move()
 void CCat::NormalExec()
 {
 	bool Hit = false;
+	float left_and_right_move = 0.0f;
+
+	//---------------------------------
+	// モード切替
+	//---------------------------------
+	if (Input::Key::Push(KEY_INPUT_M))
+	{
+		if (m_moveMode == MOVE_GROUND)
+		{
+			m_moveMode = MOVE_WALL;
+			m_vRotation.x = 0.0f;
+		}
+		else
+		{
+			//m_moveMode = MOVE_GROUND;
+			m_vRotation.x = DX_PI_F / 2;
+		}
+	}
 
 	// キャラクターの回転
 	if (Input::Key::Keep(KEY_INPUT_D)) {
 		m_vRotation.y += ROT_SPEED;
+		left_and_right_move += MOVE_SPEED;
 		Hit = true;
 	}
 	else if (Input::Key::Keep(KEY_INPUT_A)) {
 		m_vRotation.y -= ROT_SPEED;
+		left_and_right_move -= MOVE_SPEED;
 		Hit = true;
 	}
 
@@ -159,19 +207,33 @@ void CCat::NormalExec()
 		fSpd = MOVE_SPEED;
 		Hit = true;
 	}
+
 	if (Hit)
 	{
 		MATRIX ANGLE;
 
-		//プレイヤーの移動を三角形で-----------------
 		ANGLE = MyMatrix::GetYawMatrix(m_vRotation.y);
-		VECTOR v = VGet(0, 0, fSpd);
-		VECTOR ves = MyMatrix::MatTransform(ANGLE, v);
-		//計算した速度を座標に足し算する
-		m_vPosition = VAdd(m_vPosition, ves);
+		//---------------------------------
+		// 地上移動
+		//---------------------------------
+		if (m_moveMode == MOVE_GROUND)
+		{
+			VECTOR v = VGet(0, 0, fSpd);
+			VECTOR move =MyMatrix::MatTransform(ANGLE, v);
+			m_vPosition =VAdd(m_vPosition, move);
+		}
 
-		VECTOR v1 = VGet(10, 10, 0);
-		VECTOR Vc = MyMatrix::MatTransform(ANGLE, v1);
+		//---------------------------------
+		// 壁移動
+		//---------------------------------
+		if (m_moveMode == MOVE_WALL)
+		{
+			// ZではなくY方向へ移動
+			VECTOR v = VGet(0, -fSpd, 0);
+			VECTOR move =MyMatrix::MatTransform(ANGLE, v);
+			move.x = left_and_right_move;
+			m_vPosition =VAdd(m_vPosition, move);
+		}
 	}
 }
 
@@ -181,6 +243,7 @@ void CCat::NormalExec()
 void CCat::PlaceBlock(ObjectEditor& objEditor)
 {
 	int mapX = (int)(m_vPosition.x / TILE_SIZE);
+	int mapY = (int)floor(m_vPosition.y / TILE_SIZE);
 	int mapZ = (int)(m_vPosition.z / TILE_SIZE);
 
 	float rot = m_vRotation.y;
@@ -197,11 +260,12 @@ void CCat::PlaceBlock(ObjectEditor& objEditor)
 	if (placeX >= MAP_W || placeZ >= MAP_H)
 		return;
 
-	objEditor.AddObject(
-		placeX,
-		placeZ,
-		OBJ_PUT_BOX
-	);
+	//---------------------------------
+	// 既にオブジェクトがあるなら置かない
+	//---------------------------------
+	if (objEditor.IsObjectAt(placeX, mapY, placeZ))
+		return;
 
+	objEditor.AddObject(placeX, mapY, placeZ, OBJ_PUT_BOX);
 
 }

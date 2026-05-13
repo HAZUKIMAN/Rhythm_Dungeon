@@ -17,6 +17,7 @@ public:
 	};
 
 private:
+
 	tagCatState m_state;	// プレイヤーの状態
 
 	enum ObjectType {
@@ -28,7 +29,17 @@ private:
 		OBJ_PUT_BOX,
 	};
 
+//---------------------------------
+// 移動モード
+//---------------------------------
+	enum MoveMode
+	{
+		MOVE_GROUND,	// 地面
+		MOVE_WALL,		// 壁
+		MOVE_CEILING	// 天井（必要なら）
+	};
 
+	MoveMode m_moveMode;
 public:
 	// コンストラクタ・デストラクタ
 	CCat();

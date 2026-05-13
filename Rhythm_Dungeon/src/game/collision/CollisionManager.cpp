@@ -189,11 +189,12 @@ VECTOR CCollisionManager::HitPlayerToObject(
      //--------------------------------------
      int mapX = (int)(center.x / TILE_SIZE);
      int mapZ = (int)(center.z / TILE_SIZE);
+     int mapY = (int)(center.y / TILE_SIZE);
 
      //--------------------------------------
      //   床の当たり判定
      //---------------------------------------
-     if (map.GetMap(mapZ, mapX) == 1)
+     if (map.GetMap(mapY,mapZ, mapX) == 1)
      {
          result.y = 2.5f;
      }
@@ -207,6 +208,7 @@ VECTOR CCollisionManager::HitPlayerToObject(
          {
              int checkX = mapX + x;
              int checkZ = mapZ + z;
+             int checkY = mapY + z;
 
              //----------------------------------
              // 範囲外防止
@@ -221,7 +223,7 @@ VECTOR CCollisionManager::HitPlayerToObject(
              //----------------------------------
              // 壁じゃなければスキップ
              //----------------------------------
-             if (map.GetMap(checkZ, checkX) != 2)
+             if (map.GetMap(checkY,checkZ, checkX) != 2)
                  continue;
 
              //----------------------------------

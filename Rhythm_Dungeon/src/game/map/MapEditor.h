@@ -18,11 +18,21 @@ private:
 		TILE_WALL  = 2
 	};
 
+	//---------------------------------
+// インスタンス
+//---------------------------------
+	struct InstanceData
+	{
+		int m_iModelHdl;
+		VECTOR m_vPosition;
+	};
+
 public:
 
-	
-
-	TileType map[MAP_H][MAP_W];
+	//---------------------------------
+	// 3Dマップ
+	//---------------------------------
+	TileType map[MAP_Y][MAP_H][MAP_W];
 
 	int m_iModelHdl;		//ステージのモデルハンドル
 	int m_iModelHdl_Wall;	//ステージ用モデルの壁
@@ -45,41 +55,29 @@ public:
 	// 終了処理
 	void Fin();
 
+	void BuildInstances();
 
-	//マップのセーブ
-	void SaveMap(const char* filename);
-	//マップの読み込み
-	void LoadMap(const char* filename);
-	//マウスの当たり判定の取得
-	bool GetMouseHitPosition(VECTOR* outPos);
-	//グリッドの取得
-	bool GetGridPos(VECTOR hitPos, int* _x, int* _z);
-	//選択しているマスを赤く表示する
-	void DrawSelectedTile();
-	//
-	int GetMap(int z, int x)const;
-	// マップ設定
-	void SetMap(int z, int x, int value);
+    bool GetMouseHitPosition(VECTOR* outPos);
+    bool GetGridPos(VECTOR hitPos, int* pos_x, int* pos_z);
 
-	void BuildInstances();					//インスタンスの生成用
+    void SaveMap(const char* filename);
+    void LoadMap(const char* filename);
+
+    int GetMap(int y, int z, int x) const;
+
+    void SetMap(int y, int z, int x, int value);
 
 private:
 
-	//インスタンス用の構造体
-	struct Instance {
-		int m_iModelHdl;
-		/*int m_iModelHdl_Wall;*/
-		VECTOR m_vPosition;
-		VECTOR m_vRotation;
-		VECTOR m_vScale;
-	};
-	//インスタンス確保
-	std::vector<Instance> instances;
+    //---------------------------------
+    // インスタンス
+    //---------------------------------
+    std::vector<InstanceData> instances;
 
-	
-
-	
-
+    //---------------------------------
+    // 現在の高さ
+    //---------------------------------
+    int m_currentY;
+};
 	//グリッドは位置情報の管理のしやすさとマウスを使用したレイキャストを使用したかったため（岡松対策）
 	//バイナリを使用した理由データの軽量化テキストよりバイナリの方が軽くて高速：セーブとか使用したかったのでコンパクトの方がよかった。
-};
