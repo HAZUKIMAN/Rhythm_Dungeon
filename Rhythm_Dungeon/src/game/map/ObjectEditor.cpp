@@ -145,6 +145,7 @@ void ObjectEditor::Update()
         //---------------------------------
         if (GetGridPos(hitPos, &gx, &gz))
         {
+
             //---------------------------------
             // 設置
             //---------------------------------
@@ -159,6 +160,10 @@ void ObjectEditor::Update()
             if (Input::Key::Push(KEY_INPUT_U))
             {
                 RemoveObject(gx, m_currentY, gz);
+                if (m_currentY >= MAP_Y)
+                {
+                    m_currentY = MAP_Y - 1;
+                }
             }
         }
     }
@@ -373,9 +378,7 @@ void ObjectEditor::DrawObjects()
         //---------------------------------
         // グリッド→ワールド
         //---------------------------------
-        float worldX =
-            (obj.x + 0.5f)
-            * TILE_SIZE;
+        float worldX = (obj.x + 0.5f)* TILE_SIZE;
 
         float worldY = (obj.y * TILE_SIZE);
 
@@ -490,20 +493,12 @@ void ObjectEditor::DrawSelectedTile()
     //---------------------------------
     for (int z = 0; z <= MAP_H; z++)
     {
-        DrawLine3D(
-            VGet(0, 0.1f, z * TILE_SIZE),
-            VGet(MAP_W * TILE_SIZE, 0.1f, z * TILE_SIZE),
-            GRAY
-        );
+        DrawLine3D(VGet(0, 0.1f, z * TILE_SIZE), VGet(MAP_W * TILE_SIZE, 0.1f, z * TILE_SIZE),GRAY);
     }
 
     for (int x = 0; x <= MAP_W; x++)
     {
-        DrawLine3D(
-            VGet(x * TILE_SIZE, 0.1f, 0),
-            VGet(x * TILE_SIZE, 0.1f, MAP_H * TILE_SIZE),
-            GRAY
-        );
+        DrawLine3D( VGet(x * TILE_SIZE, 0.1f, 0), VGet(x * TILE_SIZE, 0.1f, MAP_H * TILE_SIZE), GRAY);
     }
 
     //---------------------------------
@@ -529,7 +524,7 @@ void ObjectEditor::DrawSelectedTile()
             //---------------------------------
             // 高さ
             //---------------------------------
-            float y0 = m_currentY * TILE_SIZE;
+            float y0 = m_currentY * TILE_SIZE ;
             float y1 = y0 + TILE_SIZE;
 
             //---------------------------------

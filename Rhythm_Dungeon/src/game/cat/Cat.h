@@ -29,9 +29,15 @@ private:
 		OBJ_PUT_BOX,
 	};
 
-//---------------------------------
-// 移動モード
-//---------------------------------
+
+	enum TileType {
+		TILE_NONE = 0,
+		TILE_FLOOR = 1,
+		TILE_WALL = 2
+	};
+
+
+	// 移動モード
 	enum MoveMode
 	{
 		MOVE_GROUND,	// 地面
@@ -51,7 +57,7 @@ public:
 	// データロード
 	void Load();
 	// 毎フレーム呼ぶ処理
-	void Step();
+	void Step(MapEditor& map);
 	// 描画処理
 	void Draw() override;
 	//ブロックの設置
@@ -61,6 +67,7 @@ private:
 	// 移動計算結果を反映
 	void Move();
 	// 待機･移動中処理
-	void NormalExec();
-
+	void NormalExec(MapEditor& map);
+	// 壁チェック
+	bool CheckWall(MapEditor& map);
 };

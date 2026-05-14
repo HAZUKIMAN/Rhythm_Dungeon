@@ -12,9 +12,9 @@ CCollisionManager::CCollisionManager()
 {
 }
 
-//---------------------------------
-//		敵とプレイヤーの当たり判定
-//---------------------------------
+//-----------------------------------------
+//		ブロックとプレイヤーの当たり判定
+//-----------------------------------------
 void CCollisionManager::CheckHitPlayerToBlock(CPlayer& player,
     CInstalledItem& inst)
 {
@@ -26,7 +26,7 @@ void CCollisionManager::CheckHitPlayerToBlock(CPlayer& player,
     VECTOR vec = { inst.GetPos().x,inst.GetPos().y + 1.0f ,inst.GetPos().z };
 	// 座標と半径を取得
 	VECTOR instPos = vec;
-	float instRadius = 2.0f;
+	float instRadius = 2.5f;
 
     if (m_time >= 0)return;
 
@@ -55,7 +55,10 @@ void CCollisionManager::CheckHitPlayerToBlock(CPlayer& player,
 	}
 }
 
+
+//-----------------------------------
 // ゴールとプレイヤーの当たり判定
+//-----------------------------------
 bool CCollisionManager::CheckHitPlayerToGoal(CPlayer& player,
     CGoal& goal)
 {
@@ -89,84 +92,244 @@ VECTOR CCollisionManager::HitPlayerToObject(
 )
 {
     VECTOR result = VGet(0, 0, 0);
-    //--------------------------------------
-   // ObjectEditorから取得
-   //--------------------------------------
-    const auto& objs = object.GetObjects();
-    //------------------------------------------
-    // 全オブジェクトをチェック
-    //------------------------------------------
-    for (const auto& obj : objs)
-    {
-        //--------------------------------------
-        // 壁だけ当たり判定
-        //--------------------------------------
-        if (obj.type != OBJ_BLOCK)
-            continue;
-        //--------------------------------------
-        // マップ座標 → ワールド座標
-        //--------------------------------------
-        float worldX = (obj.x + 0.5f) * TILE_SIZE;
-        float worldZ = (obj.z + 0.5f) * TILE_SIZE;
+   // //--------------------------------------
+   //// ObjectEditorから取得
+   ////--------------------------------------
+   // const auto& objs = object.GetObjects();
+   // //------------------------------------------
+   // // 全オブジェクトをチェック
+   // //------------------------------------------
+   // for (const auto& obj : objs)
+   // {
+   //     //--------------------------------------
+   //     // 壁だけ当たり判定
+   //     //--------------------------------------
+   //     if (obj.type != OBJ_BLOCK)
+   //         continue;
+   //     //--------------------------------------
+   //     // マップ座標 → ワールド座標
+   //     //--------------------------------------
+   //     float worldX = (obj.x + 0.5f) * TILE_SIZE;
+   //     float worldZ = (obj.z + 0.5f) * TILE_SIZE;
 
-        VECTOR objPos = VGet(worldX, 0, worldZ);
-        //--------------------------------------
-        // プレイヤー → オブジェクト
-        //--------------------------------------
-        float dx = center.x - objPos.x;
-        float dz = center.z - objPos.z;
-        //--------------------------------------
-        // 距離
-        //--------------------------------------
-        float distSq = dx * dx + dz * dz;
-        //--------------------------------------
-        // 当たり判定半径
-        //--------------------------------------
-        float hitRange = radius + 2.5f;
-        //--------------------------------------
-        // 当たった
-        //--------------------------------------
-        if (distSq < hitRange * hitRange)
+   //     VECTOR objPos = VGet(worldX, 0, worldZ);
+   //     //--------------------------------------
+   //     // プレイヤー → オブジェクト
+   //     //--------------------------------------
+   //     float dx = center.x - objPos.x;
+   //     float dz = center.z - objPos.z;
+   //     //--------------------------------------
+   //     // 距離
+   //     //--------------------------------------
+   //     float distSq = dx * dx + dz * dz;
+   //     //--------------------------------------
+   //     // 当たり判定半径
+   //     //--------------------------------------
+   //     float hitRange = radius + 2.5f;
+   //     //--------------------------------------
+   //     // 当たった
+   //     //--------------------------------------
+   //     if (distSq < hitRange * hitRange)
+   //     {
+   //         float dist = sqrtf(distSq);
+   //         //----------------------------------
+   //         // 0除算防止
+   //         //----------------------------------
+   //         if (dist <= 0.0001f)
+   //             continue;
+   //         //----------------------------------
+   //         // 押し戻し方向
+   //         //----------------------------------
+   //         VECTOR dir;
+   //         dir.x = dx / dist;
+   //         dir.y = 0.0f;
+   //         dir.z = dz / dist;
+   //         //----------------------------------
+   //         // めり込み量
+   //         //----------------------------------
+   //         float push = hitRange - dist;
+   //         //----------------------------------
+   //         // 押し戻し
+   //         //----------------------------------
+   //         result = VAdd(result, VScale(dir, push));
+
+   //         //プレイヤーの処理
+   //         int  state = player.GetDirect();
+
+   //         switch (state)
+   //         {
+   //         case 0:
+   //             player.SetDirect(1);
+   //             break;
+   //         case 1:
+   //             player.SetDirect(2);
+   //             break;
+   //         case 2:
+   //             player.SetDirect(3);
+   //             break;
+   //         case 3:
+   //             player.SetDirect(4);
+   //             break;
+   //         }
+   //     }
+    //}
+
+    return result;
+}
+
+//--------------------------------------
+// マップとの当たり判定
+//--------------------------------------
+VECTOR CCollisionManager::HitMap(
+    VECTOR center,
+    float radius,
+    MapEditor& map)
+{
+    //--------------------------------------
+    // 押し戻し結果
+    //--------------------------------------
+    VECTOR result = VGet(0, 0, 0);
+
+    //--------------------------------------
+    // ワールド座標 → マップ座標
+    //--------------------------------------
+    int mapX = (int)floor(center.x / TILE_SIZE);
+    int mapY = (int)floor(center.y / TILE_SIZE);
+    int mapZ = (int)floor(center.z / TILE_SIZE);
+
+    //--------------------------------------
+    // 範囲外防止
+    //--------------------------------------
+    if (mapX < 0 || mapX >= MAP_W ||
+        mapY < 0 || mapY >= MAP_Y ||
+        mapZ < 0 || mapZ >= MAP_H)
+    {
+        return result;
+    }
+
+    //--------------------------------------
+    // 足元判定
+    //--------------------------------------
+    int footY = mapY - 1;
+
+    if (footY >= 0)
+    {
+        //----------------------------------
+        // 床チェック
+        //----------------------------------
+        if (map.GetMap(footY, mapZ, mapX) == TILE_FLOOR)
         {
-            float dist = sqrtf(distSq);
             //----------------------------------
-            // 0除算防止
+            // 床の上面
             //----------------------------------
-            if (dist <= 0.0001f)
+            float floorTop = (footY + 1) * TILE_SIZE;
+
+            //----------------------------------
+            // 足が埋まっている
+            //----------------------------------
+            float footPos = center.y - radius;
+
+            if (footPos < floorTop)
+            {
+                //----------------------------------
+                // 上方向へ押し戻す
+                //----------------------------------
+                result.y = floorTop - footPos;
+            }
+        }
+    }
+
+    //--------------------------------------
+    // 周囲ブロック判定
+    //--------------------------------------
+    for (int z = -1; z <= 1; z++)
+    {
+        for (int x = -1; x <= 1; x++)
+        {
+            //----------------------------------
+            // チェック座標
+            //----------------------------------
+            int checkX = mapX + x;
+            int checkY = mapY;
+            int checkZ = mapZ + z;
+
+            //----------------------------------
+            // 範囲外防止
+            //----------------------------------
+            if (checkX < 0 || checkX >= MAP_W ||
+                checkY < 0 || checkY >= MAP_Y ||
+                checkZ < 0 || checkZ >= MAP_H)
+            {
                 continue;
+            }
+
             //----------------------------------
-            // 押し戻し方向
+            // 壁以外スキップ
             //----------------------------------
-            VECTOR dir;
-            dir.x = dx / dist;
-            dir.y = 0.0f;
-            dir.z = dz / dist;
+            if (map.GetMap(checkY, checkZ, checkX) != TILE_WALL)
+            {
+                continue;
+            }
+
+            //----------------------------------
+            // ワールド座標
+            //----------------------------------
+            float worldX = (checkX + 0.5f) * TILE_SIZE;
+            float worldY = (checkY + 0.5f) * TILE_SIZE;
+            float worldZ = (checkZ + 0.5f) * TILE_SIZE;
+
+            VECTOR blockPos = VGet(worldX, worldY, worldZ);
+
+            //----------------------------------
+            // ブロック半径
+            //----------------------------------
+            float blockRadius = TILE_SIZE * 0.5f;
+
             //----------------------------------
             // めり込み量
             //----------------------------------
-            float push = hitRange - dist;
-            //----------------------------------
-            // 押し戻し
-            //----------------------------------
-            result = VAdd(result, VScale(dir, push));
+            float hitLen = 0.0f;
 
-            //プレイヤーの処理
-            int  state = player.GetDirect();
-
-            switch (state)
+            //----------------------------------
+            // 球同士判定
+            //----------------------------------
+            if (CHit::CheckSphereToSphere(
+                center,
+                blockPos,
+                radius,
+                blockRadius,
+                &hitLen))
             {
-            case 0:
-                player.SetDirect(1);
-                break;
-            case 1:
-                player.SetDirect(2);
-                break;
-            case 2:
-                player.SetDirect(3);
-                break;
-            case 3:
-                player.SetDirect(4);
-                break;
+                //----------------------------------
+                // 押し戻し方向
+                //----------------------------------
+                VECTOR dir = VSub(center, blockPos);
+
+                //----------------------------------
+                // 長さ
+                //----------------------------------
+                float len = VSize(dir);
+
+                //----------------------------------
+                // 0除算防止
+                //----------------------------------
+                if (len <= 0.0001f)
+                    continue;
+
+                //----------------------------------
+                // 正規化
+                //----------------------------------
+                dir = VNorm(dir);
+
+                //----------------------------------
+                // 横方向だけ押し戻す
+                //----------------------------------
+                dir.y = 0.0f;
+
+                //----------------------------------
+                // 押し戻し
+                //----------------------------------
+                result = VAdd(result, VScale(dir, hitLen));
             }
         }
     }
@@ -174,185 +337,94 @@ VECTOR CCollisionManager::HitPlayerToObject(
     return result;
 }
 
-//フィールドとの当たり判定処理
-    //@center :当たり判定をする相手の座標
-    //@radius :相手を球として判定するのでその半径
-    //@return :押し戻す方向&距離
- VECTOR CCollisionManager::HitMap(VECTOR center,
-    float radius,
-    MapEditor& map)
+
+
+//--------------------------------------
+// 猫とオブジェクトの当たり判定
+//--------------------------------------
+VECTOR CCollisionManager::HitCatToObject(
+    VECTOR center, float radius, ObjectEditor& object)
 {
-     VECTOR result = VGet(0, 0, 0);
-
-     //--------------------------------------
-     // ワールド座標 → マップ座標
-     //--------------------------------------
-     int mapX = (int)(center.x / TILE_SIZE);
-     int mapZ = (int)(center.z / TILE_SIZE);
-     int mapY = (int)(center.y / TILE_SIZE);
-
-     //--------------------------------------
-     //   床の当たり判定
-     //---------------------------------------
-     if (map.GetMap(mapY,mapZ, mapX) == 1)
-     {
-         result.y = 2.5f;
-     }
-
-     //--------------------------------------
-     // 周囲チェック
-     //--------------------------------------
-     for (int z = -1; z <= 1; z++)
-     {
-         for (int x = -1; x <= 1; x++)
-         {
-             int checkX = mapX + x;
-             int checkZ = mapZ + z;
-             int checkY = mapY + z;
-
-             //----------------------------------
-             // 範囲外防止
-             //----------------------------------
-             if (checkX < 0 || checkZ < 0)
-                 continue;
-
-             if (checkX >= MAP_W ||
-                 checkZ >= MAP_H)
-                 continue;
-
-             //----------------------------------
-             // 壁じゃなければスキップ
-             //----------------------------------
-             if (map.GetMap(checkY,checkZ, checkX) != 2)
-                 continue;
-
-             //----------------------------------
-             // タイル中心座標
-             //----------------------------------
-             float worldX = (checkX + 0.5f) * TILE_SIZE;
-             float worldZ = (checkZ + 0.5f) * TILE_SIZE;
-
-             //----------------------------------
-             // プレイヤーとの差
-             //----------------------------------
-             float dx = center.x - worldX;
-             float dz = center.z - worldZ;
-
-             //----------------------------------
-             // 距離
-             //----------------------------------
-             float distSq = dx * dx + dz * dz;
-
-             //----------------------------------
-             // 当たり半径
-             //----------------------------------
-             float hitRange = radius + (TILE_SIZE * 0.5f);
-
-             //----------------------------------
-             // 当たった
-             //----------------------------------
-             if (distSq < hitRange * hitRange)
-             {
-                 float dist = sqrtf(distSq);
-
-                 if (dist <= 0.0001f)
-                     continue;
-
-                 //----------------------------------
-                 // 押し出し方向
-                 //----------------------------------
-                 VECTOR dir;
-
-                 dir.x = dx / dist;
-                 dir.y = 0;
-                 dir.z = dz / dist;
-
-                 //----------------------------------
-                 // 押し戻し量
-                 //----------------------------------
-                 float push = hitRange - dist;
-
-                 //----------------------------------
-                 // 加算
-                 //----------------------------------
-                 result = VAdd(result, VScale(dir, push));
-             }
-
-            
-         }
-     }
-
-     return result;
-}
-
-//猫とオブジェクトの計算
-VECTOR CCollisionManager::HitCatToObject(VECTOR center,
-    float radius,
-    ObjectEditor& object
-)
-{
+    //--------------------------------------
+    // 押し戻し結果
+    //--------------------------------------
     VECTOR result = VGet(0, 0, 0);
 
     //--------------------------------------
-   // ObjectEditorから取得
-   //--------------------------------------
+    // ObjectEditorから取得
+    //--------------------------------------
     const auto& objs = object.GetObjects();
-    //------------------------------------------
-    // 全オブジェクトをチェック
-    //------------------------------------------
+
+    //--------------------------------------
+    // 全オブジェクトチェック
+    //--------------------------------------
     for (const auto& obj : objs)
     {
         //--------------------------------------
-        // 壁だけ当たり判定
+        // ブロックだけ判定
         //--------------------------------------
         if (obj.type != OBJ_BLOCK)
             continue;
+
         //--------------------------------------
         // マップ座標 → ワールド座標
         //--------------------------------------
         float worldX = (obj.x + 0.5f) * TILE_SIZE;
+        float worldY = (obj.y + 0.5f) * TILE_SIZE;
         float worldZ = (obj.z + 0.5f) * TILE_SIZE;
 
-        VECTOR objPos = VGet(worldX, 0, worldZ);
+        VECTOR objPos = VGet(worldX, worldY, worldZ);
+
         //--------------------------------------
-        // プレイヤー → オブジェクト
+        // ブロック半径
         //--------------------------------------
-        float dx = center.x - objPos.x;
-        float dz = center.z - objPos.z;
+        float blockRadius = TILE_SIZE * 0.5f;
+
         //--------------------------------------
-        // 距離
+        // めり込み量
         //--------------------------------------
-        float distSq = dx * dx + dz * dz;
+        float hitLen = 0.0f;
+
         //--------------------------------------
-        // 当たり判定半径
+        // 球同士の当たり判定
         //--------------------------------------
-        float hitRange = radius + 2.5f;
-        //--------------------------------------
-        // 当たった
-        //--------------------------------------
-        if (distSq < hitRange * hitRange)
+        if (CHit::CheckSphereToSphere(
+            center,
+            objPos,
+            radius,
+            blockRadius,
+            &hitLen))
         {
-            float dist = sqrtf(distSq);
-            //----------------------------------
-            // 0除算防止
-            //----------------------------------
-            if (dist <= 0.0001f)
-                continue;
             //----------------------------------
             // 押し戻し方向
             //----------------------------------
-            VECTOR dir;
-            dir.x = dx / dist;
+            VECTOR dir = VSub(center, objPos);
+
+            //----------------------------------
+            // 長さ
+            //----------------------------------
+            float len = VSize(dir);
+
+            //----------------------------------
+            // 0除算防止
+            //----------------------------------
+            if (len <= 0.0001f)
+                continue;
+
+            //----------------------------------
+            // 正規化
+            //----------------------------------
+            dir = VNorm(dir);
+
+            //----------------------------------
+            // Y方向は押し戻さない
+            //----------------------------------
             dir.y = 0.0f;
-            dir.z = dz / dist;
-            //----------------------------------
-            // めり込み量
-            //----------------------------------
-            float push = hitRange - dist;
+
             //----------------------------------
             // 押し戻し
             //----------------------------------
-            result = VAdd(result, VScale(dir, push));
+            result = VAdd(result, VScale(dir, hitLen));
         }
     }
 

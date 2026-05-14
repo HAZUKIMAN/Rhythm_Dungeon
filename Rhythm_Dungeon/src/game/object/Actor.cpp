@@ -58,7 +58,7 @@ void  CActor::AddPos(VECTOR Hit)
 	m_vPosition = VAdd(m_vPosition, Hit);
 
 	// è∞Ç…ñÑÇ‹ÇÁÇ»Ç¢ÇÊÇ§å≈íË
-	m_vPosition.y = 2.5f;
+	//m_speed.y = 0.0f;
 
 	// ÉÇÉfÉãÇ÷îΩâf
 	MV1SetPosition(m_iModelHdl, m_vPosition);

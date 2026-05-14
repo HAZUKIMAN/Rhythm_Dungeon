@@ -24,6 +24,12 @@ private:
 		OBJ_BLOCK
 	};
 
+	enum TileType {
+		TILE_NONE  = 0,
+		TILE_FLOOR = 1,
+		TILE_WALL  = 2
+	};
+
 public:
 
 	static int m_time;
@@ -47,16 +53,10 @@ public:
 
 	//猫とオブジェクトの計算
 	static VECTOR HitCatToObject(VECTOR center,
-		float radius,
-		ObjectEditor& object
-	);
+		float radius, ObjectEditor& object);
 
 	//プレイヤーの座標をマップ座標にして計算を行う
-	static VECTOR HitMap(
-		VECTOR center,
-		float radius,
-		MapEditor& map
-	);
+	static VECTOR HitMap( VECTOR center, float radius, MapEditor& map);
 
 };
 

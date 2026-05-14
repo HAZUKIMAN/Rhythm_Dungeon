@@ -188,7 +188,7 @@ void CSceneGame::Calc()
 		// プレイヤー更新処理
 		m_player.Step();
 		// 猫の更新処理
-		m_cat.Step();
+		m_cat.Step(m_mapedit);
 		
 		//--------------------------------------------
 		//		猫がボックスを運ぶかどうかの判定
@@ -205,7 +205,7 @@ void CSceneGame::Calc()
 
 		if (move_box == CARRY)
 		{
-			VECTOR vec = VGet( m_cat.GetPos().x, 5.0f, m_cat.GetPos().z );
+			VECTOR vec = VGet( m_cat.GetPos().x, m_cat.GetPos().y, m_cat.GetPos().z );
 			m_institem.SetPos(vec);
 
 			if (Input::Key::Push(KEY_INPUT_G))
@@ -234,8 +234,6 @@ void CSceneGame::Calc()
 			}
 		}
 		
-		
-
 
 		//ボックスとプレイヤーの当たり判定
 		CCollisionManager::CheckHitPlayerToBlock(m_player, m_institem);
@@ -243,12 +241,14 @@ void CSceneGame::Calc()
 		//-------------------------------------
 		//  プレイヤーと床と壁との当たり判定
 		//-------------------------------------
-		m_player.AddPos(CCollisionManager::HitMap(m_player.GetCenter(),2.0f,m_mapedit));
+		m_player.AddPos(CCollisionManager::HitMap(m_player.GetCenter(), m_player.GetRadius(), m_mapedit));
 
 		//-------------------------------------
 		//  猫と床と壁との当たり判定
 		//-------------------------------------
-		m_cat.AddPos(CCollisionManager::HitMap(m_cat.GetCenter(),2.0f,m_mapedit));
+		VECTOR vec = VGet(m_cat.GetCenter().x, m_cat.GetCenter().y +2.0, m_cat.GetCenter().z);
+
+		m_cat.AddPos(CCollisionManager::HitMap(m_cat.GetCenter(),m_cat.GetRadius(), m_mapedit));
 
 		
 		////------------------------------------------------

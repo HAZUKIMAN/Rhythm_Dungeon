@@ -71,7 +71,6 @@ void CPlayer::Step()
 {
 	if (!m_isActive)return;
 
-	Data::GetInstance()->AddScore(1);
 	// 状態に合わせて行動変化
 	switch (m_state)
 	{
@@ -83,7 +82,7 @@ void CPlayer::Step()
 
 	Direction();
 	NormalExec();
-	//Move();
+	Move();
 }
 
 
@@ -108,17 +107,11 @@ void CPlayer::Draw()
 void CPlayer::Move()
 {
 	//	重力処理
-	//m_speed.y -= GRAVITY;
+	m_speed.y -= GRAVITY;
 
 	// 移動速度加算
 	m_vPosition = VAdd(m_vPosition, m_speed);
 
-	/*if (m_vPosition.y < 0.0f)
-	{
-		m_vPosition.y = 0.0f;
-		m_speed.y = 0.0f;
-		m_state = PLAYER_STATE_NORMAL;
-	}*/
 }
 
 
@@ -127,24 +120,20 @@ void CPlayer::Move()
 //-------------------------------
 void CPlayer::NormalExec()
 {
+	//---------------------------------
+	// 自動移動
+	//---------------------------------
 	float speed = MOVE_SPEED;
-	
-	// 移動したようであれば、移動用計算を行う
-	if (speed != 0.0f)
-	{
-		m_speed.x = sinf(m_vRotation.y) * -speed;
-		m_speed.z = cosf(m_vRotation.y) * -speed;
-	}
-	else
-	{
-		m_speed.x = m_speed.z = 0.0f;
-	}
-	//// ジャンプ処理
-	//if (Input::Key::Push(KEY_INPUT_SPACE))
-	//{
-	//	m_speed.y = JUMP_POWER;
-	//	m_state = PLAYER_STATE_JUMP;
-	//}
+
+	VECTOR move;
+
+	// 向いている方向へ前進
+	move.x = -sinf(m_vRotation.y) * speed;
+	move.z = -cosf(m_vRotation.y) * speed;
+	move.y = 0.0f;
+
+	// 移動
+	m_vPosition = VAdd(m_vPosition, move);
 }
 
 
@@ -186,22 +175,6 @@ void CPlayer::Direction()
 	}
 }
 
-//void  CPlayer::AddPos(VECTOR Hit)
-//{
-//	// 押し戻しが無ければ終了
-//	if (Hit.x == 0.0f &&
-//		Hit.y == 0.0f &&
-//		Hit.z == 0.0f) return;
-//
-//	// 現在位置に押し戻しを加算
-//	m_vPosition = VAdd(m_vPosition, Hit);
-//
-//	// 床に埋まらないよう固定
-//	m_vPosition.y = 2.5f;
-//
-//	// モデルへ反映
-//	MV1SetPosition(m_iModelHdl, m_vPosition);
-//}
 
 void CPlayer::SetDirect(int dir)
 {
