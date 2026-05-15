@@ -177,45 +177,23 @@ void CCat::NormalExec(MapEditor& map)
 	float sideMove = 0.0f;
 
 	//---------------------------------
-	// モード切替
-	//---------------------------------
-	if (Input::Key::Push(KEY_INPUT_M))
-	{
-		if (m_moveMode == MOVE_GROUND)
-		{
-			m_moveMode = MOVE_WALL;
-
-			// 壁歩き用
-			m_vRotation.x = DX_PI_F / 2;
-		}
-		else
-		{
-			//m_moveMode = MOVE_GROUND;
-			// 地上用
-			m_vRotation.x = 0.0f;
-		}
-	}
-
-	//---------------------------------
 	// 回転
 	//---------------------------------
 	if (Input::Key::Keep(KEY_INPUT_D))
 	{
-		m_vRotation.y += ROT_SPEED;
+		if(m_moveMode == MOVE_GROUND)m_vRotation.y += ROT_SPEED;
 
 		// 壁移動時の左右
 		sideMove += MOVE_SPEED;
-
 		isMove = true;
 	}
 
 	if (Input::Key::Keep(KEY_INPUT_A))
 	{
-		m_vRotation.y -= ROT_SPEED;
+		if (m_moveMode == MOVE_GROUND)m_vRotation.y -= ROT_SPEED;
 
 		// 壁移動時の左右
 		sideMove -= MOVE_SPEED;
-
 		isMove = true;
 	}
 
@@ -256,6 +234,9 @@ void CCat::NormalExec(MapEditor& map)
 			// 移動
 			m_vPosition = VAdd(m_vPosition, move);
 		}
+
+		// Z回転行列
+		ANGLE = MyMatrix::GetYawMatrix(m_vRotation.z);
 
 		//---------------------------------
 		// 壁歩きモード
@@ -313,7 +294,26 @@ void CCat::NormalExec(MapEditor& map)
 		}
 	}
 
-	CheckWall(map);
+	//壁が周囲１マス以内の時
+	if (CheckWall(map))
+	{
+	// モード切替
+		if (Input::Key::Push(KEY_INPUT_M))
+		{
+			if (m_moveMode == MOVE_GROUND)
+			{
+				// 壁歩き用
+				m_vRotation.x = DX_PI_F / 2;
+			}
+		}
+	}
+	// 地上用
+	else
+	{
+		m_moveMode = MOVE_GROUND;
+		m_vRotation.x = 0.0f;
+	}
+
 }
 
 
@@ -349,15 +349,21 @@ void CCat::PlaceBlock(ObjectEditor& objEditor)
 	objEditor.AddObject(placeX, mapY, placeZ, OBJ_PUT_BOX);
 }
 
+
+//---------------------------------
 // 壁チェック
+//---------------------------------
 bool CCat::CheckWall(MapEditor& map)
 {
-	float checkRadius = 1.5f;
+	//---------------------------------
+	// 判定距離
+	//---------------------------------
+	float checkRadius = TILE_SIZE /** 0.5f*/;
 
 	//---------------------------------
 	// チェック位置
 	//---------------------------------
-	VECTOR checkPos[4];
+	VECTOR checkPos[6];
 
 	// 右
 	checkPos[0] = VGet(m_vPosition.x + checkRadius, m_vPosition.y, m_vPosition.z);
@@ -367,19 +373,19 @@ bool CCat::CheckWall(MapEditor& map)
 	checkPos[2] = VGet(m_vPosition.x, m_vPosition.y + checkRadius, m_vPosition.z);
 	// 下
 	checkPos[3] = VGet(m_vPosition.x, m_vPosition.y - checkRadius, m_vPosition.z);
+	// 前
+	checkPos[4] = VGet(m_vPosition.x, m_vPosition.y, m_vPosition.z + checkRadius);
+	// 後
+	checkPos[5] = VGet(m_vPosition.x, m_vPosition.y, m_vPosition.z - checkRadius);
 
-	//---------------------------------
-	// 4方向チェック
-	//---------------------------------
-	for (int i = 0; i < 4; i++)
+	// 6方向チェック
+	for (int i = 0; i < 6; i++)
 	{
-		int mapX =(int)floor(checkPos[i].x / TILE_SIZE);
-		int mapY =(int)floor(checkPos[i].y / TILE_SIZE);
-		int mapZ =(int)floor(checkPos[i].z / TILE_SIZE);
+		int mapX = (int)floor(checkPos[i].x / TILE_SIZE);
+		int mapY = (int)floor(checkPos[i].y / TILE_SIZE);
+		int mapZ = (int)floor(checkPos[i].z / TILE_SIZE);
 
-		//---------------------------------
 		// 範囲外
-		//---------------------------------
 		if (mapX < 0 || mapX >= MAP_W ||
 			mapY < 0 || mapY >= MAP_Y ||
 			mapZ < 0 || mapZ >= MAP_H)
@@ -387,11 +393,8 @@ bool CCat::CheckWall(MapEditor& map)
 			continue;
 		}
 
-		//---------------------------------
-		// 壁ならOK
-		//---------------------------------
-		if (map.GetMap(mapY, mapZ, mapX)
-			== TILE_WALL)
+		// 壁判定
+		if (map.GetMap(mapY, mapZ, mapX) == TILE_WALL)
 		{
 			return true;
 		}
@@ -399,3 +402,100 @@ bool CCat::CheckWall(MapEditor& map)
 
 	return false;
 }
+
+
+//---------------------------------
+// ブロック設置位置表示
+//---------------------------------
+void CCat::DrawPlaceBlockPreview(MapEditor & map)
+{
+	//---------------------------------
+	// 今いるマス
+	//---------------------------------
+	int mapX = (int)floor(m_vPosition.x / TILE_SIZE);
+	int mapY = (int)floor(m_vPosition.y / TILE_SIZE);
+	int mapZ = (int)floor(m_vPosition.z / TILE_SIZE);
+
+	//---------------------------------
+	// 向いている方向
+	//---------------------------------
+	float rot = m_vRotation.y;
+
+	int dirX = (int)roundf(-sinf(rot));
+	int dirZ = (int)roundf(-cosf(rot));
+
+	//---------------------------------
+	// 設置予定位置
+	//---------------------------------
+	int placeX = mapX + dirX;
+	int placeY = mapY;
+	int placeZ = mapZ + dirZ;
+
+	//---------------------------------
+	// 範囲外なら終了
+	//---------------------------------
+	if (placeX < 0 || placeX >= MAP_W ||
+		placeY < 0 || placeY >= MAP_Y ||
+		placeZ < 0 || placeZ >= MAP_H)
+	{
+		return;
+	}
+
+	//---------------------------------
+	// ワールド座標
+	//---------------------------------
+	float x0 = placeX * TILE_SIZE;
+	float y0 = placeY * TILE_SIZE;
+	float z0 = placeZ * TILE_SIZE;
+
+	float x1 = x0 + TILE_SIZE;
+	float y1 = y0 + TILE_SIZE;
+	float z1 = z0 + TILE_SIZE;
+
+	//---------------------------------
+	// 下の床を確認
+	//---------------------------------
+	bool canPlace = false;
+
+	// 1つ下に床があるか
+	if (placeY > 0)
+	{
+		if (map.GetMap(placeY - 1, placeZ, placeX) == TILE_FLOOR)
+		{
+			canPlace = true;
+		}
+	}
+
+	//---------------------------------
+	// 色変更
+	//---------------------------------
+	int color;
+
+	if (canPlace)
+	{
+		// 置ける
+		color = BLUE;
+	}
+	else
+	{
+		// 置けない
+		color = RED;
+	}
+
+	//---------------------------------
+	// 半透明表示
+	//---------------------------------
+	SetDrawBlendMode(DX_BLENDMODE_ALPHA, 120);
+	DrawCube3D(
+		VGet(x0, y0, z0),VGet(x1, y1, z1),
+		color,color,TRUE);
+	SetDrawBlendMode(DX_BLENDMODE_NOBLEND, 0);
+
+	//---------------------------------
+	// 枠表示
+	//---------------------------------
+	DrawCube3D(VGet(x0, y0, z0),VGet(x1, y1, z1),
+			color,color,FALSE);
+
+	}
+

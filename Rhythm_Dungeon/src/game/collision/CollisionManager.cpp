@@ -4,7 +4,7 @@
 #include "../../lib/math/hit.h"
 
 using namespace std;
-constexpr int SET_TIME = 20;
+constexpr int SET_TIME = 50;
 
 int CCollisionManager::m_time = SET_TIME;
 
@@ -208,32 +208,33 @@ VECTOR CCollisionManager::HitMap(
     }
 
     //--------------------------------------
-    // 足元判定
+    // 足元座標
     //--------------------------------------
-    int footY = mapY - 1;
+    float footPos = center.y - radius;
 
+    //--------------------------------------
+    // 足元のマップY
+    //--------------------------------------
+    int footY = (int)floor(footPos / TILE_SIZE);
+
+    //--------------------------------------
+    // 床判定
+    //--------------------------------------
     if (footY >= 0)
     {
         //----------------------------------
-        // 床チェック
+        // 床があるか
         //----------------------------------
-        if (map.GetMap(footY, mapZ, mapX) == TILE_FLOOR)
+        if (map.GetMap(footY, mapZ, mapX)
+            == TILE_FLOOR)
         {
-            //----------------------------------
             // 床の上面
-            //----------------------------------
             float floorTop = (footY + 1) * TILE_SIZE;
 
-            //----------------------------------
-            // 足が埋まっている
-            //----------------------------------
-            float footPos = center.y - radius;
-
-            if (footPos < floorTop)
+            // 足が床に埋まっている
+            if (footPos <= floorTop)
             {
-                //----------------------------------
-                // 上方向へ押し戻す
-                //----------------------------------
+                // 上へ押し戻す
                 result.y = floorTop - footPos;
             }
         }
@@ -266,24 +267,32 @@ VECTOR CCollisionManager::HitMap(
             //----------------------------------
             // 壁以外スキップ
             //----------------------------------
-            if (map.GetMap(checkY, checkZ, checkX) != TILE_WALL)
+            if (map.GetMap(checkY, checkZ, checkX)
+                != TILE_WALL)
             {
                 continue;
             }
 
             //----------------------------------
-            // ワールド座標
+            // ブロック座標
             //----------------------------------
-            float worldX = (checkX + 0.5f) * TILE_SIZE;
-            float worldY = (checkY + 0.5f) * TILE_SIZE;
-            float worldZ = (checkZ + 0.5f) * TILE_SIZE;
+            float worldX =
+                (checkX + 0.5f) * TILE_SIZE;
 
-            VECTOR blockPos = VGet(worldX, worldY, worldZ);
+            float worldY =
+                (checkY + 0.5f) * TILE_SIZE;
+
+            float worldZ =
+                (checkZ + 0.5f) * TILE_SIZE;
+
+            VECTOR blockPos =
+                VGet(worldX, worldY, worldZ);
 
             //----------------------------------
             // ブロック半径
             //----------------------------------
-            float blockRadius = TILE_SIZE * 0.5f;
+            float blockRadius =
+                TILE_SIZE * 0.5f;
 
             //----------------------------------
             // めり込み量
@@ -300,43 +309,30 @@ VECTOR CCollisionManager::HitMap(
                 blockRadius,
                 &hitLen))
             {
-                //----------------------------------
                 // 押し戻し方向
-                //----------------------------------
-                VECTOR dir = VSub(center, blockPos);
-
-                //----------------------------------
+                VECTOR dir =
+                    VSub(center, blockPos);
                 // 長さ
-                //----------------------------------
                 float len = VSize(dir);
-
-                //----------------------------------
                 // 0除算防止
-                //----------------------------------
                 if (len <= 0.0001f)
+                {
                     continue;
+                }
 
-                //----------------------------------
                 // 正規化
-                //----------------------------------
                 dir = VNorm(dir);
-
-                //----------------------------------
-                // 横方向だけ押し戻す
-                //----------------------------------
                 dir.y = 0.0f;
 
-                //----------------------------------
-                // 押し戻し
-                //----------------------------------
-                result = VAdd(result, VScale(dir, hitLen));
+                // XZ方向だけ押し戻す
+                result.x += dir.x * hitLen;
+                result.z += dir.z * hitLen;
             }
         }
     }
 
     return result;
 }
-
 
 
 //--------------------------------------
@@ -388,42 +384,21 @@ VECTOR CCollisionManager::HitCatToObject(
         //--------------------------------------
         // 球同士の当たり判定
         //--------------------------------------
-        if (CHit::CheckSphereToSphere(
-            center,
-            objPos,
-            radius,
-            blockRadius,
-            &hitLen))
+        if (CHit::CheckSphereToSphere( center, objPos, radius, blockRadius, &hitLen))
         {
-            //----------------------------------
             // 押し戻し方向
-            //----------------------------------
             VECTOR dir = VSub(center, objPos);
-
-            //----------------------------------
             // 長さ
-            //----------------------------------
             float len = VSize(dir);
-
-            //----------------------------------
             // 0除算防止
-            //----------------------------------
             if (len <= 0.0001f)
                 continue;
 
-            //----------------------------------
             // 正規化
-            //----------------------------------
             dir = VNorm(dir);
-
-            //----------------------------------
-            // Y方向は押し戻さない
-            //----------------------------------
             dir.y = 0.0f;
 
-            //----------------------------------
             // 押し戻し
-            //----------------------------------
             result = VAdd(result, VScale(dir, hitLen));
         }
     }

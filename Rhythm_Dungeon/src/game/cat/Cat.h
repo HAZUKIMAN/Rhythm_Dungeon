@@ -62,6 +62,8 @@ public:
 	void Draw() override;
 	//ブロックの設置
 	void PlaceBlock(ObjectEditor& objEditor);
+	//物を置ける位置を表示
+	void DrawPlaceBlockPreview(MapEditor& map);
 
 private:
 	// 移動計算結果を反映
@@ -70,4 +72,5 @@ private:
 	void NormalExec(MapEditor& map);
 	// 壁チェック
 	bool CheckWall(MapEditor& map);
+
 };

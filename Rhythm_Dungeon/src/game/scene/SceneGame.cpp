@@ -142,14 +142,18 @@ int CSceneGame::Step()
 void CSceneGame::Draw()
 {
 	m_backgroundManager.Draw();
+
+	m_mapedit.Draw();
+	m_objEditor.Draw();
+
 	m_cameraManager.Draw();
 	m_player.Draw();
 	m_cat.Draw();
+	m_cat.DrawPlaceBlockPreview(m_mapedit);
 	m_institem.Draw();
 	
 	m_goal.Draw();		//ÉSÅ[Éã
-	m_mapedit.Draw();
-	m_objEditor.Draw();
+	
 
 	//m_enemyManager.Draw();
 	//m_shotManager.Draw();*/
