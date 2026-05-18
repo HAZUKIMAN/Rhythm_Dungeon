@@ -28,6 +28,13 @@ private:
 private:
 	tagPlayerState m_state;	// プレイヤーの状態
 
+
+	bool m_isMoving;
+	VECTOR m_targetPos;
+	int m_coolTime;
+	int m_moveX;
+	int m_moveZ;
+
 public:
 	// コンストラクタ・デストラクタ
 	CPlayer();

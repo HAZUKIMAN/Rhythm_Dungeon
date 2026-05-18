@@ -36,8 +36,8 @@ void CSceneGame::Init()
 	m_player.Init();
 	//// 猫初期化
 	m_cat.Init();
-	//// ショット初期化
-	//m_shotManager.Init();
+	//ブロックの初期化
+	m_block.Init();
 	//運べるアイテムの初期化
 	m_institem.Init();
 	// 背景初期化
@@ -55,10 +55,8 @@ void CSceneGame::Init()
 //-------------------------------
 void CSceneGame::Load()
 {
-	//m_backgroundManager.Load();
 	m_player.Load();
 	m_cat.Load();
-	//m_shotManager.Load();
 	m_mapedit.Load();
 	m_objEditor.Load();
 
@@ -73,16 +71,12 @@ int CSceneGame::Step()
 {
 	int ret = -1;
 	Calc();
-	//if (!m_player.IsActiveFlag())ret = SCENEID_GAMEOVER;
-	//else if (m_destroyCnt >= CLEAR_NUMBER)
-	//	ret = SCENEID_CLEAR;
-
+	
 	////ゴールとプレイヤーの判定
 	//if (CCollisionManager::CheckHitPlayerToGoal(m_player, m_goal))
 	//{
 	//	ret = SCENEID_GAMEOVER;
 	//}
-		
 
 	if (Input::Key::Push(KEY_INPUT_R))
 	{
@@ -99,7 +93,7 @@ int CSceneGame::Step()
 				float worldpos_x = (obj.x + 0.5f) * TILE_SIZE;
 				float worldpos_z = (obj.z + 0.5f) * TILE_SIZE;
 
-				m_player.SetPos(VGet(worldpos_x, gridSize, worldpos_z));//2.5fはマスの真ん中に持っていくよう
+				m_player.SetPos(VGet(worldpos_x, gridSize, worldpos_z));
 			}
 			if (obj.type == OBJ_ENEMY)
 			{
@@ -107,7 +101,7 @@ int CSceneGame::Step()
 				float worldpos_x = (obj.x + 0.5f) * TILE_SIZE;
 				float worldpos_z = (obj.z + 0.5f) * TILE_SIZE;
 
-				m_cat.SetPos(VGet(worldpos_x, gridSize, worldpos_z));//2.5fはマスの真ん中に持っていくよう
+				m_cat.SetPos(VGet(worldpos_x, gridSize, worldpos_z));
 			}
 			if (obj.type == OBJ_ITEM)
 			{
@@ -128,6 +122,15 @@ int CSceneGame::Step()
 
 				VECTOR vec = VGet(worldpos_x, gridSize, worldpos_z);
 				m_goal.SetPos(vec);
+			}
+			if (obj.type == OBJ_SETBLOCK)
+			{
+				float gridSize = 5.0f;
+				float worldpos_x = (obj.x + 0.5f) * TILE_SIZE;
+				float worldpos_z = (obj.z + 0.5f) * TILE_SIZE;
+
+				VECTOR vec = VGet(worldpos_x, gridSize, worldpos_z);
+				m_block.SetPos(vec);
 			}
 		}
 	}
@@ -151,12 +154,11 @@ void CSceneGame::Draw()
 	m_cat.Draw();
 	m_cat.DrawPlaceBlockPreview(m_mapedit);
 	m_institem.Draw();
-	
-	m_goal.Draw();		//ゴール
-	
+	//ブロックの初期化
+	m_block.Draw();
 
-	//m_enemyManager.Draw();
-	//m_shotManager.Draw();*/
+	m_goal.Draw();		//ゴール
+
 
 	//カメラの切り替え表示
 	DrawFormatString(1200,20,WHITE,"デバックカメラ切り替え処理:Key C \nエディターカメラ切り替え処理:Key B\nプレイカメラへの切り替え:key V");
@@ -254,27 +256,6 @@ void CSceneGame::Calc()
 
 		m_cat.AddPos(CCollisionManager::HitMap(m_cat.GetCenter(),m_cat.GetRadius(), m_mapedit));
 
-		
-		////------------------------------------------------
-		////	マップにあるオブジェクトとプレーヤーの床判定
-		////------------------------------------------------
-		//VECTOR push = CCollisionManager::HitPlayerToObject(
-		//	m_player.GetPos(),
-		//	2.0f,
-		//	m_objEditor,
-		//	m_player
-		//);
-		//m_player.AddPos(push);
-
-		////------------------------------------------------
-		////		マップにあるオブジェクトと猫の床判定
-		////------------------------------------------------
-		//VECTOR cat_push = CCollisionManager::HitCatToObject(
-		//	m_cat.GetPos(),
-		//	2.0f,
-		//	m_objEditor
-		//);
-		//m_cat.AddPos(cat_push);
 
 		// 各種更新
 		m_player.Update();
@@ -282,6 +263,8 @@ void CSceneGame::Calc()
 		m_cat.Update();
 		//アイテムの更新処理
 		m_institem.Update();
+		//ブロックの設置
+		m_block.Update();
 	}
 
 	if (m_cameraManager.GetCameraID() == CCameraManager::CAMERA_ID_EDITOR)

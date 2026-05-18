@@ -19,13 +19,7 @@ public:
 	// 描画
 	void Draw();
 
-	//当たり判定処理
-	//@center :当たり判定をする相手の座標
-	//@radius :相手を球として判定するのでその半径
-	//@return :押し戻す方向&距離
-	VECTOR	HitCheck(VECTOR start, VECTOR end);
-	
-	//エネミーの生存フラグ取得
+	//ブロックの生存フラグ取得
 	inline bool GetActive() { return m_isActive; }
 	inline int FieldHndl(){ return m_iModelHdl; };
 

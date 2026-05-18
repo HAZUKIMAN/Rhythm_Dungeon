@@ -11,7 +11,7 @@ CInstalledItem::~CInstalledItem(){
 
 // ‰Šú‰»
 void CInstalledItem::Init() {
-	m_vPosition = VGet(0.0f, 0.0f, 0.0f);
+	m_vPosition = VGet(100.0f, 100.0f, 100.0f);
 	m_iModelHdl = MV1LoadModel("Data/object/stage/Wall.mv1");
 	VECTOR size = VGet(0.03f, 0.03f, 0.03f);
 
@@ -33,29 +33,4 @@ void CInstalledItem::Update()
 void CInstalledItem::Draw() {
 
 	MV1DrawModel(m_iModelHdl);
-}
-
-//------------------------------
-//		“–‚½‚è”»’è
-//------------------------------
-VECTOR	CInstalledItem::HitCheck(VECTOR start, VECTOR end)
-{
-	VECTOR	out = end;
-
-	MV1_COLL_RESULT_POLY	res;	// “–‚½‚è”»’èŒ‹‰ÊŠi”[\‘¢‘Ì
-	res = MV1CollCheck_Line(m_iModelHdl, -1, start, end);	// “–‚½‚è”»’èŒ‹‰ÊŠi”[
-
-	// áŠQ•¨‚ª‚ ‚Á‚½ê‡
-	if (res.HitFlag == 1)
-	{
-		// áŠQ•¨‚Æ‚ ‚½‚Á‚½êŠ‚ÖˆÚ“®
-		out = res.HitPosition;
-		// ã•ûŒü‚Ö‰Ÿ‚µo‚·‹——£‚ğŒvZ‚µA‰ÁZ‚·‚é
-		VECTOR v = VSub(end, res.HitPosition);
-		float f = VSize(v);
-		out.y += f;
-	}
-
-
-	return out;
 }

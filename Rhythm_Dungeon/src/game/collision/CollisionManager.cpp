@@ -4,7 +4,7 @@
 #include "../../lib/math/hit.h"
 
 using namespace std;
-constexpr int SET_TIME = 50;
+constexpr int SET_TIME = 100;
 
 int CCollisionManager::m_time = SET_TIME;
 

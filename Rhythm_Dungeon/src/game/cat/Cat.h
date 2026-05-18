@@ -27,6 +27,7 @@ private:
 		OBJ_ITEM,
 		OBJ_GOAL,
 		OBJ_PUT_BOX,
+		OBJ_SETBLOCK
 	};
 
 
@@ -36,16 +37,25 @@ private:
 		TILE_WALL = 2
 	};
 
-
-	// 移動モード
+	//現在の床面(動くと起用のもの)
 	enum MoveMode
 	{
-		MOVE_GROUND,	// 地面
-		MOVE_WALL,		// 壁
-		MOVE_CEILING	// 天井（必要なら）
+		MOVE_GROUND,   // 地面
+		MOVE_WALL_X,   // X壁
+		MOVE_WALL_Z,   // Z壁
+		MOVE_CEILING   // 天井
 	};
 
 	MoveMode m_moveMode;
+
+	// 壁の種類
+	enum WallType
+	{
+		WALL_NONE, // 壁なし
+		WALL_X,    // 左右の壁
+		WALL_Z     // 前後の壁
+	};
+
 public:
 	// コンストラクタ・デストラクタ
 	CCat();
@@ -70,7 +80,11 @@ private:
 	void Move();
 	// 待機･移動中処理
 	void NormalExec(MapEditor& map);
+	//操作関係処理
+	void Operation(MapEditor& map);
+	// 床チェック
+	bool CheckGround(MapEditor& map);
 	// 壁チェック
-	bool CheckWall(MapEditor& map);
+	WallType CheckWall(MapEditor& map);
 
 };

@@ -117,6 +117,9 @@ int ObjectEditor::Step()
             break;
 
         case OBJ_PUT_BOX:
+            objstate = OBJ_SETBLOCK;
+            break;
+        case OBJ_SETBLOCK:
             objstate = OBJ_NONE;
             break;
         }
@@ -218,6 +221,10 @@ void ObjectEditor::Draw()
     case OBJ_PUT_BOX:
         DrawString(1300, 200,"OBJ_PUT_BOX", PINKU);
         break;
+
+    case OBJ_SETBLOCK:
+        DrawString(1300, 200, "OBJ_SETBLOCK", LIGHTGREEN);
+        break;
     }
 }
 
@@ -226,6 +233,7 @@ void ObjectEditor::Draw()
 //---------------------------------
 void ObjectEditor::Fin()
 {
+
 }
 
 //---------------------------------
@@ -409,6 +417,10 @@ void ObjectEditor::DrawObjects()
 
         case OBJ_PUT_BOX:
             DrawSphere3D(pos, 1.0f, 16, PINKU, PINKU, TRUE);
+            break;
+
+        case OBJ_SETBLOCK:
+            DrawSphere3D(pos, 1.0f, 16, LIGHTGREEN, LIGHTGREEN, TRUE);
             break;
         }
     }

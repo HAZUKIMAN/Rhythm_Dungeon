@@ -154,7 +154,7 @@
     <ClCompile Include="src\game\collision\CollisionManager.cpp" />
     <ClCompile Include="src\game\effect\effekseer.cpp" />
     <ClCompile Include="src\game\field\BackGroundManager.cpp" />
-    <ClCompile Include="src\game\field\Field.cpp" />
+    <ClCompile Include="src\game\field\Block.cpp" />
     <ClCompile Include="src\game\field\Goal.cpp" />
     <ClCompile Include="src\game\field\InstalledItem.cpp" />
     <ClCompile Include="src\game\field\Sky.cpp" />
@@ -192,7 +192,7 @@
     <ClInclude Include="src\game\common.h" />
     <ClInclude Include="src\game\effect\effekseer.h" />
     <ClInclude Include="src\game\field\BackGroundManager.h" />
-    <ClInclude Include="src\game\field\Field.h" />
+    <ClInclude Include="src\game\field\Block.h" />
     <ClInclude Include="src\game\field\Goal.h" />
     <ClInclude Include="src\game\field\InstalledItem.h" />
     <ClInclude Include="src\game\field\Sky.h" />

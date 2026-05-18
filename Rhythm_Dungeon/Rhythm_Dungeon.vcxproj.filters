@@ -162,7 +162,7 @@
     <ClCompile Include="src\game\field\BackGroundManager.cpp">
       <Filter>ソース ファイル\game\field</Filter>
     </ClCompile>
-    <ClCompile Include="src\game\field\Field.cpp">
+    <ClCompile Include="src\game\field\Block.cpp">
       <Filter>ソース ファイル\game\field\Field</Filter>
     </ClCompile>
     <ClCompile Include="src\game\camera\CameraEditor.cpp">
@@ -272,7 +272,7 @@
     <ClInclude Include="src\game\field\BackGroundManager.h">
       <Filter>ソース ファイル\game\field</Filter>
     </ClInclude>
-    <ClInclude Include="src\game\field\Field.h">
+    <ClInclude Include="src\game\field\Block.h">
       <Filter>ソース ファイル\game\field\Field</Filter>
     </ClInclude>
     <ClInclude Include="src\game\camera\CameraEditor.h">

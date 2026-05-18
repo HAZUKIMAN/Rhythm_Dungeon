@@ -51,7 +51,6 @@ int  CBackGroundManager::Step()
 void CBackGroundManager::Draw()
 {
 	c_sky.Draw();
-
 }
 
 

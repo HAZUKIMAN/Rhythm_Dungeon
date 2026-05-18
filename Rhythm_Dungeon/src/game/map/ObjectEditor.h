@@ -40,6 +40,7 @@ public:
 		OBJ_ITEM,
 		OBJ_GOAL,
 		OBJ_PUT_BOX,
+		OBJ_SETBLOCK
 	};
 
 	ObjectType objstate;

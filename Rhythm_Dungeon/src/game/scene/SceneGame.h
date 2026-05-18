@@ -9,6 +9,7 @@
 #include "../cat/Cat.h"
 #include "../field/InstalledItem.h"
 #include "../field/Goal.h"
+#include "../field/Block.h"
 
 //タイトルクラス
 //	@memo	:	継承後も基本はpublicは増やさない
@@ -19,10 +20,11 @@ private:
 	CCameraManager m_cameraManager;			// カメラマネージャ
 	CCat m_cat;								//猫（操作キャラ）
 	CInstalledItem m_institem;				//運べる用のオブジェクト
-	//CShotManager m_shotManager;			// ショット管理
+	CBlock			m_block;				//ブロック
 	CBackGroundManager m_backgroundManager;	// 背景
 	MapEditor m_mapedit;					//マップエディター
 	ObjectEditor m_objEditor;				//オブジェクトエディター
+
 	CGoal m_goal;							//ゴール
 public:
 	CSceneGame();
@@ -34,7 +36,7 @@ public:
 	void Load();
 	//実行処理
 	//	@戻り値	:	次のシーン(-1なら変更なし)
-	int Step();
+	int  Step();
 	//描画
 	void Draw();
 	//終了処理
@@ -51,6 +53,7 @@ private:
 		OBJ_ITEM,
 		OBJ_GOAL,
 		OBJ_PUT_BOX,
+		OBJ_SETBLOCK
 	};
 
 	enum tagMove
@@ -59,6 +62,7 @@ private:
 		CARRY,
 		PUT,
 	};
+
 	tagMove move_box;
 
 };
