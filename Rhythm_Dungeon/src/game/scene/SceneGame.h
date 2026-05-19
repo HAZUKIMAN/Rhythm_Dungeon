@@ -20,7 +20,7 @@ private:
 	CCameraManager m_cameraManager;			// カメラマネージャ
 	CCat m_cat;								//猫（操作キャラ）
 	CInstalledItem m_institem;				//運べる用のオブジェクト
-	CBlock			m_block;				//ブロック
+	std::vector<CBlock*> m_blocks;			// 設置ブロック
 	CBackGroundManager m_backgroundManager;	// 背景
 	MapEditor m_mapedit;					//マップエディター
 	ObjectEditor m_objEditor;				//オブジェクトエディター

@@ -12,6 +12,7 @@
 CSceneGame::CSceneGame()
 {
 	move_box = NONE;
+	
 }
 
 
@@ -36,8 +37,8 @@ void CSceneGame::Init()
 	m_player.Init();
 	//// 猫初期化
 	m_cat.Init();
-	//ブロックの初期化
-	m_block.Init();
+	////ブロックの初期化
+	//m_block.Init();
 	//運べるアイテムの初期化
 	m_institem.Init();
 	// 背景初期化
@@ -47,6 +48,8 @@ void CSceneGame::Init()
 
 	m_mapedit.Init();
 	m_objEditor.Init();
+
+	m_blocks.clear();
 }
 
 
@@ -123,14 +126,27 @@ int CSceneGame::Step()
 				VECTOR vec = VGet(worldpos_x, gridSize, worldpos_z);
 				m_goal.SetPos(vec);
 			}
+			//---------------------------------
+			// ブロック生成
+			//---------------------------------
 			if (obj.type == OBJ_SETBLOCK)
 			{
 				float gridSize = 5.0f;
-				float worldpos_x = (obj.x + 0.5f) * TILE_SIZE;
-				float worldpos_z = (obj.z + 0.5f) * TILE_SIZE;
 
-				VECTOR vec = VGet(worldpos_x, gridSize, worldpos_z);
-				m_block.SetPos(vec);
+				float worldpos_x =(obj.x + 0.5f)* TILE_SIZE;
+
+				float worldpos_z =(obj.z + 0.5f)* TILE_SIZE;
+				VECTOR pos =VGet(worldpos_x,gridSize,worldpos_z);
+
+				//---------------------------------
+				// 新しいブロック作成
+				//---------------------------------
+				CBlock* block = new CBlock;
+
+				block->Init();
+				block->SetPos(pos);
+
+				m_blocks.push_back(block);
 			}
 		}
 	}
@@ -155,7 +171,10 @@ void CSceneGame::Draw()
 	m_cat.DrawPlaceBlockPreview(m_mapedit);
 	m_institem.Draw();
 	//ブロックの初期化
-	m_block.Draw();
+	for (auto& block : m_blocks)
+	{
+		block->Draw();
+	}
 
 	m_goal.Draw();		//ゴール
 
@@ -236,22 +255,21 @@ void CSceneGame::Calc()
 					}
 					
 				}
+
 				move_box = NONE;
 			}
 		}
-		
+	
+		//プレイヤーと設置ブロック
+		m_player.AddPos(CCollisionManager::HitPlayerToBlock(m_player,m_blocks));
 
-		//ボックスとプレイヤーの当たり判定
-		CCollisionManager::CheckHitPlayerToBlock(m_player, m_institem);
-
-		//-------------------------------------
 		//  プレイヤーと床と壁との当たり判定
-		//-------------------------------------
 		m_player.AddPos(CCollisionManager::HitMap(m_player.GetCenter(), m_player.GetRadius(), m_mapedit));
 
-		//-------------------------------------
+		// オブジェクト一覧とプレイヤーの当たり判定
+		m_player.AddPos(CCollisionManager::HitCatToObject(m_player, m_objEditor));
+
 		//  猫と床と壁との当たり判定
-		//-------------------------------------
 		VECTOR vec = VGet(m_cat.GetCenter().x, m_cat.GetCenter().y +2.0, m_cat.GetCenter().z);
 
 		m_cat.AddPos(CCollisionManager::HitMap(m_cat.GetCenter(),m_cat.GetRadius(), m_mapedit));
@@ -264,7 +282,10 @@ void CSceneGame::Calc()
 		//アイテムの更新処理
 		m_institem.Update();
 		//ブロックの設置
-		m_block.Update();
+		for (auto& block : m_blocks)
+		{
+			block->Update();
+		}
 	}
 
 	if (m_cameraManager.GetCameraID() == CCameraManager::CAMERA_ID_EDITOR)

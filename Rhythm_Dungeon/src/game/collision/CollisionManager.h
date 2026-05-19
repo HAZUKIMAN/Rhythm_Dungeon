@@ -5,6 +5,7 @@
 #include "../map/ObjectEditor.h"
 #include "../map/MapEditor.h"
 #include "../field/Goal.h"
+#include "../field/Block.h"
 
 class CPlayer;
 class CObjectEditor;
@@ -16,12 +17,14 @@ class CCollisionManager
 {
 private:
 
-	enum ObjectType
-	{
+	enum ObjectType {
+		OBJ_NONE,
 		OBJ_PLAYER,
 		OBJ_ENEMY,
 		OBJ_ITEM,
-		OBJ_BLOCK
+		OBJ_GOAL,
+		OBJ_PUT_BOX,
+		OBJ_SETBLOCK
 	};
 
 	enum TileType {
@@ -36,24 +39,17 @@ public:
 
 	CCollisionManager();
 
-	// ブロックとプレイヤーの当たり判定
-	static void CheckHitPlayerToBlock(CPlayer& player,
-		CInstalledItem& inst);
-
 	// ゴールとプレイヤーの当たり判定
 	static bool CheckHitPlayerToGoal(CPlayer& player,
 		CGoal& inst);
 
-	
-	static VECTOR HitPlayerToObject(VECTOR center,
-		float radius,
-		ObjectEditor&object,
-		CPlayer& player
-	);
+	// Playerと設置ブロックの当たり判定
+	static VECTOR HitPlayerToBlock(CPlayer& player,
+		std::vector<CBlock*>& blocks);
 
-	//猫とオブジェクトの計算
-	static VECTOR HitCatToObject(VECTOR center,
-		float radius, ObjectEditor& object);
+	//プレイヤーとオブジェクトの計算
+	static VECTOR HitCatToObject(CPlayer& player,
+		ObjectEditor& object);
 
 	//プレイヤーの座標をマップ座標にして計算を行う
 	static VECTOR HitMap( VECTOR center, float radius, MapEditor& map);

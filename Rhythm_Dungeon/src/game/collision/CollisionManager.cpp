@@ -4,55 +4,12 @@
 #include "../../lib/math/hit.h"
 
 using namespace std;
-constexpr int SET_TIME = 100;
+constexpr int SET_TIME = 40;
 
 int CCollisionManager::m_time = SET_TIME;
 
 CCollisionManager::CCollisionManager()
 {
-}
-
-//-----------------------------------------
-//		ブロックとプレイヤーの当たり判定
-//-----------------------------------------
-void CCollisionManager::CheckHitPlayerToBlock(CPlayer& player,
-    CInstalledItem& inst)
-{
-    m_time--;
-
-	VECTOR playerPos = player.GetCenter();
-	float playerRadius = player.GetRadius();
-
-    VECTOR vec = { inst.GetPos().x,inst.GetPos().y + 1.0f ,inst.GetPos().z };
-	// 座標と半径を取得
-	VECTOR instPos = vec;
-	float instRadius = 2.5f;
-
-    if (m_time >= 0)return;
-
-	// 球と球の当たり判定
-	if (CHit::CheckSphereToSphere(playerPos, instPos, playerRadius, instRadius))
-	{
-        //プレイヤーの処理
-        int  state = player.GetDirect();
-        m_time = SET_TIME;
-
-        switch (state)
-        {
-        case 0:
-            player.SetDirect(1);
-            break;
-        case 1:
-            player.SetDirect(2);
-            break;
-        case 2:
-            player.SetDirect(3);
-            break;
-        case 3:
-            player.SetDirect(4);
-            break;
-        }
-	}
 }
 
 
@@ -77,105 +34,7 @@ bool CCollisionManager::CheckHitPlayerToGoal(CPlayer& player,
     return false;
 }
 
-//フィールドとの当たり判定処理
-	//@center :当たり判定をする相手の座標
-	//@radius :相手を球として判定するのでその半径
-	//@return :押し戻す方向&距離
-//---------------------------------------------------------
-// オブジェクトとの当たり判定
-//---------------------------------------------------------
-VECTOR CCollisionManager::HitPlayerToObject(
-    VECTOR center,
-    float radius,
-    ObjectEditor& object,
-    CPlayer& player
-)
-{
-    VECTOR result = VGet(0, 0, 0);
-   // //--------------------------------------
-   //// ObjectEditorから取得
-   ////--------------------------------------
-   // const auto& objs = object.GetObjects();
-   // //------------------------------------------
-   // // 全オブジェクトをチェック
-   // //------------------------------------------
-   // for (const auto& obj : objs)
-   // {
-   //     //--------------------------------------
-   //     // 壁だけ当たり判定
-   //     //--------------------------------------
-   //     if (obj.type != OBJ_BLOCK)
-   //         continue;
-   //     //--------------------------------------
-   //     // マップ座標 → ワールド座標
-   //     //--------------------------------------
-   //     float worldX = (obj.x + 0.5f) * TILE_SIZE;
-   //     float worldZ = (obj.z + 0.5f) * TILE_SIZE;
 
-   //     VECTOR objPos = VGet(worldX, 0, worldZ);
-   //     //--------------------------------------
-   //     // プレイヤー → オブジェクト
-   //     //--------------------------------------
-   //     float dx = center.x - objPos.x;
-   //     float dz = center.z - objPos.z;
-   //     //--------------------------------------
-   //     // 距離
-   //     //--------------------------------------
-   //     float distSq = dx * dx + dz * dz;
-   //     //--------------------------------------
-   //     // 当たり判定半径
-   //     //--------------------------------------
-   //     float hitRange = radius + 2.5f;
-   //     //--------------------------------------
-   //     // 当たった
-   //     //--------------------------------------
-   //     if (distSq < hitRange * hitRange)
-   //     {
-   //         float dist = sqrtf(distSq);
-   //         //----------------------------------
-   //         // 0除算防止
-   //         //----------------------------------
-   //         if (dist <= 0.0001f)
-   //             continue;
-   //         //----------------------------------
-   //         // 押し戻し方向
-   //         //----------------------------------
-   //         VECTOR dir;
-   //         dir.x = dx / dist;
-   //         dir.y = 0.0f;
-   //         dir.z = dz / dist;
-   //         //----------------------------------
-   //         // めり込み量
-   //         //----------------------------------
-   //         float push = hitRange - dist;
-   //         //----------------------------------
-   //         // 押し戻し
-   //         //----------------------------------
-   //         result = VAdd(result, VScale(dir, push));
-
-   //         //プレイヤーの処理
-   //         int  state = player.GetDirect();
-
-   //         switch (state)
-   //         {
-   //         case 0:
-   //             player.SetDirect(1);
-   //             break;
-   //         case 1:
-   //             player.SetDirect(2);
-   //             break;
-   //         case 2:
-   //             player.SetDirect(3);
-   //             break;
-   //         case 3:
-   //             player.SetDirect(4);
-   //             break;
-   //         }
-   //     }
-    //}
-
-    return result;
-}
 
 //--------------------------------------
 // マップとの当たり判定
@@ -276,17 +135,11 @@ VECTOR CCollisionManager::HitMap(
             //----------------------------------
             // ブロック座標
             //----------------------------------
-            float worldX =
-                (checkX + 0.5f) * TILE_SIZE;
+            float worldX =(checkX + 0.5f) * TILE_SIZE;
+            float worldY =(checkY + 0.5f) * TILE_SIZE;
+            float worldZ =(checkZ + 0.5f) * TILE_SIZE;
 
-            float worldY =
-                (checkY + 0.5f) * TILE_SIZE;
-
-            float worldZ =
-                (checkZ + 0.5f) * TILE_SIZE;
-
-            VECTOR blockPos =
-                VGet(worldX, worldY, worldZ);
+            VECTOR blockPos =VGet(worldX, worldY, worldZ);
 
             //----------------------------------
             // ブロック半径
@@ -302,12 +155,7 @@ VECTOR CCollisionManager::HitMap(
             //----------------------------------
             // 球同士判定
             //----------------------------------
-            if (CHit::CheckSphereToSphere(
-                center,
-                blockPos,
-                radius,
-                blockRadius,
-                &hitLen))
+            if (CHit::CheckSphereToSphere(center,blockPos,radius,blockRadius,&hitLen))
             {
                 // 押し戻し方向
                 VECTOR dir =
@@ -334,13 +182,145 @@ VECTOR CCollisionManager::HitMap(
     return result;
 }
 
-
 //--------------------------------------
-// 猫とオブジェクトの当たり判定
+// Playerと設置ブロックの当たり判定
+//--------------------------------------
+VECTOR CCollisionManager::HitPlayerToBlock(
+    CPlayer& player,
+    std::vector<CBlock*>& blocks)
+{
+    //--------------------------------------
+    // 押し戻し結果
+    //--------------------------------------
+    VECTOR result =
+        VGet(0, 0, 0);
+
+    //--------------------------------------
+    // Player情報
+    //--------------------------------------
+    VECTOR playerPos =
+        player.GetCenter();
+
+    float playerRadius =
+        player.GetRadius();
+
+    //--------------------------------------
+    // 全ブロック判定
+    //--------------------------------------
+    for (auto block : blocks)
+    {
+        //--------------------------------------
+        // nullptr防止
+        //--------------------------------------
+        if (block == nullptr)
+            continue;
+
+        //--------------------------------------
+        // ブロック情報
+        //--------------------------------------
+        VECTOR blockPos =
+            block->GetPos();
+
+        float blockRadius =
+            2.5f;
+
+        float hitLen =
+            0.0f;
+
+        //--------------------------------------
+        // 球同士判定
+        //--------------------------------------
+        if (!CHit::CheckSphereToSphere(
+            playerPos,
+            blockPos,
+            playerRadius,
+            blockRadius,
+            &hitLen))
+        {
+            continue;
+        }
+
+        //--------------------------------------
+        // クールタイム中
+        //--------------------------------------
+        if (m_time > 0)
+        {
+            continue;
+        }
+
+        //--------------------------------------
+        // 向き変更
+        //--------------------------------------
+        int state =
+            player.GetDirect();
+
+        switch (state)
+        {
+        case 0:
+            player.SetDirect(1);
+            break;
+
+        case 1:
+            player.SetDirect(2);
+            break;
+
+        case 2:
+            player.SetDirect(3);
+            break;
+
+        case 3:
+            player.SetDirect(0);
+            break;
+        }
+
+        //--------------------------------------
+        // クールタイム開始
+        //--------------------------------------
+        m_time = SET_TIME;
+
+        //--------------------------------------
+        // 押し戻し方向
+        //--------------------------------------
+        VECTOR dir =
+            VSub(
+                playerPos,
+                blockPos);
+
+        float len =
+            VSize(dir);
+
+        if (len <= 0.0001f)
+            continue;
+
+        //--------------------------------------
+        // 正規化
+        //--------------------------------------
+        dir =
+            VNorm(dir);
+
+        dir.y = 0.0f;
+
+        //--------------------------------------
+        // 押し戻し
+        //--------------------------------------
+        result =
+            VAdd(
+                result,
+                VScale(
+                    dir,
+                    hitLen));
+    }
+
+    return result;
+}
+//--------------------------------------
+// Playerとオブジェクトの当たり判定
 //--------------------------------------
 VECTOR CCollisionManager::HitCatToObject(
-    VECTOR center, float radius, ObjectEditor& object)
+    CPlayer& player,ObjectEditor& object)
 {
+    m_time--;
+    float radius = player.GetRadius();
     //--------------------------------------
     // 押し戻し結果
     //--------------------------------------
@@ -359,8 +339,10 @@ VECTOR CCollisionManager::HitCatToObject(
         //--------------------------------------
         // ブロックだけ判定
         //--------------------------------------
-        if (obj.type != OBJ_BLOCK)
+        if (obj.type != OBJ_ITEM)
             continue;
+
+        if (m_time >= 0)continue;
 
         //--------------------------------------
         // マップ座標 → ワールド座標
@@ -384,10 +366,30 @@ VECTOR CCollisionManager::HitCatToObject(
         //--------------------------------------
         // 球同士の当たり判定
         //--------------------------------------
-        if (CHit::CheckSphereToSphere( center, objPos, radius, blockRadius, &hitLen))
+        if (CHit::CheckSphereToSphere(player.GetCenter(), objPos, radius, blockRadius, &hitLen))
         {
+            //プレイヤーの処理
+            int  state = player.GetDirect();
+            m_time = SET_TIME;
+
+            switch (state)
+            {
+            case 0:
+                player.SetDirect(1);
+                break;
+            case 1:
+                player.SetDirect(2);
+                break;
+            case 2:
+                player.SetDirect(3);
+                break;
+            case 3:
+                player.SetDirect(4);
+                break;
+            }
+
             // 押し戻し方向
-            VECTOR dir = VSub(center, objPos);
+            VECTOR dir = VSub(player.GetCenter(), objPos);
             // 長さ
             float len = VSize(dir);
             // 0除算防止
