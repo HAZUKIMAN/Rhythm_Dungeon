@@ -260,6 +260,8 @@ void CSceneGame::Calc()
 			}
 		}
 	
+		// 待機･移動中処理
+		m_player.NormalExec(m_blocks);
 		//プレイヤーと設置ブロック
 		m_player.AddPos(CCollisionManager::HitPlayerToBlock(m_player,m_blocks));
 

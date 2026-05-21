@@ -86,7 +86,7 @@ void CPlayer::Step()
 	}
 
 	Direction();
-	NormalExec();
+	//NormalExec();
 	Move();
 }
 
@@ -119,52 +119,175 @@ void CPlayer::Move()
 }
 
 
+////-------------------------------
+////		待機･移動中処理
+////-------------------------------
+//void CPlayer::NormalExec()
+//{
+//	//---------------------------------
+//	// 移動中
+//	//---------------------------------
+//	if (m_isMoving)
+//	{
+//		VECTOR dir = VSub(m_targetPos,m_vPosition);
+//		float dist = VSize(dir);
+//		//---------------------------------
+//		// 到着
+//		//---------------------------------
+//		if (dist < MOVE_SPEED)
+//		{
+//			m_vPosition = m_targetPos;
+//			m_isMoving =false;
+//		}
+//		else
+//		{
+//			// 正規化
+//			dir = VNorm(dir);
+//			// 少しずつ移動
+//			dir =VScale(dir,MOVE_SPEED);
+//
+//			m_vPosition =VAdd(m_vPosition,dir);
+//		}
+//		return;
+//	}
+//
+//	m_coolTime--;
+//
+////---------------------------------
+//// 移動開始
+////---------------------------------
+//	if (m_coolTime <= 0)
+//	{
+//		m_coolTime = MAXTIME;
+//
+//		// 現在マス取得
+//		int mapX =(int)floor(m_vPosition.x /TILE_SIZE);
+//		int mapZ =(int)floor(m_vPosition.z /TILE_SIZE);
+//
+//		// 向いている方向
+//		int dirX = 0;
+//		int dirZ = 0;
+//
+//		switch (direction)
+//		{
+//		case ROTATION_RIGHT:
+//			dirX = 1;
+//			dirZ = 0;
+//			break;
+//
+//		case ROTATION_LEFT:
+//			dirX = -1;
+//			dirZ = 0;
+//			break;
+//
+//		case ROTATION_UP:
+//			dirX = 0;
+//			dirZ = 1;
+//			break;
+//
+//		case ROTATION_DOWN:
+//			dirX = 0;
+//			dirZ = -1;
+//			break;
+//		}
+//		// 次マス
+//		mapX += dirX;
+//		mapZ += dirZ;
+//
+//		// 中心位置
+//		float worldX =(mapX + 0.5f)* TILE_SIZE;
+//		float worldZ =(mapZ + 0.5f)* TILE_SIZE;
+//
+//		// 目標地点
+//		m_targetPos =VGet(worldX,m_vPosition.y,worldZ);
+//
+//		// 移動開始
+//		m_isMoving = true;
+//	}
+//}
 //-------------------------------
 //		待機･移動中処理
 //-------------------------------
-void CPlayer::NormalExec()
+void CPlayer::NormalExec(std::vector<CBlock*>& blocks)
 {
 	//---------------------------------
 	// 移動中
 	//---------------------------------
 	if (m_isMoving)
 	{
-		VECTOR dir = VSub(m_targetPos,m_vPosition);
-		float dist = VSize(dir);
+		VECTOR dir =
+			VSub(
+				m_targetPos,
+				m_vPosition);
+
+		float dist =
+			VSize(dir);
+
 		//---------------------------------
 		// 到着
 		//---------------------------------
 		if (dist < MOVE_SPEED)
 		{
-			m_vPosition = m_targetPos;
-			m_isMoving =false;
+			m_vPosition =
+				m_targetPos;
+
+			m_isMoving =
+				false;
 		}
 		else
 		{
+			//---------------------------------
 			// 正規化
-			dir = VNorm(dir);
-			// 少しずつ移動
-			dir =VScale(dir,MOVE_SPEED);
+			//---------------------------------
+			dir =
+				VNorm(dir);
 
-			m_vPosition =VAdd(m_vPosition,dir);
+			//---------------------------------
+			// 少しずつ移動
+			//---------------------------------
+			dir =
+				VScale(
+					dir,
+					MOVE_SPEED);
+
+			m_vPosition =
+				VAdd(
+					m_vPosition,
+					dir);
 		}
+
 		return;
 	}
 
+	//---------------------------------
+	// クールタイム
+	//---------------------------------
 	m_coolTime--;
 
-//---------------------------------
-// 移動開始
-//---------------------------------
+	//---------------------------------
+	// 次の移動開始
+	//---------------------------------
 	if (m_coolTime <= 0)
 	{
-		m_coolTime = MAXTIME;
+		m_coolTime =
+			MAXTIME;
 
+		//---------------------------------
 		// 現在マス取得
-		int mapX =(int)floor(m_vPosition.x /TILE_SIZE);
-		int mapZ =(int)floor(m_vPosition.z /TILE_SIZE);
+		//---------------------------------
+		int mapX =
+			(int)floor(
+				m_vPosition.x
+				/ TILE_SIZE);
 
+		int mapZ =
+			(int)floor(
+				m_vPosition.z
+				/ TILE_SIZE);
+
+		//---------------------------------
 		// 向いている方向
+		//---------------------------------
 		int dirX = 0;
 		int dirZ = 0;
 
@@ -190,19 +313,106 @@ void CPlayer::NormalExec()
 			dirZ = -1;
 			break;
 		}
+
+		//---------------------------------
 		// 次マス
-		mapX += dirX;
-		mapZ += dirZ;
+		//---------------------------------
+		int nextX =
+			mapX + dirX;
 
+		int nextZ =
+			mapZ + dirZ;
+
+		//---------------------------------
+		// ブロックチェック
+		//---------------------------------
+		bool hitBlock =
+			false;
+
+		for (auto block : blocks)
+		{
+			if (block == nullptr)
+				continue;
+
+			int blockX =
+				(int)floor(
+					block->GetPos().x
+					/ TILE_SIZE);
+
+			int blockZ =
+				(int)floor(
+					block->GetPos().z
+					/ TILE_SIZE);
+
+			//---------------------------------
+			// 次マスにある
+			//---------------------------------
+			if (blockX == nextX &&
+				blockZ == nextZ)
+			{
+				hitBlock =
+					true;
+
+				break;
+			}
+		}
+
+		//---------------------------------
+		// ブロックに当たる
+		//---------------------------------
+		if (hitBlock)
+		{
+			switch (direction)
+			{
+			case ROTATION_RIGHT:
+				direction =
+					ROTATION_DOWN;
+				break;
+
+			case ROTATION_DOWN:
+				direction =
+					ROTATION_LEFT;
+				break;
+
+			case ROTATION_LEFT:
+				direction =
+					ROTATION_UP;
+				break;
+
+			case ROTATION_UP:
+				direction =
+					ROTATION_RIGHT;
+				break;
+			}
+
+			return;
+		}
+
+		//---------------------------------
 		// 中心位置
-		float worldX =(mapX + 0.5f)* TILE_SIZE;
-		float worldZ =(mapZ + 0.5f)* TILE_SIZE;
+		//---------------------------------
+		float worldX =
+			(nextX + 0.5f)
+			* TILE_SIZE;
 
+		float worldZ =
+			(nextZ + 0.5f)
+			* TILE_SIZE;
+
+		//---------------------------------
 		// 目標地点
-		m_targetPos =VGet(worldX,m_vPosition.y,worldZ);
+		//---------------------------------
+		m_targetPos =
+			VGet(
+				worldX,
+				m_vPosition.y,
+				worldZ);
 
+		//---------------------------------
 		// 移動開始
-		m_isMoving = true;
+		//---------------------------------
+		m_isMoving =
+			true;
 	}
 }
 

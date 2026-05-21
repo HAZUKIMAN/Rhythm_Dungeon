@@ -4,7 +4,7 @@
 #include "../../lib/math/hit.h"
 
 using namespace std;
-constexpr int SET_TIME = 40;
+constexpr int SET_TIME = 50;
 
 int CCollisionManager::m_time = SET_TIME;
 
@@ -190,10 +190,9 @@ VECTOR CCollisionManager::HitPlayerToBlock(
     std::vector<CBlock*>& blocks)
 {
     //--------------------------------------
-    // 押し戻し結果
+    // クールタイム
     //--------------------------------------
-    VECTOR result =
-        VGet(0, 0, 0);
+    m_time--;
 
     //--------------------------------------
     // Player情報
@@ -205,19 +204,28 @@ VECTOR CCollisionManager::HitPlayerToBlock(
         player.GetRadius();
 
     //--------------------------------------
+    // 押し戻し結果
+    //--------------------------------------
+    VECTOR result =
+        VGet(0, 0, 0);
+
+    //--------------------------------------
+    // 一番近い当たり
+    //--------------------------------------
+    float nearestHit =
+        999999.0f;
+
+    CBlock* hitBlock =
+        nullptr;
+
+    //--------------------------------------
     // 全ブロック判定
     //--------------------------------------
     for (auto block : blocks)
     {
-        //--------------------------------------
-        // nullptr防止
-        //--------------------------------------
         if (block == nullptr)
             continue;
 
-        //--------------------------------------
-        // ブロック情報
-        //--------------------------------------
         VECTOR blockPos =
             block->GetPos();
 
@@ -228,7 +236,7 @@ VECTOR CCollisionManager::HitPlayerToBlock(
             0.0f;
 
         //--------------------------------------
-        // 球同士判定
+        // 球判定
         //--------------------------------------
         if (!CHit::CheckSphereToSphere(
             playerPos,
@@ -241,16 +249,37 @@ VECTOR CCollisionManager::HitPlayerToBlock(
         }
 
         //--------------------------------------
-        // クールタイム中
+        // 一番近いブロック
         //--------------------------------------
-        if (m_time > 0)
-        {
-            continue;
-        }
+        float dist =
+            VSize(
+                VSub(
+                    playerPos,
+                    blockPos));
 
-        //--------------------------------------
-        // 向き変更
-        //--------------------------------------
+        if (dist < nearestHit)
+        {
+            nearestHit =
+                dist;
+
+            hitBlock =
+                block;
+        }
+    }
+
+    //--------------------------------------
+    // 当たっていない
+    //--------------------------------------
+    if (hitBlock == nullptr)
+    {
+        return result;
+    }
+
+    //--------------------------------------
+    // クールタイム中
+    //--------------------------------------
+    if (m_time <= 0)
+    {
         int state =
             player.GetDirect();
 
@@ -273,46 +302,35 @@ VECTOR CCollisionManager::HitPlayerToBlock(
             break;
         }
 
-        //--------------------------------------
-        // クールタイム開始
-        //--------------------------------------
         m_time = SET_TIME;
-
-        //--------------------------------------
-        // 押し戻し方向
-        //--------------------------------------
-        VECTOR dir =
-            VSub(
-                playerPos,
-                blockPos);
-
-        float len =
-            VSize(dir);
-
-        if (len <= 0.0001f)
-            continue;
-
-        //--------------------------------------
-        // 正規化
-        //--------------------------------------
-        dir =
-            VNorm(dir);
-
-        dir.y = 0.0f;
-
-        //--------------------------------------
-        // 押し戻し
-        //--------------------------------------
-        result =
-            VAdd(
-                result,
-                VScale(
-                    dir,
-                    hitLen));
     }
 
+    //--------------------------------------
+    // 押し戻し
+    //--------------------------------------
+    VECTOR dir =
+        VSub(
+            playerPos,
+            hitBlock->GetPos());
+
+    float len =
+        VSize(dir);
+
+    if (len > 0.0001f)
+    {
+        dir = VNorm(dir);
+        dir.y = 0.0f;
+
+        result =VScale(dir,1.0f);
+    }
+
+    result.y = 0.0f;
+    result.z = 0.0f;
     return result;
 }
+
+
+
 //--------------------------------------
 // Playerとオブジェクトの当たり判定
 //--------------------------------------

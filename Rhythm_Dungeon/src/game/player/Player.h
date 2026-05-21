@@ -1,5 +1,7 @@
 #pragma once
 #include "../object/Actor.h"
+#include <vector>
+#include "../field/Block.h"
 
 
 class CPlayer : public CActor
@@ -58,6 +60,8 @@ private:
 	void Direction();
 	// ˆÚ“®ŒvZŒ‹‰Ê‚ğ”½‰f
 	void Move();
+
+public:
 	// ‘Ò‹@¥ˆÚ“®’†ˆ—
-	void NormalExec();
+	void NormalExec(std::vector<CBlock*>& blocks);
 };
