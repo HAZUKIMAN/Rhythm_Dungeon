@@ -2,8 +2,8 @@
 #include <DxLib.h>
 #include "CameraBase.h"
 
-// プレイヤー情報取得のため
-class CPlayer;
+// 人間情報取得のため
+class CHuman;
 // エネミー情報取得のため
 class CEnemyManager;
 
@@ -15,7 +15,7 @@ public:
 	~CDebugCamera() override;
 
 	// 毎フレーム呼ぶ処理
-	void Step(CPlayer& player) override;
+	void Step(CHuman& human) override;
 	// 描画
 	void Draw() override;
 

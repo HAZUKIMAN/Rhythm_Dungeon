@@ -9,21 +9,21 @@ class CCat : public CActor
 public:
 
 	enum tagCatState {
-		PLAYER_STATE_NORMAL,	// 待機
-		PLAYER_STATE_RUN,		// 歩き中
-		PLAYER_STATE_JUMP,		// ジャンプ中
+		CAT_STATE_NORMAL,	// 待機
+		CAT_STATE_RUN,		// 歩き中
+		CAT_STATE_JUMP,		// ジャンプ中
 
-		PLAYER_STATE_NUM
+		CAT_STATE_NUM
 	};
 
 private:
 
-	tagCatState m_state;	// プレイヤーの状態
+	tagCatState m_state;	// 人間の状態
 
 	enum ObjectType {
 		OBJ_NONE,
-		OBJ_PLAYER,
-		OBJ_ENEMY,
+		OBJ_HUMAN,
+		OBJ_CAT,
 		OBJ_ITEM,
 		OBJ_GOAL,
 		OBJ_PUT_BOX,

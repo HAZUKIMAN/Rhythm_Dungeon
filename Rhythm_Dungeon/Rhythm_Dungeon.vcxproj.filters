@@ -40,9 +40,6 @@
     <Filter Include="ソース ファイル\game\scene">
       <UniqueIdentifier>{9186c726-c435-4437-9f60-b388209c9393}</UniqueIdentifier>
     </Filter>
-    <Filter Include="ソース ファイル\game\player">
-      <UniqueIdentifier>{e58a5058-b9c9-4925-ae44-a8e7a3d7bdfb}</UniqueIdentifier>
-    </Filter>
     <Filter Include="ソース ファイル\game\field">
       <UniqueIdentifier>{8d6f7f79-bed7-4308-a631-2a1bc82f849f}</UniqueIdentifier>
     </Filter>
@@ -73,9 +70,6 @@
     <Filter Include="ソース ファイル\game\field\objecteditor">
       <UniqueIdentifier>{fc0d28e3-3dc4-4e8e-bf28-4f6cf7bdfb48}</UniqueIdentifier>
     </Filter>
-    <Filter Include="ソース ファイル\game\cat">
-      <UniqueIdentifier>{38913931-c9d6-45e6-91bb-54f644500965}</UniqueIdentifier>
-    </Filter>
     <Filter Include="ソース ファイル\game\field\Installed item">
       <UniqueIdentifier>{99b013b6-a33a-454e-a634-44c7984f9252}</UniqueIdentifier>
     </Filter>
@@ -84,6 +78,15 @@
     </Filter>
     <Filter Include="ソース ファイル\game\field\Goal">
       <UniqueIdentifier>{14c1304c-b0b8-4700-93ca-81c8da740456}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ソース ファイル\game\character">
+      <UniqueIdentifier>{8d3d9eeb-b4e2-4730-a869-f885e46c6283}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ソース ファイル\game\character\cat">
+      <UniqueIdentifier>{38913931-c9d6-45e6-91bb-54f644500965}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ソース ファイル\game\character\human">
+      <UniqueIdentifier>{e58a5058-b9c9-4925-ae44-a8e7a3d7bdfb}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -150,9 +153,6 @@
     <ClCompile Include="src\game\object\Object.cpp">
       <Filter>ソース ファイル\game\object</Filter>
     </ClCompile>
-    <ClCompile Include="src\game\player\Player.cpp">
-      <Filter>ソース ファイル\game\player</Filter>
-    </ClCompile>
     <ClCompile Include="src\game\object\Actor.cpp">
       <Filter>ソース ファイル\game\object</Filter>
     </ClCompile>
@@ -178,7 +178,7 @@
       <Filter>ソース ファイル\game\field\objecteditor</Filter>
     </ClCompile>
     <ClCompile Include="src\game\cat\Cat.cpp">
-      <Filter>ソース ファイル\game\cat</Filter>
+      <Filter>ソース ファイル\game\character\cat</Filter>
     </ClCompile>
     <ClCompile Include="src\game\field\InstalledItem.cpp">
       <Filter>ソース ファイル\game\field\Installed item</Filter>
@@ -191,6 +191,9 @@
     </ClCompile>
     <ClCompile Include="src\game\field\Goal.cpp">
       <Filter>ソース ファイル\game\field\Goal</Filter>
+    </ClCompile>
+    <ClCompile Include="src\game\human\Human.cpp">
+      <Filter>ソース ファイル\game\character\human</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -260,9 +263,6 @@
     <ClInclude Include="src\game\object\Object.h">
       <Filter>ソース ファイル\game\object</Filter>
     </ClInclude>
-    <ClInclude Include="src\game\player\Player.h">
-      <Filter>ソース ファイル\game\player</Filter>
-    </ClInclude>
     <ClInclude Include="src\game\object\Actor.h">
       <Filter>ソース ファイル\game\object</Filter>
     </ClInclude>
@@ -288,7 +288,7 @@
       <Filter>ソース ファイル\game\field\objecteditor</Filter>
     </ClInclude>
     <ClInclude Include="src\game\cat\Cat.h">
-      <Filter>ソース ファイル\game\cat</Filter>
+      <Filter>ソース ファイル\game\character\cat</Filter>
     </ClInclude>
     <ClInclude Include="src\game\field\InstalledItem.h">
       <Filter>ソース ファイル\game\field\Installed item</Filter>
@@ -301,6 +301,9 @@
     </ClInclude>
     <ClInclude Include="src\game\field\Goal.h">
       <Filter>ソース ファイル\game\field\Goal</Filter>
+    </ClInclude>
+    <ClInclude Include="src\game\human\Human.h">
+      <Filter>ソース ファイル\game\character\human</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

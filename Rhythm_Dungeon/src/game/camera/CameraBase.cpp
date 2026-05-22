@@ -41,7 +41,7 @@ void CCameraBase::Fin()
 //-------------------------------
 //		–ˆƒtƒŒ[ƒ€ŒÄ‚Ôˆ—
 //-------------------------------
-void CCameraBase::Step(CPlayer& player)
+void CCameraBase::Step(CHuman& human)
 {
 }
 

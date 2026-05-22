@@ -1,8 +1,7 @@
 #pragma once
 #include "SceneBase.h"
 #include "../camera/CameraManager.h"
-#include "../player/Player.h"
-//#include "../object/shot/ShotManager.h"
+#include "../human/Human.h"
 #include "../field/BackGroundManager.h"
 #include "../map/MapEditor.h"
 #include "../object/Object.h"
@@ -16,7 +15,7 @@
 class CSceneGame : public CSceneBase{
 private:
 
-	CPlayer m_player;						// プレイヤー処理
+	CHuman m_human;							// 人間処理
 	CCameraManager m_cameraManager;			// カメラマネージャ
 	CCat m_cat;								//猫（操作キャラ）
 	CInstalledItem m_institem;				//運べる用のオブジェクト
@@ -46,10 +45,12 @@ private:
 	//ゲーム本体の処理
 	void Calc();
 
+	void Reset();
+
 	enum ObjectType {
 		OBJ_NONE,
-		OBJ_PLAYER,
-		OBJ_ENEMY,
+		OBJ_human,
+		OBJ_CAT,
 		OBJ_ITEM,
 		OBJ_GOAL,
 		OBJ_PUT_BOX,

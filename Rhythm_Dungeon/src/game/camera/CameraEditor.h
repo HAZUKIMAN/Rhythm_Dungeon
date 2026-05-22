@@ -10,7 +10,7 @@ public:
 	CEditorCamera();
 	~CEditorCamera() override;
 
-	void Step(CPlayer& player);
+	void Step(CHuman& human);
 
 	// ’‹“_‚Ìã‰ºˆÚ“®
 	void MoveUpDown();

@@ -9,7 +9,7 @@ class CSoundManager
 public:
 	enum tagSoundID{
 		SOUNDID_BGM,		// ゲーム中のBGM
-		SOUNDID_SE_PLSHOT,	// SE プレイヤーショット音
+		SOUNDID_SE_PLSHOT,	// SE 人間ショット音
 		SOUNDID_SE_EXPLORE,	// SE 爆発音
 
 		SOUNDID_NUM

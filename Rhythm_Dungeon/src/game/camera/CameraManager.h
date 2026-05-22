@@ -2,8 +2,8 @@
 #include "CameraBase.h"
 #include <vector>
 
-// プレイヤー情報取得のため
-class CPlayer;
+// 人間情報取得のため
+class CHuman;
 
 class CCameraManager
 {
@@ -34,7 +34,7 @@ public:
 	// 終了処理
 	void Fin();
 	// 更新処理
-	void Step(CPlayer& player);
+	void Step(CHuman& human);
 	// 更新処理
 	void Update();
 	// 描画処理

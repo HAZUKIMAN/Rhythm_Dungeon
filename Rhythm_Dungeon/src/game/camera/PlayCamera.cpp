@@ -1,5 +1,5 @@
 #include "PlayCamera.h"
-#include "../player/Player.h"
+#include "../human/Human.h"
 #include <math.h>
 
 //	定義関連------------------------------
@@ -28,14 +28,14 @@ CPlayCamera::~CPlayCamera()
 //-------------------------------
 //		毎フレーム呼ぶ処理
 //-------------------------------
-void CPlayCamera::Step(CPlayer& player)
+void CPlayCamera::Step(CHuman& human)
 {
-	// プレイヤーが原点にいて、Y軸回転が0度である事を前提考える
-	float rot = player.GetRot().y;
-	VECTOR focus = player.GetPos();
+	// 人間が原点にいて、Y軸回転が0度である事を前提考える
+	float rot = human.GetRot().y;
+	VECTOR focus = human.GetPos();
 
 	focus.z = 40.0f;
-	// プレイヤーの回転角度にあわせて上記方向ベクトルを回転させる
+	// 人間の回転角度にあわせて上記方向ベクトルを回転させる
 	VECTOR dir;
 	dir.x = 0.0f;
 	dir.z = - CAMERA_LENGTH;
@@ -49,7 +49,7 @@ void CPlayCamera::Step(CPlayer& player)
 	//ためし
 	//focus = {0, 0, 0};
 
-	// 注視点(プレイヤー)の位置から計算結果の距離を移動させれば
+	// 注視点(人間)の位置から計算結果の距離を移動させれば
 	// カメラの視点になる
 	m_pos = VAdd(focus, dir);
 

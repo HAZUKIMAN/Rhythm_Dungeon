@@ -33,8 +33,8 @@ void CSceneGame::Init()
 	m_cameraManager.Init();
 	m_cameraManager.SetNearFar(5.0f, 5000.0f);
 
-	// プレイヤー初期化
-	m_player.Init();
+	// 人間初期化
+	m_human.Init();
 	//// 猫初期化
 	m_cat.Init();
 	////ブロックの初期化
@@ -58,12 +58,12 @@ void CSceneGame::Init()
 //-------------------------------
 void CSceneGame::Load()
 {
-	m_player.Load();
+	m_human.Load();
 	m_cat.Load();
 	m_mapedit.Load();
 	m_objEditor.Load();
 
-
+	Reset();
 }
 
 
@@ -75,85 +75,87 @@ int CSceneGame::Step()
 	int ret = -1;
 	Calc();
 	
-	////ゴールとプレイヤーの判定
-	//if (CCollisionManager::CheckHitPlayerToGoal(m_player, m_goal))
+	////ゴールと人間の判定
+	//if (CCollisionManager::CheckHithumanToGoal(m_human, m_goal))
 	//{
 	//	ret = SCENEID_GAMEOVER;
 	//}
 
 	if (Input::Key::Push(KEY_INPUT_R))
 	{
-		auto& objs = m_objEditor.GetObjects();
-
-		printf("size = %d\n", (int)objs.size());
-
-		for (const auto& obj : objs) {
-
-
-			if (obj.type == OBJ_PLAYER)
-			{
-				float gridSize = 5.0f;
-				float worldpos_x = (obj.x + 0.5f) * TILE_SIZE;
-				float worldpos_z = (obj.z + 0.5f) * TILE_SIZE;
-
-				m_player.SetPos(VGet(worldpos_x, gridSize, worldpos_z));
-			}
-			if (obj.type == OBJ_ENEMY)
-			{
-				float gridSize = 5.0f;
-				float worldpos_x = (obj.x + 0.5f) * TILE_SIZE;
-				float worldpos_z = (obj.z + 0.5f) * TILE_SIZE;
-
-				m_cat.SetPos(VGet(worldpos_x, gridSize, worldpos_z));
-			}
-			if (obj.type == OBJ_ITEM)
-			{
-				float gridSize = 5.0f;
-
-				float worldpos_x = (obj.x + 0.5f) * TILE_SIZE;
-				float worldpos_z = (obj.z + 0.5f) * TILE_SIZE;
-
-				VECTOR vec = VGet(worldpos_x, gridSize, worldpos_z);
-				m_institem.SetPos(vec);
-				
-			}
-			if (obj.type == OBJ_GOAL)
-			{
-				float gridSize = 5.0f;
-				float worldpos_x = (obj.x + 0.5f) * TILE_SIZE;
-				float worldpos_z = (obj.z + 0.5f) * TILE_SIZE;
-
-				VECTOR vec = VGet(worldpos_x, gridSize, worldpos_z);
-				m_goal.SetPos(vec);
-			}
-			//---------------------------------
-			// ブロック生成
-			//---------------------------------
-			if (obj.type == OBJ_SETBLOCK)
-			{
-				float gridSize = 5.0f;
-
-				float worldpos_x =(obj.x + 0.5f)* TILE_SIZE;
-
-				float worldpos_z =(obj.z + 0.5f)* TILE_SIZE;
-				VECTOR pos =VGet(worldpos_x,gridSize,worldpos_z);
-
-				//---------------------------------
-				// 新しいブロック作成
-				//---------------------------------
-				CBlock* block = new CBlock;
-
-				block->Init();
-				block->SetPos(pos);
-
-				m_blocks.push_back(block);
-			}
-		}
+		Reset();
 	}
 
 	return ret;
 }
+void CSceneGame::Reset()
+{
+	auto& objs = m_objEditor.GetObjects();
 
+	printf("size = %d\n", (int)objs.size());
+
+	for (const auto& obj : objs) {
+
+
+		if (obj.type == OBJ_human)
+		{
+			float gridSize = 5.0f;
+			float worldpos_x = (obj.x + 0.5f) * TILE_SIZE;
+			float worldpos_z = (obj.z + 0.5f) * TILE_SIZE;
+
+			m_human.SetPos(VGet(worldpos_x, gridSize, worldpos_z));
+		}
+		if (obj.type == OBJ_CAT)
+		{
+			float gridSize = 5.0f;
+			float worldpos_x = (obj.x + 0.5f) * TILE_SIZE;
+			float worldpos_z = (obj.z + 0.5f) * TILE_SIZE;
+
+			m_cat.SetPos(VGet(worldpos_x, gridSize, worldpos_z));
+		}
+		if (obj.type == OBJ_ITEM)
+		{
+			float gridSize = 5.0f;
+
+			float worldpos_x = (obj.x + 0.5f) * TILE_SIZE;
+			float worldpos_z = (obj.z + 0.5f) * TILE_SIZE;
+
+			VECTOR vec = VGet(worldpos_x, gridSize, worldpos_z);
+			m_institem.SetPos(vec);
+		}
+		if (obj.type == OBJ_GOAL)
+		{
+			float gridSize = 5.0f;
+			float worldpos_x = (obj.x + 0.5f) * TILE_SIZE;
+			float worldpos_z = (obj.z + 0.5f) * TILE_SIZE;
+
+			VECTOR vec = VGet(worldpos_x, gridSize, worldpos_z);
+			m_goal.SetPos(vec);
+		}
+		//---------------------------------
+		// ブロック生成
+		//---------------------------------
+		if (obj.type == OBJ_SETBLOCK)
+		{
+			float gridSize = 5.0f;
+
+			float worldpos_x = (obj.x + 0.5f) * TILE_SIZE;
+
+			float worldpos_z = (obj.z + 0.5f) * TILE_SIZE;
+			VECTOR pos = VGet(worldpos_x, gridSize, worldpos_z);
+
+			//---------------------------------
+			// 新しいブロック作成
+			//---------------------------------
+			CBlock* block = new CBlock;
+
+			block->Init();
+			block->SetPos(pos);
+
+			m_blocks.push_back(block);
+		}
+	}
+}
 
 //-------------------------------
 //		描画
@@ -166,7 +168,7 @@ void CSceneGame::Draw()
 	m_objEditor.Draw();
 
 	m_cameraManager.Draw();
-	m_player.Draw();
+	m_human.Draw();
 	m_cat.Draw();
 	m_cat.DrawPlaceBlockPreview(m_mapedit);
 	m_institem.Draw();
@@ -182,7 +184,7 @@ void CSceneGame::Draw()
 	//カメラの切り替え表示
 	DrawFormatString(1200,20,WHITE,"デバックカメラ切り替え処理:Key C \nエディターカメラ切り替え処理:Key B\nプレイカメラへの切り替え:key V");
 
-	DrawFormatString(700, 100, RED, "プレイヤーのＸ軸：%f\n プレイヤーのY軸：%f\nプレイヤーのZ軸：%f", m_player.GetPos().x, m_player.GetPos().y, m_player.GetPos().z);
+	DrawFormatString(700, 100, RED, "人間のＸ軸：%f\n 人間のY軸：%f\n人間のZ軸：%f", m_human.GetPos().x, m_human.GetPos().y, m_human.GetPos().z);
 }
 
 
@@ -192,7 +194,7 @@ void CSceneGame::Draw()
 void CSceneGame::Fin()
 {
 	m_cameraManager.Fin();
-	m_player.Fin();
+	m_human.Fin();
 	m_cat.Fin();
 	m_backgroundManager.Fin();
 	m_mapedit.Fin();
@@ -210,8 +212,8 @@ void CSceneGame::Calc()
 {
 	if (m_cameraManager.GetCameraID() == CCameraManager::CAMERA_ID_PLAY)
 	{
-		// プレイヤー更新処理
-		m_player.Step();
+		// 人間更新処理
+		m_human.Step();
 		// 猫の更新処理
 		m_cat.Step(m_mapedit);
 		
@@ -225,11 +227,20 @@ void CSceneGame::Calc()
 			if (Input::Key::Keep(KEY_INPUT_J))
 			{
 				move_box = CARRY;
+
+				auto& objs = m_objEditor.GetObjects();
+				for (const auto& obj : objs) {
+					if (obj.type == OBJ_ITEM)
+					{
+						m_objEditor.RemoveObject(obj.x, obj.y, obj.z);
+					}
+				}
 			}
 		}
 
 		if (move_box == CARRY)
 		{
+
 			VECTOR vec = VGet( m_cat.GetPos().x, m_cat.GetPos().y, m_cat.GetPos().z );
 			m_institem.SetPos(vec);
 
@@ -243,13 +254,13 @@ void CSceneGame::Calc()
 
 					if (obj.type == OBJ_PUT_BOX)
 					{
-						float gridSize = 3.0f;
+						float gridSize = TILE_SIZE;
 
 						float worldX = (obj.x + 0.5f) * TILE_SIZE;
 						float worldY = (obj.y + 0.5f) * TILE_SIZE;
 						float worldZ = (obj.z + 0.5f) * TILE_SIZE;
 
-						m_institem.SetPos(VGet(worldX, worldY, worldZ));//2.5fはマスの真ん中に持っていくよう
+						m_institem.SetPos(VGet(worldX, worldY, worldZ));
 
 						m_objEditor.RemoveObject(obj.x, obj.y, obj.z);
 					}
@@ -261,15 +272,13 @@ void CSceneGame::Calc()
 		}
 	
 		// 待機･移動中処理
-		m_player.NormalExec(m_blocks);
-		//プレイヤーと設置ブロック
-		m_player.AddPos(CCollisionManager::HitPlayerToBlock(m_player,m_blocks));
+		m_human.NormalExec(m_blocks);
 
-		//  プレイヤーと床と壁との当たり判定
-		m_player.AddPos(CCollisionManager::HitMap(m_player.GetCenter(), m_player.GetRadius(), m_mapedit));
+		//  人間と床と壁との当たり判定
+		m_human.AddPos(CCollisionManager::HitMap(m_human.GetCenter(), m_human.GetRadius(), m_mapedit));
 
-		// オブジェクト一覧とプレイヤーの当たり判定
-		m_player.AddPos(CCollisionManager::HitCatToObject(m_player, m_objEditor));
+		// オブジェクト一覧と人間の当たり判定
+		m_human.AddPos(CCollisionManager::HitCatToObject(m_human, m_objEditor));
 
 		//  猫と床と壁との当たり判定
 		VECTOR vec = VGet(m_cat.GetCenter().x, m_cat.GetCenter().y +2.0, m_cat.GetCenter().z);
@@ -278,7 +287,7 @@ void CSceneGame::Calc()
 
 
 		// 各種更新
-		m_player.Update();
+		m_human.Update();
 		// 猫の更新
 		m_cat.Update();
 		//アイテムの更新処理
@@ -312,7 +321,7 @@ void CSceneGame::Calc()
 
 
 	// カメラ更新処理
-	m_cameraManager.Step(m_player);
+	m_cameraManager.Step(m_human);
 	m_cameraManager.Update();
 
 

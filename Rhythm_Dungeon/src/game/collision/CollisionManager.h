@@ -7,7 +7,7 @@
 #include "../field/Goal.h"
 #include "../field/Block.h"
 
-class CPlayer;
+class CHuman;
 class CObjectEditor;
 //--------------------------------------
 // オブジェクト種類
@@ -19,8 +19,8 @@ private:
 
 	enum ObjectType {
 		OBJ_NONE,
-		OBJ_PLAYER,
-		OBJ_ENEMY,
+		OBJ_human,
+		OBJ_CAT,
 		OBJ_ITEM,
 		OBJ_GOAL,
 		OBJ_PUT_BOX,
@@ -39,19 +39,15 @@ public:
 
 	CCollisionManager();
 
-	// ゴールとプレイヤーの当たり判定
-	static bool CheckHitPlayerToGoal(CPlayer& player,
+	// ゴールと人間の当たり判定
+	static bool CheckHithumanToGoal(CHuman& human,
 		CGoal& inst);
 
-	// Playerと設置ブロックの当たり判定
-	static VECTOR HitPlayerToBlock(CPlayer& player,
-		std::vector<CBlock*>& blocks);
-
-	//プレイヤーとオブジェクトの計算
-	static VECTOR HitCatToObject(CPlayer& player,
+	//人間とオブジェクトの計算
+	static VECTOR HitCatToObject(CHuman& human,
 		ObjectEditor& object);
 
-	//プレイヤーの座標をマップ座標にして計算を行う
+	//人間の座標をマップ座標にして計算を行う
 	static VECTOR HitMap( VECTOR center, float radius, MapEditor& map);
 
 };

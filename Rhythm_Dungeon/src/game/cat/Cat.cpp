@@ -42,7 +42,7 @@ CCat::~CCat()
 //-------------------------------
 void CCat::Init()
 {
-	m_state = PLAYER_STATE_NORMAL;
+	m_state = CAT_STATE_NORMAL;
 	m_moveMode = MOVE_GROUND;
 	m_vRotation.y = DX_PI_F;
 	m_radius = RADIUS;
@@ -76,10 +76,10 @@ void CCat::Step(MapEditor& map)
 	// èÛë‘Ç…çáÇÌÇπÇƒçsìÆïœâª
 	switch (m_state)
 	{
-	case PLAYER_STATE_NORMAL:
+	case CAT_STATE_NORMAL:
 		NormalExec(map);
 		break;
-	case PLAYER_STATE_JUMP:
+	case CAT_STATE_JUMP:
 		
 		break;
 	}

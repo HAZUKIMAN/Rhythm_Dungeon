@@ -65,10 +65,10 @@ void CCameraManager::Fin()
 //-------------------------------
 //		毎フレーム呼ぶ処理
 //-------------------------------
-void CCameraManager::Step(CPlayer& player)
+void CCameraManager::Step(CHuman& human)
 {
 	// カメラのタイプに合わせて、更新処理を変更する
-	m_cam[m_eCurrentCameraID]->Step(player);
+	m_cam[m_eCurrentCameraID]->Step(human);
 }
 
 

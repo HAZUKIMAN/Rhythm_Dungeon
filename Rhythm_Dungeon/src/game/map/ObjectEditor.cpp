@@ -26,7 +26,7 @@ void ObjectEditor::Init()
     //---------------------------------
     // 現在の選択オブジェクト
     //---------------------------------
-    objstate = OBJ_PLAYER;
+    objstate = OBJ_HUMAN;
 
     //---------------------------------
     // 現在の高さ
@@ -97,14 +97,14 @@ int ObjectEditor::Step()
         switch (objstate)
         {
         case OBJ_NONE:
-            objstate = OBJ_PLAYER;
+            objstate = OBJ_HUMAN;
             break;
 
-        case OBJ_PLAYER:
-            objstate = OBJ_ENEMY;
+        case OBJ_HUMAN:
+            objstate = OBJ_CAT;
             break;
 
-        case OBJ_ENEMY:
+        case OBJ_CAT:
             objstate = OBJ_ITEM;
             break;
 
@@ -202,12 +202,12 @@ void ObjectEditor::Draw()
         DrawString(1300, 200,"OBJ_NONE", WHITE);
         break;
 
-    case OBJ_PLAYER:
-        DrawString(1300, 200,"OBJ_PLAYER", BLUE);
+    case OBJ_HUMAN:
+        DrawString(1300, 200,"OBJ_HUMAN", BLUE);
         break;
 
-    case OBJ_ENEMY:
-        DrawString(1300, 200,"OBJ_ENEMY", RED);
+    case OBJ_CAT:
+        DrawString(1300, 200,"OBJ_CAT", RED);
         break;
 
     case OBJ_ITEM:
@@ -399,11 +399,11 @@ void ObjectEditor::DrawObjects()
         //---------------------------------
         switch (obj.type)
         {
-        case OBJ_PLAYER:
+        case OBJ_HUMAN:
             DrawSphere3D(pos, 1.5f, 16,BLUE,BLUE, TRUE);
             break;
 
-        case OBJ_ENEMY:
+        case OBJ_CAT:
             DrawSphere3D(pos,1.5f,16,RED,RED,TRUE);
             break;
 

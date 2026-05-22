@@ -1,7 +1,7 @@
 #include"Anime.h"
 
-//RequestLoop(PLAYER_STATE_WALK, 0.5f, m_iModelHdl); 
-//m_eState = PLAYER_STATE_WALK;
+//RequestLoop(human_STATE_WALK, 0.5f, m_iModelHdl); 
+//m_eState = human_STATE_WALK;
 //DetachAnim(m_iModelHdl);
 
 

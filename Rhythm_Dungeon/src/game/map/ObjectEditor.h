@@ -35,8 +35,8 @@ public:
 
 	enum ObjectType {
 		OBJ_NONE,
-		OBJ_PLAYER,
-		OBJ_ENEMY,
+		OBJ_HUMAN,
+		OBJ_CAT,
 		OBJ_ITEM,
 		OBJ_GOAL,
 		OBJ_PUT_BOX,

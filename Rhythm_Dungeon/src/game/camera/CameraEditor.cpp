@@ -36,7 +36,7 @@ CEditorCamera::~CEditorCamera()
 //-------------------------------
 //		–ˆƒtƒŒ[ƒ€ŒÄ‚Ôˆ—
 //-------------------------------
-void CEditorCamera::Step(CPlayer& player)
+void CEditorCamera::Step(CHuman& human)
 {
 	// ƒJƒƒ‰ã‰ºˆÚ“®
 	MoveUpDown();

@@ -13,11 +13,11 @@ C:\Users\2409407\Desktop\Github\Rhythm_Dungeon\Rhythm_Dungeon\src\game\field\Blo
 C:\Users\2409407\Desktop\Github\Rhythm_Dungeon\Rhythm_Dungeon\src\game\field\Goal.cpp;C:\Users\2409407\Desktop\Github\Rhythm_Dungeon\Rhythm_Dungeon\Dungeon\x64\Debug\Goal.obj
 C:\Users\2409407\Desktop\Github\Rhythm_Dungeon\Rhythm_Dungeon\src\game\field\InstalledItem.cpp;C:\Users\2409407\Desktop\Github\Rhythm_Dungeon\Rhythm_Dungeon\Dungeon\x64\Debug\InstalledItem.obj
 C:\Users\2409407\Desktop\Github\Rhythm_Dungeon\Rhythm_Dungeon\src\game\field\Sky.cpp;C:\Users\2409407\Desktop\Github\Rhythm_Dungeon\Rhythm_Dungeon\Dungeon\x64\Debug\Sky.obj
+C:\Users\2409407\Desktop\Github\Rhythm_Dungeon\Rhythm_Dungeon\src\game\human\Human.cpp;C:\Users\2409407\Desktop\Github\Rhythm_Dungeon\Rhythm_Dungeon\Dungeon\x64\Debug\Human.obj
 C:\Users\2409407\Desktop\Github\Rhythm_Dungeon\Rhythm_Dungeon\src\game\map\MapEditor.cpp;C:\Users\2409407\Desktop\Github\Rhythm_Dungeon\Rhythm_Dungeon\Dungeon\x64\Debug\MapEditor.obj
 C:\Users\2409407\Desktop\Github\Rhythm_Dungeon\Rhythm_Dungeon\src\game\map\ObjectEditor.cpp;C:\Users\2409407\Desktop\Github\Rhythm_Dungeon\Rhythm_Dungeon\Dungeon\x64\Debug\ObjectEditor.obj
 C:\Users\2409407\Desktop\Github\Rhythm_Dungeon\Rhythm_Dungeon\src\game\object\Actor.cpp;C:\Users\2409407\Desktop\Github\Rhythm_Dungeon\Rhythm_Dungeon\Dungeon\x64\Debug\Actor.obj
 C:\Users\2409407\Desktop\Github\Rhythm_Dungeon\Rhythm_Dungeon\src\game\object\Object.cpp;C:\Users\2409407\Desktop\Github\Rhythm_Dungeon\Rhythm_Dungeon\Dungeon\x64\Debug\Object.obj
-C:\Users\2409407\Desktop\Github\Rhythm_Dungeon\Rhythm_Dungeon\src\game\player\Player.cpp;C:\Users\2409407\Desktop\Github\Rhythm_Dungeon\Rhythm_Dungeon\Dungeon\x64\Debug\Player.obj
 C:\Users\2409407\Desktop\Github\Rhythm_Dungeon\Rhythm_Dungeon\src\game\scene\SceneClear.cpp;C:\Users\2409407\Desktop\Github\Rhythm_Dungeon\Rhythm_Dungeon\Dungeon\x64\Debug\SceneClear.obj
 C:\Users\2409407\Desktop\Github\Rhythm_Dungeon\Rhythm_Dungeon\src\game\scene\SceneGame.cpp;C:\Users\2409407\Desktop\Github\Rhythm_Dungeon\Rhythm_Dungeon\Dungeon\x64\Debug\SceneGame.obj
 C:\Users\2409407\Desktop\Github\Rhythm_Dungeon\Rhythm_Dungeon\src\game\scene\SceneGameover.cpp;C:\Users\2409407\Desktop\Github\Rhythm_Dungeon\Rhythm_Dungeon\Dungeon\x64\Debug\SceneGameover.obj

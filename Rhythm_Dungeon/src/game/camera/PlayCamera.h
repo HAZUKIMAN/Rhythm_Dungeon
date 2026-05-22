@@ -11,5 +11,5 @@ public:
 	~CPlayCamera() override;
 
 	// –ˆƒtƒŒ[ƒ€ŒÄ‚Ôˆ—
-	void Step(CPlayer& player) override;
+	void Step(CHuman& human) override;
 };

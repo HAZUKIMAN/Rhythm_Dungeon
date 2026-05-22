@@ -1,8 +1,8 @@
 #pragma once
 #include <DxLib.h>
 
-// プレイヤー情報取得のため
-class CPlayer;
+// 人間情報取得のため
+class CHuman;
 
 class CCameraBase
 {
@@ -26,7 +26,7 @@ public:
 	virtual void Fin();
 
 	// 毎フレーム呼ぶ処理
-	virtual void Step(CPlayer& player);
+	virtual void Step(CHuman& human);
 	// 更新処理
 	virtual void Update();
 	// 描画
