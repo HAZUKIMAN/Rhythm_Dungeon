@@ -36,18 +36,18 @@ public:
 	//NameCheck		:	別モデルのアニメを使用する場合,モデルのフレーム名が一致しない場合
 	//				    アニメをアタッチするか
 	//void	RequestAnim(int iAnimID);
-	 void	Request(int iAnimID, float iAnimSpd, int hndl, int iAnimSrcHndl = -1, bool NameCheck = false);
+	virtual void	Request(int iAnimID, float iAnimSpd, int hndl, int iAnimSrcHndl = -1, bool NameCheck = false);
 	//ループアニメリクエスト
 	//@memo			:	アニメが最終フレームになったら最初に戻ります。
-	 void	RequestLoop(int iAnimID, float iAnimSpd, int hndl, int iAnimSrcHndl = -1, bool NameCheck = false);
+	virtual void	RequestLoop(int iAnimID, float iAnimSpd, int hndl, int iAnimSrcHndl = -1, bool NameCheck = false);
 	//ループアニメリクエスト
 	//@memo			:	アニメが最終フレームになったらそのまま。
-	 void	RequestEndLoop(int iAnimID, float iAnimSpd, int hndl, int iAnimSrcHndl = -1, bool NameCheck = false);
+	virtual void	RequestEndLoop(int iAnimID, float iAnimSpd, int hndl, int iAnimSrcHndl = -1, bool NameCheck = false);
 
 	//アニメの更新
-	 void	AnimeUpdate(int hndl);
+	virtual void	AnimeUpdate(int hndl);
 	//アニメのデタッチ
-	 void	DetachAnim(int hndl);
+	virtual void	DetachAnim(int hndl);
 
 };
 

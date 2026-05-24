@@ -153,6 +153,7 @@
     <ClCompile Include="src\game\cat\Cat.cpp" />
     <ClCompile Include="src\game\collision\CollisionManager.cpp" />
     <ClCompile Include="src\game\effect\effekseer.cpp" />
+    <ClCompile Include="src\game\enemy\Enemy.cpp" />
     <ClCompile Include="src\game\field\BackGroundManager.cpp" />
     <ClCompile Include="src\game\field\Block.cpp" />
     <ClCompile Include="src\game\field\Goal.cpp" />
@@ -191,6 +192,7 @@
     <ClInclude Include="src\game\collision\CollisionManager.h" />
     <ClInclude Include="src\game\common.h" />
     <ClInclude Include="src\game\effect\effekseer.h" />
+    <ClInclude Include="src\game\enemy\Enemy.h" />
     <ClInclude Include="src\game\field\BackGroundManager.h" />
     <ClInclude Include="src\game\field\Block.h" />
     <ClInclude Include="src\game\field\Goal.h" />

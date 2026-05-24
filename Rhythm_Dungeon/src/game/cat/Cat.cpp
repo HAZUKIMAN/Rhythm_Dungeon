@@ -79,9 +79,6 @@ void CCat::Step(MapEditor& map)
 	case CAT_STATE_NORMAL:
 		NormalExec(map);
 		break;
-	case CAT_STATE_JUMP:
-		
-		break;
 	}
 
 	Move();

@@ -27,15 +27,7 @@ void CObject::Load(int hndl)
 {
 	m_iModelHdl = hndl;
 }
-//------------------------------
-//		ゲームメイン更新
-//------------------------------
-void CObject::Update()
-{
-	//AnimeUpdate(m_iModelHdl);
-	MV1SetRotationXYZ(m_iModelHdl, m_vRotation);
-	MV1SetPosition(m_iModelHdl, m_vPosition);
-}
+
 //------------------------------
 //		描画
 //------------------------------

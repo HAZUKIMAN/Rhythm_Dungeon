@@ -1,9 +1,10 @@
 #pragma once
 #include "../object/Object.h"
 #include <DxLib.h>
+#include"../Anime/Anime.h"
 
 // ゲーム内で実際に使う3Dキャラ
-class CActor : public CObject
+class CActor : public CObject, public CAnime
 {
 protected:
 	VECTOR m_speed;		// 移動速度
@@ -16,6 +17,10 @@ public:
 
 	// 初期化
 	virtual void Init();
+
+	// 更新したデータを反映させる
+	virtual void Update();
+
 	// 当たり判定後の処理
 	virtual void HitCalc();
 	

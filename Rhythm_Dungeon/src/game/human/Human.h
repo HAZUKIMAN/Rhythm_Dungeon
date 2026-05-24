@@ -11,7 +11,7 @@ private:
 	enum taghumanState {
 		HUMAN_STATE_NORMAL,	// 待機
 		HUMAN_STATE_RUN,		// 歩き中
-		HUMAN_STATE_JUMP,		// ジャンプ中
+		HUMAN_STATE_HIT,		// ジャンプ中
 
 		HUMAN_STATE_NUM
 	};

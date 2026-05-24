@@ -88,6 +88,9 @@
     <Filter Include="ソース ファイル\game\character\human">
       <UniqueIdentifier>{e58a5058-b9c9-4925-ae44-a8e7a3d7bdfb}</UniqueIdentifier>
     </Filter>
+    <Filter Include="ソース ファイル\game\character\enemy">
+      <UniqueIdentifier>{7c1521e2-38e0-4276-9587-797439ea54f1}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\Main.cpp">
@@ -194,6 +197,9 @@
     </ClCompile>
     <ClCompile Include="src\game\human\Human.cpp">
       <Filter>ソース ファイル\game\character\human</Filter>
+    </ClCompile>
+    <ClCompile Include="src\game\enemy\Enemy.cpp">
+      <Filter>ソース ファイル\game\character\enemy</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -304,6 +310,9 @@
     </ClInclude>
     <ClInclude Include="src\game\human\Human.h">
       <Filter>ソース ファイル\game\character\human</Filter>
+    </ClInclude>
+    <ClInclude Include="src\game\enemy\Enemy.h">
+      <Filter>ソース ファイル\game\character\enemy</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

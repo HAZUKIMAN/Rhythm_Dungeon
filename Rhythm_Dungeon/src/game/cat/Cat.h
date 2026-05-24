@@ -10,8 +10,11 @@ public:
 
 	enum tagCatState {
 		CAT_STATE_NORMAL,	// 待機
-		CAT_STATE_RUN,		// 歩き中
-		CAT_STATE_JUMP,		// ジャンプ中
+		CAT_STATE_WIDEMOVE,	// 横揺れ
+		CAT_STATE_WALK,		// 歩き中
+		CAT_STATE_RUN,		// 走り中
+		CAT_STATE_EAT,		// 食べる
+		CAT_STATE_DANCE,	// 踊る
 
 		CAT_STATE_NUM
 	};

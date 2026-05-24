@@ -6,12 +6,13 @@
 #include "../common.h"
 
 //	定義関連------------------------------
-static const float MOVE_SPEED	= 0.5f;		// 移動速度
+static const float MOVE_SPEED	=  0.5f;	// 移動速度
 static const float ROT_SPEED	= 0.03f;	// 回転速度
-static const float JUMP_POWER	= 5.0f;		// ジャンプ力
+static const float JUMP_POWER	=  5.0f;	// ジャンプ力
 static const float GRAVITY		= 0.01f;	// 重力
-static const float RADIUS		= 2.5f;		// 当たり判定半径
-static const float MAXTIME		= 20.0f;	// クールタイム
+static const float RADIUS		=  2.5f;	// 当たり判定半径
+static const float MAXTIME		=	5.0f;	// クールタイム
+static const float ANIME_SPEED	=  1.0f;	// アニメスピード
 
 static const char HUMAN_MODEL_PATH[] = { "Data/Character/player/player.mv1" };
 //----------------------------------------
@@ -34,6 +35,7 @@ CHuman::~CHuman()
 {
 	// 本来は必要ないけど、念のため
 	Fin();
+	DetachAnim(m_iModelHdl);
 }
 
 
@@ -42,7 +44,6 @@ CHuman::~CHuman()
 //-------------------------------
 void CHuman::Init()
 {
-	m_state = HUMAN_STATE_NORMAL;
 	m_vRotation.y = -DX_PI_F / 2;
 	m_radius = RADIUS;
 	m_isActive = true;
@@ -65,6 +66,8 @@ void CHuman::Load()
 	MV1SetScale(hndl, size);
 	CObject::Load(hndl);
 
+	RequestLoop(HUMAN_STATE_RUN, ANIME_SPEED,m_iModelHdl);
+	m_state = HUMAN_STATE_RUN;
 }
 
 
@@ -80,7 +83,9 @@ void CHuman::Step()
 	{
 	case HUMAN_STATE_NORMAL:
 		break;
-	case HUMAN_STATE_JUMP:
+	case HUMAN_STATE_RUN:
+		break;
+	case HUMAN_STATE_HIT:
 		break;
 	}
 
@@ -118,92 +123,7 @@ void CHuman::Move()
 }
 
 
-////-------------------------------
-////		待機･移動中処理
-////-------------------------------
-//void CHuman::NormalExec()
-//{
-//	//---------------------------------
-//	// 移動中
-//	//---------------------------------
-//	if (m_isMoving)
-//	{
-//		VECTOR dir = VSub(m_targetPos,m_vPosition);
-//		float dist = VSize(dir);
-//		//---------------------------------
-//		// 到着
-//		//---------------------------------
-//		if (dist < MOVE_SPEED)
-//		{
-//			m_vPosition = m_targetPos;
-//			m_isMoving =false;
-//		}
-//		else
-//		{
-//			// 正規化
-//			dir = VNorm(dir);
-//			// 少しずつ移動
-//			dir =VScale(dir,MOVE_SPEED);
-//
-//			m_vPosition =VAdd(m_vPosition,dir);
-//		}
-//		return;
-//	}
-//
-//	m_coolTime--;
-//
-////---------------------------------
-//// 移動開始
-////---------------------------------
-//	if (m_coolTime <= 0)
-//	{
-//		m_coolTime = MAXTIME;
-//
-//		// 現在マス取得
-//		int mapX =(int)floor(m_vPosition.x /TILE_SIZE);
-//		int mapZ =(int)floor(m_vPosition.z /TILE_SIZE);
-//
-//		// 向いている方向
-//		int dirX = 0;
-//		int dirZ = 0;
-//
-//		switch (direction)
-//		{
-//		case ROTATION_RIGHT:
-//			dirX = 1;
-//			dirZ = 0;
-//			break;
-//
-//		case ROTATION_LEFT:
-//			dirX = -1;
-//			dirZ = 0;
-//			break;
-//
-//		case ROTATION_UP:
-//			dirX = 0;
-//			dirZ = 1;
-//			break;
-//
-//		case ROTATION_DOWN:
-//			dirX = 0;
-//			dirZ = -1;
-//			break;
-//		}
-//		// 次マス
-//		mapX += dirX;
-//		mapZ += dirZ;
-//
-//		// 中心位置
-//		float worldX =(mapX + 0.5f)* TILE_SIZE;
-//		float worldZ =(mapZ + 0.5f)* TILE_SIZE;
-//
-//		// 目標地点
-//		m_targetPos =VGet(worldX,m_vPosition.y,worldZ);
-//
-//		// 移動開始
-//		m_isMoving = true;
-//	}
-//}
+
 
 
 //-------------------------------

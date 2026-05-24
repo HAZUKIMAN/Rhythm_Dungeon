@@ -14,6 +14,7 @@ CActor::CActor() : m_speed(VGet(0.0f, 0.0f, 0.0f)), m_radius(0.0f)
 //-------------------------------
 CActor::~CActor()
 {
+	DetachAnim(m_iModelHdl);
 }
 
 
@@ -24,6 +25,17 @@ void CActor::Init()
 {
 	CObject::Init();
 	m_radius = 0.0f;
+}
+
+
+//------------------------------
+//		ゲームメイン更新
+//------------------------------
+void CActor::Update()
+{
+	AnimeUpdate(m_iModelHdl);
+	MV1SetRotationXYZ(m_iModelHdl, m_vRotation);
+	MV1SetPosition(m_iModelHdl, m_vPosition);
 }
 
 
@@ -46,6 +58,8 @@ VECTOR CActor::GetCenter()
 	pos.y += m_radius;
 	return pos;
 }
+
+
 
 void  CActor::AddPos(VECTOR Hit)
 {

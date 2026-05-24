@@ -23,8 +23,7 @@ public:
 	virtual void Init();
 	//	ロード
 	virtual void Load(int hndl);
-	// 更新したデータを反映させる
-	virtual void Update();
+	
 	//	描画
 	virtual void Draw();
 	//	終了処理
