@@ -166,8 +166,8 @@
     <ClCompile Include="src\game\object\Object.cpp" />
     <ClCompile Include="src\game\scene\SceneClear.cpp" />
     <ClCompile Include="src\game\scene\SceneGame.cpp" />
-    <ClCompile Include="src\game\scene\SceneGameover.cpp" />
     <ClCompile Include="src\game\scene\SceneManager.cpp" />
+    <ClCompile Include="src\game\scene\SceneSelect.cpp" />
     <ClCompile Include="src\game\scene\SceneTitle.cpp" />
     <ClCompile Include="src\game\score\Score.cpp" />
     <ClCompile Include="src\game\system\SoundManager.cpp" />
@@ -206,8 +206,8 @@
     <ClInclude Include="src\game\scene\SceneBase.h" />
     <ClInclude Include="src\game\scene\SceneClear.h" />
     <ClInclude Include="src\game\scene\SceneGame.h" />
-    <ClInclude Include="src\game\scene\SceneGameover.h" />
     <ClInclude Include="src\game\scene\SceneManager.h" />
+    <ClInclude Include="src\game\scene\SceneSelect.h" />
     <ClInclude Include="src\game\scene\SceneTitle.h" />
     <ClInclude Include="src\game\score\Score.h" />
     <ClInclude Include="src\game\system\SoundManager.h" />

@@ -23,19 +23,13 @@ ObjectEditor::~ObjectEditor()
 //---------------------------------
 void ObjectEditor::Init()
 {
-    //---------------------------------
     // 現在の選択オブジェクト
-    //---------------------------------
     objstate = OBJ_HUMAN;
-
-    //---------------------------------
     // 現在の高さ
-    //---------------------------------
     m_currentY = 0;
-
-    //---------------------------------
+    // 現在の角度
+    m_currentRotY = 0.0f;
     // オブジェクト削除
-    //---------------------------------
     objects.clear();
 }
 
@@ -149,17 +143,13 @@ void ObjectEditor::Update()
         if (GetGridPos(hitPos, &gx, &gz))
         {
 
-            //---------------------------------
             // 設置
-            //---------------------------------
             if (Input::Key::Push(KEY_INPUT_O))
             {
                 AddObject(gx, m_currentY, gz, objstate);
             }
 
-            //---------------------------------
             // 削除
-            //---------------------------------
             if (Input::Key::Push(KEY_INPUT_U))
             {
                 RemoveObject(gx, m_currentY, gz);
@@ -167,6 +157,18 @@ void ObjectEditor::Update()
                 {
                     m_currentY = MAP_Y - 1;
                 }
+            }
+
+            // 左回転
+            if (Input::Key::Push(KEY_INPUT_8))
+            {
+                m_currentRotY -= DX_PI_F / 2;
+            }
+
+            // 右回転
+            if (Input::Key::Push(KEY_INPUT_9))
+            {
+                m_currentRotY += DX_PI_F / 2;
             }
         }
     }
@@ -350,7 +352,8 @@ void ObjectEditor::AddObject(int x, int y, int z, int type)
 
     obj.type = type;
 
-    obj.rotY = 0.0f;
+    // 回転保存
+    obj.rotY = m_currentRotY;
 
     objects.push_back(obj);
 }
@@ -550,6 +553,20 @@ void ObjectEditor::DrawSelectedTile()
             // 枠表示
             //---------------------------------
             DrawCube3D( VGet(x0, y0, z0), VGet(x1, y1, z1), RED, RED, FALSE);
+
+            //---------------------------------
+           // 向き表示
+           //---------------------------------
+            VECTOR center = VGet((x0 + x1) * 0.5f, y1 + 0.5f, (z0 + z1) * 0.5f);
+            VECTOR dir;
+
+            dir.x = -sinf(m_currentRotY) * TILE_SIZE * 0.5f;
+            dir.y = 0.0f;
+            dir.z = -cosf(m_currentRotY) * TILE_SIZE * 0.5f;
+
+            VECTOR end = VAdd(center, dir);
+
+            DrawLine3D(center, end, RED);
         }
     }
 }

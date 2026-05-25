@@ -44,6 +44,7 @@ public:
 	};
 
 	ObjectType objstate;
+	float m_currentRotY;
 
 	void AddObject(int x, int y, int z, int type);	//İ’uˆ—
 	void RemoveObject(int x, int y, int z);			//íœˆ—

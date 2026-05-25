@@ -73,9 +73,6 @@
     <Filter Include="ソース ファイル\game\field\Installed item">
       <UniqueIdentifier>{99b013b6-a33a-454e-a634-44c7984f9252}</UniqueIdentifier>
     </Filter>
-    <Filter Include="ソース ファイル\game\NewFilter1">
-      <UniqueIdentifier>{6172c72a-1593-4a45-9854-9801d0e9b6f1}</UniqueIdentifier>
-    </Filter>
     <Filter Include="ソース ファイル\game\field\Goal">
       <UniqueIdentifier>{14c1304c-b0b8-4700-93ca-81c8da740456}</UniqueIdentifier>
     </Filter>
@@ -124,9 +121,6 @@
       <Filter>ソース ファイル\game\scene</Filter>
     </ClCompile>
     <ClCompile Include="src\game\scene\SceneGame.cpp">
-      <Filter>ソース ファイル\game\scene</Filter>
-    </ClCompile>
-    <ClCompile Include="src\game\scene\SceneGameover.cpp">
       <Filter>ソース ファイル\game\scene</Filter>
     </ClCompile>
     <ClCompile Include="src\game\scene\SceneManager.cpp">
@@ -201,6 +195,9 @@
     <ClCompile Include="src\game\enemy\Enemy.cpp">
       <Filter>ソース ファイル\game\character\enemy</Filter>
     </ClCompile>
+    <ClCompile Include="src\game\scene\SceneSelect.cpp">
+      <Filter>ソース ファイル\game\scene</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\Data.h">
@@ -234,9 +231,6 @@
       <Filter>ソース ファイル\game\scene</Filter>
     </ClInclude>
     <ClInclude Include="src\game\scene\SceneGame.h">
-      <Filter>ソース ファイル\game\scene</Filter>
-    </ClInclude>
-    <ClInclude Include="src\game\scene\SceneGameover.h">
       <Filter>ソース ファイル\game\scene</Filter>
     </ClInclude>
     <ClInclude Include="src\game\scene\SceneManager.h">
@@ -313,6 +307,9 @@
     </ClInclude>
     <ClInclude Include="src\game\enemy\Enemy.h">
       <Filter>ソース ファイル\game\character\enemy</Filter>
+    </ClInclude>
+    <ClInclude Include="src\game\scene\SceneSelect.h">
+      <Filter>ソース ファイル\game\scene</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

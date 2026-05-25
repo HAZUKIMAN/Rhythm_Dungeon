@@ -3,7 +3,7 @@
 #include "SceneTitle.h"
 #include "SceneGame.h"
 #include "SceneClear.h"
-#include "SceneGameover.h"
+#include "SceneSelect.h"
 #include "../../lib/Fade/Fade.h"
 
 
@@ -129,14 +129,11 @@ void CSceneManager::CreateScene()
 	case SCENEID_TITLE:
 		m_base = new CSceneTitle;
 		break;
+	case SCENEID_SELECT:
+		m_base = new CSceneSelect;
+		break;
 	case SCENEID_GAME:
 		m_base = new CSceneGame;
-		break;
-	case SCENEID_GAMEOVER:
-		m_base = new CSceneGameover;
-		break;
-	case SCENEID_CLEAR:
-		m_base = new CSceneClear;
 		break;
 	default:
 		// ‚±‚±‚ÍƒGƒ‰[‘Îô‚Ìˆ—‚ğ“ü‚ê‚Ä‚àOK

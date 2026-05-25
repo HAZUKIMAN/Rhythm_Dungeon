@@ -32,7 +32,7 @@ int CSceneTitle::Step()
 {
 	int ret = -1;
 
-	if (Input::Key::Push(KEY_INPUT_Z))ret = SCENEID_GAME;
+	if (Input::Key::Push(KEY_INPUT_Z))ret = SCENEID_SELECT;
 
 	return ret;
 }

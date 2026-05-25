@@ -21,8 +21,8 @@ C:\Users\Owner\Desktop\GitHub\Rhythm_Dungeon\Rhythm_Dungeon\src\game\object\Acto
 C:\Users\Owner\Desktop\GitHub\Rhythm_Dungeon\Rhythm_Dungeon\src\game\object\Object.cpp;C:\Users\Owner\Desktop\GitHub\Rhythm_Dungeon\Rhythm_Dungeon\Dungeon\x64\Debug\Object.obj
 C:\Users\Owner\Desktop\GitHub\Rhythm_Dungeon\Rhythm_Dungeon\src\game\scene\SceneClear.cpp;C:\Users\Owner\Desktop\GitHub\Rhythm_Dungeon\Rhythm_Dungeon\Dungeon\x64\Debug\SceneClear.obj
 C:\Users\Owner\Desktop\GitHub\Rhythm_Dungeon\Rhythm_Dungeon\src\game\scene\SceneGame.cpp;C:\Users\Owner\Desktop\GitHub\Rhythm_Dungeon\Rhythm_Dungeon\Dungeon\x64\Debug\SceneGame.obj
-C:\Users\Owner\Desktop\GitHub\Rhythm_Dungeon\Rhythm_Dungeon\src\game\scene\SceneGameover.cpp;C:\Users\Owner\Desktop\GitHub\Rhythm_Dungeon\Rhythm_Dungeon\Dungeon\x64\Debug\SceneGameover.obj
 C:\Users\Owner\Desktop\GitHub\Rhythm_Dungeon\Rhythm_Dungeon\src\game\scene\SceneManager.cpp;C:\Users\Owner\Desktop\GitHub\Rhythm_Dungeon\Rhythm_Dungeon\Dungeon\x64\Debug\SceneManager.obj
+C:\Users\Owner\Desktop\GitHub\Rhythm_Dungeon\Rhythm_Dungeon\src\game\scene\SceneSelect.cpp;C:\Users\Owner\Desktop\GitHub\Rhythm_Dungeon\Rhythm_Dungeon\Dungeon\x64\Debug\SceneSelect.obj
 C:\Users\Owner\Desktop\GitHub\Rhythm_Dungeon\Rhythm_Dungeon\src\game\scene\SceneTitle.cpp;C:\Users\Owner\Desktop\GitHub\Rhythm_Dungeon\Rhythm_Dungeon\Dungeon\x64\Debug\SceneTitle.obj
 C:\Users\Owner\Desktop\GitHub\Rhythm_Dungeon\Rhythm_Dungeon\src\game\score\Score.cpp;C:\Users\Owner\Desktop\GitHub\Rhythm_Dungeon\Rhythm_Dungeon\Dungeon\x64\Debug\Score.obj
 C:\Users\Owner\Desktop\GitHub\Rhythm_Dungeon\Rhythm_Dungeon\src\game\system\SoundManager.cpp;C:\Users\Owner\Desktop\GitHub\Rhythm_Dungeon\Rhythm_Dungeon\Dungeon\x64\Debug\SoundManager.obj

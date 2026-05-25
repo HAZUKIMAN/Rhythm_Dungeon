@@ -9,8 +9,8 @@ typedef unsigned int UnInt;
 // ゲームの遷移
 enum tagScene {
 	SCENEID_TITLE,		// タイトル画面
+	SCENEID_SELECT,		// セレクト画面
 	SCENEID_GAME,		// ゲーム画面
-	SCENEID_GAMEOVER,	// タイトル画面
 	SCENEID_CLEAR,		// タイトル画面
 
 	SCENEID_NUM,		// シーン数
@@ -64,3 +64,5 @@ static const UnInt YELLOW= GetColor(  0, 255, 255);			//黄色
 static const UnInt PINKU = GetColor(255, 100, 100);			//ピンク
 static const UnInt GRAY  = GetColor(180, 180, 180);			//グレー
 static const UnInt LIGHTGREEN = GetColor(100, 250, 100);	//黄緑色
+static const UnInt BLACK = GetColor(  0, 250,   0);			//黒
+
