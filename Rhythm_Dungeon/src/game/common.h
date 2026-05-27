@@ -2,7 +2,6 @@
 
 //	ゲームの様々な場所で使いそうな定義を集める
 
-
 //unsigned int を UnInt として扱う
 typedef unsigned int UnInt;
 
@@ -64,5 +63,5 @@ static const UnInt YELLOW= GetColor(  0, 255, 255);			//黄色
 static const UnInt PINKU = GetColor(255, 100, 100);			//ピンク
 static const UnInt GRAY  = GetColor(180, 180, 180);			//グレー
 static const UnInt LIGHTGREEN = GetColor(100, 250, 100);	//黄緑色
-static const UnInt BLACK = GetColor(  0, 250,   0);			//黒
+static const UnInt BLACK = GetColor(  0,   0,   0);			//黒
 

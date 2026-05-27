@@ -12,7 +12,6 @@
 CSceneGame::CSceneGame()
 {
 	move_box = NONE;
-	
 }
 
 
@@ -50,6 +49,7 @@ void CSceneGame::Init()
 	m_objEditor.Init();
 
 	m_blocks.clear();
+	m_enemy.clear();
 }
 
 
@@ -64,6 +64,13 @@ void CSceneGame::Load()
 	m_objEditor.Load();
 
 	Reset();
+
+	//ブロックの初期化
+	for (auto& enemy : m_enemy)
+	{
+		enemy->Init();
+		enemy->Load();
+	}
 }
 
 
@@ -97,7 +104,7 @@ void CSceneGame::Reset()
 	for (const auto& obj : objs) {
 
 
-		if (obj.type == OBJ_human)
+		if (obj.type == OBJ_HUMAN)
 		{
 			float gridSize = 5.0f;
 			float worldpos_x = (obj.x + 0.5f) * TILE_SIZE;
@@ -142,6 +149,7 @@ void CSceneGame::Reset()
 			float worldpos_x = (obj.x + 0.5f) * TILE_SIZE;
 
 			float worldpos_z = (obj.z + 0.5f) * TILE_SIZE;
+
 			VECTOR pos = VGet(worldpos_x, gridSize, worldpos_z);
 
 			//---------------------------------
@@ -154,6 +162,28 @@ void CSceneGame::Reset()
 
 			m_blocks.push_back(block);
 		}
+		//エネミーを生成
+		if (obj.type == OBJ_ENEMY)
+		{
+			float gridSize = 5.0f;
+
+			float worldpos_x = (obj.x + 0.5f) * TILE_SIZE;
+
+			float worldpos_z = (obj.z + 0.5f) * TILE_SIZE;
+
+			VECTOR pos = VGet(worldpos_x, gridSize, worldpos_z);
+
+			//---------------------------------
+			// 新しいブロック作成
+			//---------------------------------
+			CEnemy* enemy = new CEnemy;
+
+			enemy->Init();
+			enemy->SetPos(pos);
+
+			m_enemy.push_back(enemy);
+		}
+
 	}
 }
 
@@ -172,7 +202,14 @@ void CSceneGame::Draw()
 	m_cat.Draw();
 	m_cat.DrawPlaceBlockPreview(m_mapedit);
 	m_institem.Draw();
-	//ブロックの初期化
+
+	//エネミーの描画
+	for (auto& enemy : m_enemy)
+	{
+		enemy->Draw();
+	}
+
+	//ブロックの描画
 	for (auto& block : m_blocks)
 	{
 		block->Draw();
@@ -199,6 +236,12 @@ void CSceneGame::Fin()
 	m_backgroundManager.Fin();
 	m_mapedit.Fin();
 	m_objEditor.Fin();
+
+	//ブロックの初期化
+	for (auto& enemy : m_enemy)
+	{
+		enemy->Fin();
+	}
 	/*m_enemyManager.Fin();
 	m_shotManager.Fin();
 	m_backgroundManager.Fin();*/
@@ -214,6 +257,13 @@ void CSceneGame::Calc()
 	{
 		// 人間更新処理
 		m_human.Step();
+
+		//ブロックの初期化
+		for (auto& enemy : m_enemy)
+		{
+			enemy->Step();
+		}
+
 		// 猫の更新処理
 		m_cat.Step(m_mapedit);
 		
@@ -283,19 +333,36 @@ void CSceneGame::Calc()
 		//  猫と床と壁との当たり判定
 		VECTOR vec = VGet(m_cat.GetCenter().x, m_cat.GetCenter().y +2.0, m_cat.GetCenter().z);
 
+		//猫とマップの当たり判定
 		m_cat.AddPos(CCollisionManager::HitMap(m_cat.GetCenter(),m_cat.GetRadius(), m_mapedit));
 
+		//エネミーとマップの当たり判定
+		for (auto& enemy : m_enemy)
+		{
+			enemy->AddPos(CCollisionManager::HitMap(enemy->GetCenter(), enemy->GetRadius(), m_mapedit));
+
+			CCollisionManager::CheckHithumanToEnemy(m_human, enemy);
+		}
 
 		// 各種更新
 		m_human.Update();
+
 		// 猫の更新
 		m_cat.Update();
+
 		//アイテムの更新処理
 		m_institem.Update();
+
 		//ブロックの設置
 		for (auto& block : m_blocks)
 		{
 			block->Update();
+		}
+
+		//エネミーの更新
+		for (auto& enemy : m_enemy)
+		{
+			enemy->Update();
 		}
 	}
 

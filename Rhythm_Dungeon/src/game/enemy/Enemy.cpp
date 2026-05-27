@@ -6,7 +6,7 @@
 #include "../../lib/Input/Input.h"
 
 //	定義関連------------------------------
-static const float MOVE_SPEED = 0.5f;	// 移動速度
+static const float MOVE_SPEED = 0.002f;	// 移動速度
 static const float ROT_SPEED = 0.03f;	// 回転速度
 static const float JUMP_POWER = 5.0f;	// ジャンプ力
 static const float GRAVITY = 0.01f;	// 重力
@@ -102,7 +102,7 @@ void CEnemy::Draw()
 {
 	if (!m_isActive)return;
 	CObject::Draw();
-	DrawFormatString(100, 500, RED, "人間Y角度：%f", m_vRotation.y);
+	//DrawFormatString(100, 500, RED, "人間Y角度：%f", m_vRotation.y);
 
 #ifdef MY_DEBUG
 	DrawSphere3D(m_vPos, RADIUS, 16, GetColor(0, 0, 255), GetColor(0, 0, 0), FALSE);

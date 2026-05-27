@@ -8,7 +8,7 @@
 #include "../../lib/math/MyMatrix.h"
 
 //	定義関連------------------------------
-static const float MOVE_SPEED = 1.0f;		// 移動速度
+static const float MOVE_SPEED = 0.25f;		// 移動速度
 static const float ROT_SPEED = 0.1f;		// 回転速度
 static const float JUMP_POWER = 5.0f;		// ジャンプ力
 static const float GRAVITY = 0.01f;			// 重力

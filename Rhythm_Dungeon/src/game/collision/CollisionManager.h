@@ -6,6 +6,7 @@
 #include "../map/MapEditor.h"
 #include "../field/Goal.h"
 #include "../field/Block.h"
+#include "../enemy/Enemy.h"
 
 class CHuman;
 class CObjectEditor;
@@ -19,12 +20,13 @@ private:
 
 	enum ObjectType {
 		OBJ_NONE,
-		OBJ_human,
+		OBJ_HUMAN,
 		OBJ_CAT,
 		OBJ_ITEM,
 		OBJ_GOAL,
 		OBJ_PUT_BOX,
-		OBJ_SETBLOCK
+		OBJ_SETBLOCK,
+		OBJ_ENEMY,
 	};
 
 	enum TileType {
@@ -42,6 +44,10 @@ public:
 	// ゴールと人間の当たり判定
 	static bool CheckHithumanToGoal(CHuman& human,
 		CGoal& inst);
+
+	//人間とエネミーの当たり判定
+	static void CheckHithumanToEnemy(CHuman& human,
+		CEnemy* enemy);
 
 	//人間とオブジェクトの計算
 	static VECTOR HitCatToObject(CHuman& human,

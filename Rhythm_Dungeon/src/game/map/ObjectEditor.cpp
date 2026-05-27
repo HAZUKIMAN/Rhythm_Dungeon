@@ -95,9 +95,11 @@ int ObjectEditor::Step()
             break;
 
         case OBJ_HUMAN:
+            objstate = OBJ_ENEMY;
+            break;
+        case OBJ_ENEMY:
             objstate = OBJ_CAT;
             break;
-
         case OBJ_CAT:
             objstate = OBJ_ITEM;
             break;
@@ -206,6 +208,10 @@ void ObjectEditor::Draw()
 
     case OBJ_HUMAN:
         DrawString(1300, 200,"OBJ_HUMAN", BLUE);
+        break;
+
+    case OBJ_ENEMY:
+        DrawString(1300, 200, "OBJ_ENEMY",BLACK);
         break;
 
     case OBJ_CAT:
@@ -424,6 +430,10 @@ void ObjectEditor::DrawObjects()
 
         case OBJ_SETBLOCK:
             DrawSphere3D(pos, 1.0f, 16, LIGHTGREEN, LIGHTGREEN, TRUE);
+            break;
+
+        case OBJ_ENEMY:
+            DrawSphere3D(pos, 1.0f, 16, BLACK, BLACK, TRUE);
             break;
         }
     }

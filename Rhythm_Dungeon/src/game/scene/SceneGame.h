@@ -9,6 +9,7 @@
 #include "../field/InstalledItem.h"
 #include "../field/Goal.h"
 #include "../field/Block.h"
+#include "../enemy/Enemy.h"
 
 //タイトルクラス
 //	@memo	:	継承後も基本はpublicは増やさない
@@ -21,6 +22,7 @@ private:
 	CInstalledItem m_institem;				//運べる用のオブジェクト
 	std::vector<CBlock*> m_blocks;			// 設置ブロック
 	CBackGroundManager m_backgroundManager;	// 背景
+	std::vector<CEnemy*> m_enemy;			//エネミー
 	MapEditor m_mapedit;					//マップエディター
 	ObjectEditor m_objEditor;				//オブジェクトエディター
 
@@ -49,12 +51,13 @@ private:
 
 	enum ObjectType {
 		OBJ_NONE,
-		OBJ_human,
+		OBJ_HUMAN,
 		OBJ_CAT,
 		OBJ_ITEM,
 		OBJ_GOAL,
 		OBJ_PUT_BOX,
-		OBJ_SETBLOCK
+		OBJ_SETBLOCK,
+		OBJ_ENEMY,
 	};
 
 	enum tagMove

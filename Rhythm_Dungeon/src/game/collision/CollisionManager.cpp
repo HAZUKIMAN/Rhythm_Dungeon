@@ -34,7 +34,25 @@ bool CCollisionManager::CheckHithumanToGoal(CHuman& human,
     return false;
 }
 
+//-----------------------------------
+// エネミーと人間の当たり判定
+//-----------------------------------
+void CCollisionManager::CheckHithumanToEnemy(CHuman& human,
+    CEnemy* enemy)
+{
+    VECTOR humanPos = human.GetCenter();
+    float humanRadius = human.GetRadius();
 
+    VECTOR vec = { enemy->GetPos().x,enemy->GetPos().y + 1.0f ,enemy->GetPos().z };
+    // 座標と半径を取得
+    VECTOR enemyPos = vec;
+    float enemyRadius = 2.0f;
+    // 球と球の当たり判定
+    if (CHit::CheckSphereToSphere(humanPos, enemyPos, humanRadius, enemyRadius))
+    {
+        human.HitCalc();
+    }
+}
 
 //--------------------------------------
 // マップとの当たり判定

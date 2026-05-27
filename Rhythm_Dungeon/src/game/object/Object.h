@@ -42,6 +42,7 @@ public:
 	// 
 	//	アクティブフラグ
 	inline bool IsActiveFlag() { return m_isActive; }
-	//inline void SetActiveFlag(bool isActive) { m_isActive = isActive; }
+
+	inline void SetRotation(float rot) { m_vRotation.y = rot; }
 
 };
