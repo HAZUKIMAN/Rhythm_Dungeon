@@ -39,8 +39,6 @@ void CSceneGame::Init()
 	m_cat.Init();
 	////ブロックの初期化
 	//m_block.Init();
-	//運べるアイテムの初期化
-	m_institem.Init();
 	// 背景初期化
 	m_backgroundManager.Init();
 	//ゴール
@@ -66,11 +64,16 @@ void CSceneGame::Load()
 
 	Reset();
 
-	//ブロックの初期化
+	//エネミーの初期化
 	for (auto& enemy : m_enemy)
 	{
 		enemy->Init();
 		enemy->Load();
+	}
+	//ブロックの初期化
+	for (auto& institem : m_institem)
+	{
+		institem->Init();
 	}
 }
 
@@ -83,11 +86,11 @@ int CSceneGame::Step()
 	int ret = -1;
 	Calc();
 	
-	//ゴールと人間の判定
-	if (CCollisionManager::CheckHithumanToGoal(m_human, m_goal))
-	{
-		ret = SCENEID_TITLE;
-	}
+	////ゴールと人間の判定
+	//if (CCollisionManager::CheckHithumanToGoal(m_human, m_goal))
+	//{
+	//	ret = SCENEID_TITLE;
+	//}
 
 	if (Input::Key::Push(KEY_INPUT_R))
 	{
@@ -96,6 +99,7 @@ int CSceneGame::Step()
 
 	return ret;
 }
+
 void CSceneGame::Reset()
 {
 	auto& objs = m_objEditor.GetObjects();
@@ -110,9 +114,45 @@ void CSceneGame::Reset()
 			float worldpos_x = (obj.x + 0.5f) * TILE_SIZE;
 			float worldpos_z = (obj.z + 0.5f) * TILE_SIZE;
 
-			m_human.SetPos(VGet(worldpos_x, HIGHT_GRID, worldpos_z));
-			m_human.SetRadius(obj.rotY);
+			float hight = 10.0f;
+
+			VECTOR vec = VGet(worldpos_x, hight, worldpos_z);
+			m_human.SetPos(vec);
+			m_human.SetRespawn(vec);
+			//---------------------------------
+			// rotY → direction変換
+			//---------------------------------
+			float rotDeg = obj.rotY * 180.0f / DX_PI_F;
+
+			// マイナス対策
+			while (rotDeg < 0)
+			{
+				rotDeg += 360.0f;
+			}
+
+			rotDeg = fmod(rotDeg, 360.0f);
+
+			//---------------------------------
+			// 向き判定
+			//---------------------------------
+			if (rotDeg >= 315 || rotDeg < 45)
+			{
+				m_human.SetDirect(1); // DOWN
+			}
+			else if (rotDeg >= 45 && rotDeg < 135)
+			{
+				m_human.SetDirect(2); // LEFT
+			}
+			else if (rotDeg >= 135 && rotDeg < 225)
+			{
+				m_human.SetDirect(3); // UP
+			}
+			else
+			{
+				m_human.SetDirect(0); // RIGHT
+			}
 		}
+
 		if (obj.type == OBJ_CAT)
 		{
 			float worldpos_x = (obj.x + 0.5f) * TILE_SIZE;
@@ -126,9 +166,18 @@ void CSceneGame::Reset()
 			float worldpos_x = (obj.x + 0.5f) * TILE_SIZE;
 			float worldpos_z = (obj.z + 0.5f) * TILE_SIZE;
 
-			VECTOR vec = VGet(worldpos_x, HIGHT_GRID, worldpos_z);
-			m_institem.SetPos(vec);
+			VECTOR pos = VGet(worldpos_x, HIGHT_GRID, worldpos_z);
+
+			//---------------------------------
+			// 新しいブロック作成
+			//---------------------------------
+			CInstalledItem* inst = new CInstalledItem;
+
+			inst->SetPos(pos);
+
+			m_institem.push_back(inst);
 		}
+
 		if (obj.type == OBJ_GOAL)
 		{
 			float worldpos_x = (obj.x + 0.5f) * TILE_SIZE;
@@ -171,7 +220,7 @@ void CSceneGame::Reset()
 			//---------------------------------
 			CEnemy* enemy = new CEnemy;
 
-			enemy->Init();
+			//enemy->Init();
 			enemy->SetPos(pos);
 			enemy->SetRadius(obj.rotY);
 
@@ -195,7 +244,12 @@ void CSceneGame::Draw()
 	m_human.Draw();
 	m_cat.Draw();
 	m_cat.DrawPlaceBlockPreview(m_mapedit);
-	m_institem.Draw();
+	
+	//ブロックの描画
+	for (auto& institem : m_institem)
+	{
+		institem->Draw();
+	}
 
 	//エネミーの描画
 	for (auto& enemy : m_enemy)
@@ -231,6 +285,12 @@ void CSceneGame::Fin()
 	m_mapedit.Fin();
 	m_objEditor.Fin();
 
+	//ブロックの削除
+	for (auto& institem : m_institem)
+	{
+		institem->Fin();
+	}
+
 	for (auto& enemy : m_enemy)
 	{
 		enemy->Fin();
@@ -260,13 +320,17 @@ void CSceneGame::Calc()
 		// 猫の更新処理
 		m_cat.Step(m_mapedit);
 		
+		//ブロックの描画
+		for (auto& institem : m_institem)
+		{
 		//--------------------------------------------
 		//		猫がボックスを運ぶかどうかの判定
 		//--------------------------------------------
 		VECTOR Memo = VGet(0, 0, 0);
 		//1回差をとります//正規化//アークタンジェント
-		Memo = VSub(m_cat.GetPos(), m_institem.GetPos());
-		if (VSize(Memo) > 5.0f) {
+		Memo = VSub(m_cat.GetPos(), institem->GetPos());
+		if (VSize(Memo) > 5.0f) 
+		{
 			if (Input::Key::Keep(KEY_INPUT_J))
 			{
 				move_box = CARRY;
@@ -283,8 +347,8 @@ void CSceneGame::Calc()
 
 		if (move_box == CARRY)
 		{
-			VECTOR vec = VGet( m_cat.GetPos().x, m_cat.GetPos().y, m_cat.GetPos().z );
-			m_institem.SetPos(vec);
+			VECTOR vec = VGet(m_cat.GetPos().x, m_cat.GetPos().y, m_cat.GetPos().z);
+			institem->SetPos(vec);
 
 			if (Input::Key::Push(KEY_INPUT_G))
 			{
@@ -302,15 +366,17 @@ void CSceneGame::Calc()
 						float worldY = (obj.y + 0.5f) * TILE_SIZE;
 						float worldZ = (obj.z + 0.5f) * TILE_SIZE;
 
-						m_institem.SetPos(VGet(worldX, worldY, worldZ));
+						institem->SetPos(VGet(worldX, worldY, worldZ));
 
 						m_objEditor.RemoveObject(obj.x, obj.y, obj.z);
 					}
-					
+
 				}
 
 				move_box = NONE;
 			}
+		}
+
 		}
 	
 		// 待機･移動中処理
@@ -347,9 +413,12 @@ void CSceneGame::Calc()
 		// 猫の更新
 		m_cat.Update();
 
-		//アイテムの更新処理
-		m_institem.Update();
-
+		//ブロックの描画
+		for (auto& institem : m_institem)
+		{
+			//アイテムの更新処理
+			institem->Update();
+		}
 		//ブロックの設置
 		for (auto& block : m_blocks)
 		{

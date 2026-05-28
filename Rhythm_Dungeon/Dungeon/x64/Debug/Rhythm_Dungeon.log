@@ -1,2 +1,4 @@
-﻿  PlayCamera.cpp
+﻿  Human.cpp
+C:\Users\2409407\Desktop\Github\Rhythm_Dungeon\Rhythm_Dungeon\src\game\human\Human.cpp(53,15): warning C4244: '=': 'float' から 'int' への変換です。データが失われる可能性があります。
+C:\Users\2409407\Desktop\Github\Rhythm_Dungeon\Rhythm_Dungeon\src\game\human\Human.cpp(184,17): warning C4244: '=': 'float' から 'int' への変換です。データが失われる可能性があります。
   Rhythm_Dungeon.vcxproj -> C:\Users\2409407\Desktop\Github\Rhythm_Dungeon\Rhythm_Dungeon\x64\Debug\Dungeon.exe

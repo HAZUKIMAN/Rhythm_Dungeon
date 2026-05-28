@@ -15,7 +15,7 @@ public:
 	~CDebugCamera() override;
 
 	// –ˆƒtƒŒ[ƒ€ŒÄ‚Ôˆ—
-	void Step(CHuman& human);
+	void Step(CCat& cat);
 	// •`‰æ
 	void Draw() override;
 

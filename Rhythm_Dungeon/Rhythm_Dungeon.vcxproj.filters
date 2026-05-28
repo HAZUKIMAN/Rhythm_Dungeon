@@ -91,6 +91,18 @@
     <Filter Include="ソース ファイル\game\field\Block">
       <UniqueIdentifier>{33e842d5-0097-4259-a2e2-03a2e9bd8116}</UniqueIdentifier>
     </Filter>
+    <Filter Include="ソース ファイル\game\scene\clear">
+      <UniqueIdentifier>{22d609e9-9ec1-4779-b641-df20f5eac8b6}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ソース ファイル\game\scene\select">
+      <UniqueIdentifier>{d96c5ce3-deb7-4f4f-9bfb-5c0771e3caf4}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ソース ファイル\game\scene\title">
+      <UniqueIdentifier>{4ab5b6b9-b670-4132-b2c4-a8b166033662}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ソース ファイル\game\scene\game">
+      <UniqueIdentifier>{a4e77770-14c6-4e1f-9ea0-eb26c3f274f6}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\Main.cpp">
@@ -120,16 +132,7 @@
     <ClCompile Include="src\game\score\Score.cpp">
       <Filter>ソース ファイル\game\score</Filter>
     </ClCompile>
-    <ClCompile Include="src\game\scene\SceneClear.cpp">
-      <Filter>ソース ファイル\game\scene</Filter>
-    </ClCompile>
-    <ClCompile Include="src\game\scene\SceneGame.cpp">
-      <Filter>ソース ファイル\game\scene</Filter>
-    </ClCompile>
     <ClCompile Include="src\game\scene\SceneManager.cpp">
-      <Filter>ソース ファイル\game\scene</Filter>
-    </ClCompile>
-    <ClCompile Include="src\game\scene\SceneTitle.cpp">
       <Filter>ソース ファイル\game\scene</Filter>
     </ClCompile>
     <ClCompile Include="src\game\field\Sky.cpp">
@@ -198,8 +201,17 @@
     <ClCompile Include="src\game\enemy\Enemy.cpp">
       <Filter>ソース ファイル\game\character\enemy</Filter>
     </ClCompile>
+    <ClCompile Include="src\game\scene\SceneClear.cpp">
+      <Filter>ソース ファイル\game\scene\clear</Filter>
+    </ClCompile>
     <ClCompile Include="src\game\scene\SceneSelect.cpp">
-      <Filter>ソース ファイル\game\scene</Filter>
+      <Filter>ソース ファイル\game\scene\select</Filter>
+    </ClCompile>
+    <ClCompile Include="src\game\scene\SceneTitle.cpp">
+      <Filter>ソース ファイル\game\scene\title</Filter>
+    </ClCompile>
+    <ClCompile Include="src\game\scene\SceneGame.cpp">
+      <Filter>ソース ファイル\game\scene\game</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -230,16 +242,7 @@
     <ClInclude Include="src\game\scene\SceneBase.h">
       <Filter>ソース ファイル\game\scene</Filter>
     </ClInclude>
-    <ClInclude Include="src\game\scene\SceneClear.h">
-      <Filter>ソース ファイル\game\scene</Filter>
-    </ClInclude>
-    <ClInclude Include="src\game\scene\SceneGame.h">
-      <Filter>ソース ファイル\game\scene</Filter>
-    </ClInclude>
     <ClInclude Include="src\game\scene\SceneManager.h">
-      <Filter>ソース ファイル\game\scene</Filter>
-    </ClInclude>
-    <ClInclude Include="src\game\scene\SceneTitle.h">
       <Filter>ソース ファイル\game\scene</Filter>
     </ClInclude>
     <ClInclude Include="src\game\field\Sky.h">
@@ -311,8 +314,17 @@
     <ClInclude Include="src\game\enemy\Enemy.h">
       <Filter>ソース ファイル\game\character\enemy</Filter>
     </ClInclude>
+    <ClInclude Include="src\game\scene\SceneClear.h">
+      <Filter>ソース ファイル\game\scene\clear</Filter>
+    </ClInclude>
     <ClInclude Include="src\game\scene\SceneSelect.h">
-      <Filter>ソース ファイル\game\scene</Filter>
+      <Filter>ソース ファイル\game\scene\select</Filter>
+    </ClInclude>
+    <ClInclude Include="src\game\scene\SceneTitle.h">
+      <Filter>ソース ファイル\game\scene\title</Filter>
+    </ClInclude>
+    <ClInclude Include="src\game\scene\SceneGame.h">
+      <Filter>ソース ファイル\game\scene\game</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

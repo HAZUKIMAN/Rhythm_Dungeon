@@ -1,7 +1,7 @@
 #include "InstalledItem.h"
 
 // コンストラクタ・デストラクタ
-CInstalledItem::CInstalledItem(){}
+CInstalledItem::CInstalledItem() {}
 
 CInstalledItem::~CInstalledItem(){
 	MV1TerminateCollInfo(m_iModelHdl);
@@ -11,7 +11,6 @@ CInstalledItem::~CInstalledItem(){
 
 // 初期化
 void CInstalledItem::Init() {
-	m_vPosition = VGet(100.0f, 100.0f, 100.0f);
 	m_iModelHdl = MV1LoadModel("Data/object/stage/Wall.mv1");
 	VECTOR size = VGet(0.03f, 0.03f, 0.03f);
 

@@ -30,7 +30,7 @@ CDebugCamera::~CDebugCamera()
 //-------------------------------
 //		–ˆƒtƒŒ[ƒ€ŒÄ‚Ôˆ—
 //-------------------------------
-void CDebugCamera::Step(CHuman& human)
+void CDebugCamera::Step(CCat& cat)
 {
 	// ƒJƒƒ‰ã‰ºˆÚ“®
 	MoveUpDown();

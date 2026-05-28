@@ -19,7 +19,7 @@ private:
 	CHuman m_human;							// 人間処理
 	CCameraManager m_cameraManager;			// カメラマネージャ
 	CCat m_cat;								//猫（操作キャラ）
-	CInstalledItem m_institem;				//運べる用のオブジェクト
+	std::vector < CInstalledItem*> m_institem;//運べる用のオブジェクト
 	std::vector<CBlock*> m_blocks;			// 設置ブロック
 	CBackGroundManager m_backgroundManager;	// 背景
 	std::vector<CEnemy*> m_enemy;			//エネミー

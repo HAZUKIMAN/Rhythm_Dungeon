@@ -2,6 +2,7 @@
 #include <corecrt_math.h>
 #include "../../lib/Input/Input.h"
 
+//static const char TEST_MAP_PATH[] = { "Data/_dat/map.dat" };
 
 //---------------------------------
 // コンストラクタ
@@ -48,7 +49,7 @@ void MapEditor::Load()
     MV1SetScale(m_iModelHdl, size);
     MV1SetScale(m_iModelHdl_Wall, size);
 
-    LoadMap("map.dat");
+    LoadMap(MAP_1_PATH);
 }
 
 //---------------------------------
@@ -58,12 +59,12 @@ int MapEditor::Step()
 {
     if (Input::Key::Push(KEY_INPUT_P))
     {
-        SaveMap("map.dat");
+        SaveMap(MAP_1_PATH);
     }
 
     if (Input::Key::Push(KEY_INPUT_L))
     {
-        LoadMap("map.dat");
+        LoadMap(MAP_1_PATH);
     }
 
     return 0;

@@ -15,6 +15,13 @@ enum tagScene {
 	SCENEID_NUM,		// シーン数
 };
 
+//読み込むマップステージ
+static const char TEST_MAP_PATH[] = { "Data/_dat/map.dat" };
+static const char TEST_OBJ_PATH[] = { "Data/_dat/object.dat" };
+
+static const char MAP_1_PATH[] = { "Data/_dat/map1/map1.dat" };
+static const char OBJ_1_PATH[] = { "Data/_dat/map1/object1.dat" };
+
 //ウィンドウの幅・高さ
 static constexpr int WINDOW_WIDTH = 1600;
 static constexpr int WINDOW_HEIGHT = 900;

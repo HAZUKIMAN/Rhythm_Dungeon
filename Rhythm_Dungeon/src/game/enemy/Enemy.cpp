@@ -44,7 +44,6 @@ CEnemy::~CEnemy()
 //-------------------------------
 void CEnemy::Init()
 {
-	m_radius = RADIUS;
 	m_isActive = true;
 	m_isMoving = false;
 	m_targetPos = m_vPosition;

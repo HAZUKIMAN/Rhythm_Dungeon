@@ -3,6 +3,9 @@
 #include "../../lib/Input/Input.h"
 #include "../common.h"
 
+//static const char TEST_MAP_PATH[] = { "Data/_dat/object.dat" };
+
+
 //---------------------------------
 // コンストラクタ
 //---------------------------------
@@ -38,7 +41,7 @@ void ObjectEditor::Init()
 //---------------------------------
 void ObjectEditor::Load()
 {
-    LoadMap("object.dat");
+    LoadMap(OBJ_1_PATH);
 }
 
 //---------------------------------
@@ -51,7 +54,7 @@ int ObjectEditor::Step()
     //---------------------------------
     if (Input::Key::Push(KEY_INPUT_P))
     {
-        SaveMap("object.dat");
+        SaveMap(OBJ_1_PATH);
     }
 
     //---------------------------------
@@ -59,7 +62,7 @@ int ObjectEditor::Step()
     //---------------------------------
     if (Input::Key::Push(KEY_INPUT_L))
     {
-        LoadMap("object.dat");
+        LoadMap(OBJ_1_PATH);
     }
 
     //---------------------------------

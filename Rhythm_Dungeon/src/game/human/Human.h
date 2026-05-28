@@ -37,6 +37,7 @@ private:
 	int m_coolTime;
 	int m_moveX;
 	int m_moveZ;
+	VECTOR m_recpos;
 
 public:
 	// コンストラクタ・デストラクタ
@@ -52,9 +53,11 @@ public:
 	void Step();
 	// 描画処理
 	void Draw() override;
-
+	//プレイヤーの向かせる角度の取得
 	void SetDirect(int dir);
-
+	//リスポーン地点の取得
+	VECTOR SetRespawn(VECTOR res) { return m_recpos = res; }
+	//方向の確保
 	int  GetDirect() { return direction; }
 private:
 	// 移動角度処理
