@@ -44,7 +44,6 @@ void CCat::Init()
 {
 	m_state = CAT_STATE_NORMAL;
 	m_moveMode = MOVE_GROUND;
-	m_vRotation.y = DX_PI_F;
 	m_radius = RADIUS;
 	m_isActive = true;
 }

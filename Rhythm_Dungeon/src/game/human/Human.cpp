@@ -44,7 +44,6 @@ CHuman::~CHuman()
 //-------------------------------
 void CHuman::Init()
 {
-	m_vRotation.y = -DX_PI_F / 2;
 	m_radius = RADIUS;
 	m_isActive = true;
 	m_isMoving = false;

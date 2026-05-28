@@ -4,6 +4,7 @@
 
 class CPlayCamera : public CCameraBase
 {
+	float m_cameraRotY;
 
 public:
 	// コンストラクタ・デストラクタ
@@ -11,5 +12,5 @@ public:
 	~CPlayCamera() override;
 
 	// 毎フレーム呼ぶ処理
-	void Step(CHuman& human) override;
+	void Step(CCat& cat) override;
 };

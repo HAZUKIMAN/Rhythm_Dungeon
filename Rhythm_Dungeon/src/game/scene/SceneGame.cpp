@@ -5,6 +5,7 @@
 #include "../system/SoundManager.h"
 #include "../../lib/Input/Input.h"
 
+static const float HIGHT_GRID = 5.0f;	// 移動速度
 
 //-------------------------------
 //		コンストラクタ
@@ -82,11 +83,11 @@ int CSceneGame::Step()
 	int ret = -1;
 	Calc();
 	
-	////ゴールと人間の判定
-	//if (CCollisionManager::CheckHithumanToGoal(m_human, m_goal))
-	//{
-	//	ret = SCENEID_GAMEOVER;
-	//}
+	//ゴールと人間の判定
+	if (CCollisionManager::CheckHithumanToGoal(m_human, m_goal))
+	{
+		ret = SCENEID_TITLE;
+	}
 
 	if (Input::Key::Push(KEY_INPUT_R))
 	{
@@ -106,37 +107,34 @@ void CSceneGame::Reset()
 
 		if (obj.type == OBJ_HUMAN)
 		{
-			float gridSize = 5.0f;
 			float worldpos_x = (obj.x + 0.5f) * TILE_SIZE;
 			float worldpos_z = (obj.z + 0.5f) * TILE_SIZE;
 
-			m_human.SetPos(VGet(worldpos_x, gridSize, worldpos_z));
+			m_human.SetPos(VGet(worldpos_x, HIGHT_GRID, worldpos_z));
+			m_human.SetRadius(obj.rotY);
 		}
 		if (obj.type == OBJ_CAT)
 		{
-			float gridSize = 5.0f;
 			float worldpos_x = (obj.x + 0.5f) * TILE_SIZE;
 			float worldpos_z = (obj.z + 0.5f) * TILE_SIZE;
 
-			m_cat.SetPos(VGet(worldpos_x, gridSize, worldpos_z));
+			m_cat.SetPos(VGet(worldpos_x, HIGHT_GRID, worldpos_z));
+			m_cat.SetRadius(obj.rotY);
 		}
 		if (obj.type == OBJ_ITEM)
 		{
-			float gridSize = 5.0f;
-
 			float worldpos_x = (obj.x + 0.5f) * TILE_SIZE;
 			float worldpos_z = (obj.z + 0.5f) * TILE_SIZE;
 
-			VECTOR vec = VGet(worldpos_x, gridSize, worldpos_z);
+			VECTOR vec = VGet(worldpos_x, HIGHT_GRID, worldpos_z);
 			m_institem.SetPos(vec);
 		}
 		if (obj.type == OBJ_GOAL)
 		{
-			float gridSize = 5.0f;
 			float worldpos_x = (obj.x + 0.5f) * TILE_SIZE;
 			float worldpos_z = (obj.z + 0.5f) * TILE_SIZE;
 
-			VECTOR vec = VGet(worldpos_x, gridSize, worldpos_z);
+			VECTOR vec = VGet(worldpos_x, HIGHT_GRID, worldpos_z);
 			m_goal.SetPos(vec);
 		}
 		//---------------------------------
@@ -144,13 +142,11 @@ void CSceneGame::Reset()
 		//---------------------------------
 		if (obj.type == OBJ_SETBLOCK)
 		{
-			float gridSize = 5.0f;
-
+			
 			float worldpos_x = (obj.x + 0.5f) * TILE_SIZE;
-
 			float worldpos_z = (obj.z + 0.5f) * TILE_SIZE;
 
-			VECTOR pos = VGet(worldpos_x, gridSize, worldpos_z);
+			VECTOR pos = VGet(worldpos_x, HIGHT_GRID, worldpos_z);
 
 			//---------------------------------
 			// 新しいブロック作成
@@ -165,13 +161,10 @@ void CSceneGame::Reset()
 		//エネミーを生成
 		if (obj.type == OBJ_ENEMY)
 		{
-			float gridSize = 5.0f;
-
 			float worldpos_x = (obj.x + 0.5f) * TILE_SIZE;
-
 			float worldpos_z = (obj.z + 0.5f) * TILE_SIZE;
 
-			VECTOR pos = VGet(worldpos_x, gridSize, worldpos_z);
+			VECTOR pos = VGet(worldpos_x, HIGHT_GRID, worldpos_z);
 
 			//---------------------------------
 			// 新しいブロック作成
@@ -180,6 +173,7 @@ void CSceneGame::Reset()
 
 			enemy->Init();
 			enemy->SetPos(pos);
+			enemy->SetRadius(obj.rotY);
 
 			m_enemy.push_back(enemy);
 		}
@@ -237,7 +231,6 @@ void CSceneGame::Fin()
 	m_mapedit.Fin();
 	m_objEditor.Fin();
 
-	//ブロックの初期化
 	for (auto& enemy : m_enemy)
 	{
 		enemy->Fin();
@@ -290,7 +283,6 @@ void CSceneGame::Calc()
 
 		if (move_box == CARRY)
 		{
-
 			VECTOR vec = VGet( m_cat.GetPos().x, m_cat.GetPos().y, m_cat.GetPos().z );
 			m_institem.SetPos(vec);
 
@@ -324,6 +316,11 @@ void CSceneGame::Calc()
 		// 待機･移動中処理
 		m_human.NormalExec(m_blocks);
 
+		for (auto& enemy : m_enemy)
+		{
+			enemy->NormalExec(m_blocks);
+		}
+	
 		//  人間と床と壁との当たり判定
 		m_human.AddPos(CCollisionManager::HitMap(m_human.GetCenter(), m_human.GetRadius(), m_mapedit));
 
@@ -388,7 +385,7 @@ void CSceneGame::Calc()
 
 
 	// カメラ更新処理
-	m_cameraManager.Step(m_human);
+	m_cameraManager.Step(m_cat);
 	m_cameraManager.Update();
 
 

@@ -46,7 +46,7 @@ void CCollisionManager::CheckHithumanToEnemy(CHuman& human,
     VECTOR vec = { enemy->GetPos().x,enemy->GetPos().y + 1.0f ,enemy->GetPos().z };
     // 座標と半径を取得
     VECTOR enemyPos = vec;
-    float enemyRadius = 2.0f;
+    float enemyRadius = 1.0f;
     // 球と球の当たり判定
     if (CHit::CheckSphereToSphere(humanPos, enemyPos, humanRadius, enemyRadius))
     {
@@ -205,35 +205,24 @@ VECTOR CCollisionManager::HitMap(
 // humanとオブジェクトの当たり判定
 //--------------------------------------
 VECTOR CCollisionManager::HitCatToObject(
-    CHuman& human,ObjectEditor& object)
+    CHuman& human, ObjectEditor& object)
 {
     m_time--;
-    float radius = human.GetRadius();
-    //--------------------------------------
-    // 押し戻し結果
-    //--------------------------------------
+
     VECTOR result = VGet(0, 0, 0);
 
-    //--------------------------------------
-    // ObjectEditorから取得
-    //--------------------------------------
     const auto& objs = object.GetObjects();
 
-    //--------------------------------------
-    // 全オブジェクトチェック
-    //--------------------------------------
     for (const auto& obj : objs)
     {
-        //--------------------------------------
-        // ブロックだけ判定
-        //--------------------------------------
         if (obj.type != OBJ_ITEM)
             continue;
 
-        if (m_time >= 0)continue;
+        if (m_time >= 0)
+            continue;
 
         //--------------------------------------
-        // マップ座標 → ワールド座標
+        // ワールド座標
         //--------------------------------------
         float worldX = (obj.x + 0.5f) * TILE_SIZE;
         float worldY = (obj.y + 0.5f) * TILE_SIZE;
@@ -242,22 +231,20 @@ VECTOR CCollisionManager::HitCatToObject(
         VECTOR objPos = VGet(worldX, worldY, worldZ);
 
         //--------------------------------------
-        // ブロック半径
+        // 距離
         //--------------------------------------
-        float blockRadius = TILE_SIZE * 0.5f;
+        VECTOR diff = VSub(human.GetCenter(), objPos);
+        diff.y = 0.0f;
+
+        float dist = VSize(diff);
 
         //--------------------------------------
-        // めり込み量
+        // 十分近づいたら方向変更
         //--------------------------------------
-        float hitLen = 0.0f;
-
-        //--------------------------------------
-        // 球同士の当たり判定
-        //--------------------------------------
-        if (CHit::CheckSphereToSphere(human.GetCenter(), objPos, radius, blockRadius, &hitLen))
+        if (dist < 10.0f)
         {
-            //人間の処理
-            int  state = human.GetDirect();
+            int state = human.GetDirect();
+
             m_time = SET_TIME;
 
             switch (state)
@@ -265,31 +252,30 @@ VECTOR CCollisionManager::HitCatToObject(
             case 0:
                 human.SetDirect(1);
                 break;
+
             case 1:
                 human.SetDirect(2);
                 break;
+
             case 2:
                 human.SetDirect(3);
                 break;
+
             case 3:
-                human.SetDirect(4);
+                human.SetDirect(0);
                 break;
             }
 
-            // 押し戻し方向
-            VECTOR dir = VSub(human.GetCenter(), objPos);
-            // 長さ
-            float len = VSize(dir);
-            // 0除算防止
-            if (len <= 0.0001f)
-                continue;
+            //--------------------------------------
+            // 少しだけ押し戻す
+            //--------------------------------------
+            if (dist > 0.001f)
+            {
+                diff = VNorm(diff);
 
-            // 正規化
-            dir = VNorm(dir);
-            dir.y = 0.0f;
-
-            // 押し戻し
-            result = VAdd(result, VScale(dir, hitLen));
+                // 0.5fだけ押し戻す
+                result = VScale(diff, 0.5f);
+            }
         }
     }
 

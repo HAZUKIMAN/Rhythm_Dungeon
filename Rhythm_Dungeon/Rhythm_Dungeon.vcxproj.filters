@@ -58,17 +58,8 @@
     <Filter Include="ソース ファイル\game\object">
       <UniqueIdentifier>{1f7526f0-1208-4906-b5ae-be9ca4443170}</UniqueIdentifier>
     </Filter>
-    <Filter Include="ソース ファイル\game\field\Field">
-      <UniqueIdentifier>{33e842d5-0097-4259-a2e2-03a2e9bd8116}</UniqueIdentifier>
-    </Filter>
     <Filter Include="ソース ファイル\game\camera\Editor">
       <UniqueIdentifier>{94e7cd77-23d1-4513-a2f8-e0277fbd04ea}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="ソース ファイル\game\field\MapEditor">
-      <UniqueIdentifier>{2efb3f63-e931-4f2b-b86e-bed757e84908}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="ソース ファイル\game\field\objecteditor">
-      <UniqueIdentifier>{fc0d28e3-3dc4-4e8e-bf28-4f6cf7bdfb48}</UniqueIdentifier>
     </Filter>
     <Filter Include="ソース ファイル\game\field\Installed item">
       <UniqueIdentifier>{99b013b6-a33a-454e-a634-44c7984f9252}</UniqueIdentifier>
@@ -87,6 +78,18 @@
     </Filter>
     <Filter Include="ソース ファイル\game\character\enemy">
       <UniqueIdentifier>{7c1521e2-38e0-4276-9587-797439ea54f1}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ソース ファイル\game\Editor">
+      <UniqueIdentifier>{087e9390-a3b3-422c-b6d6-1ec291b029c6}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ソース ファイル\game\Editor\MapEditor">
+      <UniqueIdentifier>{2efb3f63-e931-4f2b-b86e-bed757e84908}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ソース ファイル\game\Editor\objecteditor">
+      <UniqueIdentifier>{fc0d28e3-3dc4-4e8e-bf28-4f6cf7bdfb48}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ソース ファイル\game\field\Block">
+      <UniqueIdentifier>{33e842d5-0097-4259-a2e2-03a2e9bd8116}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -160,19 +163,19 @@
       <Filter>ソース ファイル\game\field</Filter>
     </ClCompile>
     <ClCompile Include="src\game\field\Block.cpp">
-      <Filter>ソース ファイル\game\field\Field</Filter>
+      <Filter>ソース ファイル\game\field\Block</Filter>
     </ClCompile>
     <ClCompile Include="src\game\camera\CameraEditor.cpp">
       <Filter>ソース ファイル\game\camera\Editor</Filter>
     </ClCompile>
     <ClCompile Include="src\game\map\MapEditor.cpp">
-      <Filter>ソース ファイル\game\field\MapEditor</Filter>
+      <Filter>ソース ファイル\game\Editor\MapEditor</Filter>
     </ClCompile>
     <ClCompile Include="src\game\Anime\Anime.cpp">
       <Filter>ソース ファイル\game\object</Filter>
     </ClCompile>
     <ClCompile Include="src\game\map\ObjectEditor.cpp">
-      <Filter>ソース ファイル\game\field\objecteditor</Filter>
+      <Filter>ソース ファイル\game\Editor\objecteditor</Filter>
     </ClCompile>
     <ClCompile Include="src\game\cat\Cat.cpp">
       <Filter>ソース ファイル\game\character\cat</Filter>
@@ -273,19 +276,19 @@
       <Filter>ソース ファイル\game\field</Filter>
     </ClInclude>
     <ClInclude Include="src\game\field\Block.h">
-      <Filter>ソース ファイル\game\field\Field</Filter>
+      <Filter>ソース ファイル\game\field\Block</Filter>
     </ClInclude>
     <ClInclude Include="src\game\camera\CameraEditor.h">
       <Filter>ソース ファイル\game\camera\Editor</Filter>
     </ClInclude>
     <ClInclude Include="src\game\map\MapEditor.h">
-      <Filter>ソース ファイル\game\field\MapEditor</Filter>
+      <Filter>ソース ファイル\game\Editor\MapEditor</Filter>
     </ClInclude>
     <ClInclude Include="src\game\Anime\Anime.h">
       <Filter>ソース ファイル\game\object</Filter>
     </ClInclude>
     <ClInclude Include="src\game\map\ObjectEditor.h">
-      <Filter>ソース ファイル\game\field\objecteditor</Filter>
+      <Filter>ソース ファイル\game\Editor\objecteditor</Filter>
     </ClInclude>
     <ClInclude Include="src\game\cat\Cat.h">
       <Filter>ソース ファイル\game\character\cat</Filter>

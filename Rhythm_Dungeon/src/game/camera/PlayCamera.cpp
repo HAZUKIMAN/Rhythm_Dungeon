@@ -1,10 +1,11 @@
 #include "PlayCamera.h"
 #include "../human/Human.h"
 #include <math.h>
+#include "../../lib/Input/Input.h"
 
 //	定義関連------------------------------
-static const float CAMERA_LENGTH = 70.0f;		// 注視点から視点までの距離
-static const float CAMERA_OFFSET_Y = 30.0f;		// 視点の高さ
+static const float CAMERA_LENGTH = 50.0f;		// 注視点から視点までの距離
+static const float CAMERA_OFFSET_Y = 20.0f;		// 視点の高さ
 //----------------------------------------
 
 
@@ -13,7 +14,7 @@ static const float CAMERA_OFFSET_Y = 30.0f;		// 視点の高さ
 //-------------------------------
 CPlayCamera::CPlayCamera()
 {
-	
+	m_cameraRotY = 3.0f;
 }
 
 
@@ -28,33 +29,44 @@ CPlayCamera::~CPlayCamera()
 //-------------------------------
 //		毎フレーム呼ぶ処理
 //-------------------------------
-void CPlayCamera::Step(CHuman& human)
+void CPlayCamera::Step(CCat& cat)
 {
-	// 人間が原点にいて、Y軸回転が0度である事を前提考える
-	float rot = human.GetRot().y;
-	VECTOR focus = human.GetPos();
+    //---------------------------------
+    // カメラ回転
+    //---------------------------------
+    if (Input::Key::Keep(KEY_INPUT_LEFT))
+    {
+        m_cameraRotY -= 0.03f;
+    }
 
-	focus.z = 40.0f;
-	// 人間の回転角度にあわせて上記方向ベクトルを回転させる
-	VECTOR dir;
-	dir.x = 0.0f;
-	dir.z = - CAMERA_LENGTH;
-	 
-	//dir.x = /*sinf(rot) **/ CAMERA_LENGTH;
-	//dir.z = /*cosf(rot) **/ CAMERA_LENGTH;
+    if (Input::Key::Keep(KEY_INPUT_RIGHT))
+    {
+        m_cameraRotY += 0.03f;
+    }
 
-	// 視点の高さは固定
-	dir.y = CAMERA_OFFSET_Y;
+    //---------------------------------
+    // プレイヤー位置
+    //---------------------------------
+    VECTOR focus = cat.GetPos();
 
-	//ためし
-	//focus = {0, 0, 0};
+    //---------------------------------
+    // 回転したカメラ位置
+    //---------------------------------
+    VECTOR dir;
 
-	// 注視点(人間)の位置から計算結果の距離を移動させれば
-	// カメラの視点になる
-	m_pos = VAdd(focus, dir);
+    dir.x = sinf(m_cameraRotY) * CAMERA_LENGTH;
+    dir.z = cosf(m_cameraRotY) * CAMERA_LENGTH;
+    dir.y = CAMERA_OFFSET_Y;
 
-	// 注視点はそのままカメラの位置
-	m_focus = focus;
-	m_focus.y = 10.0f;
+    //---------------------------------
+    // カメラ位置
+    //---------------------------------
+    m_pos = VAdd(focus, dir);
+
+    //---------------------------------
+    // 注視点
+    //---------------------------------
+    m_focus = focus;
+    m_focus.y += 5.0f;
 }
 

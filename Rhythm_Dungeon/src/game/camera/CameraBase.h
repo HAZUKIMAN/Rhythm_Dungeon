@@ -1,5 +1,6 @@
 #pragma once
 #include <DxLib.h>
+#include "../cat/Cat.h"
 
 // 人間情報取得のため
 class CHuman;
@@ -26,7 +27,7 @@ public:
 	virtual void Fin();
 
 	// 毎フレーム呼ぶ処理
-	virtual void Step(CHuman& human);
+	virtual void Step(CCat& cat);
 	// 更新処理
 	virtual void Update();
 	// 描画

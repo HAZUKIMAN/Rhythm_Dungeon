@@ -34,5 +34,4 @@ void CBlock::Update()
 // •`‰æ
 void CBlock::Draw() {
 	MV1DrawModel(m_iModelHdl);
-	DrawSphere3D(m_vPosition, 1.0f, 16, YELLOW, YELLOW, TRUE);
 }

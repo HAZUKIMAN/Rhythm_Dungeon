@@ -4,7 +4,7 @@
 //-------------------------------
 //		コンストラクタ
 //-------------------------------
-CActor::CActor() : m_speed(VGet(0.0f, 0.0f, 0.0f)), m_radius(0.0f)
+CActor::CActor() : m_speed(VGet(0.0f, 0.0f, 0.0f)), m_radius(2.5f)
 {
 }
 
@@ -24,7 +24,6 @@ CActor::~CActor()
 void CActor::Init()
 {
 	CObject::Init();
-	m_radius = 0.0f;
 }
 
 

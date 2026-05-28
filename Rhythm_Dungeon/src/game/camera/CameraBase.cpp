@@ -1,5 +1,6 @@
 #include "CameraBase.h"
 
+
 static const VECTOR VECTOR_ZERO = { 0.0f, 0.0f, 0.0f };
 
 //-------------------------------
@@ -41,7 +42,7 @@ void CCameraBase::Fin()
 //-------------------------------
 //		–ˆƒtƒŒ[ƒ€ŒÄ‚Ôˆ—
 //-------------------------------
-void CCameraBase::Step(CHuman& human)
+void CCameraBase::Step(CCat& cat)
 {
 }
 

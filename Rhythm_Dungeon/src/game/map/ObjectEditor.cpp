@@ -109,12 +109,12 @@ int ObjectEditor::Step()
             break;
 
         case OBJ_GOAL:
-            objstate = OBJ_PUT_BOX;
-            break;
-
-        case OBJ_PUT_BOX:
             objstate = OBJ_SETBLOCK;
             break;
+
+      /*  case OBJ_PUT_BOX:
+            objstate = OBJ_SETBLOCK;
+            break;*/
         case OBJ_SETBLOCK:
             objstate = OBJ_NONE;
             break;
@@ -181,9 +181,6 @@ void ObjectEditor::Update()
 //---------------------------------
 void ObjectEditor::Draw()
 {
-
-    
-
     //---------------------------------
     // オブジェクト描画
     //---------------------------------
@@ -194,46 +191,94 @@ void ObjectEditor::Draw()
     //---------------------------------
     DrawFormatString(1300,100,WHITE,"現在の高さ : %d",m_currentY);
 
-    //
-    DrawString(800, 10, "INPUT_KEY_1でリスポーン地点を変換", YELLOW);
+    //---------------------------------
+    // 現在の選択オブジェクト表示
+    //---------------------------------
+    DrawBox(1200, 180, 1550, 320, GetColor(30, 30, 30), TRUE);
+    DrawBox(1200, 180, 1550, 320, WHITE, FALSE);
 
-    //---------------------------------
-    // 現在オブジェクト表示
-    //---------------------------------
+    DrawFormatString( 1220, 200, WHITE,"現在のオブジェクト");
+
     switch (objstate)
     {
     case OBJ_NONE:
-        DrawString(1300, 200,"OBJ_NONE", WHITE);
+        DrawFormatString(1220, 240, WHITE, "NONE");
         break;
 
     case OBJ_HUMAN:
-        DrawString(1300, 200,"OBJ_HUMAN", BLUE);
+        DrawFormatString(1220, 240, BLUE, "HUMAN");
         break;
 
     case OBJ_ENEMY:
-        DrawString(1300, 200, "OBJ_ENEMY",BLACK);
+        DrawFormatString(1220, 240, RED, "ENEMY");
         break;
 
     case OBJ_CAT:
-        DrawString(1300, 200,"OBJ_CAT", RED);
+        DrawFormatString(1220, 240, YELLOW, "CAT");
         break;
 
     case OBJ_ITEM:
-        DrawString(1300, 200,"OBJ_ITEM", GREEN);
+        DrawFormatString(1220, 240, GREEN, "ITEM");
         break;
 
     case OBJ_GOAL:
-        DrawString(1300, 200,"OBJ_GOAL", YELLOW);
-        break;
-
-    case OBJ_PUT_BOX:
-        DrawString(1300, 200,"OBJ_PUT_BOX", PINKU);
+        DrawFormatString(1220, 240, PINKU, "GOAL");
         break;
 
     case OBJ_SETBLOCK:
-        DrawString(1300, 200, "OBJ_SETBLOCK", LIGHTGREEN);
+        DrawFormatString(1220, 240, LIGHTGREEN, "BLOCK");
         break;
     }
+
+    //---------------------------------
+    // 向き表示
+    //---------------------------------
+    const char* dirText = "RIGHT";
+
+    // 0～360に変換
+    float rotDeg = m_currentRotY * 180.0f / DX_PI_F;
+
+    // マイナス対策
+    while (rotDeg < 0)
+    {
+        rotDeg += 360.0f;
+    }
+
+    rotDeg = fmod(rotDeg, 360.0f);
+
+    // 方向判定
+    if (rotDeg >= 315 || rotDeg < 45)
+    {
+        dirText = "DOWN";
+    }
+    else if (rotDeg >= 45 && rotDeg < 135)
+    {
+        dirText = "LEFT";
+    }
+    else if (rotDeg >= 135 && rotDeg < 225)
+    {
+        dirText = "UP";
+    }
+    else
+    {
+        dirText = "RIGHT";
+    }
+
+    DrawFormatString( 1220, 280, WHITE, "向き : %s",dirText);
+
+    //---------------------------------
+    // 操作説明
+    //---------------------------------
+    DrawBox(20, 600, 450, 850, GetColor(20, 20, 20), TRUE);
+    DrawBox(20, 600, 450, 850, WHITE, FALSE);
+
+    DrawString(40, 620, "[1] オブジェクト変更", WHITE);
+    DrawString(40, 650, "[↑↓] 高さ変更", WHITE);
+    DrawString(40, 680, "[8][9] 回転", WHITE);
+    DrawString(40, 710, "[O] 設置", WHITE);
+    DrawString(40, 740, "[U] 削除", WHITE);
+    DrawString(40, 770, "[P] 保存", WHITE);
+    DrawString(40, 800, "[L] 読み込み", WHITE);
 }
 
 //---------------------------------
@@ -272,8 +317,7 @@ void ObjectEditor::SaveMap(const char* filename)
 
     fclose(fp);
 
-    printf("保存完了 : %d個\n",
-        objCount);
+    printf("保存完了 : %d個\n",objCount);
 }
 
 //---------------------------------
