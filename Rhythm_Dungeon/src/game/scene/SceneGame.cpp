@@ -157,8 +157,9 @@ void CSceneGame::Reset()
 		{
 			float worldpos_x = (obj.x + 0.5f) * TILE_SIZE;
 			float worldpos_z = (obj.z + 0.5f) * TILE_SIZE;
+			float hight = 10;
 
-			m_cat.SetPos(VGet(worldpos_x, HIGHT_GRID, worldpos_z));
+			m_cat.SetPos(VGet(worldpos_x, hight, worldpos_z));
 			m_cat.SetRadius(obj.rotY);
 		}
 		if (obj.type == OBJ_ITEM)
