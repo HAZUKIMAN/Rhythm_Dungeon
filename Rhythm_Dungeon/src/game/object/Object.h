@@ -14,7 +14,6 @@ protected:
 
 	int		m_iModelHdl;	//モデルハンドル
 	bool	m_isActive;		//アクティブフラグ
-
 protected:
 
 public:
@@ -43,6 +42,6 @@ public:
 	//	アクティブフラグ
 	inline bool IsActiveFlag() { return m_isActive; }
 
-	inline void SetRotation(float rot) { m_vRotation.y = rot; }
+	inline void SetRotation(float rot) { m_vRotation.y = rot;}
 
 };

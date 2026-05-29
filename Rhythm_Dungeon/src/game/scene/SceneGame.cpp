@@ -5,7 +5,7 @@
 #include "../system/SoundManager.h"
 #include "../../lib/Input/Input.h"
 
-static const float HIGHT_GRID = 5.0f;	// 移動速度
+static const float HIGHT_GRID = 2.5f;	// 移動速度
 
 //-------------------------------
 //		コンストラクタ
@@ -37,8 +37,6 @@ void CSceneGame::Init()
 	m_human.Init();
 	//// 猫初期化
 	m_cat.Init();
-	////ブロックの初期化
-	//m_block.Init();
 	// 背景初期化
 	m_backgroundManager.Init();
 	//ゴール
@@ -47,6 +45,9 @@ void CSceneGame::Init()
 	m_mapedit.Init();
 	m_objEditor.Init();
 
+
+
+	m_institem.clear();
 	m_blocks.clear();
 	m_enemy.clear();
 }
@@ -59,22 +60,19 @@ void CSceneGame::Load()
 {
 	m_human.Load();
 	m_cat.Load();
-	m_mapedit.Load();
-	m_objEditor.Load();
+
+	char stageFile[64];
+
+	/*sprintf_s(
+		stageFile,
+		"stage%d.dat",
+		g_SelectStage + 1
+	);*/
+
+	m_mapedit.Load(stageFile);
+	m_objEditor.Load(stageFile);
 
 	Reset();
-
-	//エネミーの初期化
-	for (auto& enemy : m_enemy)
-	{
-		enemy->Init();
-		enemy->Load();
-	}
-	//ブロックの初期化
-	for (auto& institem : m_institem)
-	{
-		institem->Init();
-	}
 }
 
 
@@ -138,53 +136,61 @@ void CSceneGame::Reset()
 			if (rotDeg >= 315 || rotDeg < 45)
 			{
 				m_human.SetDirect(1); // DOWN
+				m_human.Setrot(0.0f);
 			}
 			else if (rotDeg >= 45 && rotDeg < 135)
 			{
 				m_human.SetDirect(2); // LEFT
+				m_human.Setrot(DX_PI_F / 2);
 			}
 			else if (rotDeg >= 135 && rotDeg < 225)
 			{
 				m_human.SetDirect(3); // UP
+				m_human.Setrot(DX_PI_F);
 			}
 			else
 			{
 				m_human.SetDirect(0); // RIGHT
+				m_human.Setrot(-DX_PI_F / 2);
 			}
 		}
 
 		if (obj.type == OBJ_CAT)
 		{
 			float worldpos_x = (obj.x + 0.5f) * TILE_SIZE;
+			float worldpos_y = (obj.y + 0.5f) * TILE_SIZE;
 			float worldpos_z = (obj.z + 0.5f) * TILE_SIZE;
 			float hight = 10;
 
-			m_cat.SetPos(VGet(worldpos_x, hight, worldpos_z));
+			m_cat.SetPos(VGet(worldpos_x, worldpos_y, worldpos_z));
 			m_cat.SetRadius(obj.rotY);
 		}
 		if (obj.type == OBJ_ITEM)
 		{
 			float worldpos_x = (obj.x + 0.5f) * TILE_SIZE;
+			float worldpos_y = (obj.y + 0.5f) * TILE_SIZE + HIGHT_GRID;
 			float worldpos_z = (obj.z + 0.5f) * TILE_SIZE;
 
-			VECTOR pos = VGet(worldpos_x, HIGHT_GRID, worldpos_z);
+			VECTOR pos = VGet(worldpos_x, worldpos_y, worldpos_z);
 
 			//---------------------------------
 			// 新しいブロック作成
 			//---------------------------------
 			CInstalledItem* inst = new CInstalledItem;
-
+			inst->Init();
 			inst->SetPos(pos);
 
 			m_institem.push_back(inst);
+
 		}
 
 		if (obj.type == OBJ_GOAL)
 		{
 			float worldpos_x = (obj.x + 0.5f) * TILE_SIZE;
+			float worldpos_y = (obj.y + 0.5f) * TILE_SIZE;
 			float worldpos_z = (obj.z + 0.5f) * TILE_SIZE;
 
-			VECTOR vec = VGet(worldpos_x, HIGHT_GRID, worldpos_z);
+			VECTOR vec = VGet(worldpos_x, worldpos_y, worldpos_z);
 			m_goal.SetPos(vec);
 		}
 		//---------------------------------
@@ -194,9 +200,10 @@ void CSceneGame::Reset()
 		{
 			
 			float worldpos_x = (obj.x + 0.5f) * TILE_SIZE;
+			float worldpos_y = (obj.y + 0.5f) * TILE_SIZE + HIGHT_GRID;
 			float worldpos_z = (obj.z + 0.5f) * TILE_SIZE;
 
-			VECTOR pos = VGet(worldpos_x, HIGHT_GRID, worldpos_z);
+			VECTOR pos = VGet(worldpos_x, worldpos_y, worldpos_z);
 
 			//---------------------------------
 			// 新しいブロック作成
@@ -212,20 +219,24 @@ void CSceneGame::Reset()
 		if (obj.type == OBJ_ENEMY)
 		{
 			float worldpos_x = (obj.x + 0.5f) * TILE_SIZE;
+			float worldpos_y = (obj.y + 0.5f) * TILE_SIZE;
 			float worldpos_z = (obj.z + 0.5f) * TILE_SIZE;
 
-			VECTOR pos = VGet(worldpos_x, HIGHT_GRID, worldpos_z);
+			VECTOR pos = VGet(worldpos_x, worldpos_y, worldpos_z);
 
 			//---------------------------------
 			// 新しいブロック作成
 			//---------------------------------
 			CEnemy* enemy = new CEnemy;
 
-			//enemy->Init();
+			enemy->Init();
+			enemy->Load();
+
 			enemy->SetPos(pos);
 			enemy->SetRadius(obj.rotY);
 
 			m_enemy.push_back(enemy);
+
 		}
 
 	}
@@ -330,7 +341,8 @@ void CSceneGame::Calc()
 		VECTOR Memo = VGet(0, 0, 0);
 		//1回差をとります//正規化//アークタンジェント
 		Memo = VSub(m_cat.GetPos(), institem->GetPos());
-		if (VSize(Memo) > 5.0f) 
+
+		if (VSize(Memo) < 10.0f) 
 		{
 			if (Input::Key::Keep(KEY_INPUT_J))
 			{
@@ -340,6 +352,14 @@ void CSceneGame::Calc()
 				for (const auto& obj : objs) {
 					if (obj.type == OBJ_ITEM)
 					{
+						m_objEditor.RemoveObject(obj.x, obj.y, obj.z);
+					}
+					if (obj.type == OBJ_PUT_BOX)
+					{
+						float worldX = (obj.x + 0.5f) * TILE_SIZE;
+						float worldY = (obj.y + 0.5f) * TILE_SIZE + 2.5;
+						float worldZ = (obj.z + 0.5f) * TILE_SIZE;
+
 						m_objEditor.RemoveObject(obj.x, obj.y, obj.z);
 					}
 				}
@@ -361,15 +381,14 @@ void CSceneGame::Calc()
 
 					if (obj.type == OBJ_PUT_BOX)
 					{
-						float gridSize = TILE_SIZE;
 
 						float worldX = (obj.x + 0.5f) * TILE_SIZE;
-						float worldY = (obj.y + 0.5f) * TILE_SIZE;
+						float worldY = (obj.y + 0.5f) * TILE_SIZE+2.5;
 						float worldZ = (obj.z + 0.5f) * TILE_SIZE;
 
 						institem->SetPos(VGet(worldX, worldY, worldZ));
 
-						m_objEditor.RemoveObject(obj.x, obj.y, obj.z);
+						//m_objEditor.RemoveObject(obj.x, obj.y, obj.z);
 					}
 
 				}
@@ -378,16 +397,26 @@ void CSceneGame::Calc()
 			}
 		}
 
-		}
+	}
 	
+
 		// 待機･移動中処理
-		m_human.NormalExec(m_blocks);
+		m_human.NormalExec(m_blocks,m_institem);
 
 		for (auto& enemy : m_enemy)
 		{
 			enemy->NormalExec(m_blocks);
 		}
-	
+
+		//猫が箱を持っていない時
+		if (!move_box == CARRY) {
+			//ブロックの描画
+			for (auto& institem : m_institem)
+			{
+				CCollisionManager::HitCatToInst(m_human, institem->GetPos());
+			}
+		}
+
 		//  人間と床と壁との当たり判定
 		m_human.AddPos(CCollisionManager::HitMap(m_human.GetCenter(), m_human.GetRadius(), m_mapedit));
 

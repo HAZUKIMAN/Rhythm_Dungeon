@@ -39,7 +39,7 @@ void ObjectEditor::Init()
 //---------------------------------
 // データロード
 //---------------------------------
-void ObjectEditor::Load()
+void ObjectEditor::Load(const char* data)
 {
     LoadMap(OBJ_1_PATH);
 }

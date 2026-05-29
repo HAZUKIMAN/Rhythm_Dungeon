@@ -8,12 +8,12 @@
 //	定義関連------------------------------
 static const float MOVE_SPEED	=  0.05f;	// 移動速度
 static const float ROT_SPEED	= 0.03f;	// 回転速度
-static const float GRAVITY		=	0.2f;	// 重力
+static const float GRAVITY		=0.02f;	// 重力
 static const float RADIUS		=  2.5f;	// 当たり判定半径
 static const float MAXTIME		=  5.0f;	// クールタイム
 static const float ANIME_SPEED	=  1.0f;	// アニメスピード
-static const float MOVE_HIGHT	=  6.0f;	// アニメスピード
-static const float MIN_HIGHT	= 100.0f;	// アニメスピード
+static const float MOVE_HIGHT	=  10.0f;	// アニメスピード
+static const float MIN_HIGHT	= -100.0f;	// アニメスピード
 
 
 static const char HUMAN_MODEL_PATH[] = { "Data/Character/player/player.mv1" };
@@ -66,7 +66,7 @@ void CHuman::Init()
 //-------------------------------
 void CHuman::Load()
 {
-	VECTOR size = VGet(0.015f, 0.015f, 0.015f);
+	VECTOR size = VGet(0.017f, 0.017f, 0.017f);
 	int hndl= MV1LoadModel(HUMAN_MODEL_PATH);
 
 	MV1SetScale(hndl, size);
@@ -102,7 +102,8 @@ void CHuman::Step()
 
 	if (m_vPosition.y <= MIN_HIGHT)
 	{
-		m_vPosition = m_recpos;
+		m_vPosition = VGet(m_recpos.x, m_recpos.y, m_recpos.z);
+		Reset();
 	}
 }
 
@@ -140,9 +141,9 @@ void CHuman::Move()
 //-------------------------------
 //		待機･移動中処理
 //-------------------------------
-void CHuman::NormalExec(std::vector<CBlock*>& blocks)
+void CHuman::NormalExec(std::vector<CBlock*>& blocks, std::vector<CInstalledItem*> institem)
 {
-	if (m_vPosition.y >= MOVE_HIGHT)
+	if (m_vPosition.y <= MOVE_HIGHT)
 	{
 		//---------------------------------
 		// 移動中
@@ -230,6 +231,20 @@ void CHuman::NormalExec(std::vector<CBlock*>& blocks)
 			bool hitBlock = false;
 
 			for (auto block : blocks)
+			{
+				if (block == nullptr)continue;
+				int blockX = (int)floor(block->GetPos().x / TILE_SIZE);
+				int blockZ = (int)floor(block->GetPos().z / TILE_SIZE);
+
+				//---------------------------------
+				// 次マスにある
+				//---------------------------------
+				if (blockX == nextX && blockZ == nextZ)
+				{
+					hitBlock = true;break;
+				}
+			}
+			for (auto block : institem)
 			{
 				if (block == nullptr)continue;
 				int blockX = (int)floor(block->GetPos().x / TILE_SIZE);
@@ -338,4 +353,39 @@ void CHuman::SetDirect(int dir)
 		direction = ROTATION_UP; // ←修正
 		break;
 	}
+}
+
+
+void CHuman::Reset()
+{
+	
+	// 0～360に変換
+	float rotDeg = m_setrot * 180.0f / DX_PI_F;
+
+	// マイナス対策
+	while (rotDeg < 0)
+	{
+		rotDeg += 360.0f;
+	}
+
+	rotDeg = fmod(rotDeg, 360.0f);
+
+	// 方向判定
+	if (rotDeg >= 315 || rotDeg < 45)
+	{
+		direction = ROTATION_DOWN;
+	}
+	else if (rotDeg >= 45 && rotDeg < 135)
+	{
+		direction = ROTATION_LEFT;
+	}
+	else if (rotDeg >= 135 && rotDeg < 225)
+	{
+		direction = ROTATION_UP;
+	}
+	else
+	{
+		direction = ROTATION_RIGHT;
+	}
+	m_targetPos = m_vPosition;
 }

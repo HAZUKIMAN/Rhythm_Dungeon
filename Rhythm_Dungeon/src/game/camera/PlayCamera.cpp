@@ -32,36 +32,38 @@ CPlayCamera::~CPlayCamera()
 void CPlayCamera::Step(CCat& cat)
 {
     //---------------------------------
-    // カメラ回転
-    //---------------------------------
-    if (Input::Key::Keep(KEY_INPUT_LEFT))
-    {
-        m_cameraRotY -= 0.03f;
-    }
-
-    if (Input::Key::Keep(KEY_INPUT_RIGHT))
-    {
-        m_cameraRotY += 0.03f;
-    }
-
-    //---------------------------------
     // プレイヤー位置
     //---------------------------------
     VECTOR focus = cat.GetPos();
 
     //---------------------------------
-    // 回転したカメラ位置
+    // カメラ角度（固定）
     //---------------------------------
-    VECTOR dir;
+    float rotY = DX_PI_F / 4.0f; // 45度
 
-    dir.x = sinf(m_cameraRotY) * CAMERA_LENGTH;
-    dir.z = cosf(m_cameraRotY) * CAMERA_LENGTH;
-    dir.y = CAMERA_OFFSET_Y;
+    //---------------------------------
+    // カメラ距離
+    //---------------------------------
+    float distance = 25.0f;//15
+
+    //---------------------------------
+    // カメラ高さ
+    //---------------------------------
+    float height = 23.0f;
+
+    //---------------------------------
+    // 斜め後ろ位置
+    //---------------------------------
+    VECTOR offset;
+
+    offset.x = sinf(rotY) * distance;
+    offset.y = height;
+    offset.z = -cosf(rotY) * distance;
 
     //---------------------------------
     // カメラ位置
     //---------------------------------
-    m_pos = VAdd(focus, dir);
+    m_pos = VAdd(focus, offset);
 
     //---------------------------------
     // 注視点

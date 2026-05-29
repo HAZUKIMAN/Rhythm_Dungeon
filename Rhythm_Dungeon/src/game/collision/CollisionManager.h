@@ -49,6 +49,10 @@ public:
 	static void CheckHithumanToEnemy(CHuman& human,
 		CEnemy* enemy);
 
+	//人間と配置可能なオブジェクトの計算
+	static void HitCatToInst(CHuman& human,
+		VECTOR inst_vec);
+
 	//人間とオブジェクトの計算
 	static VECTOR HitCatToObject(CHuman& human,
 		ObjectEditor& object);

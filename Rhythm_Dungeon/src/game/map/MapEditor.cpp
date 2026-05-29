@@ -36,7 +36,7 @@ void MapEditor::Init()
 //---------------------------------
 // ÉçÅ[Éh
 //---------------------------------
-void MapEditor::Load()
+void MapEditor::Load( const char *data)
 {
     VECTOR size = VGet(0.05f, 0.05f, 0.05f);
 

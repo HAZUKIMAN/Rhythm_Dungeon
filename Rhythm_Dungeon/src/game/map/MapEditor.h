@@ -45,7 +45,7 @@ public:
 	// 初期化
 	void Init();
 	// データロード
-	void Load();
+	void Load(const char* data);
 	// 実行処理
 	int  Step();
 	// 描画

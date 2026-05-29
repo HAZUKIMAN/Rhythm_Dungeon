@@ -2,6 +2,7 @@
 #include "../object/Actor.h"
 #include <vector>
 #include "../field/Block.h"
+#include "../field/InstalledItem.h"
 
 
 class CHuman : public CActor
@@ -37,6 +38,7 @@ private:
 	int m_coolTime;
 	int m_moveX;
 	int m_moveZ;
+	float m_setrot;
 	VECTOR m_recpos;
 
 public:
@@ -57,6 +59,11 @@ public:
 	void SetDirect(int dir);
 	//リスポーン地点の取得
 	VECTOR SetRespawn(VECTOR res) { return m_recpos = res; }
+	//角度を保存
+	float Setrot(float rot) { return m_setrot = rot; }
+	//リセット用
+	void Reset();
+
 	//方向の確保
 	int  GetDirect() { return direction; }
 private:
@@ -67,5 +74,5 @@ private:
 
 public:
 	// 待機･移動中処理
-	void NormalExec(std::vector<CBlock*>& blocks);
+	void NormalExec(std::vector<CBlock*>& blocks, std::vector<CInstalledItem*> institem);
 };

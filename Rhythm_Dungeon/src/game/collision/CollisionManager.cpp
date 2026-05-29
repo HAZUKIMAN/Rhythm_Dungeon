@@ -4,7 +4,7 @@
 #include "../../lib/math/hit.h"
 
 using namespace std;
-constexpr int SET_TIME = 50;
+constexpr int SET_TIME = 150;
 
 int CCollisionManager::m_time = SET_TIME;
 
@@ -53,6 +53,50 @@ void CCollisionManager::CheckHithumanToEnemy(CHuman& human,
         human.HitCalc();
     }
 }
+
+//人間と配置可能なオブジェクトの計算
+void CCollisionManager::HitCatToInst(CHuman& human,
+    VECTOR inst_vec)
+{
+    VECTOR humanPos = human.GetCenter();
+    float humanRadius = 2.5;
+
+    // 座標と半径を取得
+    VECTOR InstPos = inst_vec;
+    float InstRadius = 2.5;
+
+    if (m_time >= 0)return;
+    // 球と球の当たり判定
+    if (CHit::CheckSphereToSphere(humanPos, InstPos, humanRadius, InstRadius))
+    {
+        int state = human.GetDirect();
+
+        m_time = SET_TIME;
+
+        switch (state)
+        {
+        case 0:
+            human.SetDirect(1);
+            break;
+
+        case 1:
+            human.SetDirect(2);
+            break;
+
+        case 2:
+            human.SetDirect(3);
+            break;
+
+        case 3:
+            human.SetDirect(0);
+            break;
+        }
+    }
+}
+
+
+
+
 
 //--------------------------------------
 // マップとの当たり判定
@@ -241,7 +285,7 @@ VECTOR CCollisionManager::HitCatToObject(
         //--------------------------------------
         // 十分近づいたら方向変更
         //--------------------------------------
-        if (dist < 10.0f)
+        if (dist < 20.0f)
         {
             int state = human.GetDirect();
 

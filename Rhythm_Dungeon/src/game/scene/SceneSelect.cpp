@@ -3,6 +3,7 @@
 #include "../Common.h"
 #include "../../lib/Input/Input.h"
 
+
 static const char FILE_NAME[] = "Data/StageSelect/StageSelectBase.png";
 
 
@@ -146,8 +147,7 @@ bool CSceneSelect::StageSelectUpdate()
 	//---------------------------------
 	if (Input::Key::Push(KEY_INPUT_RETURN))
 	{
-		/*LoadStage(
-			m_selectStage);*/
+		//g_SelectStage = m_selectStage;
 
 		ret = true;
 	}

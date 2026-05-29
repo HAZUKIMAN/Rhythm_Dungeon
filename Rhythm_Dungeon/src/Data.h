@@ -23,13 +23,9 @@ public:
 		}
 	}
 
-	// ÉXÉRÉAëÄçÏ
-	int GetScore() { return m_score; }
-	void SetScore(int score) { m_score = score; }
-	void AddScore(int score) { m_score += score; }
 
 private:
-	Data() { m_score = 100; }
+	Data() {}
 	~Data() {}
 	Data(const Data& other);
 	Data operator = (const Data& other);
