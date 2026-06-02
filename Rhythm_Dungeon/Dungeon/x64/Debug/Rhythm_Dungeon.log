@@ -1,6 +1,8 @@
-﻿  SceneGame.cpp
-C:\Users\2409407\Desktop\Github\Rhythm_Dungeon\Rhythm_Dungeon\src\game\scene\SceneGame.cpp(131,17): warning C4244: '=': 'double' から 'float' への変換です。データが失われる可能性があります。
-C:\Users\2409407\Desktop\Github\Rhythm_Dungeon\Rhythm_Dungeon\src\game\scene\SceneGame.cpp(360,20): warning C4244: '初期化中': 'double' から 'float' への変換です。データが失われる可能性があります。
-C:\Users\2409407\Desktop\Github\Rhythm_Dungeon\Rhythm_Dungeon\src\game\scene\SceneGame.cpp(386,20): warning C4244: '初期化中': 'double' から 'float' への変換です。データが失われる可能性があります。
-C:\Users\2409407\Desktop\Github\Rhythm_Dungeon\Rhythm_Dungeon\src\game\scene\SceneGame.cpp(427,62): warning C4244: '引数': 'double' から 'float' への変換です。データが失われる可能性があります。
+﻿  Enemy.cpp
+C:\Users\2409407\Desktop\Github\Rhythm_Dungeon\Rhythm_Dungeon\src\game\enemy\Enemy.cpp(53,15): warning C4244: '=': 'float' から 'int' への変換です。データが失われる可能性があります。
+  Human.cpp
+C:\Users\2409407\Desktop\Github\Rhythm_Dungeon\Rhythm_Dungeon\src\game\human\Human.cpp(52,15): warning C4244: '=': 'float' から 'int' への変換です。データが失われる可能性があります。
+C:\Users\2409407\Desktop\Github\Rhythm_Dungeon\Rhythm_Dungeon\src\game\human\Human.cpp(189,17): warning C4244: '=': 'float' から 'int' への変換です。データが失われる可能性があります。
+C:\Users\2409407\Desktop\Github\Rhythm_Dungeon\Rhythm_Dungeon\src\game\human\Human.cpp(374,15): warning C4244: '=': 'double' から 'float' への変換です。データが失われる可能性があります。
+  コードを生成中...
   Rhythm_Dungeon.vcxproj -> C:\Users\2409407\Desktop\Github\Rhythm_Dungeon\Rhythm_Dungeon\x64\Debug\Dungeon.exe

@@ -5,9 +5,6 @@
 #include "../common.h"
 
 
-
-
-
 class MapEditor
 {
 private:
@@ -45,9 +42,9 @@ public:
 	// 初期化
 	void Init();
 	// データロード
-	void Load(const char* data);
+	void Load(ObjectEditor& objectEditor);
 	// 実行処理
-	int  Step();
+	int  Step(ObjectEditor& objectEditor);
 	// 描画
 	void Draw();
 	// 更新処理
@@ -60,8 +57,8 @@ public:
     bool GetMouseHitPosition(VECTOR* outPos);
     bool GetGridPos(VECTOR hitPos, int* pos_x, int* pos_z);
 
-    void SaveMap(const char* filename);
-    void LoadMap(const char* filename);
+    void SaveMap(const char* filename,  ObjectEditor& objectEditor);
+    void LoadMap(const char* filename,  ObjectEditor& objectEditor);
 
     int GetMap(int y, int z, int x) const;
 

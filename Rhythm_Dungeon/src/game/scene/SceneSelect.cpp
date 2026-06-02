@@ -2,6 +2,8 @@
 #include "SceneSelect.h"
 #include "../Common.h"
 #include "../../lib/Input/Input.h"
+#include "../../Data.h"
+
 
 
 static const char FILE_NAME[] = "Data/StageSelect/StageSelectBase.png";
@@ -147,9 +149,12 @@ bool CSceneSelect::StageSelectUpdate()
 	//---------------------------------
 	if (Input::Key::Push(KEY_INPUT_RETURN))
 	{
-		//g_SelectStage = m_selectStage;
+		if (Input::Key::Push(KEY_INPUT_RETURN))
+		{
+			Data::GetInstance()->SetSelectStage(m_selectStage);
 
-		ret = true;
+			ret = SCENEID_GAME;
+		}
 	}
 
 	return ret;

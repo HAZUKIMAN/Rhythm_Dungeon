@@ -15,12 +15,12 @@ enum tagScene {
 	SCENEID_NUM,		// シーン数
 };
 
-//読み込むマップステージ
-static const char TEST_MAP_PATH[] = { "Data/_dat/map.dat" };
-static const char TEST_OBJ_PATH[] = { "Data/_dat/object.dat" };
-
-static const char MAP_1_PATH[] = { "Data/_dat/map1/map1.dat" };
-static const char OBJ_1_PATH[] = { "Data/_dat/map1/object1.dat" };
+////読み込むマップステージ
+//static const char TEST_MAP_PATH[] = { "Data/_dat/map.dat" };
+//static const char TEST_OBJ_PATH[] = { "Data/_dat/object.dat" };
+//
+//static const char MAP_1_PATH[] = { "Data/_dat/map1/map1.dat" };
+//static const char OBJ_1_PATH[] = { "Data/_dat/map1/object1.dat" };
 
 //ウィンドウの幅・高さ
 static constexpr int WINDOW_WIDTH = 1600;
@@ -60,12 +60,14 @@ constexpr int MAP_H = 50;
 constexpr int MAP_Y = 10;
 constexpr float WALL_HIGHT = 5.0f;
 constexpr float TILE_SIZE = 5.0f;
+constexpr float HIT_TIME = 50.0f;	// ブロックに当たった時のクールタイムの上限
 
 //色(代入する値が定数でないためconstを使用)
 static const UnInt WHITE = GetColor(255, 255, 255);			//白
 static const UnInt RED	 = GetColor(255,   0,   0);			//赤
 static const UnInt BLUE  = GetColor(  0,   0, 255);			//青
 static const UnInt GREEN = GetColor(  0, 255,   0);			//緑
+static const UnInt PURPLE = GetColor(100,  0, 100);			//紫
 static const UnInt YELLOW= GetColor(255, 255,   0);			//黄色	
 static const UnInt PINKU = GetColor(255, 100, 100);			//ピンク
 static const UnInt GRAY  = GetColor(180, 180, 180);			//グレー

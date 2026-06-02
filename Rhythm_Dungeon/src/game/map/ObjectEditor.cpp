@@ -2,6 +2,7 @@
 #include"ObjectEditor.h"
 #include "../../lib/Input/Input.h"
 #include "../common.h"
+#include "../../Data.h"
 
 //static const char TEST_MAP_PATH[] = { "Data/_dat/object.dat" };
 
@@ -39,9 +40,9 @@ void ObjectEditor::Init()
 //---------------------------------
 // データロード
 //---------------------------------
-void ObjectEditor::Load(const char* data)
+void ObjectEditor::Load()
 {
-    LoadMap(OBJ_1_PATH);
+    
 }
 
 //---------------------------------
@@ -49,21 +50,7 @@ void ObjectEditor::Load(const char* data)
 //---------------------------------
 int ObjectEditor::Step()
 {
-    //---------------------------------
-    // 保存
-    //---------------------------------
-    if (Input::Key::Push(KEY_INPUT_P))
-    {
-        SaveMap(OBJ_1_PATH);
-    }
-
-    //---------------------------------
-    // 読み込み
-    //---------------------------------
-    if (Input::Key::Push(KEY_INPUT_L))
-    {
-        LoadMap(OBJ_1_PATH);
-    }
+   
 
     //---------------------------------
     // 高さ上昇
@@ -229,7 +216,7 @@ void ObjectEditor::Draw()
         break;
 
     case OBJ_SETBLOCK:
-        DrawFormatString(1220, 240, LIGHTGREEN, "BLOCK");
+        DrawFormatString(1220, 240, PURPLE, "BLOCK");
         break;
     }
 
@@ -292,81 +279,6 @@ void ObjectEditor::Fin()
 
 }
 
-//---------------------------------
-// 保存
-//---------------------------------
-void ObjectEditor::SaveMap(const char* filename)
-{
-    FILE* fp;
-
-    fopen_s(&fp, filename, "wb");
-
-    if (!fp)return;
-
-    //---------------------------------
-    // 個数保存
-    //---------------------------------
-    int objCount = (int)objects.size();
-
-    fwrite(&objCount, sizeof(int), 1, fp);
-
-    //---------------------------------
-    // 本体保存
-    //---------------------------------
-    for (auto& obj : objects)
-    {
-        fwrite( &obj, sizeof(Object), 1, fp);
-    }
-
-    fclose(fp);
-
-    printf("保存完了 : %d個\n",objCount);
-}
-
-//---------------------------------
-// 読み込み
-//---------------------------------
-void ObjectEditor::LoadMap(
-    const char* filename)
-{
-    FILE* fp;
-
-    fopen_s(&fp, filename, "rb");
-
-    if (!fp)
-    {
-        printf("読み込み失敗\n");
-        return;
-    }
-
-    //---------------------------------
-    // 一旦削除
-    //---------------------------------
-    objects.clear();
-
-    //---------------------------------
-    // 個数取得
-    //---------------------------------
-    int objCount = 0;
-
-    fread( &objCount, sizeof(int), 1, fp);
-
-    //---------------------------------
-    // 本体読み込み
-    //---------------------------------
-    for (int i = 0; i < objCount;i++)
-    {
-        Object obj;
-
-        fread( &obj, sizeof(Object), 1, fp);
-
-        objects.push_back(obj);
-    }
-
-    fclose(fp);
-
-    printf("読み込み完了 : %d個\n",objCount);
-}
 
 //---------------------------------
 // 存在チェック
@@ -476,7 +388,7 @@ void ObjectEditor::DrawObjects()
             break;
 
         case OBJ_SETBLOCK:
-            DrawSphere3D(pos, 1.0f, 16, LIGHTGREEN, LIGHTGREEN, TRUE);
+            DrawSphere3D(pos, 1.0f, 16, PURPLE, PURPLE, TRUE);
             break;
 
         case OBJ_ENEMY:
@@ -626,5 +538,16 @@ void ObjectEditor::DrawSelectedTile()
             DrawLine3D(center, end, RED);
         }
     }
+}
+
+void ObjectEditor::AddLoadedObject(
+    const Object& obj)
+{
+    objects.push_back(obj);
+}
+
+void ObjectEditor::Clear()
+{
+    objects.clear();
 }
 

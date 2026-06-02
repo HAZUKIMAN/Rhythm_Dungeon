@@ -1,8 +1,9 @@
 #include"MapEditor.h"
 #include <corecrt_math.h>
 #include "../../lib/Input/Input.h"
+#include "../../Data.h"
 
-//static const char TEST_MAP_PATH[] = { "Data/_dat/map.dat" };
+
 
 //---------------------------------
 // コンストラクタ
@@ -36,9 +37,10 @@ void MapEditor::Init()
 //---------------------------------
 // ロード
 //---------------------------------
-void MapEditor::Load( const char *data)
+void MapEditor::Load(ObjectEditor& objectEditor)
 {
     VECTOR size = VGet(0.05f, 0.05f, 0.05f);
+
 
     if (m_iModelHdl == -1)
     {
@@ -49,22 +51,23 @@ void MapEditor::Load( const char *data)
     MV1SetScale(m_iModelHdl, size);
     MV1SetScale(m_iModelHdl_Wall, size);
 
-    LoadMap(MAP_1_PATH);
+    LoadMap(Data::GetInstance()->GetStagePath(), objectEditor);
+
 }
 
 //---------------------------------
 // 実行
 //---------------------------------
-int MapEditor::Step()
+int MapEditor::Step(ObjectEditor& objectEditor)
 {
     if (Input::Key::Push(KEY_INPUT_P))
     {
-        SaveMap(MAP_1_PATH);
+        SaveMap(Data::GetInstance()->GetStagePath(), objectEditor);
     }
 
     if (Input::Key::Push(KEY_INPUT_L))
     {
-        LoadMap(MAP_1_PATH);
+        LoadMap(Data::GetInstance()->GetStagePath(), objectEditor);
     }
 
     return 0;
@@ -197,20 +200,41 @@ void MapEditor::Fin()
 //---------------------------------
 // 保存
 //---------------------------------
-void MapEditor::SaveMap(const char* filename)
+void MapEditor::SaveMap(const char* filename,  ObjectEditor& objectEditor)
 {
-    FILE* fp;
+    FILE* fp = nullptr;
 
     fopen_s(&fp, filename, "wb");
 
-    if (fp == NULL)
-        return;
+    if (!fp) return;
 
-    fwrite(&MAP_W, sizeof(int), 1, fp);
-    fwrite(&MAP_H, sizeof(int), 1, fp);
-    fwrite(&MAP_Y, sizeof(int), 1, fp);
+    //---------------------------------
+    // マップ保存
+    //---------------------------------
+    fwrite(map,
+        sizeof(int),
+        MAP_W * MAP_H * MAP_Y,
+        fp);
 
-    fwrite( map, sizeof(TileType), MAP_Y * MAP_H * MAP_W, fp);
+    //---------------------------------
+    // オブジェクト保存
+    //---------------------------------
+    const auto& objs =
+        objectEditor.GetObjects();
+
+    int objCount = (int)objs.size();
+
+    fwrite(&objCount,
+        sizeof(int), 1, fp);
+
+    for (auto& obj : objs)
+    {
+        fwrite(
+            &obj,
+            sizeof(ObjectEditor::Object),
+            1,
+            fp);
+    }
 
     fclose(fp);
 }
@@ -218,34 +242,67 @@ void MapEditor::SaveMap(const char* filename)
 //---------------------------------
 // 読み込み
 //---------------------------------
-void MapEditor::LoadMap(const char* filename)
+void MapEditor::LoadMap(const char* filename, ObjectEditor& objectEditor)
 {
-    FILE* fp;
+    FILE* fp = nullptr;
 
+    //---------------------------------
+    // 読み込みモード
+    //---------------------------------
     fopen_s(&fp, filename, "rb");
 
-    if (fp == NULL)
-        return;
-
-    int w, h, y;
-
-    fread(&w, sizeof(int), 1, fp);
-    fread(&h, sizeof(int), 1, fp);
-    fread(&y, sizeof(int), 1, fp);
-
-    if (w != MAP_W ||
-        h != MAP_H ||
-        y != MAP_Y)
+    if (!fp)
     {
-        fclose(fp);
+        printf("マップ読み込み失敗\n");
         return;
     }
 
-    fread( map, sizeof(TileType), MAP_Y * MAP_H * MAP_W, fp
-    );
+    //---------------------------------
+    // マップ読み込み
+    //---------------------------------
+    fread(
+        map,
+        sizeof(int),
+        MAP_W * MAP_H * MAP_Y,
+        fp);
+
+    //---------------------------------
+    // オブジェクト削除
+    //---------------------------------
+    objectEditor.Clear();
+
+    //---------------------------------
+    // オブジェクト数
+    //---------------------------------
+    int objCount = 0;
+
+    fread(
+        &objCount,
+        sizeof(int),
+        1,
+        fp);
+
+    //---------------------------------
+    // オブジェクト読み込み
+    //---------------------------------
+    for (int i = 0; i < objCount; i++)
+    {
+        ObjectEditor::Object obj;
+
+        fread(
+            &obj,
+            sizeof(ObjectEditor::Object),
+            1,
+            fp);
+
+        objectEditor.AddLoadedObject(obj);
+    }
 
     fclose(fp);
 
+    //---------------------------------
+    // モデル再生成
+    //---------------------------------
     BuildInstances();
 }
 

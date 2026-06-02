@@ -119,24 +119,24 @@ void CCat::Draw()
 //-------------------------------
 void CCat::Move()
 {
-	// 重力切替
-	switch (m_moveMode)
-	{
-	case MOVE_GROUND:
-		//	重力処理
+	//// 重力切替
+	//switch (m_moveMode)
+	//{
+	//case MOVE_GROUND:
+	//	重力処理
 		m_speed.y -= GRAVITY;
-		break;
+	//	break;
 
-	case MOVE_WALL_X:
-		//	重力処理
-		m_speed.x += GRAVITY;
-		break;
+	//case MOVE_WALL_X:
+	//	//	重力処理
+	//	m_speed.x += GRAVITY;
+	//	break;
 
-	case MOVE_WALL_Z:
-		//	重力処理
-		m_speed.z += GRAVITY;
-		break;
-	}
+	//case MOVE_WALL_Z:
+	//	//	重力処理
+	//	m_speed.z += GRAVITY;
+	//	break;
+	//}
 
 	// 移動速度加算
 	m_vPosition = VAdd(m_vPosition, m_speed);
@@ -287,6 +287,7 @@ CCat::WallType CCat::CheckWall(MapEditor& map)
 
 	return WALL_NONE;
 }
+
 //------------------------------
 // ブロック設置位置表示
 //------------------------------
@@ -375,8 +376,7 @@ void CCat::DrawPlaceBlockPreview(MapEditor & map)
 	//---------------------------------
 	// 枠表示
 	//---------------------------------
-	DrawCube3D(VGet(x0, y0, z0),VGet(x1, y1, z1),
-			color,color,FALSE);
+	DrawCube3D(VGet(x0, y0, z0),VGet(x1, y1, z1),color,color,FALSE);
 
 }
 //操作関係処理
@@ -491,8 +491,8 @@ void CCat::Operation(MapEditor& map)
 		// 上下移動
 		m_vPosition.y -= forward;
 
-		// 左右移動
-		m_vPosition.z -= side;
+		//// 左右移動
+		//m_vPosition.z -= side;
 
 		// 壁に吸着
 		int wallX = (int)floor(m_vPosition.x / TILE_SIZE);
@@ -513,8 +513,8 @@ void CCat::Operation(MapEditor& map)
 		// 上下移動
 		m_vPosition.y -= forward;
 
-		// 左右移動
-		m_vPosition.x += side;
+		//// 左右移動
+		//m_vPosition.x += side;
 
 		// 壁に吸着
 		int wallZ =(int)floor(m_vPosition.z / TILE_SIZE);

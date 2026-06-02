@@ -15,7 +15,7 @@ public:
 	// 初期化
 	void Init();
 	// データロード
-	void Load(const char* data);
+	void Load();
 	// 実行処理
 	int  Step();
 	// 描画
@@ -52,14 +52,19 @@ public:
 
 	bool IsObjectAt(int x, int y, int z);			//置く前にチェック
 
+
+	void AddLoadedObject(const Object& obj);
+
+	void Clear();
+
 private:
 	//置く位置を見やすくするもの
 	void DrawSelectedTile();
 
-	//マップのセーブ
-	void SaveMap(const char* filename);
-	//マップの読み込み
-	void LoadMap(const char* filename);
+	////マップのセーブ
+	//void SaveMap(const char* filename);
+	////マップの読み込み
+	//void LoadMap(const char* filename);
 
 	void DrawObjects();
 	//マウスの当たり判定の取得

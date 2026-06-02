@@ -67,6 +67,14 @@ private:
 		PUT,
 	};
 
+	enum tagDirection
+	{
+		ROTATION_RIGHT,
+		ROTATION_DOWN,
+		ROTATION_LEFT,
+		ROTATION_UP,
+	};
+
 	tagMove move_box;
 
 };

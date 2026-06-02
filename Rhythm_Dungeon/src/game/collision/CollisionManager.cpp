@@ -55,7 +55,7 @@ void CCollisionManager::CheckHithumanToEnemy(CHuman& human,
 }
 
 //人間と配置可能なオブジェクトの計算
-void CCollisionManager::HitCatToInst(CHuman& human,
+void CCollisionManager::HitHumanToInst(CHuman& human,
     VECTOR inst_vec)
 {
     VECTOR humanPos = human.GetCenter();
@@ -66,6 +66,7 @@ void CCollisionManager::HitCatToInst(CHuman& human,
     float InstRadius = 2.5;
 
     if (m_time >= 0)return;
+
     // 球と球の当たり判定
     if (CHit::CheckSphereToSphere(humanPos, InstPos, humanRadius, InstRadius))
     {
@@ -94,8 +95,84 @@ void CCollisionManager::HitCatToInst(CHuman& human,
     }
 }
 
+//--------------------------------------
+// エネミー配置可能オブジェクトとの判定
+//--------------------------------------
+void CCollisionManager::HitEnemyToInst(
+    std::vector<CEnemy*>& enemies,
+    VECTOR inst_vec)
+{
+    //--------------------------------------
+    // Enemy全員
+    //--------------------------------------
+    for (auto& enemy : enemies)
+    {
+        if (enemy == nullptr)
+            continue;
 
+       //---------------------------------
+       // クールタイム中
+       //---------------------------------
+        if (enemy->GetHitTime() > 0)
+        {
+            continue;
+        }
 
+        //--------------------------------------
+        // Enemy情報
+        //--------------------------------------
+        VECTOR enemyPos = enemy->GetCenter();
+
+        float enemyRadius = 2.5f;
+
+        //--------------------------------------
+        // 設置物情報
+        //--------------------------------------
+        VECTOR instPos =inst_vec;
+
+        float instRadius = 2.5f;
+
+        //--------------------------------------
+        // 球判定
+        //--------------------------------------
+        if (CHit::CheckSphereToSphere(
+            enemyPos,
+            instPos,
+            enemyRadius,
+            instRadius))
+        {
+            int state = enemy->GetDirect();
+
+            //--------------------------------------
+            // 向き変更
+            //--------------------------------------
+            switch (state)
+            {
+            case 0:
+                enemy->SetDirect(1);
+                break;
+
+            case 1:
+                enemy->SetDirect(2);
+                break;
+
+            case 2:
+                enemy->SetDirect(3);
+                break;
+
+            case 3:
+                enemy->SetDirect(0);
+                break;
+            }
+
+        //---------------------------------
+        // クールタイム開始
+        //---------------------------------
+            enemy->SetHitTime(HIT_TIME);
+        }
+
+    }
+}
 
 
 //--------------------------------------
@@ -115,18 +192,7 @@ VECTOR CCollisionManager::HitMap(
     // ワールド座標 → マップ座標
     //--------------------------------------
     int mapX = (int)floor(center.x / TILE_SIZE);
-    int mapY = (int)floor(center.y / TILE_SIZE);
     int mapZ = (int)floor(center.z / TILE_SIZE);
-
-    //--------------------------------------
-    // 範囲外防止
-    //--------------------------------------
-    if (mapX < 0 || mapX >= MAP_W ||
-        mapY < 0 || mapY >= MAP_Y ||
-        mapZ < 0 || mapZ >= MAP_H)
-    {
-        return result;
-    }
 
     //--------------------------------------
     // 足元座標
@@ -134,35 +200,54 @@ VECTOR CCollisionManager::HitMap(
     float footPos = center.y - radius;
 
     //--------------------------------------
-    // 足元のマップY
+    // 足元Y
     //--------------------------------------
     int footY = (int)floor(footPos / TILE_SIZE);
 
     //--------------------------------------
+    // 範囲外防止
+    //--------------------------------------
+    if (mapX < 0 || mapX >= MAP_W ||
+        mapZ < 0 || mapZ >= MAP_H)
+    {
+        return result;
+    }
+
+    //--------------------------------------
     // 床判定
     //--------------------------------------
-    if (footY >= 0)
+    if (footY >= 0 &&
+        footY < MAP_Y)
     {
         //----------------------------------
         // 床があるか
         //----------------------------------
-        if (map.GetMap(footY, mapZ, mapX)
-            == TILE_FLOOR)
-        {
-            // 床の上面
-            float floorTop = (footY + 1) * TILE_SIZE;
+        int tile = map.GetMap(
+            footY,
+            mapZ,
+            mapX);
 
-            // 足が床に埋まっている
-            if (footPos <= floorTop)
+        if (tile == TILE_FLOOR)
+        {
+            //----------------------------------
+            // 床の上面
+            //----------------------------------
+            float floorTop =
+                (footY + 1) * TILE_SIZE;
+
+            //----------------------------------
+            // 床にめり込んでいる
+            //----------------------------------
+            if (footPos < floorTop)
             {
-                // 上へ押し戻す
-                result.y = floorTop - footPos;
+                result.y =
+                    floorTop - footPos;
             }
         }
     }
 
     //--------------------------------------
-    // 周囲ブロック判定
+    // 壁判定
     //--------------------------------------
     for (int z = -1; z <= 1; z++)
     {
@@ -172,39 +257,56 @@ VECTOR CCollisionManager::HitMap(
             // チェック座標
             //----------------------------------
             int checkX = mapX + x;
-            int checkY = mapY;
+            int checkY = footY; // ←重要
             int checkZ = mapZ + z;
 
             //----------------------------------
-            // 範囲外防止
+            // 範囲外
             //----------------------------------
-            if (checkX < 0 || checkX >= MAP_W ||
-                checkY < 0 || checkY >= MAP_Y ||
-                checkZ < 0 || checkZ >= MAP_H)
+            if (checkX < 0 ||
+                checkX >= MAP_W ||
+                checkY < 0 ||
+                checkY >= MAP_Y ||
+                checkZ < 0 ||
+                checkZ >= MAP_H)
             {
                 continue;
             }
 
             //----------------------------------
-            // 壁以外スキップ
+            // 壁以外無視
             //----------------------------------
-            if (map.GetMap(checkY, checkZ, checkX)
-                != TILE_WALL)
+            if (map.GetMap(
+                checkY,
+                checkZ,
+                checkX) != TILE_WALL)
             {
                 continue;
             }
 
             //----------------------------------
-            // ブロック座標
+            // 壁ワールド座標
             //----------------------------------
-            float worldX =(checkX + 0.5f) * TILE_SIZE;
-            float worldY =(checkY + 0.5f) * TILE_SIZE;
-            float worldZ =(checkZ + 0.5f) * TILE_SIZE;
+            float worldX =
+                (checkX + 0.5f)
+                * TILE_SIZE;
 
-            VECTOR blockPos =VGet(worldX, worldY, worldZ);
+            float worldY =
+                (checkY + 0.5f)
+                * TILE_SIZE;
+
+            float worldZ =
+                (checkZ + 0.5f)
+                * TILE_SIZE;
+
+            VECTOR blockPos =
+                VGet(
+                    worldX,
+                    worldY,
+                    worldZ);
 
             //----------------------------------
-            // ブロック半径
+            // 壁半径
             //----------------------------------
             float blockRadius =
                 TILE_SIZE * 0.5f;
@@ -217,26 +319,48 @@ VECTOR CCollisionManager::HitMap(
             //----------------------------------
             // 球同士判定
             //----------------------------------
-            if (CHit::CheckSphereToSphere(center,blockPos,radius,blockRadius,&hitLen))
+            if (CHit::CheckSphereToSphere(
+                center,
+                blockPos,
+                radius,
+                blockRadius,
+                &hitLen))
             {
+                //----------------------------------
                 // 押し戻し方向
-                VECTOR dir =
-                    VSub(center, blockPos);
-                // 長さ
+                //----------------------------------
+                VECTOR dir = VSub( center, blockPos);
+
+                //----------------------------------
+                // XZだけ
+                //----------------------------------
+                dir.y = 0.0f;
+
                 float len = VSize(dir);
+
+                //----------------------------------
                 // 0除算防止
-                if (len <= 0.0001f)
+                //----------------------------------
+                if (len <
+                    0.0001f)
                 {
                     continue;
                 }
 
+                //----------------------------------
                 // 正規化
-                dir = VNorm(dir);
-                dir.y = 0.0f;
+                //----------------------------------
+                dir =
+                    VNorm(dir);
 
-                // XZ方向だけ押し戻す
-                result.x += dir.x * hitLen;
-                result.z += dir.z * hitLen;
+                //----------------------------------
+                // 押し戻し
+                //----------------------------------
+                result.x +=
+                    dir.x * hitLen;
+
+                result.z +=
+                    dir.z * hitLen;
             }
         }
     }
@@ -244,53 +368,65 @@ VECTOR CCollisionManager::HitMap(
     return result;
 }
 
-
 //--------------------------------------
-// humanとオブジェクトの当たり判定
+// Humanとオブジェクトの当たり判定
 //--------------------------------------
-VECTOR CCollisionManager::HitCatToObject(
-    CHuman& human, ObjectEditor& object)
+VECTOR CCollisionManager::HitHumanToObject(
+    CHuman& human,
+    ObjectEditor& object)
 {
-    m_time--;
-
     VECTOR result = VGet(0, 0, 0);
 
-    const auto& objs = object.GetObjects();
+    const auto& objs =
+        object.GetObjects();
 
+    //--------------------------------------
+    // Object全検索
+    //--------------------------------------
     for (const auto& obj : objs)
     {
+        //--------------------------------------
+        // ITEM以外無視
+        //--------------------------------------
         if (obj.type != OBJ_ITEM)
-            continue;
-
-        if (m_time >= 0)
             continue;
 
         //--------------------------------------
         // ワールド座標
         //--------------------------------------
-        float worldX = (obj.x + 0.5f) * TILE_SIZE;
-        float worldY = (obj.y + 0.5f) * TILE_SIZE;
-        float worldZ = (obj.z + 0.5f) * TILE_SIZE;
+        float worldX =
+            (obj.x + 0.5f) * TILE_SIZE;
 
-        VECTOR objPos = VGet(worldX, worldY, worldZ);
+        float worldY =
+            (obj.y + 0.5f) * TILE_SIZE;
+
+        float worldZ =
+            (obj.z + 0.5f) * TILE_SIZE;
+
+        VECTOR objPos =
+            VGet(worldX, worldY, worldZ);
 
         //--------------------------------------
-        // 距離
+        // Humanとの距離
         //--------------------------------------
-        VECTOR diff = VSub(human.GetCenter(), objPos);
+        VECTOR diff =
+            VSub(human.GetCenter(), objPos);
+
         diff.y = 0.0f;
 
-        float dist = VSize(diff);
+        float dist =VSize(diff);
 
         //--------------------------------------
-        // 十分近づいたら方向変更
+        // 十分近い
         //--------------------------------------
-        if (dist < 20.0f)
+        if (dist < TILE_SIZE)
         {
-            int state = human.GetDirect();
+            int state =
+                human.GetDirect();
 
-            m_time = SET_TIME;
-
+            //--------------------------------------
+            // 向き変更
+            //--------------------------------------
             switch (state)
             {
             case 0:
@@ -311,14 +447,132 @@ VECTOR CCollisionManager::HitCatToObject(
             }
 
             //--------------------------------------
-            // 少しだけ押し戻す
+            // 少し押し戻す
             //--------------------------------------
             if (dist > 0.001f)
             {
                 diff = VNorm(diff);
 
-                // 0.5fだけ押し戻す
-                result = VScale(diff, 0.5f);
+                result =
+                    VScale(diff, 1.0f);
+            }
+
+            //--------------------------------------
+            // 1回反応したら終了
+            //--------------------------------------
+            break;
+        }
+    }
+
+    return result;
+}
+
+//--------------------------------------
+// エネミーとオブジェクトの当たり判定
+//--------------------------------------
+VECTOR CCollisionManager::HitEnemyToObject(
+    std::vector<CEnemy*>& enemies,ObjectEditor& object)
+{
+    m_time--;
+
+    VECTOR result = VGet(0, 0, 0);
+
+    const auto& objs = object.GetObjects();
+
+    //--------------------------------------
+    // Enemy全員
+    //--------------------------------------
+    for (auto& enemy : enemies)
+    {
+        if (enemy == nullptr) continue;
+
+       //---------------------------------
+       // クールタイム中
+       //---------------------------------
+        if (enemy->GetHitTime() > 0)
+        {
+            continue;
+        }
+
+        //--------------------------------------
+        // Object全員
+        //--------------------------------------
+        for (const auto& obj : objs)
+        {
+            if (obj.type != OBJ_ITEM)
+                continue;
+
+            if (m_time >= 0)
+                continue;
+
+            //--------------------------------------
+            // ワールド座標
+            //--------------------------------------
+            float worldX =
+                (obj.x + 0.5f) * TILE_SIZE;
+
+            float worldY =
+                (obj.y + 0.5f) * TILE_SIZE;
+
+            float worldZ =
+                (obj.z + 0.5f) * TILE_SIZE;
+
+            VECTOR objPos =
+                VGet(worldX, worldY, worldZ);
+
+            //--------------------------------------
+            // 距離
+            //--------------------------------------
+            VECTOR diff =
+                VSub(enemy->GetCenter(), objPos);
+
+            diff.y = 0.0f;
+
+            float dist = VSize(diff);
+
+            //--------------------------------------
+            // 近づいたら方向変更
+            //--------------------------------------
+            if (dist < 10.0f)
+            {
+                int state = enemy->GetDirect();
+
+                m_time = SET_TIME;
+
+                switch (state)
+                {
+                case 0:
+                    enemy->SetDirect(1);
+                    break;
+
+                case 1:
+                    enemy->SetDirect(2);
+                    break;
+
+                case 2:
+                    enemy->SetDirect(3);
+                    break;
+
+                case 3:
+                    enemy->SetDirect(0);
+                    break;
+                }
+
+                //--------------------------------------
+                // 少し押し戻す
+                //--------------------------------------
+                if (dist > 0.001f)
+                {
+                    diff = VNorm(diff);
+
+                    result =
+                        VScale(diff, 0.5f);
+                }
+
+                //---------------------------------
+                // クールタイム開始
+                //---------------------------------
+                enemy->SetHitTime(HIT_TIME);
             }
         }
     }

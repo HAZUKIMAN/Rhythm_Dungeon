@@ -28,6 +28,7 @@ int  WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance,
 
 	//入力制御初期化
 	Input::Init();
+
 	//エフェクトの初期化
 	CEffekseerCtrl::Init(EFFCTNUM, PARTICLENUM);
 

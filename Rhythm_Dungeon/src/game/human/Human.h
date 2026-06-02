@@ -66,6 +66,7 @@ public:
 
 	//•ûŒü‚ÌŠm•Û
 	int  GetDirect() { return direction; }
+
 private:
 	// ˆÚ“®Šp“xˆ—
 	void Direction();

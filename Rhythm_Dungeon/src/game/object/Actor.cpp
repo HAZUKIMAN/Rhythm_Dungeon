@@ -1,11 +1,14 @@
 #include "Actor.h"
 #include "Object.h"
+#include "../common.h"
+
 
 //-------------------------------
 //		コンストラクタ
 //-------------------------------
-CActor::CActor() : m_speed(VGet(0.0f, 0.0f, 0.0f)), m_radius(2.5f)
+CActor::CActor() : m_speed(VGet(0.0f, 0.0f, 0.0f)), m_radius(2.5f), m_hitCoolTime(HIT_TIME)
 {
+
 }
 
 
@@ -32,6 +35,14 @@ void CActor::Init()
 //------------------------------
 void CActor::Update()
 {
+	//---------------------------------
+	// クールタイム減少
+	//---------------------------------
+	if (m_hitCoolTime > 0)
+	{
+		m_hitCoolTime--;
+	}
+
 	AnimeUpdate(m_iModelHdl);
 	MV1SetRotationXYZ(m_iModelHdl, m_vRotation);
 	MV1SetPosition(m_iModelHdl, m_vPosition);

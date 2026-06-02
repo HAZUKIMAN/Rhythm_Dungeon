@@ -2,7 +2,7 @@
 #include "../object/Actor.h"
 #include <vector>
 #include "../field/Block.h"
-
+#include "../field/InstalledItem.h"
 
 class CEnemy : public CActor
 {
@@ -64,5 +64,5 @@ private:
 
 public:
 	// ‘Ò‹@¥ˆÚ“®’†ˆ—
-	void NormalExec(std::vector<CBlock*>& blocks);
+	void NormalExec(const std::vector<CBlock*>& blocks);
 };

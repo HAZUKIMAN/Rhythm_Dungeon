@@ -8,13 +8,12 @@
 //	定義関連------------------------------
 static const float MOVE_SPEED	=  0.05f;	// 移動速度
 static const float ROT_SPEED	= 0.03f;	// 回転速度
-static const float GRAVITY		=0.02f;	// 重力
+static const float GRAVITY		=0.02f;		// 重力
 static const float RADIUS		=  2.5f;	// 当たり判定半径
 static const float MAXTIME		=  5.0f;	// クールタイム
 static const float ANIME_SPEED	=  1.0f;	// アニメスピード
-static const float MOVE_HIGHT	=  10.0f;	// アニメスピード
-static const float MIN_HIGHT	= -100.0f;	// アニメスピード
-
+static const float MOVE_HIGHT	=  10.0f;	// 動かす高さ
+static const float MIN_HIGHT	= -100.0f;	// リスポーン位置に戻す
 
 static const char HUMAN_MODEL_PATH[] = { "Data/Character/player/player.mv1" };
 //----------------------------------------
@@ -51,6 +50,7 @@ void CHuman::Init()
 	m_moveX = 0;
 	m_moveZ = 0;
 	m_coolTime = MAXTIME;
+
 	memset(&m_recpos, 0, sizeof(VECTOR));
 
 	//---------------------------------
@@ -105,6 +105,7 @@ void CHuman::Step()
 		m_vPosition = VGet(m_recpos.x, m_recpos.y, m_recpos.z);
 		Reset();
 	}
+
 }
 
 
@@ -151,6 +152,9 @@ void CHuman::NormalExec(std::vector<CBlock*>& blocks, std::vector<CInstalledItem
 		if (m_isMoving)
 		{
 			VECTOR dir = VSub(m_targetPos, m_vPosition);
+
+			// Y無視
+			dir.y = 0.0f;
 
 			float dist = VSize(dir);
 
@@ -259,6 +263,7 @@ void CHuman::NormalExec(std::vector<CBlock*>& blocks, std::vector<CInstalledItem
 				}
 			}
 
+
 			//---------------------------------
 			// ブロックに当たる
 			//---------------------------------
@@ -293,7 +298,7 @@ void CHuman::NormalExec(std::vector<CBlock*>& blocks, std::vector<CInstalledItem
 			//---------------------------------
 			// 目標地点
 			//---------------------------------
-			m_targetPos = VGet(worldX, m_vPosition.y, worldZ);
+			m_targetPos = VGet(worldX, 0.0f, worldZ);
 			//---------------------------------
 			// 移動開始
 			//---------------------------------
@@ -312,22 +317,18 @@ void CHuman::Direction()
 	{
 	case ROTATION_RIGHT:	//右を向いている
 		m_vRotation.y = -DX_PI_F / 2;
-		if (Input::Key::Push(KEY_INPUT_H))direction = ROTATION_DOWN;
 		break;
+
 	case ROTATION_DOWN:		//下を向いている
 		m_vRotation.y = 0;
-		if (Input::Key::Push(KEY_INPUT_H))direction = ROTATION_LEFT;
 		break;
 
 	case ROTATION_LEFT:		//左を向いている
 		m_vRotation.y = DX_PI_F / 2;
-		if (Input::Key::Push(KEY_INPUT_H))direction = ROTATION_UP;
-
 		break;
+
 	case ROTATION_UP:		//上を向いている
 		m_vRotation.y = DX_PI_F;
-		if (Input::Key::Push(KEY_INPUT_H))direction = ROTATION_RIGHT;
-
 		break;
 	}
 }
@@ -340,15 +341,12 @@ void CHuman::SetDirect(int dir)
 	case 0:
 		direction = ROTATION_RIGHT;
 		break;
-
 	case 1:
 		direction = ROTATION_DOWN;
 		break;
-
 	case 2:
 		direction = ROTATION_LEFT;
 		break;
-
 	case 3:
 		direction = ROTATION_UP; // ←修正
 		break;
