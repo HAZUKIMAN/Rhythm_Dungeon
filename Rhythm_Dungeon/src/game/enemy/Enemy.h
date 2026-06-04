@@ -64,5 +64,5 @@ private:
 
 public:
 	// ‘Ò‹@¥ˆÚ“®’†ˆ—
-	void NormalExec(const std::vector<CBlock*>& blocks);
+	void NormalExec(const std::vector<CBlock*>& blocks, std::vector<CInstalledItem*> institem);
 };

@@ -77,6 +77,7 @@ private:
 
 	tagMove move_box;
 
+	CInstalledItem* m_carryItem = nullptr;
 };
 
 

@@ -368,104 +368,104 @@ VECTOR CCollisionManager::HitMap(
     return result;
 }
 
-//--------------------------------------
-// Humanとオブジェクトの当たり判定
-//--------------------------------------
-VECTOR CCollisionManager::HitHumanToObject(
-    CHuman& human,
-    ObjectEditor& object)
-{
-    VECTOR result = VGet(0, 0, 0);
-
-    const auto& objs =
-        object.GetObjects();
-
-    //--------------------------------------
-    // Object全検索
-    //--------------------------------------
-    for (const auto& obj : objs)
-    {
-        //--------------------------------------
-        // ITEM以外無視
-        //--------------------------------------
-        if (obj.type != OBJ_ITEM)
-            continue;
-
-        //--------------------------------------
-        // ワールド座標
-        //--------------------------------------
-        float worldX =
-            (obj.x + 0.5f) * TILE_SIZE;
-
-        float worldY =
-            (obj.y + 0.5f) * TILE_SIZE;
-
-        float worldZ =
-            (obj.z + 0.5f) * TILE_SIZE;
-
-        VECTOR objPos =
-            VGet(worldX, worldY, worldZ);
-
-        //--------------------------------------
-        // Humanとの距離
-        //--------------------------------------
-        VECTOR diff =
-            VSub(human.GetCenter(), objPos);
-
-        diff.y = 0.0f;
-
-        float dist =VSize(diff);
-
-        //--------------------------------------
-        // 十分近い
-        //--------------------------------------
-        if (dist < TILE_SIZE)
-        {
-            int state =
-                human.GetDirect();
-
-            //--------------------------------------
-            // 向き変更
-            //--------------------------------------
-            switch (state)
-            {
-            case 0:
-                human.SetDirect(1);
-                break;
-
-            case 1:
-                human.SetDirect(2);
-                break;
-
-            case 2:
-                human.SetDirect(3);
-                break;
-
-            case 3:
-                human.SetDirect(0);
-                break;
-            }
-
-            //--------------------------------------
-            // 少し押し戻す
-            //--------------------------------------
-            if (dist > 0.001f)
-            {
-                diff = VNorm(diff);
-
-                result =
-                    VScale(diff, 1.0f);
-            }
-
-            //--------------------------------------
-            // 1回反応したら終了
-            //--------------------------------------
-            break;
-        }
-    }
-
-    return result;
-}
+////--------------------------------------
+//// Humanとオブジェクトの当たり判定
+////--------------------------------------
+//VECTOR CCollisionManager::HitHumanToObject(
+//    CHuman& human,
+//    ObjectEditor& object)
+//{
+//    VECTOR result = VGet(0, 0, 0);
+//
+//    const auto& objs =
+//        object.GetObjects();
+//
+//    //--------------------------------------
+//    // Object全検索
+//    //--------------------------------------
+//    for (const auto& obj : objs)
+//    {
+//        //--------------------------------------
+//        // ITEM以外無視
+//        //--------------------------------------
+//        if (obj.type != OBJ_ITEM)
+//            continue;
+//
+//        //--------------------------------------
+//        // ワールド座標
+//        //--------------------------------------
+//        float worldX =
+//            (obj.x + 0.5f) * TILE_SIZE;
+//
+//        float worldY =
+//            (obj.y + 0.5f) * TILE_SIZE;
+//
+//        float worldZ =
+//            (obj.z + 0.5f) * TILE_SIZE;
+//
+//        VECTOR objPos =
+//            VGet(worldX, worldY, worldZ);
+//
+//        //--------------------------------------
+//        // Humanとの距離
+//        //--------------------------------------
+//        VECTOR diff =
+//            VSub(human.GetCenter(), objPos);
+//
+//        diff.y = 0.0f;
+//
+//        float dist =VSize(diff);
+//
+//        //--------------------------------------
+//        // 十分近い
+//        //--------------------------------------
+//        if (dist < TILE_SIZE)
+//        {
+//            int state =
+//                human.GetDirect();
+//
+//            //--------------------------------------
+//            // 向き変更
+//            //--------------------------------------
+//            switch (state)
+//            {
+//            case 0:
+//                human.SetDirect(1);
+//                break;
+//
+//            case 1:
+//                human.SetDirect(2);
+//                break;
+//
+//            case 2:
+//                human.SetDirect(3);
+//                break;
+//
+//            case 3:
+//                human.SetDirect(0);
+//                break;
+//            }
+//
+//            //--------------------------------------
+//            // 少し押し戻す
+//            //--------------------------------------
+//            if (dist > 0.001f)
+//            {
+//                diff = VNorm(diff);
+//
+//                result =
+//                    VScale(diff, 1.0f);
+//            }
+//
+//            //--------------------------------------
+//            // 1回反応したら終了
+//            //--------------------------------------
+//            break;
+//        }
+//    }
+//
+//    return result;
+//}
 
 //--------------------------------------
 // エネミーとオブジェクトの当たり判定

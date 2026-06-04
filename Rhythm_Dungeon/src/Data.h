@@ -16,18 +16,13 @@ public:
         "Data/map/stage2.dat",
         "Data/map/stage3.dat",
         "Data/map/stage4.dat",
+        "Data/map/stage5.dat",
+        "Data/map/stage6.dat",
+        "Data/map/stage7.dat",
+        "Data/map/stage8.dat",
+        "Data/map/stage9.dat",
     };
 
-   // //---------------------------------
-   //// ステージパス一覧
-   ////---------------------------------
-   // static constexpr const char* STAGE_OBJECT_PATH[]
-   // {
-   //     "Data/map/stage1.dat",
-   //     "Data/map/stage2.dat",
-   //     "Data/map/stage3.dat",
-   //     "Data/map/stage4.dat",
-   // };
 
     //---------------------------------
     // インスタンス取得

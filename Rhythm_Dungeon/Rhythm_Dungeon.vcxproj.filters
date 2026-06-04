@@ -103,6 +103,9 @@
     <Filter Include="ソース ファイル\game\scene\game">
       <UniqueIdentifier>{a4e77770-14c6-4e1f-9ea0-eb26c3f274f6}</UniqueIdentifier>
     </Filter>
+    <Filter Include="ソース ファイル\game\field\Bridge">
+      <UniqueIdentifier>{9a5e1968-9030-4c5f-aabd-e0f662507cbc}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\Main.cpp">
@@ -212,6 +215,9 @@
     </ClCompile>
     <ClCompile Include="src\game\scene\SceneGame.cpp">
       <Filter>ソース ファイル\game\scene\game</Filter>
+    </ClCompile>
+    <ClCompile Include="src\game\bridge\Bridge.cpp">
+      <Filter>ソース ファイル\game\field\Bridge</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -325,6 +331,9 @@
     </ClInclude>
     <ClInclude Include="src\game\scene\SceneGame.h">
       <Filter>ソース ファイル\game\scene\game</Filter>
+    </ClInclude>
+    <ClInclude Include="src\game\bridge\Bridge.h">
+      <Filter>ソース ファイル\game\field\Bridge</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

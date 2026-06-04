@@ -75,7 +75,7 @@ void CCat::Init()
 //-------------------------------
 void CCat::Load()
 {
-	VECTOR size = VGet(0.01f, 0.01f, 0.01f);
+	VECTOR size = VGet(0.02f, 0.02f, 0.02f);
 	VECTOR Size = VGet(0.05f, 0.05f, 0.05f);
 
 	int hndl= MV1LoadModel(CAT_MODEL_PATH);

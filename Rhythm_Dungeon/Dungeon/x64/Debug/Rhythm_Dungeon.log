@@ -1,2 +1,5 @@
-﻿  Cat.cpp
-  Rhythm_Dungeon.vcxproj -> C:\Users\2409407\Desktop\Github\Rhythm_Dungeon\Rhythm_Dungeon\x64\Debug\Dungeon.exe
+﻿  SceneGame.cpp
+C:\Users\Owner\Desktop\GitHub\Rhythm_Dungeon\Rhythm_Dungeon\src\game\scene\SceneGame.cpp(124,17): warning C4244: '=': 'double' から 'float' への変換です。データが失われる可能性があります。
+C:\Users\Owner\Desktop\GitHub\Rhythm_Dungeon\Rhythm_Dungeon\src\game\scene\SceneGame.cpp(261,17): warning C4244: '=': 'double' から 'float' への変換です。データが失われる可能性があります。
+C:\Users\Owner\Desktop\GitHub\Rhythm_Dungeon\Rhythm_Dungeon\src\game\scene\SceneGame.cpp(546,62): warning C4244: '引数': 'double' から 'float' への変換です。データが失われる可能性があります。
+  Rhythm_Dungeon.vcxproj -> C:\Users\Owner\Desktop\GitHub\Rhythm_Dungeon\Rhythm_Dungeon\x64\Debug\Dungeon.exe

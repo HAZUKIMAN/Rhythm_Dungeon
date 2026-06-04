@@ -153,7 +153,6 @@ void CSceneGame::Reset()
 			float worldpos_x = (obj.x + 0.5f) * TILE_SIZE;
 			float worldpos_y = (obj.y + 0.5f) * TILE_SIZE;
 			float worldpos_z = (obj.z + 0.5f) * TILE_SIZE;
-			float hight = 10;
 
 			m_cat.SetPos(VGet(worldpos_x, worldpos_y, worldpos_z));
 			m_cat.SetRadius(obj.rotY);
@@ -221,10 +220,7 @@ void CSceneGame::Reset()
 				(obj.z + 0.5f) * TILE_SIZE;
 
 			VECTOR pos =
-				VGet(
-					worldpos_x,
-					worldpos_y,
-					worldpos_z);
+				VGet(worldpos_x,worldpos_y,worldpos_z);
 
 			//---------------------------------
 			// エネミー作成
@@ -388,98 +384,158 @@ void CSceneGame::Calc()
 		// 猫の更新処理
 		m_cat.Step(m_mapedit);
 
-		//ブロックの描画
-		for (auto& institem : m_institem)
+
+		//--------------------------------------------
+		// 箱を拾う
+		//--------------------------------------------
+		if (move_box != CARRY)
 		{
-			//--------------------------------------------
-			//		猫がボックスを運ぶかどうかの判定
-			//--------------------------------------------
-			VECTOR Memo = VGet(0, 0, 0);
-			//1回差をとります//正規化//アークタンジェント
-			Memo = VSub(m_cat.GetPos(), institem->GetPos());
-
-			if (VSize(Memo) < 10.0f)
-			{
-				if (Input::Key::Keep(KEY_INPUT_J))
-				{
-					move_box = CARRY;
-
-					auto& objs = m_objEditor.GetObjects();
-					for (const auto& obj : objs) {
-						if (obj.type == OBJ_ITEM)
-						{
-							m_objEditor.RemoveObject(obj.x, obj.y, obj.z);
-						}
-						if (obj.type == OBJ_PUT_BOX)
-						{
-							float worldX = (obj.x + 0.5f) * TILE_SIZE;
-							float worldY = (obj.y + 0.5f) * TILE_SIZE + 2.5;
-							float worldZ = (obj.z + 0.5f) * TILE_SIZE;
-
-							m_objEditor.RemoveObject(obj.x, obj.y, obj.z);
-						}
-					}
-				}
-			}
-
-			if (move_box == CARRY)
-			{
-				VECTOR vec = VGet(m_cat.GetPos().x, m_cat.GetPos().y, m_cat.GetPos().z);
-				institem->SetPos(vec);
-
-				if (Input::Key::Push(KEY_INPUT_G))
-				{
-					m_cat.PlaceBlock(m_objEditor);
-
-					auto& objs = m_objEditor.GetObjects();
-
-					for (const auto& obj : objs) {
-
-						if (obj.type == OBJ_PUT_BOX)
-						{
-
-							float worldX = (obj.x + 0.5f) * TILE_SIZE;
-							float worldY = (obj.y + 0.5f) * TILE_SIZE + 2.5;
-							float worldZ = (obj.z + 0.5f) * TILE_SIZE;
-
-							institem->SetPos(VGet(worldX, worldY, worldZ));
-
-							//m_objEditor.RemoveObject(obj.x, obj.y, obj.z);
-						}
-
-					}
-
-					move_box = NONE;
-				}
-			}
-
-		}
-
-
-		// 待機･移動中処理
-		m_human.NormalExec(m_blocks, m_institem);
-
-		for (auto& enemy : m_enemy)
-		{
-			enemy->NormalExec(m_blocks);
-		}
-
-		//猫が箱を持っていない時
-		if (!move_box == CARRY) {
-			//ブロックの描画
 			for (auto& institem : m_institem)
 			{
-				CCollisionManager::HitHumanToInst(m_human, institem->GetPos());
-				CCollisionManager::HitEnemyToInst(m_enemy, institem->GetPos());
+				//---------------------------------
+				// 猫との距離
+				//---------------------------------
+				VECTOR memo =
+					VSub(
+						m_cat.GetPos(),
+						institem->GetPos());
 
+				//---------------------------------
+				// 近い + J
+				//---------------------------------
+				if (VSize(memo) < 10.0f)
+				{
+					if (Input::Key::Push(KEY_INPUT_J))
+					{
+						move_box = CARRY;
+
+						//---------------------------------
+						// 持つ箱を記憶
+						//---------------------------------
+						m_carryItem = institem;
+
+						break;
+					}
+				}
 			}
 		}
+
+		//--------------------------------------------
+		// 箱を持っている
+		//--------------------------------------------
+		if (move_box == CARRY &&
+			m_carryItem != nullptr)
+		{
+			//---------------------------------
+			// 猫についてくる
+			//---------------------------------
+			VECTOR carryPos =
+				VGet(
+					m_cat.GetPos().x,
+					m_cat.GetPos().y + 5.0f,
+					m_cat.GetPos().z);
+
+			m_carryItem->SetPos(carryPos);
+
+			//---------------------------------
+			// Gで置く
+			//---------------------------------
+			if (Input::Key::Push(KEY_INPUT_G))
+			{
+				//---------------------------------
+				// 設置位置を作る
+				//---------------------------------
+				m_cat.PlaceBlock(m_objEditor);
+
+				const auto& objs =
+					m_objEditor.GetObjects();
+
+				//---------------------------------
+				// PUT_BOX探す
+				//---------------------------------
+				for (const auto& obj : objs)
+				{
+					if (obj.type == OBJ_PUT_BOX)
+					{
+						float worldX =
+							(obj.x + 0.5f)
+							* TILE_SIZE;
+
+						float worldY =
+							(obj.y + 0.5f)
+							* TILE_SIZE + 2.5f;
+
+						float worldZ =
+							(obj.z + 0.5f)
+							* TILE_SIZE;
+
+						//---------------------------------
+						// 持ってる箱だけ置く
+						//---------------------------------
+						m_carryItem->SetPos(
+							VGet(
+								worldX,
+								worldY,
+								worldZ));
+
+						//---------------------------------
+						// 配置済みとして保存
+						//---------------------------------
+						m_objEditor.AddObject(
+							obj.x,
+							obj.y,
+							obj.z,
+							OBJ_ITEM);
+
+						//---------------------------------
+						// 設置ポイント削除
+						//---------------------------------
+						m_objEditor.RemoveObject(
+							obj.x,
+							obj.y,
+							obj.z);
+
+						break;
+					}
+				}
+
+				//---------------------------------
+				// 持ち解除
+				//---------------------------------
+				move_box = NONE;
+				m_carryItem = nullptr;
+			}
+
+			//--------------------------------------------
+			// 持ってない時だけ当たり判定
+			//--------------------------------------------
+			if (move_box == NONE)
+			{
+				for (auto& institem : m_institem)
+				{
+					CCollisionManager::HitHumanToInst(
+						m_human,
+						institem->GetPos());
+
+					CCollisionManager::HitEnemyToInst(
+						m_enemy,
+						institem->GetPos());
+				}
+			}
+
+		}
+
+		// 待機･移動中処理 
+		m_human.NormalExec(m_blocks, m_institem);
+
+		for (auto& enemy : m_enemy) 
+		{ enemy->NormalExec(m_blocks,m_institem); }
 
 		//  人間と床と壁との当たり判定
 		m_human.AddPos(CCollisionManager::HitMap(m_human.GetCenter(), m_human.GetRadius(), m_mapedit));
 
 		// オブジェクト一覧と人間の当たり判定
-		m_human.AddPos(CCollisionManager::HitHumanToObject(m_human, m_objEditor));
+		//m_human.AddPos(CCollisionManager::HitHumanToObject(m_human, m_objEditor));
 
 		CCollisionManager::HitEnemyToObject(m_enemy, m_objEditor);
 
@@ -493,12 +549,12 @@ void CSceneGame::Calc()
 		for (auto& enemy : m_enemy)
 		{
 			VECTOR hit =
-				CCollisionManager::HitMap(
-					enemy->GetCenter(),enemy->GetRadius(),m_mapedit);
+				CCollisionManager::HitMap(enemy->GetCenter(),enemy->GetRadius(),m_mapedit);
 
 			enemy->AddPos(hit);
 
 			CCollisionManager::CheckHithumanToEnemy(m_human, enemy);
+
 		}
 
 		// 各種更新
