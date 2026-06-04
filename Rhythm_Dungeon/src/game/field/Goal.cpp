@@ -11,7 +11,7 @@ CGoal::~CGoal(){
 // ‰Šú‰»
 void CGoal::Init() {
 	m_iModelHdl = MV1LoadModel("Data/object/Flag/Flag.x");
-	VECTOR size = VGet(0.1f, 0.1f, 0.1f);
+	VECTOR size = VGet(0.3f, 0.3f, 0.3f);
 	//Data/object/field/field.x
 	//ƒRƒŠƒWƒ‡ƒ“î•ñ
 	MV1SetPosition(m_iModelHdl, m_vPosition);

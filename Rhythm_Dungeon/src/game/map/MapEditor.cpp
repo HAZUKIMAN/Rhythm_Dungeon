@@ -4,7 +4,6 @@
 #include "../../Data.h"
 
 
-
 //---------------------------------
 // コンストラクタ
 //---------------------------------
@@ -28,6 +27,7 @@ void MapEditor::Init()
 {
     m_iModelHdl = -1;
     m_iModelHdl_Wall = -1;
+    m_Tile_iModelHdl = -1;
 
     m_currentY = 0;
 
@@ -44,12 +44,14 @@ void MapEditor::Load(ObjectEditor& objectEditor)
 
     if (m_iModelHdl == -1)
     {
-        m_iModelHdl = MV1LoadModel("Data/object/stage/StageTexture.mv1");
+        m_iModelHdl = MV1LoadModel("Data/object/stage/Tile.mv1");
+        m_Tile_iModelHdl= MV1LoadModel("Data/object/stage/Tile2.mv1");
         m_iModelHdl_Wall = MV1LoadModel("Data/object/stage/Wall.mv1");
     }
 
     MV1SetScale(m_iModelHdl, size);
     MV1SetScale(m_iModelHdl_Wall, size);
+    MV1SetScale(m_Tile_iModelHdl, size);
 
     LoadMap(Data::GetInstance()->GetStagePath(), objectEditor);
 
@@ -145,6 +147,15 @@ void MapEditor::Update()
                 map[m_currentY][gz][gx] = TILE_NONE;
                 needRebuild = true;
             }
+
+           //---------------------------------
+           // スペースクリック
+           //---------------------------------
+            if (Input::Key::Push(KEY_INPUT_SPACE))
+            {
+                map[m_currentY][gz][gx] = TILE_FLOOR2;
+                needRebuild = true;
+            }
         }
     }
 
@@ -188,6 +199,12 @@ void MapEditor::Fin()
     {
         MV1DeleteModel(m_iModelHdl);
         m_iModelHdl = -1;
+    }
+
+    if (m_Tile_iModelHdl != -1)
+    {
+        MV1DeleteModel(m_Tile_iModelHdl);
+        m_Tile_iModelHdl = -1;
     }
 
     if (m_iModelHdl_Wall != -1)
@@ -385,6 +402,14 @@ void MapEditor::BuildInstances()
                 if (map[y][z][x] == TILE_WALL)
                 {
                     instances.push_back({m_iModelHdl_Wall, VGet(worldX, worldY, worldZ)});
+                }
+
+                //---------------------------------
+                // 床
+                //---------------------------------
+                if (map[y][z][x] == TILE_FLOOR2)
+                {
+                    instances.push_back({ m_Tile_iModelHdl, VGet(worldX, worldY, worldZ) });
                 }
             }
         }

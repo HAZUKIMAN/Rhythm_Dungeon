@@ -13,7 +13,7 @@ CBlock::~CBlock(){
 // èâä˙âª
 void CBlock::Init() {
 	m_vPosition = VGet(0.0f, 0.0f, 0.0f);
-	m_iModelHdl = MV1LoadModel("Data/object/stage/Wall.mv1");
+	m_iModelHdl = MV1LoadModel("Data/object/stop_obj/Stop.mv1");
 
 	VECTOR size = VGet(0.03f, 0.03f, 0.03f);
 

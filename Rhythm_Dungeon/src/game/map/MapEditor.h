@@ -12,7 +12,8 @@ private:
 	enum TileType {
 		TILE_NONE  = 0,
 		TILE_FLOOR = 1,
-		TILE_WALL  = 2
+		TILE_WALL  = 2,
+		TILE_FLOOR2 = 3,
 	};
 
 	//---------------------------------
@@ -32,6 +33,7 @@ public:
 	TileType map[MAP_Y][MAP_H][MAP_W];
 
 	int m_iModelHdl;		//ステージのモデルハンドル
+	int m_Tile_iModelHdl;	//ステージの床用のハンドル
 	int m_iModelHdl_Wall;	//ステージ用モデルの壁
 
 	//コンストラクタ

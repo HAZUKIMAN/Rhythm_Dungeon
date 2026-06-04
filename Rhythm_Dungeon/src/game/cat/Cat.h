@@ -21,6 +21,8 @@ public:
 
 private:
 
+	int m_iPutModel[2];
+
 	tagCatState m_state;	// lŠÔ‚Ìó‘Ô
 
 	enum ObjectType {
@@ -37,7 +39,8 @@ private:
 	enum TileType {
 		TILE_NONE = 0,
 		TILE_FLOOR = 1,
-		TILE_WALL = 2
+		TILE_WALL = 2,
+		TILE_FLOOR2 = 3,
 	};
 
 	//Œ»İ‚Ì°–Ê(“®‚­‚Æ‹N—p‚Ì‚à‚Ì)

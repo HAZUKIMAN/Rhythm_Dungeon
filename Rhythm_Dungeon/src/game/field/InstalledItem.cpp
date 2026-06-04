@@ -11,7 +11,7 @@ CInstalledItem::~CInstalledItem(){
 
 // ‰Šú‰»
 void CInstalledItem::Init() {
-	m_iModelHdl = MV1LoadModel("Data/object/stage/Wall.mv1");
+	m_iModelHdl = MV1LoadModel("Data/object/inst/Fish.mv1");
 	VECTOR size = VGet(0.03f, 0.03f, 0.03f);
 
 	//ƒRƒŠƒWƒ‡ƒ“î•ñ

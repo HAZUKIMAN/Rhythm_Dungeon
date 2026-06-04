@@ -15,6 +15,9 @@ static const float GRAVITY = 0.01f;			// 重力
 static const float RADIUS = 5.0f;			// 当たり判定半径
 
 static const char CAT_MODEL_PATH[] = { "Data/Character/Cat/cat.mv1" };
+static const char PUTNO_MODEL_PATH[] = { "Data/object/put/Put_No.mv1" };
+static const char PUTOK_MODEL_PATH[] = { "Data/object/put/Put_Ok.mv1" };
+
 //----------------------------------------
 
 
@@ -24,6 +27,9 @@ static const char CAT_MODEL_PATH[] = { "Data/Character/Cat/cat.mv1" };
 CCat::CCat()
 {
 	Init();
+
+	m_iPutModel[0] = -1;
+	m_iPutModel[1] = -1;
 }
 
 
@@ -34,6 +40,18 @@ CCat::~CCat()
 {
 	// 本来は必要ないけど、念のため
 	Fin();
+
+	if (m_iPutModel[0] != -1)
+	{
+		MV1DeleteModel(m_iPutModel[0]);
+		m_iPutModel[0] = -1;
+	}
+
+	if (m_iPutModel[1] != -1)
+	{
+		MV1DeleteModel(m_iPutModel[1]);
+		m_iPutModel[1] = -1;
+	}
 }
 
 
@@ -46,6 +64,9 @@ void CCat::Init()
 	m_moveMode = MOVE_GROUND;
 	m_radius = RADIUS;
 	m_isActive = true;
+
+	m_iPutModel[0] = MV1LoadModel(PUTNO_MODEL_PATH);
+	m_iPutModel[1] = MV1LoadModel(PUTOK_MODEL_PATH);
 }
 
 
@@ -55,10 +76,14 @@ void CCat::Init()
 void CCat::Load()
 {
 	VECTOR size = VGet(0.01f, 0.01f, 0.01f);
+	VECTOR Size = VGet(0.05f, 0.05f, 0.05f);
 
 	int hndl= MV1LoadModel(CAT_MODEL_PATH);
 
 	MV1SetScale(hndl, size);
+
+	MV1SetScale(m_iPutModel[0], Size);
+	MV1SetScale(m_iPutModel[1], Size);
 	CObject::Load(hndl);
 
 }
@@ -221,6 +246,13 @@ bool CCat::CheckGround(MapEditor& map)
 	{
 		return true;
 	}
+	if (map.GetMap(
+		footY,
+		mapZ,
+		mapX) == TILE_FLOOR2)
+	{
+		return true;
+	}
 
 	return false;
 }
@@ -328,13 +360,9 @@ void CCat::DrawPlaceBlockPreview(MapEditor & map)
 	//---------------------------------
 	// ワールド座標
 	//---------------------------------
-	float x0 = placeX * TILE_SIZE;
-	float y0 = placeY * TILE_SIZE;
-	float z0 = placeZ * TILE_SIZE;
-
-	float x1 = x0 + TILE_SIZE;
-	float y1 = y0 + TILE_SIZE;
-	float z1 = z0 + TILE_SIZE;
+	float x = placeX * TILE_SIZE + TILE_SIZE/2;
+	float y = TILE_SIZE / 2;//placeY * TILE_SIZE + TILE_SIZE/2;
+	float z = placeZ * TILE_SIZE + TILE_SIZE/2;
 
 	//---------------------------------
 	// 下の床を確認
@@ -348,37 +376,28 @@ void CCat::DrawPlaceBlockPreview(MapEditor & map)
 		{
 			canPlace = true;
 		}
+		if (map.GetMap(placeY - 1, placeZ, placeX) == TILE_FLOOR2)
+		{
+			canPlace = true;
+		}
 	}
 
-	//---------------------------------
-	// 色変更
-	//---------------------------------
-	int color;
+	VECTOR vec = VGet(x, y, z);
 
 	if (canPlace)
 	{
-		// 置ける
-		color = BLUE;
+		MV1DrawModel(m_iPutModel[1]);
+		MV1SetPosition(m_iPutModel[1], vec);
 	}
 	else
 	{
-		// 置けない
-		color = RED;
+		MV1DrawModel(m_iPutModel[0]);
+		MV1SetPosition(m_iPutModel[0], vec);
 	}
 
-	//---------------------------------
-	// 半透明表示
-	//---------------------------------
-	SetDrawBlendMode(DX_BLENDMODE_ALPHA, 120);
-	DrawCube3D(VGet(x0, y0, z0),VGet(x1, y1, z1),color,color,TRUE);
-	SetDrawBlendMode(DX_BLENDMODE_NOBLEND, 0);
-
-	//---------------------------------
-	// 枠表示
-	//---------------------------------
-	DrawCube3D(VGet(x0, y0, z0),VGet(x1, y1, z1),color,color,FALSE);
-
 }
+
+
 //操作関係処理
 //------------------------------
 void CCat::Operation(MapEditor& map)

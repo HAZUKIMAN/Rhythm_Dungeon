@@ -227,7 +227,7 @@ VECTOR CCollisionManager::HitMap(
             mapZ,
             mapX);
 
-        if (tile == TILE_FLOOR)
+        if (tile == TILE_FLOOR || tile == TILE_FLOOR2)
         {
             //----------------------------------
             // è∞ÇÃè„ñ 
