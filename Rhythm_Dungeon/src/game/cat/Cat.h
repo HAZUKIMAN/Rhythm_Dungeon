@@ -35,6 +35,13 @@ private:
 		OBJ_SETBLOCK
 	};
 
+	enum Direction
+	{
+		ROTATION_RIGHT = 0,
+		ROTATION_DOWN,
+		ROTATION_LEFT,
+		ROTATION_UP
+	};
 
 	enum TileType {
 		TILE_NONE = 0,
@@ -80,8 +87,11 @@ public:
 	void PlaceBlock(ObjectEditor& objEditor);
 	//物を置ける位置を表示
 	void DrawPlaceBlockPreview(MapEditor& map);
+	// 猫の向き取得
+	int GetDirection();
 
 private:
+
 	// 移動計算結果を反映
 	void Move();
 	// 待機･移動中処理

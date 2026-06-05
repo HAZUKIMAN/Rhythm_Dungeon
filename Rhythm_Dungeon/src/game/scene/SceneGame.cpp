@@ -546,7 +546,7 @@ void CSceneGame::CatCrry()
 			//---------------------------------
 			if (VSize(memo) < 10.0f)
 			{
-				if (Input::Key::Push(KEY_INPUT_J))
+				if (Input::Key::Push(KEY_INPUT_J) || Input::Controller::Push(XINPUT_BUTTON_B))
 				{
 					move_box = CARRY;
 
@@ -581,7 +581,7 @@ void CSceneGame::CatCrry()
 		//---------------------------------
 		// Gで置く
 		//---------------------------------
-		if (Input::Key::Push(KEY_INPUT_G))
+		if (Input::Key::Push(KEY_INPUT_G) || Input::Controller::Push(XINPUT_BUTTON_B))
 		{
 			//---------------------------------
 			// 設置位置を作る
@@ -659,10 +659,19 @@ void CSceneGame::CatCrry()
 void CSceneGame::CatCrryToBridge()
 {
 	//--------------------------------------
-// 持っていない
-//--------------------------------------
+		// 橋を拾う
+		//--------------------------------------
 	if (m_carryState == NONE)
 	{
+
+		//---------------------------------
+		// 魚を持っていたら拾えない
+		//---------------------------------
+		if (move_box == CARRY)
+		{
+			return;
+		}
+
 		for (auto& bridge : m_bridge)
 		{
 			VECTOR diff =
@@ -671,21 +680,52 @@ void CSceneGame::CatCrryToBridge()
 					bridge->GetPos());
 
 			//---------------------------------
-			// 近い
+			// 近くにある
 			//---------------------------------
 			if (VSize(diff) < 10.0f)
 			{
-				//---------------------------------
-				// Jで拾う
-				//---------------------------------
-				if (Input::Key::Push(KEY_INPUT_J))
+				if (Input::Key::Push(KEY_INPUT_J) || Input::Controller::Push(XINPUT_BUTTON_B))
 				{
-					m_carryBridge =
-						bridge;
+					//---------------------------------
+					// 橋のマップ座標取得
+					//---------------------------------
+					VECTOR pos = bridge->GetPos();
 
-					m_carryState =
-						CARRY_BRIDGE;
+					int x =(int)floor(pos.x /TILE_SIZE);
+					int y =(int)floor(pos.y /TILE_SIZE);
+					int z =(int)floor(pos.z /TILE_SIZE);
 
+					//---------------------------------
+					// 猫の位置
+					//---------------------------------
+					VECTOR catPos = m_cat.GetPos();
+
+					int catX =(int)floor(catPos.x /TILE_SIZE);
+					int catZ =(int)floor(catPos.z /TILE_SIZE);
+
+					//---------------------------------
+					// 乗ってるなら拾えない
+					//---------------------------------
+					if (catX == x &&
+						catZ == z)
+					{
+						continue;
+					}
+
+					//---------------------------------
+					// 設置済みの床を消す
+					//---------------------------------
+					if (m_mapedit.GetMap(y,z,x) == TILE_FLOOR)
+					{
+						m_mapedit.SetMap(y,z,x,TILE_NONE);
+						m_mapedit.BuildInstances();
+					}
+
+					//---------------------------------
+					// 持つ
+					//---------------------------------
+					m_carryBridge =bridge;
+					m_carryState =CARRY_BRIDGE;
 					return;
 				}
 			}
@@ -695,107 +735,176 @@ void CSceneGame::CatCrryToBridge()
 	//--------------------------------------
 	// 運搬中
 	//--------------------------------------
-	if (m_carryState ==
-		CARRY_BRIDGE)
+	if (m_carryState == CARRY_BRIDGE)
 	{
+		//---------------------------------
+		// 安全チェック
+		//---------------------------------
+		if (m_carryBridge ==
+			nullptr)
+		{
+			return;
+		}
+
 		//---------------------------------
 		// 猫についてくる
 		//---------------------------------
-		VECTOR pos =
-			m_cat.GetPos();
-
+		VECTOR pos =m_cat.GetPos();
 		pos.y += 5.0f;
-
-		m_carryBridge->SetPos(
-			pos);
+		m_carryBridge->SetPos(pos);
 
 		//---------------------------------
-		// Gで置く
+		// Gで橋を置く
 		//---------------------------------
-		if (Input::Key::Push(
-			KEY_INPUT_G))
+		if (Input::Key::Push(KEY_INPUT_G) || Input::Controller::Push(XINPUT_BUTTON_B))
 		{
-			VECTOR catPos =
-				m_cat.GetPos();
+			//---------------------------------
+			// 猫座標
+			//---------------------------------
+			VECTOR catPos =m_cat.GetPos();
+
+			int catX =(int)floor(catPos.x /TILE_SIZE);
+			int catY =(int)floor(catPos.y / TILE_SIZE);
+			int catZ =(int)floor(catPos.z /TILE_SIZE);
 
 			//---------------------------------
-			// グリッド化
+			// 猫の向き
 			//---------------------------------
-			int x =
-				(int)floor(
-					catPos.x /
-					TILE_SIZE);
+			float rot =m_cat.GetRot().y;
 
-			int y =
-				(int)floor(
-					catPos.y /
-					TILE_SIZE);
-
-			int z =
-				(int)floor(
-					catPos.z /
-					TILE_SIZE);
+			int dirX =(int)roundf(-sinf(rot));
+			int dirZ =(int)roundf(-cosf(rot));
 
 			//---------------------------------
-			// グリッド中央
+			// 橋位置
+			//---------------------------------
+			int bridgeX = catX + dirX;
+
+			int bridgeZ = catZ + dirZ;
+
+			//---------------------------------
+			// 2マス先
+			//---------------------------------
+			int landX = catX + dirX * 2;
+			int landZ = catZ + dirZ * 2;
+
+			//---------------------------------
+			// 範囲外防止
+			//---------------------------------
+			if (bridgeX < 0 ||
+				bridgeX >= MAP_W ||
+				bridgeZ < 0 ||
+				bridgeZ >= MAP_H)
+			{
+				return;
+			}
+
+			if (landX < 0 ||
+				landX >= MAP_W ||
+				landZ < 0 ||
+				landZ >= MAP_H)
+			{
+				return;
+			}
+
+			//---------------------------------
+			// 1マス先は穴のみ
+			//---------------------------------
+			if (m_mapedit.GetMap(
+				catY,
+				bridgeZ,
+				bridgeX)
+				!= TILE_NONE)
+			{
+				return;
+			}
+
+			//---------------------------------
+			// 2マス先に床必要
+			//---------------------------------
+			int tile =
+				m_mapedit.GetMap(
+					catY,
+					landZ,
+					landX);
+
+			if (tile != TILE_FLOOR &&
+				tile != TILE_FLOOR2)
+			{
+				return;
+			}
+
+			//---------------------------------
+			// ワールド座標
 			//---------------------------------
 			float worldX =
-				(x + 0.5f)
+				(bridgeX + 0.5f)
 				* TILE_SIZE;
 
 			float worldY =
-				y *
+				catY *
 				TILE_SIZE;
 
 			float worldZ =
-				(z + 0.5f)
+				(bridgeZ + 0.5f)
 				* TILE_SIZE;
 
 			//---------------------------------
-			// 設置
+			// 配置
 			//---------------------------------
 			m_carryBridge->SetPos(
 				VGet(
 					worldX,
-					worldY+2.5f,
+					worldY + 2.5f,
 					worldZ));
 
-			float rotDeg = m_cat.GetRot().y * 180.0f / DX_PI_F;;
+			//---------------------------------
+			// 向き
+			//---------------------------------
+			float rotDeg = rot *180.0f /DX_PI_F;
 
-			// マイナス対策
 			while (rotDeg < 0)
 			{
 				rotDeg += 360.0f;
 			}
 
-			rotDeg = fmod(rotDeg, 360.0f);
+			rotDeg =fmod(rotDeg,360.0f);
 
-			//---------------------------------
-			// 向き判定
-			//---------------------------------
-			if (rotDeg >= 315 || rotDeg < 45)
+			if (rotDeg >= 315 ||
+				rotDeg < 45)
 			{
-				// DOWN
-				m_carryBridge->SetRotation(0.0f);
+				m_carryBridge
+					->SetRotation(
+						0.0f);
 			}
-			else if (rotDeg >= 45 && rotDeg < 135)
+			else if (rotDeg >= 45 &&rotDeg < 135)
 			{
-				// LEFT
 				m_carryBridge->SetRotation(DX_PI_F / 2);
 			}
-			else if (rotDeg >= 135 && rotDeg < 225)
+			else if (rotDeg >= 135 &&rotDeg < 225)
 			{
-				// UP
 				m_carryBridge->SetRotation(DX_PI_F);
 			}
 			else
 			{
-				// RIGHT
-				m_carryBridge->SetRotation(-DX_PI_F / 2);
+				m_carryBridge
+					->SetRotation(
+						-DX_PI_F / 2);
 			}
 
 			//---------------------------------
-			// 持ち解除
+			// 床化
+			//---------------------------------
+			m_mapedit.SetMap(
+				catY,
+				bridgeZ,
+				bridgeX,
+				TILE_FLOOR);
+
+			m_mapedit.BuildInstances();
+
+			//---------------------------------
+			// 手放す
 			//---------------------------------
 			m_carryBridge =
 				nullptr;
@@ -805,3 +914,4 @@ void CSceneGame::CatCrryToBridge()
 		}
 	}
 }
+

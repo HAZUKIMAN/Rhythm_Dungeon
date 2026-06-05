@@ -445,7 +445,7 @@ void CCat::Operation(MapEditor& map)
 	//---------------------------------
 	// 左右入力（壁用）
 	//---------------------------------
-	if (Input::Key::Keep(KEY_INPUT_D))
+	if (Input::Key::Keep(KEY_INPUT_D) /*|| Input::Controller::LStickIncline(100.0f,0.0f)*/)
 	{
 		side = MOVE_SPEED;
 	}
@@ -551,5 +551,42 @@ void CCat::Operation(MapEditor& map)
 			m_vPosition = oldPos;
 		}
 	}
+}
+
+//--------------------------------------
+// 猫の向き取得
+//--------------------------------------
+int CCat::GetDirection()
+{
+	float rot = m_vRotation.y;
+
+	//---------------------------------
+	// 右
+	//---------------------------------
+	if (fabs(rot - (-DX_PI_F / 2)) < 0.1f)
+	{
+		return ROTATION_RIGHT;
+	}
+
+	//---------------------------------
+	// 下
+	//---------------------------------
+	if (fabs(rot - 0.0f) < 0.1f)
+	{
+		return ROTATION_DOWN;
+	}
+
+	//---------------------------------
+	// 左
+	//---------------------------------
+	if (fabs(rot - (DX_PI_F / 2)) < 0.1f)
+	{
+		return ROTATION_LEFT;
+	}
+
+	//---------------------------------
+	// 上
+	//---------------------------------
+	return ROTATION_UP;
 }
 
