@@ -11,9 +11,9 @@ CBridge::~CBridge() {
 
 // 初期化
 void CBridge::Init() {
-	m_iModelHdl = MV1LoadModel("Data/object/bridge/Fish.mv1");
-	VECTOR size = VGet(0.03f, 0.03f, 0.03f);
-
+	m_iModelHdl = MV1LoadModel("Data/object/bridge/bridge.mv1");
+	VECTOR size = VGet(0.08f, 0.08f, 0.08f);
+	memset(&m_vRotation, 0, sizeof(VECTOR));
 	//コリジョン情報
 	MV1SetPosition(m_iModelHdl, m_vPosition);
 	MV1SetScale(m_iModelHdl, size);
@@ -24,7 +24,9 @@ void CBridge::Init() {
 //更新処理
 void CBridge::Update()
 {
+	VECTOR vec = VGet(0.0f, m_vRotation.y,0.0f);
 	// モデルへ反映
+	MV1SetRotationXYZ(m_iModelHdl, vec);
 	MV1SetPosition(m_iModelHdl, m_vPosition);
 }
 

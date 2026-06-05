@@ -27,6 +27,7 @@ private:
 		OBJ_PUT_BOX,
 		OBJ_SETBLOCK,
 		OBJ_ENEMY,
+		OBJ_BRIDGE,
 	};
 
 	enum TileType {

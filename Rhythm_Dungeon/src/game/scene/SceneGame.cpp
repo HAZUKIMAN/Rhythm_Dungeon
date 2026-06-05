@@ -14,6 +14,7 @@ static const float HIGHT_GRID = 2.5f;	// 移動速度
 CSceneGame::CSceneGame()
 {
 	move_box = NONE;
+	m_carryState = PUT_NONE;
 }
 
 
@@ -47,7 +48,7 @@ void CSceneGame::Init()
 	m_objEditor.Init();
 
 
-
+	m_bridge.clear();
 	m_institem.clear();
 	m_blocks.clear();
 	m_enemy.clear();
@@ -185,6 +186,7 @@ void CSceneGame::Reset()
 			VECTOR vec = VGet(worldpos_x, worldpos_y, worldpos_z);
 			m_goal.SetPos(vec);
 		}
+
 		//---------------------------------
 		// ブロック生成
 		//---------------------------------
@@ -207,7 +209,10 @@ void CSceneGame::Reset()
 
 			m_blocks.push_back(block);
 		}
+
+		//----------------------------
 		//エネミーを生成
+		//---------------------------
 		if (obj.type == OBJ_ENEMY)
 		{
 			float worldpos_x =
@@ -291,6 +296,28 @@ void CSceneGame::Reset()
 			m_enemy.push_back(enemy);
 		}
 
+
+		//---------------------------
+		//		橋の生成
+		//---------------------------
+		if (obj.type == OBJ_BRIDGE)
+		{
+			float worldpos_x = (obj.x + 0.5f) * TILE_SIZE;
+			float worldpos_y = (obj.y + 0.5f) * TILE_SIZE + HIGHT_GRID;
+			float worldpos_z = (obj.z + 0.5f) * TILE_SIZE;
+
+			VECTOR pos = VGet(worldpos_x, worldpos_y, worldpos_z);
+
+			//---------------------------------
+			// 新しいブロック作成
+			//---------------------------------
+			CBridge* bridge = new CBridge;
+			bridge->Init();
+			bridge->SetPos(pos);
+
+			m_bridge.push_back(bridge);
+
+		}
 	}
 }
 
@@ -309,7 +336,7 @@ void CSceneGame::Draw()
 	m_cat.Draw();
 	m_cat.DrawPlaceBlockPreview(m_mapedit);
 	
-	//ブロックの描画
+	//運べるブロックの描画
 	for (auto& institem : m_institem)
 	{
 		institem->Draw();
@@ -325,6 +352,12 @@ void CSceneGame::Draw()
 	for (auto& block : m_blocks)
 	{
 		block->Draw();
+	}
+
+	//橋の描画
+	for (auto& bridge : m_bridge)
+	{
+		bridge->Draw();
 	}
 
 	m_goal.Draw();		//ゴール
@@ -355,10 +388,18 @@ void CSceneGame::Fin()
 		institem->Fin();
 	}
 
+	//エネミーの削除
 	for (auto& enemy : m_enemy)
 	{
 		enemy->Fin();
 	}
+
+	//橋の削除
+	for (auto& bridge : m_bridge)
+	{
+		bridge->Fin();
+	}
+
 	/*m_enemyManager.Fin();
 	m_shotManager.Fin();
 	m_backgroundManager.Fin();*/
@@ -385,146 +426,10 @@ void CSceneGame::Calc()
 		m_cat.Step(m_mapedit);
 
 
-		//--------------------------------------------
-		// 箱を拾う
-		//--------------------------------------------
-		if (move_box != CARRY)
-		{
-			for (auto& institem : m_institem)
-			{
-				//---------------------------------
-				// 猫との距離
-				//---------------------------------
-				VECTOR memo =
-					VSub(
-						m_cat.GetPos(),
-						institem->GetPos());
-
-				//---------------------------------
-				// 近い + J
-				//---------------------------------
-				if (VSize(memo) < 10.0f)
-				{
-					if (Input::Key::Push(KEY_INPUT_J))
-					{
-						move_box = CARRY;
-
-						//---------------------------------
-						// 持つ箱を記憶
-						//---------------------------------
-						m_carryItem = institem;
-
-						break;
-					}
-				}
-			}
-		}
-
-		//--------------------------------------------
-		// 箱を持っている
-		//--------------------------------------------
-		if (move_box == CARRY &&
-			m_carryItem != nullptr)
-		{
-			//---------------------------------
-			// 猫についてくる
-			//---------------------------------
-			VECTOR carryPos =
-				VGet(
-					m_cat.GetPos().x,
-					m_cat.GetPos().y + 5.0f,
-					m_cat.GetPos().z);
-
-			m_carryItem->SetPos(carryPos);
-
-			//---------------------------------
-			// Gで置く
-			//---------------------------------
-			if (Input::Key::Push(KEY_INPUT_G))
-			{
-				//---------------------------------
-				// 設置位置を作る
-				//---------------------------------
-				m_cat.PlaceBlock(m_objEditor);
-
-				const auto& objs =
-					m_objEditor.GetObjects();
-
-				//---------------------------------
-				// PUT_BOX探す
-				//---------------------------------
-				for (const auto& obj : objs)
-				{
-					if (obj.type == OBJ_PUT_BOX)
-					{
-						float worldX =
-							(obj.x + 0.5f)
-							* TILE_SIZE;
-
-						float worldY =
-							(obj.y + 0.5f)
-							* TILE_SIZE + 2.5f;
-
-						float worldZ =
-							(obj.z + 0.5f)
-							* TILE_SIZE;
-
-						//---------------------------------
-						// 持ってる箱だけ置く
-						//---------------------------------
-						m_carryItem->SetPos(
-							VGet(
-								worldX,
-								worldY,
-								worldZ));
-
-						//---------------------------------
-						// 配置済みとして保存
-						//---------------------------------
-						m_objEditor.AddObject(
-							obj.x,
-							obj.y,
-							obj.z,
-							OBJ_ITEM);
-
-						//---------------------------------
-						// 設置ポイント削除
-						//---------------------------------
-						m_objEditor.RemoveObject(
-							obj.x,
-							obj.y,
-							obj.z);
-
-						break;
-					}
-				}
-
-				//---------------------------------
-				// 持ち解除
-				//---------------------------------
-				move_box = NONE;
-				m_carryItem = nullptr;
-			}
-
-			//--------------------------------------------
-			// 持ってない時だけ当たり判定
-			//--------------------------------------------
-			if (move_box == NONE)
-			{
-				for (auto& institem : m_institem)
-				{
-					CCollisionManager::HitHumanToInst(
-						m_human,
-						institem->GetPos());
-
-					CCollisionManager::HitEnemyToInst(
-						m_enemy,
-						institem->GetPos());
-				}
-			}
-
-		}
-
+		//猫物を運ぶ処理全般
+		CatCrry();
+		CatCrryToBridge();
+		
 		// 待機･移動中処理 
 		m_human.NormalExec(m_blocks, m_institem);
 
@@ -569,6 +474,15 @@ void CSceneGame::Calc()
 			//アイテムの更新処理
 			institem->Update();
 		}
+
+		//ブロックの描画
+		for (auto& bridge : m_bridge)
+		{
+			//アイテムの更新処理
+			bridge->Update();
+		}
+
+
 		//ブロックの設置
 		for (auto& block : m_blocks)
 		{
@@ -608,4 +522,286 @@ void CSceneGame::Calc()
 	m_cameraManager.Update();
 
 
+}
+
+void CSceneGame::CatCrry()
+{
+	//--------------------------------------------
+		// 箱を拾う
+		//--------------------------------------------
+	if (move_box != CARRY)
+	{
+		for (auto& institem : m_institem)
+		{
+			//---------------------------------
+			// 猫との距離
+			//---------------------------------
+			VECTOR memo =
+				VSub(
+					m_cat.GetPos(),
+					institem->GetPos());
+
+			//---------------------------------
+			// 近い + J
+			//---------------------------------
+			if (VSize(memo) < 10.0f)
+			{
+				if (Input::Key::Push(KEY_INPUT_J))
+				{
+					move_box = CARRY;
+
+					//---------------------------------
+					// 持つ箱を記憶
+					//---------------------------------
+					m_carryItem = institem;
+
+					break;
+				}
+			}
+		}
+	}
+
+	//--------------------------------------------
+	// 箱を持っている
+	//--------------------------------------------
+	if (move_box == CARRY &&
+		m_carryItem != nullptr)
+	{
+		//---------------------------------
+		// 猫についてくる
+		//---------------------------------
+		VECTOR carryPos =
+			VGet(
+				m_cat.GetPos().x,
+				m_cat.GetPos().y + 5.0f,
+				m_cat.GetPos().z);
+
+		m_carryItem->SetPos(carryPos);
+
+		//---------------------------------
+		// Gで置く
+		//---------------------------------
+		if (Input::Key::Push(KEY_INPUT_G))
+		{
+			//---------------------------------
+			// 設置位置を作る
+			//---------------------------------
+			m_cat.PlaceBlock(m_objEditor);
+
+			const auto& objs = m_objEditor.GetObjects();
+
+			//---------------------------------
+			// PUT_BOX探す
+			//---------------------------------
+			for (const auto& obj : objs)
+			{
+				if (obj.type == OBJ_PUT_BOX)
+				{
+					float worldX = (obj.x + 0.5f) * TILE_SIZE;
+					float worldY = (obj.y + 0.5f) * TILE_SIZE + 2.5f;
+					float worldZ = (obj.z + 0.5f) * TILE_SIZE;
+
+					//---------------------------------
+					// 持ってる箱だけ置く
+					//---------------------------------
+					m_carryItem->SetPos(
+						VGet(
+							worldX,
+							worldY,
+							worldZ));
+
+					//---------------------------------
+					// 配置済みとして保存
+					//---------------------------------
+					m_objEditor.AddObject(
+						obj.x,
+						obj.y,
+						obj.z,
+						OBJ_ITEM);
+
+					//---------------------------------
+					// 設置ポイント削除
+					//---------------------------------
+					m_objEditor.RemoveObject(
+						obj.x,
+						obj.y,
+						obj.z);
+
+					break;
+				}
+			}
+
+			//---------------------------------
+			// 持ち解除
+			//---------------------------------
+			move_box = NONE;
+			m_carryItem = nullptr;
+		}
+
+		//--------------------------------------------
+		// 持ってない時だけ当たり判定
+		//--------------------------------------------
+		if (move_box == NONE)
+		{
+			for (auto& institem : m_institem)
+			{
+				CCollisionManager::HitHumanToInst(
+					m_human, institem->GetPos());
+
+				CCollisionManager::HitEnemyToInst(
+					m_enemy, institem->GetPos());
+			}
+		}
+
+	}
+}
+
+void CSceneGame::CatCrryToBridge()
+{
+	//--------------------------------------
+// 持っていない
+//--------------------------------------
+	if (m_carryState == NONE)
+	{
+		for (auto& bridge : m_bridge)
+		{
+			VECTOR diff =
+				VSub(
+					m_cat.GetPos(),
+					bridge->GetPos());
+
+			//---------------------------------
+			// 近い
+			//---------------------------------
+			if (VSize(diff) < 10.0f)
+			{
+				//---------------------------------
+				// Jで拾う
+				//---------------------------------
+				if (Input::Key::Push(KEY_INPUT_J))
+				{
+					m_carryBridge =
+						bridge;
+
+					m_carryState =
+						CARRY_BRIDGE;
+
+					return;
+				}
+			}
+		}
+	}
+
+	//--------------------------------------
+	// 運搬中
+	//--------------------------------------
+	if (m_carryState ==
+		CARRY_BRIDGE)
+	{
+		//---------------------------------
+		// 猫についてくる
+		//---------------------------------
+		VECTOR pos =
+			m_cat.GetPos();
+
+		pos.y += 5.0f;
+
+		m_carryBridge->SetPos(
+			pos);
+
+		//---------------------------------
+		// Gで置く
+		//---------------------------------
+		if (Input::Key::Push(
+			KEY_INPUT_G))
+		{
+			VECTOR catPos =
+				m_cat.GetPos();
+
+			//---------------------------------
+			// グリッド化
+			//---------------------------------
+			int x =
+				(int)floor(
+					catPos.x /
+					TILE_SIZE);
+
+			int y =
+				(int)floor(
+					catPos.y /
+					TILE_SIZE);
+
+			int z =
+				(int)floor(
+					catPos.z /
+					TILE_SIZE);
+
+			//---------------------------------
+			// グリッド中央
+			//---------------------------------
+			float worldX =
+				(x + 0.5f)
+				* TILE_SIZE;
+
+			float worldY =
+				y *
+				TILE_SIZE;
+
+			float worldZ =
+				(z + 0.5f)
+				* TILE_SIZE;
+
+			//---------------------------------
+			// 設置
+			//---------------------------------
+			m_carryBridge->SetPos(
+				VGet(
+					worldX,
+					worldY+2.5f,
+					worldZ));
+
+			float rotDeg = m_cat.GetRot().y * 180.0f / DX_PI_F;;
+
+			// マイナス対策
+			while (rotDeg < 0)
+			{
+				rotDeg += 360.0f;
+			}
+
+			rotDeg = fmod(rotDeg, 360.0f);
+
+			//---------------------------------
+			// 向き判定
+			//---------------------------------
+			if (rotDeg >= 315 || rotDeg < 45)
+			{
+				// DOWN
+				m_carryBridge->SetRotation(0.0f);
+			}
+			else if (rotDeg >= 45 && rotDeg < 135)
+			{
+				// LEFT
+				m_carryBridge->SetRotation(DX_PI_F / 2);
+			}
+			else if (rotDeg >= 135 && rotDeg < 225)
+			{
+				// UP
+				m_carryBridge->SetRotation(DX_PI_F);
+			}
+			else
+			{
+				// RIGHT
+				m_carryBridge->SetRotation(-DX_PI_F / 2);
+			}
+
+			//---------------------------------
+			// 持ち解除
+			//---------------------------------
+			m_carryBridge =
+				nullptr;
+
+			m_carryState =
+				PUT_NONE;
+		}
+	}
 }

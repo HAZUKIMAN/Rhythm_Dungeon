@@ -42,6 +42,7 @@ public:
 		OBJ_PUT_BOX,
 		OBJ_SETBLOCK,
 		OBJ_ENEMY,
+		OBJ_BRIDGE,
 	};
 
 	ObjectType objstate;
@@ -60,11 +61,6 @@ public:
 private:
 	//置く位置を見やすくするもの
 	void DrawSelectedTile();
-
-	////マップのセーブ
-	//void SaveMap(const char* filename);
-	////マップの読み込み
-	//void LoadMap(const char* filename);
 
 	void DrawObjects();
 	//マウスの当たり判定の取得

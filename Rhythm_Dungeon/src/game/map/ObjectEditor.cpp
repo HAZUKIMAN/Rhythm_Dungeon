@@ -55,7 +55,7 @@ int ObjectEditor::Step()
     //---------------------------------
     // çÇÇ≥è„è∏
     //---------------------------------
-    if (Input::Key::Push(KEY_INPUT_UP))
+    if (Input::Key::Push(KEY_INPUT_Q))
     {
         m_currentY++;
     }
@@ -63,7 +63,7 @@ int ObjectEditor::Step()
     //---------------------------------
     // çÇÇ≥â∫ç~
     //---------------------------------
-    if (Input::Key::Push(KEY_INPUT_DOWN))
+    if (Input::Key::Push(KEY_INPUT_E))
     {
         m_currentY--;
 
@@ -106,6 +106,10 @@ int ObjectEditor::Step()
             objstate = OBJ_SETBLOCK;
             break;*/
         case OBJ_SETBLOCK:
+            objstate = OBJ_BRIDGE;
+            break;
+
+        case OBJ_BRIDGE:
             objstate = OBJ_NONE;
             break;
         }
@@ -217,6 +221,10 @@ void ObjectEditor::Draw()
 
     case OBJ_SETBLOCK:
         DrawFormatString(1220, 240, PURPLE, "BLOCK");
+        break;
+
+    case OBJ_BRIDGE:
+        DrawFormatString(1220, 240, ORANGE, "ORANGE");
         break;
     }
 
@@ -393,6 +401,10 @@ void ObjectEditor::DrawObjects()
 
         case OBJ_ENEMY:
             DrawSphere3D(pos, 1.0f, 16, BLACK, BLACK, TRUE);
+            break;
+
+        case OBJ_BRIDGE:
+            DrawSphere3D(pos, 1.0f, 16, ORANGE, ORANGE, TRUE);
             break;
         }
     }

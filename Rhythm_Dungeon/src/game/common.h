@@ -73,4 +73,6 @@ static const UnInt PINKU = GetColor(255, 100, 100);			//ピンク
 static const UnInt GRAY  = GetColor(180, 180, 180);			//グレー
 static const UnInt LIGHTGREEN = GetColor(100, 250, 100);	//黄緑色
 static const UnInt BLACK = GetColor(  0,   0,   0);			//黒
+static const UnInt ORANGE= GetColor(250, 130, 12);			//オレンジ
+
 

@@ -46,7 +46,7 @@ void CEditorCamera::Step(CCat& cat)
 	// ƒJƒƒ‰‚Ì‰ñ“]
 	RotateLeftRight();
 
-	if (Input::Key::Keep(KEY_INPUT_SPACE))
+	if (Input::Key::Keep(KEY_INPUT_H))
 	{
 		m_pos.y += 0.2f;
 	}

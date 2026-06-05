@@ -10,6 +10,7 @@
 #include "../field/Goal.h"
 #include "../field/Block.h"
 #include "../enemy/Enemy.h"
+#include "../bridge/Bridge.h"
 
 //タイトルクラス
 //	@memo	:	継承後も基本はpublicは増やさない
@@ -23,6 +24,7 @@ private:
 	std::vector<CBlock*> m_blocks;			// 設置ブロック
 	CBackGroundManager m_backgroundManager;	// 背景
 	std::vector<CEnemy*> m_enemy;			//エネミー
+	std::vector<CBridge*> m_bridge;			//橋
 	MapEditor m_mapedit;					//マップエディター
 	ObjectEditor m_objEditor;				//オブジェクトエディター
 
@@ -49,6 +51,9 @@ private:
 
 	void Reset();
 
+	void CatCrry();
+	void CatCrryToBridge();
+
 	enum ObjectType {
 		OBJ_NONE,
 		OBJ_HUMAN,
@@ -58,6 +63,7 @@ private:
 		OBJ_PUT_BOX,
 		OBJ_SETBLOCK,
 		OBJ_ENEMY,
+		OBJ_BRIDGE,
 	};
 
 	enum tagMove
@@ -75,9 +81,27 @@ private:
 		ROTATION_UP,
 	};
 
+	enum CarryState
+	{
+		PUT_NONE,
+		CARRY_ITEM,
+		CARRY_BRIDGE
+	};
+
+	enum TileType {
+		TILE_NONE = 0,
+		TILE_FLOOR = 1,
+		TILE_WALL = 2,
+		TILE_FLOOR2 = 3,
+	};
+
+	CarryState m_carryState;
+
+
 	tagMove move_box;
 
 	CInstalledItem* m_carryItem = nullptr;
+	CBridge* m_carryBridge = nullptr;
 };
 
 
