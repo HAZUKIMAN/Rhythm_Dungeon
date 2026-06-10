@@ -128,16 +128,10 @@ void CCat::Step(MapEditor& map)
 	//---------------------------------
 	if (move > 0.1f)
 	{
-		if (m_state !=
-			CAT_STATE_WALK)
+		if (m_state !=CAT_STATE_WALK)
 		{
-			RequestLoop(
-				CAT_STATE_WALK,
-				ANIME_SPEED,
-				m_iModelHdl);
-
-			m_state =
-				CAT_STATE_WALK;
+			RequestLoop(CAT_STATE_WALK,ANIME_SPEED,m_iModelHdl);
+			m_state = CAT_STATE_WALK;
 		}
 	}
 	else
@@ -145,16 +139,10 @@ void CCat::Step(MapEditor& map)
 		//---------------------------------
 		// 待機
 		//---------------------------------
-		if (m_state !=
-			CAT_STATE_NORMAL)
+		if (m_state != CAT_STATE_NORMAL)
 		{
-			RequestLoop(
-				CAT_STATE_NORMAL,
-				ANIME_SPEED,
-				m_iModelHdl);
-
-			m_state =
-				CAT_STATE_NORMAL;
+			RequestLoop(CAT_STATE_NORMAL,ANIME_SPEED,m_iModelHdl);
+			m_state =CAT_STATE_NORMAL;
 		}
 	}
 
@@ -175,7 +163,6 @@ void CCat::Draw()
 	CObject::Draw();
 
 	DrawFormatString(100,600,RED,"ねこのY座標：%f",m_vPosition.y);
-
 	DrawFormatString(500,100,WHITE,"MoveMode = %d",m_moveMode);
 
 	//---------------------------------
@@ -315,18 +302,13 @@ CCat::WallType CCat::CheckWall(MapEditor& map)
 	//---------------------------------
 	// チェック位置
 	//---------------------------------
-	VECTOR rightPos =
-		VGet(m_vPosition.x + checkRadius, m_vPosition.y, m_vPosition.z
-		);
+	VECTOR rightPos = VGet(m_vPosition.x + checkRadius, m_vPosition.y, m_vPosition.z);
+	
+	VECTOR leftPos = VGet(m_vPosition.x - checkRadius, m_vPosition.y, m_vPosition.z);
 
-	VECTOR leftPos =
-		VGet(m_vPosition.x - checkRadius, m_vPosition.y, m_vPosition.z);
+	VECTOR frontPos = VGet(m_vPosition.x, m_vPosition.y, m_vPosition.z + checkRadius);
 
-	VECTOR frontPos =
-		VGet(m_vPosition.x, m_vPosition.y, m_vPosition.z + checkRadius);
-
-	VECTOR backPos =
-		VGet(m_vPosition.x, m_vPosition.y, m_vPosition.z - checkRadius);
+	VECTOR backPos = VGet(m_vPosition.x, m_vPosition.y, m_vPosition.z - checkRadius);
 
 	//---------------------------------
 	// X方向の壁
@@ -701,5 +683,12 @@ int CCat::GetDirection()
 	// 上
 	//---------------------------------
 	return ROTATION_UP;
+}
+
+//クリアしたとき
+void CCat::Clear()
+{
+	RequestLoop(CAT_STATE_DANCE, ANIME_SPEED, m_iModelHdl);
+	m_state = CAT_STATE_DANCE;
 }
 

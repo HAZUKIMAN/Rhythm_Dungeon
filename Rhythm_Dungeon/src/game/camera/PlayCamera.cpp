@@ -30,7 +30,7 @@ CPlayCamera::~CPlayCamera()
 //-------------------------------
 //		毎フレーム呼ぶ処理
 //-------------------------------
-void CPlayCamera::Step(CCat& cat)
+void CPlayCamera::Step(CCat& cat,bool clear)
 {
  
 	//---------------------------------
@@ -47,6 +47,11 @@ void CPlayCamera::Step(CCat& cat)
 	// 右スティックカメラ
 	//---------------------------------
 	ControlCan(focus);
+
+	if (clear)
+	{
+		//スプライト曲線を使い空に飛ばす
+	}
 }
 
 
@@ -66,7 +71,6 @@ void CPlayCamera::ControlCan(VECTOR targetPos)
 	float rotSpeed =0.40f;
 
 	m_cameraRotY = -DX_PI_F / 4.0f;
-
 	m_cameraRotY += stickX * rotSpeed;
 
 	//---------------------------------
@@ -78,7 +82,7 @@ void CPlayCamera::ControlCan(VECTOR targetPos)
 	//---------------------------------
 	// カメラ位置
 	//---------------------------------
-	m_pos =VGet(
+	m_pos = VGet(
 			targetPos.x - x* CAMERA_LENGTH,
 			CAMERA_OFFSET_Y, // ←固定高さ
 			targetPos.z - z* CAMERA_LENGTH);

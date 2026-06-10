@@ -8,14 +8,14 @@
 #include "../effect/effekseer.h"
 
 //	定義関連------------------------------
-static const float MOVE_SPEED	=  0.05f;	// 移動速度
+static const float MOVE_SPEED	=  0.09f;	// 移動速度
 static const float ROT_SPEED	= 0.03f;	// 回転速度
 static const float GRAVITY		=0.02f;		// 重力
 static const float RADIUS		=  2.5f;	// 当たり判定半径
 static const float MAXTIME		=  5.0f;	// クールタイム
 static const float ANIME_SPEED	=  1.0f;	// アニメスピード
 static const float MOVE_HIGHT	=  10.0f;	// 動かす高さ
-static const float MIN_HIGHT	= -100.0f;	// リスポーン位置に戻す
+static const float MIN_HIGHT	= -20.0f;	// リスポーン位置に戻す
 
 static const char HUMAN_MODEL_PATH[] = { "Data/Character/player/player.mv1" };
 //----------------------------------------
@@ -151,13 +151,10 @@ void CHuman::Move()
 }
 
 
-
-
-
 //-------------------------------
 //		待機･移動中処理
 //-------------------------------
-void CHuman::NormalExec(std::vector<CBlock*>& blocks, std::vector<CInstalledItem*> institem)
+void CHuman::NormalExec(std::vector<CBlock*>& blocks, std::vector<CInstalledItem*> institem, float cat_state)
 {
 	if (m_vPosition.y <= MOVE_HIGHT)
 	{
@@ -167,9 +164,7 @@ void CHuman::NormalExec(std::vector<CBlock*>& blocks, std::vector<CInstalledItem
 		if (m_isMoving)
 		{
 			float addspeed=0.0f;
-
 			VECTOR dir = VSub(m_targetPos, m_vPosition);
-
 
 			if (Input::Controller::Keep(XINPUT_BUTTON_RIGHT_SHOULDER))//早送りしたいのはenemyとhumanのみなので直に書いています
 			{
@@ -271,21 +266,24 @@ void CHuman::NormalExec(std::vector<CBlock*>& blocks, std::vector<CInstalledItem
 					hitBlock = true;break;
 				}
 			}
-			for (auto block : institem)
-			{
-				if (block == nullptr)continue;
-				int blockX = (int)floor(block->GetPos().x / TILE_SIZE);
-				int blockZ = (int)floor(block->GetPos().z / TILE_SIZE);
 
-				//---------------------------------
-				// 次マスにある
-				//---------------------------------
-				if (blockX == nextX && blockZ == nextZ)
+			if (cat_state != CARRY)
+			{
+				for (auto block : institem)
 				{
-					hitBlock = true;break;
+					if (block == nullptr)continue;
+					int blockX = (int)floor(block->GetPos().x / TILE_SIZE);
+					int blockZ = (int)floor(block->GetPos().z / TILE_SIZE);
+
+					//---------------------------------
+					// 次マスにある
+					//---------------------------------
+					if (blockX == nextX && blockZ == nextZ)
+					{
+						hitBlock = true;break;
+					}
 				}
 			}
-
 
 			//---------------------------------
 			// ブロックに当たる
@@ -426,4 +424,11 @@ void CHuman::HitCalc()
 	//エフェクトの拡大・縮小
 	CEffekseerCtrl::SetScale(effectId,vec);
 
+}
+
+//クリアしたとき
+void CHuman::Clear()
+{
+	RequestLoop(HUMAN_STATE_NORMAL, ANIME_SPEED, m_iModelHdl);
+	m_state = HUMAN_STATE_NORMAL;
 }

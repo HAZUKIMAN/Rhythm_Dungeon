@@ -143,6 +143,7 @@
     <Manifest />
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="..\..\..\..\Downloads\A1Team\A1Team\GameProject\Source\Game\Gimmick\Rail.cpp" />
     <ClCompile Include="src\Data.cpp" />
     <ClCompile Include="src\game\Anime\Anime.cpp" />
     <ClCompile Include="src\game\bridge\Bridge.cpp" />
@@ -182,6 +183,7 @@
     <ClCompile Include="src\Main.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="..\..\..\..\Downloads\A1Team\A1Team\GameProject\Source\Game\Gimmick\Rail.h" />
     <ClInclude Include="src\Data.h" />
     <ClInclude Include="src\game\Anime\Anime.h" />
     <ClInclude Include="src\game\bridge\Bridge.h" />

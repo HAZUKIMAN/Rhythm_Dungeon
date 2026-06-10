@@ -2,6 +2,7 @@
 //#include "../object/enemy/EnemyManager.h"
 #include "../human/Human.h"
 #include "../../lib/math/hit.h"
+#include "../../lib/sound/SoundManager.h"
 
 using namespace std;
 constexpr int SET_TIME = 150;
@@ -16,8 +17,7 @@ CCollisionManager::CCollisionManager()
 //-----------------------------------
 // ゴールと人間の当たり判定
 //-----------------------------------
-bool CCollisionManager::CheckHithumanToGoal(CHuman& human,
-    CGoal& goal)
+bool CCollisionManager::CheckHithumanToGoal(CHuman& human, CGoal& goal)
 {
     VECTOR humanPos = human.GetCenter();
     float humanRadius = human.GetRadius();
@@ -37,8 +37,7 @@ bool CCollisionManager::CheckHithumanToGoal(CHuman& human,
 //-----------------------------------
 // エネミーと人間の当たり判定
 //-----------------------------------
-void CCollisionManager::CheckHithumanToEnemy(CHuman& human,
-    CEnemy* enemy)
+void CCollisionManager::CheckHithumanToEnemy(CHuman& human, CEnemy* enemy)
 {
     VECTOR humanPos = human.GetCenter();
     float humanRadius = human.GetRadius();
@@ -47,130 +46,12 @@ void CCollisionManager::CheckHithumanToEnemy(CHuman& human,
     // 座標と半径を取得
     VECTOR enemyPos = vec;
     float enemyRadius = 1.0f;
+
     // 球と球の当たり判定
     if (CHit::CheckSphereToSphere(humanPos, enemyPos, humanRadius, enemyRadius))
     {
+        CSoundManager::Play(CSoundManager::SOUNDID_SE_HIT, DX_PLAYTYPE_BACK);
         human.HitCalc();
-    }
-}
-
-//人間と配置可能なオブジェクトの計算
-void CCollisionManager::HitHumanToInst(CHuman& human,
-    VECTOR inst_vec)
-{
-    VECTOR humanPos = human.GetCenter();
-    float humanRadius = 2.5;
-
-    // 座標と半径を取得
-    VECTOR InstPos = inst_vec;
-    float InstRadius = 2.5;
-
-    if (m_time >= 0)return;
-
-    // 球と球の当たり判定
-    if (CHit::CheckSphereToSphere(humanPos, InstPos, humanRadius, InstRadius))
-    {
-        int state = human.GetDirect();
-
-        m_time = SET_TIME;
-
-        switch (state)
-        {
-        case 0:
-            human.SetDirect(1);
-            break;
-
-        case 1:
-            human.SetDirect(2);
-            break;
-
-        case 2:
-            human.SetDirect(3);
-            break;
-
-        case 3:
-            human.SetDirect(0);
-            break;
-        }
-    }
-}
-
-//--------------------------------------
-// エネミー配置可能オブジェクトとの判定
-//--------------------------------------
-void CCollisionManager::HitEnemyToInst(
-    std::vector<CEnemy*>& enemies,
-    VECTOR inst_vec)
-{
-    //--------------------------------------
-    // Enemy全員
-    //--------------------------------------
-    for (auto& enemy : enemies)
-    {
-        if (enemy == nullptr)
-            continue;
-
-       //---------------------------------
-       // クールタイム中
-       //---------------------------------
-        if (enemy->GetHitTime() > 0)
-        {
-            continue;
-        }
-
-        //--------------------------------------
-        // Enemy情報
-        //--------------------------------------
-        VECTOR enemyPos = enemy->GetCenter();
-
-        float enemyRadius = 2.5f;
-
-        //--------------------------------------
-        // 設置物情報
-        //--------------------------------------
-        VECTOR instPos =inst_vec;
-
-        float instRadius = 2.5f;
-
-        //--------------------------------------
-        // 球判定
-        //--------------------------------------
-        if (CHit::CheckSphereToSphere(
-            enemyPos,
-            instPos,
-            enemyRadius,
-            instRadius))
-        {
-            int state = enemy->GetDirect();
-
-            //--------------------------------------
-            // 向き変更
-            //--------------------------------------
-            switch (state)
-            {
-            case 0:
-                enemy->SetDirect(1);
-                break;
-
-            case 1:
-                enemy->SetDirect(2);
-                break;
-
-            case 2:
-                enemy->SetDirect(3);
-                break;
-
-            case 3:
-                enemy->SetDirect(0);
-                break;
-            }
-
-        //---------------------------------
-        // クールタイム開始
-        //---------------------------------
-            enemy->SetHitTime(HIT_TIME);
-        }
-
     }
 }
 
@@ -232,16 +113,14 @@ VECTOR CCollisionManager::HitMap(
             //----------------------------------
             // 床の上面
             //----------------------------------
-            float floorTop =
-                (footY + 1) * TILE_SIZE;
+            float floorTop = (footY + 1) * TILE_SIZE;
 
             //----------------------------------
             // 床にめり込んでいる
             //----------------------------------
             if (footPos < floorTop)
             {
-                result.y =
-                    floorTop - footPos;
+                result.y = floorTop - footPos;
             }
         }
     }
@@ -263,12 +142,9 @@ VECTOR CCollisionManager::HitMap(
             //----------------------------------
             // 範囲外
             //----------------------------------
-            if (checkX < 0 ||
-                checkX >= MAP_W ||
-                checkY < 0 ||
-                checkY >= MAP_Y ||
-                checkZ < 0 ||
-                checkZ >= MAP_H)
+            if (checkX < 0 || checkX >= MAP_W ||
+                checkY < 0 || checkY >= MAP_Y ||
+                checkZ < 0 || checkZ >= MAP_H)
             {
                 continue;
             }
@@ -287,29 +163,16 @@ VECTOR CCollisionManager::HitMap(
             //----------------------------------
             // 壁ワールド座標
             //----------------------------------
-            float worldX =
-                (checkX + 0.5f)
-                * TILE_SIZE;
+            float worldX = (checkX + 0.5f) * TILE_SIZE;
+            float worldY = (checkY + 0.5f) * TILE_SIZE;
+            float worldZ = (checkZ + 0.5f) * TILE_SIZE;
 
-            float worldY =
-                (checkY + 0.5f)
-                * TILE_SIZE;
-
-            float worldZ =
-                (checkZ + 0.5f)
-                * TILE_SIZE;
-
-            VECTOR blockPos =
-                VGet(
-                    worldX,
-                    worldY,
-                    worldZ);
+            VECTOR blockPos = VGet( worldX, worldY, worldZ);
 
             //----------------------------------
             // 壁半径
             //----------------------------------
-            float blockRadius =
-                TILE_SIZE * 0.5f;
+            float blockRadius = TILE_SIZE * 0.5f;
 
             //----------------------------------
             // めり込み量
@@ -319,12 +182,7 @@ VECTOR CCollisionManager::HitMap(
             //----------------------------------
             // 球同士判定
             //----------------------------------
-            if (CHit::CheckSphereToSphere(
-                center,
-                blockPos,
-                radius,
-                blockRadius,
-                &hitLen))
+            if (CHit::CheckSphereToSphere( center, blockPos, radius, blockRadius, &hitLen))
             {
                 //----------------------------------
                 // 押し戻し方向
@@ -341,8 +199,7 @@ VECTOR CCollisionManager::HitMap(
                 //----------------------------------
                 // 0除算防止
                 //----------------------------------
-                if (len <
-                    0.0001f)
+                if (len < 0.0001f)
                 {
                     continue;
                 }
@@ -350,17 +207,13 @@ VECTOR CCollisionManager::HitMap(
                 //----------------------------------
                 // 正規化
                 //----------------------------------
-                dir =
-                    VNorm(dir);
+                dir = VNorm(dir);
 
                 //----------------------------------
                 // 押し戻し
                 //----------------------------------
-                result.x +=
-                    dir.x * hitLen;
-
-                result.z +=
-                    dir.z * hitLen;
+                result.x += dir.x * hitLen;
+                result.z +=  dir.z * hitLen;
             }
         }
     }
@@ -368,112 +221,12 @@ VECTOR CCollisionManager::HitMap(
     return result;
 }
 
-////--------------------------------------
-//// Humanとオブジェクトの当たり判定
-////--------------------------------------
-//VECTOR CCollisionManager::HitHumanToObject(
-//    CHuman& human,
-//    ObjectEditor& object)
-//{
-//    VECTOR result = VGet(0, 0, 0);
-//
-//    const auto& objs =
-//        object.GetObjects();
-//
-//    //--------------------------------------
-//    // Object全検索
-//    //--------------------------------------
-//    for (const auto& obj : objs)
-//    {
-//        //--------------------------------------
-//        // ITEM以外無視
-//        //--------------------------------------
-//        if (obj.type != OBJ_ITEM)
-//            continue;
-//
-//        //--------------------------------------
-//        // ワールド座標
-//        //--------------------------------------
-//        float worldX =
-//            (obj.x + 0.5f) * TILE_SIZE;
-//
-//        float worldY =
-//            (obj.y + 0.5f) * TILE_SIZE;
-//
-//        float worldZ =
-//            (obj.z + 0.5f) * TILE_SIZE;
-//
-//        VECTOR objPos =
-//            VGet(worldX, worldY, worldZ);
-//
-//        //--------------------------------------
-//        // Humanとの距離
-//        //--------------------------------------
-//        VECTOR diff =
-//            VSub(human.GetCenter(), objPos);
-//
-//        diff.y = 0.0f;
-//
-//        float dist =VSize(diff);
-//
-//        //--------------------------------------
-//        // 十分近い
-//        //--------------------------------------
-//        if (dist < TILE_SIZE)
-//        {
-//            int state =
-//                human.GetDirect();
-//
-//            //--------------------------------------
-//            // 向き変更
-//            //--------------------------------------
-//            switch (state)
-//            {
-//            case 0:
-//                human.SetDirect(1);
-//                break;
-//
-//            case 1:
-//                human.SetDirect(2);
-//                break;
-//
-//            case 2:
-//                human.SetDirect(3);
-//                break;
-//
-//            case 3:
-//                human.SetDirect(0);
-//                break;
-//            }
-//
-//            //--------------------------------------
-//            // 少し押し戻す
-//            //--------------------------------------
-//            if (dist > 0.001f)
-//            {
-//                diff = VNorm(diff);
-//
-//                result =
-//                    VScale(diff, 1.0f);
-//            }
-//
-//            //--------------------------------------
-//            // 1回反応したら終了
-//            //--------------------------------------
-//            break;
-//        }
-//    }
-//
-//    return result;
-//}
 
 //--------------------------------------
 // エネミーとオブジェクトの当たり判定
 //--------------------------------------
-VECTOR CCollisionManager::HitEnemyToObject(
-    std::vector<CEnemy*>& enemies,ObjectEditor& object)
+VECTOR CCollisionManager::HitEnemyToObject(std::vector<CEnemy*>& enemies,ObjectEditor& object)
 {
-    m_time--;
 
     VECTOR result = VGet(0, 0, 0);
 
@@ -502,32 +255,21 @@ VECTOR CCollisionManager::HitEnemyToObject(
             if (obj.type != OBJ_ITEM)
                 continue;
 
-            if (m_time >= 0)
-                continue;
-
             //--------------------------------------
             // ワールド座標
             //--------------------------------------
-            float worldX =
-                (obj.x + 0.5f) * TILE_SIZE;
+            float worldX = (obj.x + 0.5f) * TILE_SIZE;
+            float worldY = (obj.y + 0.5f) * TILE_SIZE;
+            float worldZ = (obj.z + 0.5f) * TILE_SIZE;
 
-            float worldY =
-                (obj.y + 0.5f) * TILE_SIZE;
-
-            float worldZ =
-                (obj.z + 0.5f) * TILE_SIZE;
-
-            VECTOR objPos =
-                VGet(worldX, worldY, worldZ);
+            VECTOR objPos = VGet(worldX, worldY, worldZ);
 
             //--------------------------------------
             // 距離
             //--------------------------------------
-            VECTOR diff =
-                VSub(enemy->GetCenter(), objPos);
+            VECTOR diff = VSub(enemy->GetCenter(), objPos);
 
             diff.y = 0.0f;
-
             float dist = VSize(diff);
 
             //--------------------------------------
@@ -537,10 +279,8 @@ VECTOR CCollisionManager::HitEnemyToObject(
             {
                 int state = enemy->GetDirect();
 
-                m_time = SET_TIME;
-
-                switch (state)
-                {
+              switch (state)
+              {
                 case 0:
                     enemy->SetDirect(1);
                     break;
@@ -556,8 +296,8 @@ VECTOR CCollisionManager::HitEnemyToObject(
                 case 3:
                     enemy->SetDirect(0);
                     break;
-                }
-
+              }
+                
                 //--------------------------------------
                 // 少し押し戻す
                 //--------------------------------------
@@ -565,8 +305,7 @@ VECTOR CCollisionManager::HitEnemyToObject(
                 {
                     diff = VNorm(diff);
 
-                    result =
-                        VScale(diff, 0.5f);
+                    result = VScale(diff, 0.5f);
                 }
 
                 //---------------------------------

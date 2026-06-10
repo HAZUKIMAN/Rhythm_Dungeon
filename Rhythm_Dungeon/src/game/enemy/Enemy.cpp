@@ -126,7 +126,7 @@ void CEnemy::Move()
 }
 
 
-void CEnemy::NormalExec(const std::vector<CBlock*>& blocks, std::vector<CInstalledItem*> institem)
+void CEnemy::NormalExec(const std::vector<CBlock*>& blocks, std::vector<CInstalledItem*> institem, float cat_state)
 {
 	if (m_vPosition.y >= MOVE_HIGHT)
 	{
@@ -242,18 +242,21 @@ void CEnemy::NormalExec(const std::vector<CBlock*>& blocks, std::vector<CInstall
 				}
 			}
 
-			for (auto block : institem)
+			if (cat_state != CARRY)
 			{
-				if (block == nullptr)continue;
-				int blockX = (int)floor(block->GetPos().x / TILE_SIZE);
-				int blockZ = (int)floor(block->GetPos().z / TILE_SIZE);
-
-				//---------------------------------
-				// 次マスにある
-				//---------------------------------
-				if (blockX == nextX && blockZ == nextZ)
+				for (auto block : institem)
 				{
-					hitBlock = true;break;
+					if (block == nullptr)continue;
+					int blockX = (int)floor(block->GetPos().x / TILE_SIZE);
+					int blockZ = (int)floor(block->GetPos().z / TILE_SIZE);
+
+					//---------------------------------
+					// 次マスにある
+					//---------------------------------
+					if (blockX == nextX && blockZ == nextZ)
+					{
+						hitBlock = true;break;
+					}
 				}
 			}
 

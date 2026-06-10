@@ -14,9 +14,10 @@ static const float HIGHT_GRID = 2.5f;	// 移動速度
 //-------------------------------
 CSceneGame::CSceneGame()
 {
-	move_box = NONE;
-	m_carryState = PUT_NONE;
-	m_clearSelect = CLEAR_NEXT;
+	move_box		= NONE;
+	m_carryState	= PUT_NONE;
+	m_clearSelect	= CLEAR_NEXT;
+	m_editMode		= EDIT_MAP;
 }
 
 
@@ -37,21 +38,21 @@ void CSceneGame::Init()
 
 	// カメラ初期化
 	m_cameraManager.Init();
+	//ニア・ファー
 	m_cameraManager.SetNearFar(5.0f, 5000.0f);
-
 	// 人間初期化
 	m_human.Init();
 	//// 猫初期化
 	m_cat.Init();
 	// 背景初期化
 	m_backgroundManager.Init();
-	//ゴール
+	//ゴールの初期化
 	m_goal.Init();
-
+	//マップエディターの初期化
 	m_mapedit.Init();
 	m_objEditor.Init();
 
-
+	//--------------------
 	m_bridge.clear();
 	m_institem.clear();
 	m_blocks.clear();
@@ -72,6 +73,10 @@ void CSceneGame::Load()
 
 	Set();
 
+	// カメラ更新処理
+	m_cameraManager.Step(m_cat, m_isGoal);
+
+	CSoundManager::Stop(CSoundManager::SOUNDID_CLEAR_BGM);
 	CSoundManager::Play(CSoundManager::SOUNDID_GAME_BGM, DX_PLAYTYPE_LOOP);
 }
 
@@ -82,16 +87,6 @@ void CSceneGame::Load()
 int CSceneGame::Step()
 {
 	int ret = -1;
-
-	//---------------------------------
-	// ゴール判定
-	//---------------------------------
-	if (CCollisionManager::CheckHithumanToGoal(m_human,m_goal))
-	{
-		CSoundManager::Stop(CSoundManager::SOUNDID_GAME_BGM);
-		CSoundManager::Play(CSoundManager::SOUNDID_CLEAR_BGM, DX_PLAYTYPE_LOOP);
-		m_isGoal = true;
-	}
 
 	//---------------------------------
 	// リセット
@@ -127,7 +122,6 @@ int CSceneGame::Step()
 		//---------------------------------
 		if (Input::Key::Push(KEY_INPUT_RETURN) || Input::Controller::Push(XINPUT_BUTTON_B))
 		{
-
 			CSoundManager::Stop(CSoundManager::SOUNDID_GAME_BGM);
 
 			//---------------------------------
@@ -160,10 +154,16 @@ int CSceneGame::Step()
 			//---------------------------------
 			if (m_clearSelect == CLEAR_SELECT)
 			{
+				CSoundManager::StopAll();
 				CSoundManager::Play(CSoundManager::SOUNDID_SE_ENTER, DX_PLAYTYPE_BACK);
 				return SCENEID_SELECT;
 			}
 		}
+
+		// 各種更新	
+		m_human.Update();
+		// 猫の更新
+		m_cat.Update();
 
 		//---------------------------------
 		// クリア中は停止
@@ -172,9 +172,30 @@ int CSceneGame::Step()
 	}
 
 	//---------------------------------
+	// ゴール判定
+	//---------------------------------
+	if (CCollisionManager::CheckHithumanToGoal(m_human, m_goal) && !m_isGoal)
+	{
+		CSoundManager::Stop(CSoundManager::SOUNDID_GAME_BGM);
+		CSoundManager::Play(CSoundManager::SOUNDID_CLEAR_BGM, DX_PLAYTYPE_LOOP);
+
+		//humanのクリア処理
+		m_human.Clear();
+		//猫のクリア処理
+		m_cat.Clear();
+
+		m_isGoal = true;
+	}
+
+	// カメラ更新処理
+	m_cameraManager.Step(m_cat, m_isGoal);
+	m_cameraManager.Update();
+
+	//---------------------------------
 	// 通常更新
 	//---------------------------------
 	Calc();
+
 
 	return ret;
 }
@@ -310,14 +331,9 @@ void CSceneGame::Set()
 		//---------------------------
 		if (obj.type == OBJ_ENEMY)
 		{
-			float worldpos_x =
-				(obj.x + 0.5f) * TILE_SIZE;
-
-			float worldpos_y =
-				(obj.y + 0.5f) * TILE_SIZE;
-
-			float worldpos_z =
-				(obj.z + 0.5f) * TILE_SIZE;
+			float worldpos_x =(obj.x + 0.5f) * TILE_SIZE;
+			float worldpos_y =(obj.y + 0.5f) * TILE_SIZE;
+			float worldpos_z =(obj.z + 0.5f) * TILE_SIZE;
 
 			VECTOR pos =
 				VGet(worldpos_x,worldpos_y,worldpos_z);
@@ -421,14 +437,17 @@ void CSceneGame::Set()
 //-------------------------------
 void CSceneGame::Draw()
 {
+	//空の描画
 	m_backgroundManager.Draw();
-
+	//マップの描画
 	m_mapedit.Draw();
-	m_objEditor.Draw();
-
+	//カメラの描画
 	m_cameraManager.Draw();
-	m_human.Draw();
+	//humanの描画
+	m_human.Draw();	
+	//猫の描画
 	m_cat.Draw();
+	//猫の目の前の描画
 	m_cat.DrawPlaceBlockPreview(m_mapedit);
 	
 	//運べるブロックの描画
@@ -455,8 +474,28 @@ void CSceneGame::Draw()
 		bridge->Draw();
 	}
 
-	m_goal.Draw();		//ゴール
+	//ゴールの描画
+	m_goal.Draw();
 
+	//-------------------------------------
+	// エディターモードの描画
+	//-------------------------------------
+	if (m_cameraManager.GetCameraID() == CCameraManager::CAMERA_ID_EDITOR)
+	{
+		m_objEditor.Draw();
+		DrawString(1220, 300, "TABで切り替え", WHITE);
+
+		if (m_editMode == EDIT_MAP)
+		{
+			DrawString(1220, 320, "MAP EDIT MODE", GREEN);
+		}
+		else
+		{
+			DrawString(1220, 320, "OBJECT EDIT MODE", YELLOW);
+		}
+	}
+
+	//ゴールした時のクリア後の選択描画
 	if (m_isGoal)
 	{
 		DrawBox(200,150,600,450,GetColor(0, 0, 0),TRUE);
@@ -466,6 +505,7 @@ void CSceneGame::Draw()
 		// 次ステージ
 		//---------------------------------
 		DrawString(280,260,m_clearSelect== CLEAR_NEXT? "> NEXT STAGE": "NEXT STAGE",WHITE);
+
 		//---------------------------------
 		// セレクト
 		//---------------------------------
@@ -474,7 +514,6 @@ void CSceneGame::Draw()
 
 	//カメラの切り替え表示
 	DrawFormatString(1200,20,WHITE,"デバックカメラ切り替え処理:Key C \nエディターカメラ切り替え処理:Key B\nプレイカメラへの切り替え:key V");
-
 	DrawFormatString(700, 100, RED, "人間のＸ軸：%f\n 人間のY軸：%f\n人間のZ軸：%f", m_human.GetPos().x, m_human.GetPos().y, m_human.GetPos().z);
 }
 
@@ -484,11 +523,17 @@ void CSceneGame::Draw()
 //-------------------------------
 void CSceneGame::Fin()
 {
+	// カメラの終了処理	
 	m_cameraManager.Fin();
+	// humanの終了処理	
 	m_human.Fin();
+	// 猫の終了処理	
 	m_cat.Fin();
+	// 空の終了処理	
 	m_backgroundManager.Fin();
+	// マップエディターの終了処理	
 	m_mapedit.Fin();
+	// オブジェクトエディターの終了処理	
 	m_objEditor.Fin();
 
 	//ブロックの削除
@@ -509,9 +554,6 @@ void CSceneGame::Fin()
 		bridge->Fin();
 	}
 
-	/*m_enemyManager.Fin();
-	m_shotManager.Fin();
-	m_backgroundManager.Fin();*/
 }
 
 
@@ -534,22 +576,19 @@ void CSceneGame::Calc()
 		// 猫の更新処理
 		m_cat.Step(m_mapedit);
 
-
-		//猫物を運ぶ処理全般
+		//猫が物を運ぶ処理全般
 		CatCrry();
 		CatCrryToBridge();
 		
 		// 待機･移動中処理 
-		m_human.NormalExec(m_blocks, m_institem);
+		m_human.NormalExec(m_blocks, m_institem, move_box);
 
-		for (auto& enemy : m_enemy) { enemy->NormalExec(m_blocks,m_institem); }
+		for (auto& enemy : m_enemy) { enemy->NormalExec(m_blocks,m_institem, move_box); }
 
 		//  人間と床と壁との当たり判定
 		m_human.AddPos(CCollisionManager::HitMap(m_human.GetCenter(), m_human.GetRadius(), m_mapedit));
 
-		// オブジェクト一覧と人間の当たり判定
-		//m_human.AddPos(CCollisionManager::HitHumanToObject(m_human, m_objEditor));
-
+		//エネミーとオブジェクトの当たり判定
 		CCollisionManager::HitEnemyToObject(m_enemy, m_objEditor);
 
 		//  猫と床と壁との当たり判定
@@ -561,18 +600,14 @@ void CSceneGame::Calc()
 		//エネミーとマップの当たり判定
 		for (auto& enemy : m_enemy)
 		{
-			VECTOR hit =
-				CCollisionManager::HitMap(enemy->GetCenter(),enemy->GetRadius(),m_mapedit);
-
+			VECTOR hit =CCollisionManager::HitMap(enemy->GetCenter(),enemy->GetRadius(),m_mapedit);
 			enemy->AddPos(hit);
 
 			CCollisionManager::CheckHithumanToEnemy(m_human, enemy);
-
 		}
 
-		// 各種更新
+		// 各種更新	
 		m_human.Update();
-
 		// 猫の更新
 		m_cat.Update();
 
@@ -604,34 +639,56 @@ void CSceneGame::Calc()
 		}
 	}
 
+	//エディター時の切り替え処理
 	if (m_cameraManager.GetCameraID() == CCameraManager::CAMERA_ID_EDITOR)
 	{
-		m_mapedit.Step(m_objEditor);
-		m_mapedit.Update();
-		m_objEditor.Step();
-		m_objEditor.Update();
+		//---------------------------------
+		// 編集モード切り替え
+		//---------------------------------
+		if (Input::Key::Push(KEY_INPUT_TAB))
+		{
+			if (m_editMode ==EDIT_MAP)
+			{
+				m_editMode = EDIT_OBJECT;
+			}
+			else
+			{
+				m_editMode = EDIT_MAP;
+			}
+		}
+
+		if (m_editMode == EDIT_OBJECT)
+		{
+			m_objEditor.Step();
+			m_objEditor.Update();
+
+		}
+		if (m_editMode == EDIT_MAP)
+		{
+			m_mapedit.Step(m_objEditor);
+			m_mapedit.Update();
+		}
 	}
-	
 
 	//デバックカメラ切り替え処理
 	if (Input::Key::Push(KEY_INPUT_C))
 		m_cameraManager.ChangeCamera(CCameraManager::CAMERA_ID_DEBUG);
 	//エディターカメラ切り替え処理
 	if (Input::Key::Push(KEY_INPUT_B))
+	{
 		m_cameraManager.ChangeCamera(CCameraManager::CAMERA_ID_EDITOR);
+		CSoundManager::StopAll();
+	}
 	//プレイカメラへの切り替え
 	else if (Input::Key::Push(KEY_INPUT_V))
 		m_cameraManager.ChangeCamera(CCameraManager::CAMERA_ID_PLAY);
 
-
-
-	// カメラ更新処理
-	m_cameraManager.Step(m_cat);
-	m_cameraManager.Update();
-
-
 }
 
+
+//-------------------------------
+// 猫がブロックを運ぶ処理
+//-------------------------------
 void CSceneGame::CatCrry()
 {
 	//--------------------------------------------
@@ -657,7 +714,7 @@ void CSceneGame::CatCrry()
 				if (Input::Key::Push(KEY_INPUT_J) || Input::Controller::Push(XINPUT_BUTTON_A))
 				{
 					move_box = CARRY;
-
+					CSoundManager::Play(CSoundManager::SOUNDID_SE_CARRY, DX_PLAYTYPE_BACK);
 					//---------------------------------
 					// 持つ箱を記憶
 					//---------------------------------
@@ -672,8 +729,7 @@ void CSceneGame::CatCrry()
 	//--------------------------------------------
 	// 箱を持っている
 	//--------------------------------------------
-	if (move_box == CARRY &&
-		m_carryItem != nullptr)
+	if (move_box == CARRY && m_carryItem != nullptr)
 	{
 		//---------------------------------
 		// 猫についてくる
@@ -691,6 +747,8 @@ void CSceneGame::CatCrry()
 		//---------------------------------
 		if (Input::Key::Push(KEY_INPUT_G) || Input::Controller::Push(XINPUT_BUTTON_B))
 		{
+			CSoundManager::Play(CSoundManager::SOUNDID_SE_PUT, DX_PLAYTYPE_BACK);
+
 			//---------------------------------
 			// 設置位置を作る
 			//---------------------------------
@@ -746,24 +804,13 @@ void CSceneGame::CatCrry()
 			m_carryItem = nullptr;
 		}
 
-		//--------------------------------------------
-		// 持ってない時だけ当たり判定
-		//--------------------------------------------
-		if (move_box == NONE)
-		{
-			for (auto& institem : m_institem)
-			{
-				CCollisionManager::HitHumanToInst(
-					m_human, institem->GetPos());
-
-				CCollisionManager::HitEnemyToInst(
-					m_enemy, institem->GetPos());
-			}
-		}
-
 	}
 }
 
+
+//-------------------------------
+// 猫が橋を運ぶ処理
+//-------------------------------
 void CSceneGame::CatCrryToBridge()
 {
 	//--------------------------------------
@@ -794,6 +841,7 @@ void CSceneGame::CatCrryToBridge()
 			{
 				if (Input::Key::Push(KEY_INPUT_J) || Input::Controller::Push(XINPUT_BUTTON_A))
 				{
+					CSoundManager::Play(CSoundManager::SOUNDID_SE_CARRY, DX_PLAYTYPE_BACK);
 					//---------------------------------
 					// 橋のマップ座標取得
 					//---------------------------------
@@ -866,6 +914,8 @@ void CSceneGame::CatCrryToBridge()
 		//---------------------------------
 		if (Input::Key::Push(KEY_INPUT_G) || Input::Controller::Push(XINPUT_BUTTON_B))
 		{
+			CSoundManager::Play(CSoundManager::SOUNDID_SE_PUT, DX_PLAYTYPE_BACK);
+
 			//---------------------------------
 			// 猫座標
 			//---------------------------------
@@ -936,8 +986,7 @@ void CSceneGame::CatCrryToBridge()
 					landZ,
 					landX);
 
-			if (tile != TILE_FLOOR &&
-				tile != TILE_FLOOR2)
+			if (tile != TILE_FLOOR && tile != TILE_FLOOR2)
 			{
 				return;
 			}
@@ -1002,15 +1051,17 @@ void CSceneGame::CatCrryToBridge()
 			//---------------------------------
 			// 手放す
 			//---------------------------------
-			m_carryBridge =
-				nullptr;
+			m_carryBridge =nullptr;
+			m_carryState =PUT_NONE;
 
-			m_carryState =
-				PUT_NONE;
 		}
 	}
 }
 
+
+//-------------------------------
+// 初期位置にリセットさせる処理
+//-------------------------------
 void CSceneGame::Reset()
 {
 	//---------------------------------

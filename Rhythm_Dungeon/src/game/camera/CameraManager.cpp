@@ -47,6 +47,7 @@ void CCameraManager::Init()
 	{
 		cam->Init(DEFAULT_EYE_POS, DEFAULT_FOCUS_POS, DEFAULT_UP_VEC);
 	}
+	Update();
 }
 
 
@@ -65,10 +66,10 @@ void CCameraManager::Fin()
 //-------------------------------
 //		毎フレーム呼ぶ処理
 //-------------------------------
-void CCameraManager::Step(CCat& cat)
+void CCameraManager::Step(CCat& cat,bool clear)
 {
 	// カメラのタイプに合わせて、更新処理を変更する
-	m_cam[m_eCurrentCameraID]->Step(cat);
+	m_cam[m_eCurrentCameraID]->Step(cat,clear);
 }
 
 

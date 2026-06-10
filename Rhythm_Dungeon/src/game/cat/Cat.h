@@ -70,6 +70,7 @@ private:
 		WALL_Z     // 前後の壁
 	};
 
+
 public:
 	// コンストラクタ・デストラクタ
 	CCat();
@@ -90,7 +91,8 @@ public:
 	void DrawPlaceBlockPreview(MapEditor& map);
 	// 猫の向き取得
 	int GetDirection();
-
+	//クリアしたとき
+	void Clear();
 private:
 
 	// 移動計算結果を反映

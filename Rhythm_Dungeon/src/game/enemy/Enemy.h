@@ -26,6 +26,12 @@ private:
 
 	tagDirection direction;
 
+	enum tagMove
+	{
+		NONE,
+		CARRY,
+		PUT,
+	};
 
 private:
 
@@ -64,5 +70,5 @@ private:
 
 public:
 	// ‘Ò‹@¥ˆÚ“®’†ˆ—
-	void NormalExec(const std::vector<CBlock*>& blocks, std::vector<CInstalledItem*> institem);
+	void NormalExec(const std::vector<CBlock*>& blocks, std::vector<CInstalledItem*> institem, float cat_state);
 };

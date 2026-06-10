@@ -45,32 +45,16 @@ public:
 	CCollisionManager();
 
 	// ゴールと人間の当たり判定
-	static bool CheckHithumanToGoal(CHuman& human,
-		CGoal& inst);
+	static bool CheckHithumanToGoal(CHuman& human,CGoal& inst);
 
 	//人間とエネミーの当たり判定
-	static void CheckHithumanToEnemy(CHuman& human,
-		CEnemy* enemy);
+	static void CheckHithumanToEnemy(CHuman& human,CEnemy* enemy);
 
-	//人間と配置可能なオブジェクトの計算
-	static void HitHumanToInst(CHuman& human,
-		VECTOR inst_vec);
-
-	//エネミー配置可能なオブジェクトの計算
-	static void HitEnemyToInst(std::vector<CEnemy*>& enemies, VECTOR inst_vec);
-
-	//人間とオブジェクトの計算
-	static VECTOR HitHumanToObject(CHuman& human,
-		ObjectEditor& object);
-
-	//--------------------------------------
 	// エネミーとオブジェクトの当たり判定
-	//--------------------------------------
 	static VECTOR HitEnemyToObject(std::vector<CEnemy*>& enemies, ObjectEditor& object);
 
 	//人間の座標をマップ座標にして計算を行う
 	static VECTOR HitMap( VECTOR center, float radius, MapEditor& map);
 
-	//壁とエネミーの当たり判定
 };
 

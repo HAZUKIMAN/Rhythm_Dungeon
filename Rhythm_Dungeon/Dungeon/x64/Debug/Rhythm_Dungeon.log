@@ -1,2 +1,15 @@
-﻿  Data.cpp
-  Rhythm_Dungeon.vcxproj -> C:\Users\2409407\Desktop\Rhythm_Dungeon\Rhythm_Dungeon\x64\Debug\Dungeon.exe
+﻿  SceneGame.cpp
+C:\Users\2409407\Desktop\Github\Rhythm_Dungeon\Rhythm_Dungeon\src\lib\sound\SoundManager.h(11,14): warning C4091: 'static ': 変数が何も宣言されていないときは、'CSoundManager::tagSoundID' の左辺を無視します。
+  (ソース ファイル 'src/game/scene/SceneGame.cpp' をコンパイルしています)
+  
+C:\Users\2409407\Desktop\Github\Rhythm_Dungeon\Rhythm_Dungeon\src\game\scene\SceneGame.cpp(233,17): warning C4244: '=': 'double' から 'float' への変換です。データが失われる可能性があります。
+C:\Users\2409407\Desktop\Github\Rhythm_Dungeon\Rhythm_Dungeon\src\game\scene\SceneGame.cpp(373,17): warning C4244: '=': 'double' から 'float' への変換です。データが失われる可能性があります。
+C:\Users\2409407\Desktop\Github\Rhythm_Dungeon\Rhythm_Dungeon\src\game\scene\SceneGame.cpp(584,44): warning C4244: '引数': 'CSceneGame::tagMove' から 'float' への変換です。データが失われる可能性があります。
+C:\Users\2409407\Desktop\Github\Rhythm_Dungeon\Rhythm_Dungeon\src\game\scene\SceneGame.cpp(586,72): warning C4244: '引数': 'CSceneGame::tagMove' から 'float' への変換です。データが失われる可能性があります。
+C:\Users\2409407\Desktop\Github\Rhythm_Dungeon\Rhythm_Dungeon\src\game\scene\SceneGame.cpp(595,62): warning C4244: '引数': 'double' から 'float' への変換です。データが失われる可能性があります。
+C:\Users\2409407\Desktop\Github\Rhythm_Dungeon\Rhythm_Dungeon\src\game\scene\SceneGame.cpp(1020,16): warning C4244: '=': 'double' から 'float' への変換です。データが失われる可能性があります。
+C:\Users\2409407\Desktop\Github\Rhythm_Dungeon\Rhythm_Dungeon\src\game\scene\SceneGame.cpp(1173,17): warning C4244: '=': 'double' から 'float' への変換です。データが失われる可能性があります。
+C:\Users\2409407\Desktop\Github\Rhythm_Dungeon\Rhythm_Dungeon\src\game\scene\SceneGame.cpp(1280,17): warning C4244: '=': 'double' から 'float' への変換です。データが失われる可能性があります。
+  SceneManager.cpp
+  コードを生成中...
+  Rhythm_Dungeon.vcxproj -> C:\Users\2409407\Desktop\Github\Rhythm_Dungeon\Rhythm_Dungeon\x64\Debug\Dungeon.exe

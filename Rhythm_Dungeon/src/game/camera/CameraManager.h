@@ -34,7 +34,7 @@ public:
 	// 終了処理
 	void Fin();
 	// 更新処理
-	void Step(CCat& cat);
+	void Step(CCat& cat, bool clear);
 	// 更新処理
 	void Update();
 	// 描画処理

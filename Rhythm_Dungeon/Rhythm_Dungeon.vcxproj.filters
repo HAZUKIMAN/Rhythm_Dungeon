@@ -106,6 +106,12 @@
     <Filter Include="ソース ファイル\lib\system">
       <UniqueIdentifier>{c50e65d5-a437-460a-b424-b8d24bdaff5b}</UniqueIdentifier>
     </Filter>
+    <Filter Include="ソース ファイル\lib\effect">
+      <UniqueIdentifier>{7fa3ee38-3332-4cab-a8fa-ca5706366925}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ソース ファイル\game\Editor\rail">
+      <UniqueIdentifier>{90c83f92-1de3-4a57-bebb-d9113f53c6fa}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\Main.cpp">
@@ -217,7 +223,10 @@
       <Filter>ソース ファイル\lib\system</Filter>
     </ClCompile>
     <ClCompile Include="src\lib\sound\effectData\effectData.cpp">
-      <Filter>ソース ファイル\lib\system</Filter>
+      <Filter>ソース ファイル\lib\effect</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\..\Downloads\A1Team\A1Team\GameProject\Source\Game\Gimmick\Rail.cpp">
+      <Filter>ソース ファイル\game\Editor\rail</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -333,7 +342,10 @@
       <Filter>ソース ファイル\lib\system</Filter>
     </ClInclude>
     <ClInclude Include="src\lib\sound\effectData\effectData.h">
-      <Filter>ソース ファイル\lib\system</Filter>
+      <Filter>ソース ファイル\lib\effect</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\..\Downloads\A1Team\A1Team\GameProject\Source\Game\Gimmick\Rail.h">
+      <Filter>ソース ファイル\game\Editor\rail</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

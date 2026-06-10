@@ -13,7 +13,7 @@ public:
 	~CPlayCamera() override;
 
 	// –ˆƒtƒŒ[ƒ€ŒÄ‚Ôˆ—
-	void Step(CCat& cat) override;
+	void Step(CCat& cat, bool clear) override;
 
 	void ControlCan(VECTOR targetPos);
 };

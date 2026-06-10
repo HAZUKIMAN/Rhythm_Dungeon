@@ -70,7 +70,6 @@ public:
         return STAGE_PATH[m_selectStage];
     }
 
-
     void NextStage();
     int GetStageCount();
 
@@ -79,13 +78,9 @@ private:
     Data();
     ~Data();
 
-   /* Data(const Data& other);
-
-    Data operator = (const Data& other);*/
-
     static Data* m_instance;
 
 private:
 
-    int m_selectStage = 0;// 選択ステージ
+    int m_selectStage;// 選択ステージ
 };

@@ -11,8 +11,8 @@ private:
 
 	enum taghumanState {
 		HUMAN_STATE_NORMAL,	// 待機
-		HUMAN_STATE_RUN,		// 歩き中
-		HUMAN_STATE_HIT,		// ジャンプ中
+		HUMAN_STATE_RUN,	// 歩き中
+		HUMAN_STATE_HIT,	// ジャンプ中
 
 		HUMAN_STATE_NUM
 	};
@@ -27,6 +27,12 @@ private:
 
 	tagDirection direction;
 
+	enum tagMove
+	{
+		NONE,
+		CARRY,
+		PUT,
+	};
 
 private:
 
@@ -63,13 +69,12 @@ public:
 	float Setrot(float rot) { return m_setrot = rot; }
 	//リセット用
 	void Reset();
-
 	// 当たり判定後の処理
 	void HitCalc();
-
 	//方向の確保
 	int  GetDirect() { return direction; }
-
+	//クリアしたとき
+	void Clear();
 private:
 	// 移動角度処理
 	void Direction();
@@ -78,5 +83,5 @@ private:
 
 public:
 	// 待機･移動中処理
-	void NormalExec(std::vector<CBlock*>& blocks, std::vector<CInstalledItem*> institem);
+	void NormalExec(std::vector<CBlock*>& blocks, std::vector<CInstalledItem*> institem, float cat_state);
 };

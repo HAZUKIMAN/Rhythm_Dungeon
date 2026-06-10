@@ -195,14 +195,13 @@ void MapEditor::Draw()
     for (auto& inst : instances)
     {
         MV1SetPosition(inst.m_iModelHdl, inst.m_vPosition);
-
         MV1DrawModel(inst.m_iModelHdl);
     }
+
     //---------------------------------
     // UI
     //---------------------------------
     DrawFormatString(100, 100, RED, "Curredwwant Y : %d", m_currentY);
-
     DrawString(100,130,"Q/E : Height Change",RED);
 }
 
@@ -227,29 +226,21 @@ void MapEditor::Fin()
 void MapEditor::SaveMap(const char* filename,  ObjectEditor& objectEditor)
 {
     FILE* fp = nullptr;
-
     fopen_s(&fp, filename, "wb");
-
     if (!fp) return;
 
     //---------------------------------
     // マップ保存
     //---------------------------------
-    fwrite(map,
-        sizeof(int),
-        MAP_W * MAP_H * MAP_Y,
-        fp);
+    fwrite(map, sizeof(int), MAP_W * MAP_H * MAP_Y, fp);
 
     //---------------------------------
     // オブジェクト保存
     //---------------------------------
-    const auto& objs =
-        objectEditor.GetObjects();
-
+    const auto& objs = objectEditor.GetObjects();
     int objCount = (int)objs.size();
 
-    fwrite(&objCount,
-        sizeof(int), 1, fp);
+    fwrite(&objCount, sizeof(int), 1, fp);
 
     for (auto& obj : objs)
     {
@@ -273,18 +264,13 @@ void MapEditor::LoadMap(const char* filename, ObjectEditor& objectEditor)
 
     if (!fp)
     {
-        printf("マップ読み込み失敗\n");
-        return;
+        printf("マップ読み込み失敗\n"); return;
     }
 
     //---------------------------------
     // マップ読み込み
     //---------------------------------
-    fread(
-        map,
-        sizeof(int),
-        MAP_W * MAP_H * MAP_Y,
-        fp);
+    fread(map,sizeof(int),MAP_W * MAP_H * MAP_Y,fp);
 
     //---------------------------------
     // オブジェクト削除
@@ -296,7 +282,7 @@ void MapEditor::LoadMap(const char* filename, ObjectEditor& objectEditor)
     //---------------------------------
     int objCount = 0;
 
-    fread( &objCount, sizeof(int), 1, fp);
+    fread(&objCount, sizeof(int), 1, fp);
 
     //---------------------------------
     // オブジェクト読み込み

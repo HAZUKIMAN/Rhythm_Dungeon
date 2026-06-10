@@ -23,18 +23,17 @@ private:
 
 private:
 
-	CHuman m_human;							// 人間処理
-	CCameraManager m_cameraManager;			// カメラマネージャ
-	CCat m_cat;								//猫（操作キャラ）
-	std::vector < CInstalledItem*> m_institem;//運べる用のオブジェクト
-	std::vector<CBlock*> m_blocks;			// 設置ブロック
-	CBackGroundManager m_backgroundManager;	// 背景
-	std::vector<CEnemy*> m_enemy;			//エネミー
-	std::vector<CBridge*> m_bridge;			//橋
-	MapEditor m_mapedit;					//マップエディター
-	ObjectEditor m_objEditor;				//オブジェクトエディター
-
-	CGoal m_goal;							//ゴール
+	CHuman m_human;								// 人間処理
+	CCameraManager m_cameraManager;				// カメラマネージャ
+	CCat m_cat;									//猫（操作キャラ）
+	std::vector < CInstalledItem*> m_institem;	//運べる用のオブジェクト
+	std::vector<CBlock*> m_blocks;				// 設置ブロック
+	CBackGroundManager m_backgroundManager;		// 背景
+	std::vector<CEnemy*> m_enemy;				//エネミー
+	std::vector<CBridge*> m_bridge;				//橋
+	MapEditor m_mapedit;						//マップエディター
+	ObjectEditor m_objEditor;					//オブジェクトエディター
+	CGoal m_goal;								//ゴール
 public:
 	CSceneGame();
 	~CSceneGame();
@@ -89,6 +88,14 @@ private:
 		CARRY,
 		PUT,
 	};
+
+	enum EditMode
+	{
+		EDIT_MAP,
+		EDIT_OBJECT
+	};
+
+	EditMode m_editMode;
 
 	enum tagDirection
 	{

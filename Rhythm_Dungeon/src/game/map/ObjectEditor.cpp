@@ -124,6 +124,10 @@ int ObjectEditor::Step()
 void ObjectEditor::Update()
 {
     VECTOR hitPos;
+    //---------------------------------
+   // マウス
+   //---------------------------------
+    int mouseState = GetMouseInput();
 
     //---------------------------------
     // マウス位置取得
@@ -140,13 +144,13 @@ void ObjectEditor::Update()
         {
 
             // 設置
-            if (Input::Key::Push(KEY_INPUT_O))
+            if (mouseState & MOUSE_INPUT_LEFT)
             {
                 AddObject(gx, m_currentY, gz, objstate);
             }
 
             // 削除
-            if (Input::Key::Push(KEY_INPUT_U))
+            if (mouseState & MOUSE_INPUT_MIDDLE)
             {
                 RemoveObject(gx, m_currentY, gz);
                 if (m_currentY >= MAP_Y)
@@ -188,8 +192,7 @@ void ObjectEditor::Draw()
     //---------------------------------
     // 現在の選択オブジェクト表示
     //---------------------------------
-    DrawBox(1200, 180, 1550, 320, GetColor(30, 30, 30), TRUE);
-    DrawBox(1200, 180, 1550, 320, WHITE, FALSE);
+    DrawBox(1200, 180, 1550, 360, GetColor(20, 20, 20), TRUE);
 
     DrawFormatString( 1220, 200, WHITE,"現在のオブジェクト");
 
@@ -224,7 +227,7 @@ void ObjectEditor::Draw()
         break;
 
     case OBJ_BRIDGE:
-        DrawFormatString(1220, 240, ORANGE, "ORANGE");
+        DrawFormatString(1220, 240, ORANGE, "BRIDGE");
         break;
     }
 
@@ -268,7 +271,6 @@ void ObjectEditor::Draw()
     // 操作説明
     //---------------------------------
     DrawBox(20, 600, 450, 850, GetColor(20, 20, 20), TRUE);
-    DrawBox(20, 600, 450, 850, WHITE, FALSE);
 
     DrawString(40, 620, "[1] オブジェクト変更", WHITE);
     DrawString(40, 650, "[↑↓] 高さ変更", WHITE);
@@ -363,9 +365,7 @@ void ObjectEditor::DrawObjects()
         // グリッド→ワールド
         //---------------------------------
         float worldX = (obj.x + 0.5f)* TILE_SIZE;
-
         float worldY = (obj.y * TILE_SIZE);
-
         float worldZ = (obj.z + 0.5f)* TILE_SIZE;
 
         VECTOR pos = VGet(worldX, worldY, worldZ);
@@ -538,8 +538,8 @@ void ObjectEditor::DrawSelectedTile()
            // 向き表示
            //---------------------------------
             VECTOR center = VGet((x0 + x1) * 0.5f, y1 + 0.5f, (z0 + z1) * 0.5f);
-            VECTOR dir;
 
+            VECTOR dir;
             dir.x = -sinf(m_currentRotY) * TILE_SIZE * 0.5f;
             dir.y = 0.0f;
             dir.z = -cosf(m_currentRotY) * TILE_SIZE * 0.5f;
@@ -551,8 +551,7 @@ void ObjectEditor::DrawSelectedTile()
     }
 }
 
-void ObjectEditor::AddLoadedObject(
-    const Object& obj)
+void ObjectEditor::AddLoadedObject(const Object& obj)
 {
     objects.push_back(obj);
 }
