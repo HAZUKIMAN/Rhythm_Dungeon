@@ -1,5 +1,5 @@
 #pragma once
-#include "../Object/Object.h"
+#include "../../lib/object/Object.h"
 
 class CInstalledItem : public CObject {
 private:

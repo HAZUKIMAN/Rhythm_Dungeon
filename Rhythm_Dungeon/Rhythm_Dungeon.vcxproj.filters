@@ -34,9 +34,6 @@
     <Filter Include="ソース ファイル\game\score">
       <UniqueIdentifier>{b2a191e8-0e9b-48af-adf1-0a733a823ede}</UniqueIdentifier>
     </Filter>
-    <Filter Include="ソース ファイル\game\system">
-      <UniqueIdentifier>{a17299cf-c905-47dc-8f2a-41481aac919f}</UniqueIdentifier>
-    </Filter>
     <Filter Include="ソース ファイル\game\scene">
       <UniqueIdentifier>{9186c726-c435-4437-9f60-b388209c9393}</UniqueIdentifier>
     </Filter>
@@ -91,9 +88,6 @@
     <Filter Include="ソース ファイル\game\field\Block">
       <UniqueIdentifier>{33e842d5-0097-4259-a2e2-03a2e9bd8116}</UniqueIdentifier>
     </Filter>
-    <Filter Include="ソース ファイル\game\scene\clear">
-      <UniqueIdentifier>{22d609e9-9ec1-4779-b641-df20f5eac8b6}</UniqueIdentifier>
-    </Filter>
     <Filter Include="ソース ファイル\game\scene\select">
       <UniqueIdentifier>{d96c5ce3-deb7-4f4f-9bfb-5c0771e3caf4}</UniqueIdentifier>
     </Filter>
@@ -105,6 +99,12 @@
     </Filter>
     <Filter Include="ソース ファイル\game\field\Bridge">
       <UniqueIdentifier>{9a5e1968-9030-4c5f-aabd-e0f662507cbc}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ソース ファイル\lib\object">
+      <UniqueIdentifier>{c97a461d-679d-4996-b696-ebe52a765c21}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ソース ファイル\lib\system">
+      <UniqueIdentifier>{c50e65d5-a437-460a-b424-b8d24bdaff5b}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -129,9 +129,6 @@
     <ClCompile Include="src\lib\fade\Fade.cpp">
       <Filter>ソース ファイル\lib\fade</Filter>
     </ClCompile>
-    <ClCompile Include="src\game\system\SoundManager.cpp">
-      <Filter>ソース ファイル\game\system</Filter>
-    </ClCompile>
     <ClCompile Include="src\game\score\Score.cpp">
       <Filter>ソース ファイル\game\score</Filter>
     </ClCompile>
@@ -155,9 +152,6 @@
     </ClCompile>
     <ClCompile Include="src\game\camera\PlayCamera.cpp">
       <Filter>ソース ファイル\game\camera</Filter>
-    </ClCompile>
-    <ClCompile Include="src\game\object\Object.cpp">
-      <Filter>ソース ファイル\game\object</Filter>
     </ClCompile>
     <ClCompile Include="src\game\object\Actor.cpp">
       <Filter>ソース ファイル\game\object</Filter>
@@ -204,9 +198,6 @@
     <ClCompile Include="src\game\enemy\Enemy.cpp">
       <Filter>ソース ファイル\game\character\enemy</Filter>
     </ClCompile>
-    <ClCompile Include="src\game\scene\SceneClear.cpp">
-      <Filter>ソース ファイル\game\scene\clear</Filter>
-    </ClCompile>
     <ClCompile Include="src\game\scene\SceneSelect.cpp">
       <Filter>ソース ファイル\game\scene\select</Filter>
     </ClCompile>
@@ -218,6 +209,15 @@
     </ClCompile>
     <ClCompile Include="src\game\bridge\Bridge.cpp">
       <Filter>ソース ファイル\game\field\Bridge</Filter>
+    </ClCompile>
+    <ClCompile Include="src\lib\object\Object.cpp">
+      <Filter>ソース ファイル\lib\object</Filter>
+    </ClCompile>
+    <ClCompile Include="src\lib\sound\SoundManager.cpp">
+      <Filter>ソース ファイル\lib\system</Filter>
+    </ClCompile>
+    <ClCompile Include="src\lib\sound\effectData\effectData.cpp">
+      <Filter>ソース ファイル\lib\system</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -238,9 +238,6 @@
     </ClInclude>
     <ClInclude Include="src\lib\fade\Fade.h">
       <Filter>ソース ファイル\lib\fade</Filter>
-    </ClInclude>
-    <ClInclude Include="src\game\system\SoundManager.h">
-      <Filter>ソース ファイル\game\system</Filter>
     </ClInclude>
     <ClInclude Include="src\game\score\Score.h">
       <Filter>ソース ファイル\game\score</Filter>
@@ -271,9 +268,6 @@
     </ClInclude>
     <ClInclude Include="src\game\common.h">
       <Filter>ソース ファイル</Filter>
-    </ClInclude>
-    <ClInclude Include="src\game\object\Object.h">
-      <Filter>ソース ファイル\game\object</Filter>
     </ClInclude>
     <ClInclude Include="src\game\object\Actor.h">
       <Filter>ソース ファイル\game\object</Filter>
@@ -320,9 +314,6 @@
     <ClInclude Include="src\game\enemy\Enemy.h">
       <Filter>ソース ファイル\game\character\enemy</Filter>
     </ClInclude>
-    <ClInclude Include="src\game\scene\SceneClear.h">
-      <Filter>ソース ファイル\game\scene\clear</Filter>
-    </ClInclude>
     <ClInclude Include="src\game\scene\SceneSelect.h">
       <Filter>ソース ファイル\game\scene\select</Filter>
     </ClInclude>
@@ -334,6 +325,15 @@
     </ClInclude>
     <ClInclude Include="src\game\bridge\Bridge.h">
       <Filter>ソース ファイル\game\field\Bridge</Filter>
+    </ClInclude>
+    <ClInclude Include="src\lib\object\Object.h">
+      <Filter>ソース ファイル\lib\object</Filter>
+    </ClInclude>
+    <ClInclude Include="src\lib\sound\SoundManager.h">
+      <Filter>ソース ファイル\lib\system</Filter>
+    </ClInclude>
+    <ClInclude Include="src\lib\sound\effectData\effectData.h">
+      <Filter>ソース ファイル\lib\system</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

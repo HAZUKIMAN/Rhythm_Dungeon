@@ -4,8 +4,8 @@
 #include "../../lib/Input/Input.h"
 
 //	定義関連------------------------------
-static const float CAMERA_LENGTH = 50.0f;		// 注視点から視点までの距離
-static const float CAMERA_OFFSET_Y = 20.0f;		// 視点の高さ
+static const float CAMERA_LENGTH = 40.0f;		// 注視点から視点までの距離
+static const float CAMERA_OFFSET_Y = 30.0f;		// 視点の高さ
 //----------------------------------------
 
 
@@ -14,7 +14,8 @@ static const float CAMERA_OFFSET_Y = 20.0f;		// 視点の高さ
 //-------------------------------
 CPlayCamera::CPlayCamera()
 {
-	m_cameraRotY = 3.0f;
+	m_cameraRotY = -DX_PI_F / 4.0f;
+	m_cameraRotX = 3.0f;
 }
 
 
@@ -31,44 +32,67 @@ CPlayCamera::~CPlayCamera()
 //-------------------------------
 void CPlayCamera::Step(CCat& cat)
 {
-    //---------------------------------
-    // プレイヤー位置
-    //---------------------------------
-    VECTOR focus = cat.GetPos();
+ 
+	//---------------------------------
+	// プレイヤー位置
+	//---------------------------------
+	VECTOR focus = cat.GetPos();
 
-    //---------------------------------
-    // カメラ角度（固定）
-    //---------------------------------
-    float rotY = DX_PI_F / 4.0f; // 45度
+	//---------------------------------
+	// 少し上を見る
+	//---------------------------------
+	focus.y += 5.0f;
 
-    //---------------------------------
-    // カメラ距離
-    //---------------------------------
-    float distance = 25.0f;//15
+	//---------------------------------
+	// 右スティックカメラ
+	//---------------------------------
+	ControlCan(focus);
+}
 
-    //---------------------------------
-    // カメラ高さ
-    //---------------------------------
-    float height = 23.0f;
 
-    //---------------------------------
-    // 斜め後ろ位置
-    //---------------------------------
-    VECTOR offset;
+void CPlayCamera::ControlCan(VECTOR targetPos)
+{
+	//---------------------------------
+	// 右スティック取得
+	//---------------------------------
+	float stickX =0.0f;
+	float stickY =0.0f;
 
-    offset.x = sinf(rotY) * distance;
-    offset.y = height;
-    offset.z = -cosf(rotY) * distance;
+	Input::Controller::RStickIncline(stickX,stickY);
 
-    //---------------------------------
-    // カメラ位置
-    //---------------------------------
-    m_pos = VAdd(focus, offset);
+	//---------------------------------
+	// 左右回転のみ
+	//---------------------------------
+	float rotSpeed =0.40f;
 
-    //---------------------------------
-    // 注視点
-    //---------------------------------
-    m_focus = focus;
-    m_focus.y += 5.0f;
+	m_cameraRotY = -DX_PI_F / 4.0f;
+
+	m_cameraRotY += stickX * rotSpeed;
+
+	//---------------------------------
+	// 円状位置
+	//---------------------------------
+	float x = sinf(m_cameraRotY);
+	float z = cosf(m_cameraRotY);
+
+	//---------------------------------
+	// カメラ位置
+	//---------------------------------
+	m_pos =VGet(
+			targetPos.x - x* CAMERA_LENGTH,
+			CAMERA_OFFSET_Y, // ←固定高さ
+			targetPos.z - z* CAMERA_LENGTH);
+
+	//---------------------------------
+	// 注視点
+	//---------------------------------
+	m_focus = targetPos;
+
+	m_focus.y += 5.0f;
+
+	//---------------------------------
+	// カメラ設定
+	//---------------------------------
+	SetCameraPositionAndTarget_UpVecY(m_pos,m_focus);
 }
 

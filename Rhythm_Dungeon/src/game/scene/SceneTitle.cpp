@@ -2,16 +2,19 @@
 #include "SceneTitle.h"
 #include "../Common.h"
 #include "../../lib/Input/Input.h"
+#include "../../lib/sound/SoundManager.h"
 
-static const char FILE_NAME[] = "data/graph/title.png";
-
+static const char BASE_HNDL[] = "Data/Title/Title02.png";
+static const char HUMAN_HNDL[] = "Data/Title/TitleCharacter.png";
+static const char NAME_HNDL[] = "Data/Title/TitleName.png";
 
 //-------------------------------
 //		èâä˙âª
 //-------------------------------
 void CSceneTitle::Init()
 {
-	m_hndl = -1;
+	for(int init=0; init< HNDLNUM; init++)
+	m_hndl[init] = -1;
 }
 
 
@@ -20,8 +23,16 @@ void CSceneTitle::Init()
 //-------------------------------
 void CSceneTitle::Load()
 {
-	if (m_hndl == -1)
-		m_hndl = LoadGraph(FILE_NAME);
+	if (m_hndl[HNDL_BASE] == -1)
+		m_hndl[HNDL_BASE] = LoadGraph(BASE_HNDL);
+
+	if (m_hndl[HNDL_HUMAN] == -1)
+		m_hndl[HNDL_HUMAN] = LoadGraph(HUMAN_HNDL);
+
+	if (m_hndl[HNDL_NAME] == -1)
+		m_hndl[HNDL_NAME] = LoadGraph(NAME_HNDL);
+
+	CSoundManager::Play(CSoundManager::SOUNDID_TITLE_BGM, DX_PLAYTYPE_LOOP);
 }
 
 
@@ -32,7 +43,11 @@ int CSceneTitle::Step()
 {
 	int ret = -1;
 
-	if (Input::Key::Push(KEY_INPUT_Z))ret = SCENEID_SELECT;
+	if (Input::Key::Push(KEY_INPUT_Z) || Input::Controller::Push(XINPUT_BUTTON_B)) 
+	{ ret = SCENEID_SELECT; 
+	CSoundManager::Stop(CSoundManager::SOUNDID_TITLE_BGM);
+	CSoundManager::Play(CSoundManager::SOUNDID_SE_ENTER, DX_PLAYTYPE_BACK);
+	}
 
 	return ret;
 }
@@ -43,7 +58,13 @@ int CSceneTitle::Step()
 //-------------------------------
 void CSceneTitle::Draw()
 {
-	DrawGraph(0, 0, m_hndl, TRUE);
+	/*DrawGraph(WINDOW_WIDTH_HALF, WINDOW_HEIGHT_HALF, m_hndl[HNDL_BASE], TRUE);
+	DrawGraph(WINDOW_WIDTH_HALF, WINDOW_HEIGHT_HALF, m_hndl[HNDL_HUMAN], TRUE);
+	DrawGraph(WINDOW_WIDTH_HALF, WINDOW_HEIGHT_HALF, m_hndl[HNDL_NAME], TRUE);*/
+
+	DrawRotaGraph(WINDOW_WIDTH_HALF, WINDOW_HEIGHT_HALF, 1 , 0 ,m_hndl[HNDL_BASE], TRUE);
+	DrawRotaGraph(WINDOW_WIDTH_HALF, WINDOW_HEIGHT_HALF, 1, 0,m_hndl[HNDL_HUMAN], TRUE,TRUE);
+	DrawRotaGraph(WINDOW_WIDTH_HALF, WINDOW_HEIGHT_HALF, 1, 0,m_hndl[HNDL_NAME], TRUE);
 
 	DrawString(1000, 16 , "Title" , GetColor(255, 0, 0));
 }
@@ -54,9 +75,12 @@ void CSceneTitle::Draw()
 //-------------------------------
 void CSceneTitle::Fin()
 {
-	if (m_hndl != -1)
+	for (int fin = 0; fin < HNDLNUM; fin++)
 	{
-		DeleteGraph(m_hndl);
-		m_hndl = -1;
+		if (m_hndl[fin] != -1)
+		{
+			DeleteGraph(m_hndl[fin]);
+			m_hndl[fin] = -1;
+		}
 	}
 }

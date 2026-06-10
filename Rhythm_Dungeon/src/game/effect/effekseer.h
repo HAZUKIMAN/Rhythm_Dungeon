@@ -138,7 +138,7 @@ public:
 	// À•Wİ’è
 	inline void	SetTrans(VECTOR pos) { m_pos = pos; }
 	// À•Wæ“¾
-	inline VECTOR	GetTrans(void) { return m_pos; }
+	inline VECTOR GetTrans(void) { return m_pos; }
 	// Šg‘åk¬—¦İ’è
 	inline void	SetScale(VECTOR scale) { m_scale = scale; }
 	// Šg‘åk¬—¦æ“¾

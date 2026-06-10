@@ -35,6 +35,7 @@ private:
 		TILE_FLOOR = 1,
 		TILE_WALL = 2,
 		TILE_FLOOR2 = 3,
+		TILE_BRIDGE = 4,
 	};
 
 public:

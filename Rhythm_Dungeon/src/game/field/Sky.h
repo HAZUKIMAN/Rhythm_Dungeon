@@ -1,7 +1,6 @@
 #pragma once
 #include "DxLib.h"
-
-#include "../Object/Object.h"
+#include "../../lib/object/Object.h"
 
 #define NUMBER (2)
 //#define FLAG_NUM	(5)

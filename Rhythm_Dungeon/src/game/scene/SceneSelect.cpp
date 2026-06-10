@@ -3,6 +3,7 @@
 #include "../Common.h"
 #include "../../lib/Input/Input.h"
 #include "../../Data.h"
+#include "../../lib/sound/SoundManager.h"
 
 
 
@@ -14,9 +15,13 @@ static const char FILE_NAME[] = "Data/StageSelect/StageSelectBase.png";
 //-------------------------------
 void CSceneSelect::Init()
 {
-	m_hndl = -1;
+	//---------------------------------
+	// 選択カーソル初期化
+	//---------------------------------
 	m_selectStage = 0;
+	m_hndl = -1;
 	m_stageMax = 9;
+
 }
 
 
@@ -27,6 +32,8 @@ void CSceneSelect::Load()
 {
 	if (m_hndl == -1)
 		m_hndl = LoadGraph(FILE_NAME);
+
+	CSoundManager::Play(CSoundManager::SOUNDID_SELECT_BGM, DX_PLAYTYPE_LOOP);
 }
 
 
@@ -36,10 +43,8 @@ void CSceneSelect::Load()
 int CSceneSelect::Step()
 {
 	int ret = -1;
-	if (Input::Key::Push(KEY_INPUT_V))
-		ret = SCENEID_TITLE;
-
-	if(StageSelectUpdate())ret = SCENEID_GAME;
+	if (Input::Key::Push(KEY_INPUT_V)|| Input::Controller::Push(XINPUT_BUTTON_Y))ret = SCENEID_TITLE;
+	ret = StageSelectUpdate();
 
 	return ret;
 }
@@ -50,7 +55,6 @@ int CSceneSelect::Step()
 //-------------------------------
 void CSceneSelect::Draw()
 {
-
 	//---------------------------------
 	// 中央位置
 	//---------------------------------
@@ -58,6 +62,7 @@ void CSceneSelect::Draw()
 	int centerY = WINDOW_HEIGHT_HALF;
 
 	DrawGraph(0, 0, m_hndl, TRUE);
+
 	//---------------------------------
 	// ステージ表示
 	//---------------------------------
@@ -72,17 +77,17 @@ void CSceneSelect::Draw()
 		int y = centerY;
 
 		// 選択中は大きく
-		int size =(diff == 0)? 180: 140;
+		int size =(diff == 0)? 220: 140;
 		int color =(diff == 0)? YELLOW: GRAY;
 
 		// 枠
 		DrawBox(
 			x - size / 2,y - size / 2,
-			x + size / 2,y + size / 2,color,TRUE);
+			x + size / 2,y + size / 2, color ,true);
 
 		DrawBox(
-			x - size / 2,y - size / 2,
-			x + size / 2,y + size / 2,WHITE,FALSE);
+			x - size / 2 ,y - size / 2,
+			x + size / 2, y + size / 2, WHITE ,false);
 
 		// テキスト
 		char str[32];
@@ -110,17 +115,19 @@ void CSceneSelect::Fin()
 	}
 }
 
-bool CSceneSelect::StageSelectUpdate()
+int CSceneSelect::StageSelectUpdate()
 {
-	bool ret = false;
+
+	int ret = -1;
 
 	//---------------------------------
 	// 左
 	//---------------------------------
-	if (Input::Key::Push(
-		KEY_INPUT_LEFT))
+	if (Input::Key::Push(KEY_INPUT_LEFT) ||Input::Controller::Push(XINPUT_BUTTON_DPAD_LEFT))
 	{
 		m_selectStage--;
+
+		CSoundManager::Play(CSoundManager::SOUNDID_SE_BACK, DX_PLAYTYPE_BACK);
 
 		if (m_selectStage < 0)
 		{
@@ -132,10 +139,11 @@ bool CSceneSelect::StageSelectUpdate()
 	//---------------------------------
 	// 右
 	//---------------------------------
-	if (Input::Key::Push(
-		KEY_INPUT_RIGHT))
+	if (Input::Key::Push(KEY_INPUT_RIGHT) || Input::Controller::Push(XINPUT_BUTTON_DPAD_RIGHT))
 	{
 		m_selectStage++;
+
+		CSoundManager::Play(CSoundManager::SOUNDID_SE_BACK, DX_PLAYTYPE_BACK);
 
 		if (m_selectStage >=
 			m_stageMax)
@@ -147,14 +155,17 @@ bool CSceneSelect::StageSelectUpdate()
 	//---------------------------------
 	// 決定
 	//---------------------------------
-	if (Input::Key::Push(KEY_INPUT_RETURN))
+	if (Input::Key::Push(KEY_INPUT_RETURN) || Input::Controller::Push(XINPUT_BUTTON_B))
 	{
-		if (Input::Key::Push(KEY_INPUT_RETURN))
-		{
-			Data::GetInstance()->SetSelectStage(m_selectStage);
+		//---------------------------------
+		// 選択ステージ保存
+		//---------------------------------
+		Data::GetInstance()->SetSelectStage(m_selectStage);
 
-			ret = SCENEID_GAME;
-		}
+		CSoundManager::Stop(CSoundManager::SOUNDID_SELECT_BGM);
+		CSoundManager::Play(CSoundManager::SOUNDID_SE_ENTER, DX_PLAYTYPE_BACK);
+
+		ret =SCENEID_GAME;
 	}
 
 	return ret;

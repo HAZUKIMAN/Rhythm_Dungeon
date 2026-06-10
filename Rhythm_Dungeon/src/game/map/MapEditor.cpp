@@ -25,10 +25,11 @@ MapEditor::~MapEditor()
 //---------------------------------
 void MapEditor::Init()
 {
-    m_iModelHdl = -1;
-    m_iModelHdl_Wall = -1;
-    m_Tile_iModelHdl = -1;
-
+    for (int init = 0;init < TILE_NUM;init++)
+    {
+        m_iModelHdl[init] = -1;
+    }
+  
     m_currentY = 0;
 
     memset(map, 0, sizeof(map));
@@ -41,17 +42,32 @@ void MapEditor::Load(ObjectEditor& objectEditor)
 {
     VECTOR size = VGet(0.05f, 0.05f, 0.05f);
 
-
-    if (m_iModelHdl == -1)
+    //---------------------------------
+      // モデルロード
+      //---------------------------------
+    if (m_iModelHdl[0] == -1)
     {
-        m_iModelHdl = MV1LoadModel("Data/object/stage/Tile.mv1");
-        m_Tile_iModelHdl= MV1LoadModel("Data/object/stage/Tile2.mv1");
-        m_iModelHdl_Wall = MV1LoadModel("Data/object/stage/Wall.mv1");
+        m_iModelHdl[0] = MV1LoadModel("Data/object/stage/Tile.mv1");
+    }
+    if (m_iModelHdl[1] == -1)
+    {
+        m_iModelHdl[1] = MV1LoadModel( "Data/object/stage/Tile2.mv1");
+    }
+    if (m_iModelHdl[2] == -1)
+    {
+        m_iModelHdl[2] = MV1LoadModel( "Data/object/stage/Wall.mv1");
+    }
+    if (m_iModelHdl[3] == -1)
+    {
+        m_iModelHdl[3] = MV1LoadModel("Data/object/stage/Block.mv1");
     }
 
-    MV1SetScale(m_iModelHdl, size);
-    MV1SetScale(m_iModelHdl_Wall, size);
-    MV1SetScale(m_Tile_iModelHdl, size);
+    for (int load = 0;load < TILE_NUM;load++)
+    {
+        MV1SetScale(m_iModelHdl[load], size);
+    }
+
+   // MV1SetOpacityRate( m_iModelHdl[3], 0.2f);
 
     LoadMap(Data::GetInstance()->GetStagePath(), objectEditor);
 
@@ -195,22 +211,13 @@ void MapEditor::Draw()
 //---------------------------------
 void MapEditor::Fin()
 {
-    if (m_iModelHdl != -1)
+    for (int fin = 0; fin < TILE_NUM; fin++)
     {
-        MV1DeleteModel(m_iModelHdl);
-        m_iModelHdl = -1;
-    }
-
-    if (m_Tile_iModelHdl != -1)
-    {
-        MV1DeleteModel(m_Tile_iModelHdl);
-        m_Tile_iModelHdl = -1;
-    }
-
-    if (m_iModelHdl_Wall != -1)
-    {
-        MV1DeleteModel(m_iModelHdl_Wall);
-        m_iModelHdl_Wall = -1;
+        if (m_iModelHdl[fin] != -1)
+        {
+            MV1DeleteModel(m_iModelHdl[fin]);
+            m_iModelHdl[fin] = -1;
+        }
     }
 }
 
@@ -246,11 +253,7 @@ void MapEditor::SaveMap(const char* filename,  ObjectEditor& objectEditor)
 
     for (auto& obj : objs)
     {
-        fwrite(
-            &obj,
-            sizeof(ObjectEditor::Object),
-            1,
-            fp);
+        fwrite( &obj, sizeof(ObjectEditor::Object), 1, fp);
     }
 
     fclose(fp);
@@ -293,11 +296,7 @@ void MapEditor::LoadMap(const char* filename, ObjectEditor& objectEditor)
     //---------------------------------
     int objCount = 0;
 
-    fread(
-        &objCount,
-        sizeof(int),
-        1,
-        fp);
+    fread( &objCount, sizeof(int), 1, fp);
 
     //---------------------------------
     // オブジェクト読み込み
@@ -305,12 +304,7 @@ void MapEditor::LoadMap(const char* filename, ObjectEditor& objectEditor)
     for (int i = 0; i < objCount; i++)
     {
         ObjectEditor::Object obj;
-
-        fread(
-            &obj,
-            sizeof(ObjectEditor::Object),
-            1,
-            fp);
+        fread( &obj, sizeof(ObjectEditor::Object), 1,fp);
 
         objectEditor.AddLoadedObject(obj);
     }
@@ -383,9 +377,7 @@ void MapEditor::BuildInstances()
             for (int x = 0; x < MAP_W; x++)
             {
                 float worldX = (x + 0.5f) * TILE_SIZE;
-
                 float worldY = y * TILE_SIZE;
-
                 float worldZ = (z + 0.5f) * TILE_SIZE;
 
                 //---------------------------------
@@ -393,7 +385,7 @@ void MapEditor::BuildInstances()
                 //---------------------------------
                 if (map[y][z][x] == TILE_FLOOR)
                 {
-                    instances.push_back({m_iModelHdl, VGet(worldX, worldY, worldZ)});
+                    instances.push_back({m_iModelHdl[0], VGet(worldX, worldY, worldZ)});
                 }
 
                 //---------------------------------
@@ -401,7 +393,7 @@ void MapEditor::BuildInstances()
                 //---------------------------------
                 if (map[y][z][x] == TILE_WALL)
                 {
-                    instances.push_back({m_iModelHdl_Wall, VGet(worldX, worldY, worldZ)});
+                    instances.push_back({ m_iModelHdl[2], VGet(worldX, worldY, worldZ)});
                 }
 
                 //---------------------------------
@@ -409,7 +401,15 @@ void MapEditor::BuildInstances()
                 //---------------------------------
                 if (map[y][z][x] == TILE_FLOOR2)
                 {
-                    instances.push_back({ m_Tile_iModelHdl, VGet(worldX, worldY, worldZ) });
+                    instances.push_back({ m_iModelHdl[1], VGet(worldX, worldY, worldZ) });
+                }
+
+               //---------------------------------
+               // 床
+               //---------------------------------
+                if (map[y][z][x] == TILE_BRIDGE)
+                {
+                    instances.push_back({ m_iModelHdl[3], VGet(worldX, worldY, worldZ) });
                 }
             }
         }

@@ -2,8 +2,9 @@
 #include "SceneGame.h"
 #include "../Common.h"
 #include "../collision/CollisionManager.h"
-#include "../system/SoundManager.h"
 #include "../../lib/Input/Input.h"
+#include "../../Data.h"
+#include "../../lib/sound/SoundManager.h"
 
 
 static const float HIGHT_GRID = 2.5f;	// 移動速度
@@ -15,6 +16,7 @@ CSceneGame::CSceneGame()
 {
 	move_box = NONE;
 	m_carryState = PUT_NONE;
+	m_clearSelect = CLEAR_NEXT;
 }
 
 
@@ -31,6 +33,8 @@ CSceneGame::~CSceneGame()
 //-------------------------------
 void CSceneGame::Init()
 {
+	memset(&m_player_startPos, 0, sizeof(VECTOR));
+
 	// カメラ初期化
 	m_cameraManager.Init();
 	m_cameraManager.SetNearFar(5.0f, 5000.0f);
@@ -66,7 +70,9 @@ void CSceneGame::Load()
 	m_mapedit.Load(m_objEditor);
 	m_objEditor.Load();
 
-	Reset();
+	Set();
+
+	CSoundManager::Play(CSoundManager::SOUNDID_GAME_BGM, DX_PLAYTYPE_LOOP);
 }
 
 
@@ -76,23 +82,104 @@ void CSceneGame::Load()
 int CSceneGame::Step()
 {
 	int ret = -1;
-	Calc();
-	
-	////ゴールと人間の判定
-	//if (CCollisionManager::CheckHithumanToGoal(m_human, m_goal))
-	//{
-	//	ret = SCENEID_SELECT;
-	//}
 
-	if (Input::Key::Push(KEY_INPUT_R))
+	//---------------------------------
+	// ゴール判定
+	//---------------------------------
+	if (CCollisionManager::CheckHithumanToGoal(m_human,m_goal))
+	{
+		CSoundManager::Stop(CSoundManager::SOUNDID_GAME_BGM);
+		CSoundManager::Play(CSoundManager::SOUNDID_CLEAR_BGM, DX_PLAYTYPE_LOOP);
+		m_isGoal = true;
+	}
+
+	//---------------------------------
+	// リセット
+	//---------------------------------
+	if (Input::Key::Push(KEY_INPUT_R) || Input::Controller::Push(XINPUT_BUTTON_Y))
 	{
 		Reset();
 	}
 
+	//---------------------------------
+	// クリアメニュー
+	//---------------------------------
+	if (m_isGoal)
+	{
+		//---------------------------------
+		// 上選択
+		//---------------------------------
+		if (Input::Key::Push(KEY_INPUT_W) || Input::Controller::Push(XINPUT_BUTTON_DPAD_UP))
+		{
+			m_clearSelect = CLEAR_NEXT;
+		}
+
+		//---------------------------------
+		// 下選択
+		//---------------------------------
+		if (Input::Key::Push(KEY_INPUT_S) || Input::Controller::Push(XINPUT_BUTTON_DPAD_DOWN))
+		{
+			m_clearSelect = CLEAR_SELECT;
+		}
+
+		//---------------------------------
+		// 決定
+		//---------------------------------
+		if (Input::Key::Push(KEY_INPUT_RETURN) || Input::Controller::Push(XINPUT_BUTTON_B))
+		{
+
+			CSoundManager::Stop(CSoundManager::SOUNDID_GAME_BGM);
+
+			//---------------------------------
+			// 次ステージ
+			//---------------------------------
+			if (m_clearSelect ==CLEAR_NEXT)
+			{
+				int stage = Data::GetInstance()->GetSelectStage();
+				int maxStage = Data::GetInstance()->GetStageCount();
+
+				//---------------------------------
+				// 最終ステージ
+				//---------------------------------
+				if (stage >= maxStage - 1)
+				{
+					return SCENEID_SELECT;
+				}
+
+				//---------------------------------
+				// 次ステージ
+				//---------------------------------
+				Data::GetInstance()->NextStage();
+
+				CSoundManager::Play(CSoundManager::SOUNDID_SE_ENTER, DX_PLAYTYPE_BACK);
+				return SCENEID_GAME;
+			}
+
+			//---------------------------------
+			// セレクトへ戻る
+			//---------------------------------
+			if (m_clearSelect == CLEAR_SELECT)
+			{
+				CSoundManager::Play(CSoundManager::SOUNDID_SE_ENTER, DX_PLAYTYPE_BACK);
+				return SCENEID_SELECT;
+			}
+		}
+
+		//---------------------------------
+		// クリア中は停止
+		//---------------------------------
+		return -1;
+	}
+
+	//---------------------------------
+	// 通常更新
+	//---------------------------------
+	Calc();
+
 	return ret;
 }
 
-void CSceneGame::Reset()
+void CSceneGame::Set()
 {
 	auto& objs = m_objEditor.GetObjects();
 
@@ -131,21 +218,25 @@ void CSceneGame::Reset()
 			{
 				m_human.SetDirect(1); // DOWN
 				m_human.Setrot(0.0f);
+				m_startDer = 0.0f;
 			}
 			else if (rotDeg >= 45 && rotDeg < 135)
 			{
 				m_human.SetDirect(2); // LEFT
 				m_human.Setrot(DX_PI_F / 2);
+				m_startDer = DX_PI_F / 2;
 			}
 			else if (rotDeg >= 135 && rotDeg < 225)
 			{
 				m_human.SetDirect(3); // UP
 				m_human.Setrot(DX_PI_F);
+				m_startDer = DX_PI_F;
 			}
 			else
 			{
 				m_human.SetDirect(0); // RIGHT
 				m_human.Setrot(-DX_PI_F / 2);
+				m_startDer = -DX_PI_F / 2;
 			}
 		}
 
@@ -156,6 +247,10 @@ void CSceneGame::Reset()
 			float worldpos_z = (obj.z + 0.5f) * TILE_SIZE;
 
 			m_cat.SetPos(VGet(worldpos_x, worldpos_y, worldpos_z));
+
+			//猫の初期位置を保存
+			m_player_startPos = VGet(worldpos_x, worldpos_y, worldpos_z);
+
 			m_cat.SetRadius(obj.rotY);
 		}
 		if (obj.type == OBJ_ITEM)
@@ -362,6 +457,20 @@ void CSceneGame::Draw()
 
 	m_goal.Draw();		//ゴール
 
+	if (m_isGoal)
+	{
+		DrawBox(200,150,600,450,GetColor(0, 0, 0),TRUE);
+		DrawString(300,180,"STAGE CLEAR!",YELLOW);
+
+		//---------------------------------
+		// 次ステージ
+		//---------------------------------
+		DrawString(280,260,m_clearSelect== CLEAR_NEXT? "> NEXT STAGE": "NEXT STAGE",WHITE);
+		//---------------------------------
+		// セレクト
+		//---------------------------------
+		DrawString(280,320,m_clearSelect== CLEAR_SELECT? "> SELECT": "SELECT",WHITE);
+	}
 
 	//カメラの切り替え表示
 	DrawFormatString(1200,20,WHITE,"デバックカメラ切り替え処理:Key C \nエディターカメラ切り替え処理:Key B\nプレイカメラへの切り替え:key V");
@@ -433,8 +542,7 @@ void CSceneGame::Calc()
 		// 待機･移動中処理 
 		m_human.NormalExec(m_blocks, m_institem);
 
-		for (auto& enemy : m_enemy) 
-		{ enemy->NormalExec(m_blocks,m_institem); }
+		for (auto& enemy : m_enemy) { enemy->NormalExec(m_blocks,m_institem); }
 
 		//  人間と床と壁との当たり判定
 		m_human.AddPos(CCollisionManager::HitMap(m_human.GetCenter(), m_human.GetRadius(), m_mapedit));
@@ -546,7 +654,7 @@ void CSceneGame::CatCrry()
 			//---------------------------------
 			if (VSize(memo) < 10.0f)
 			{
-				if (Input::Key::Push(KEY_INPUT_J) || Input::Controller::Push(XINPUT_BUTTON_B))
+				if (Input::Key::Push(KEY_INPUT_J) || Input::Controller::Push(XINPUT_BUTTON_A))
 				{
 					move_box = CARRY;
 
@@ -684,7 +792,7 @@ void CSceneGame::CatCrryToBridge()
 			//---------------------------------
 			if (VSize(diff) < 10.0f)
 			{
-				if (Input::Key::Push(KEY_INPUT_J) || Input::Controller::Push(XINPUT_BUTTON_B))
+				if (Input::Key::Push(KEY_INPUT_J) || Input::Controller::Push(XINPUT_BUTTON_A))
 				{
 					//---------------------------------
 					// 橋のマップ座標取得
@@ -715,7 +823,7 @@ void CSceneGame::CatCrryToBridge()
 					//---------------------------------
 					// 設置済みの床を消す
 					//---------------------------------
-					if (m_mapedit.GetMap(y,z,x) == TILE_FLOOR)
+					if (m_mapedit.GetMap(y,z,x) == TILE_BRIDGE)//
 					{
 						m_mapedit.SetMap(y,z,x,TILE_NONE);
 						m_mapedit.BuildInstances();
@@ -837,17 +945,9 @@ void CSceneGame::CatCrryToBridge()
 			//---------------------------------
 			// ワールド座標
 			//---------------------------------
-			float worldX =
-				(bridgeX + 0.5f)
-				* TILE_SIZE;
-
-			float worldY =
-				catY *
-				TILE_SIZE;
-
-			float worldZ =
-				(bridgeZ + 0.5f)
-				* TILE_SIZE;
+			float worldX =(bridgeX + 0.5f)* TILE_SIZE;
+			float worldY =catY *TILE_SIZE;
+			float worldZ =(bridgeZ + 0.5f)* TILE_SIZE;
 
 			//---------------------------------
 			// 配置
@@ -873,9 +973,7 @@ void CSceneGame::CatCrryToBridge()
 			if (rotDeg >= 315 ||
 				rotDeg < 45)
 			{
-				m_carryBridge
-					->SetRotation(
-						0.0f);
+				m_carryBridge->SetRotation(0.0f);
 			}
 			else if (rotDeg >= 45 &&rotDeg < 135)
 			{
@@ -887,9 +985,7 @@ void CSceneGame::CatCrryToBridge()
 			}
 			else
 			{
-				m_carryBridge
-					->SetRotation(
-						-DX_PI_F / 2);
+				m_carryBridge->SetRotation(-DX_PI_F / 2);
 			}
 
 			//---------------------------------
@@ -899,7 +995,7 @@ void CSceneGame::CatCrryToBridge()
 				catY,
 				bridgeZ,
 				bridgeX,
-				TILE_FLOOR);
+				TILE_BRIDGE);//
 
 			m_mapedit.BuildInstances();
 
@@ -915,3 +1011,258 @@ void CSceneGame::CatCrryToBridge()
 	}
 }
 
+void CSceneGame::Reset()
+{
+	//---------------------------------
+	// 持ち物解除
+	//---------------------------------
+	m_carryBridge = nullptr;
+	m_carryItem = nullptr;
+	m_carryState = PUT_NONE;
+
+	//---------------------------------
+	// 現在の敵削除
+	//---------------------------------
+	for (auto enemy : m_enemy)
+	{
+		delete enemy;
+	}
+	m_enemy.clear();
+
+	//---------------------------------
+	// 現在の魚削除
+	//---------------------------------
+	for (auto item : m_institem)
+	{
+		delete item;
+	}
+	m_institem.clear();
+
+	//---------------------------------
+	// 現在の橋削除
+	//---------------------------------
+	for (auto bridge : m_bridge)
+	{
+		delete bridge;
+	}
+	m_bridge.clear();
+
+	//---------------------------------
+	// 現在の設置ブロック削除
+	//---------------------------------
+	for (auto block : m_blocks)
+	{
+		delete block;
+	}
+	m_blocks.clear();
+
+	//---------------------------------
+	// マップ再読み込み
+	//---------------------------------
+	m_mapedit.LoadMap(
+		Data::GetInstance()->GetStagePath(),
+		m_objEditor);
+
+	//---------------------------------
+	// オブジェクト再生成
+	//---------------------------------
+	auto& objs =
+		m_objEditor.GetObjects();
+
+	for (const auto& obj : objs)
+	{
+		//---------------------------------
+		// ワールド座標変換
+		//---------------------------------
+		float worldX =
+			(obj.x + 0.5f)
+			* TILE_SIZE;
+
+		float worldY =
+			(obj.y + 0.5f)
+			* TILE_SIZE;
+
+		float worldZ =
+			(obj.z + 0.5f)
+			* TILE_SIZE;
+
+		VECTOR pos =
+			VGet(
+				worldX,
+				worldY,
+				worldZ);
+
+		//---------------------------------
+		// エネミー
+		//---------------------------------
+		if (obj.type == OBJ_ENEMY)
+		{
+			CEnemy* enemy =
+				new CEnemy;
+
+			enemy->Init();
+			enemy->Load();
+
+			enemy->SetPos(pos);
+
+			//---------------------------------
+			// rotY → direction変換
+			//---------------------------------
+			float rotDeg =
+				obj.rotY * 180.0f / DX_PI_F;
+
+			//---------------------------------
+			// マイナス対策
+			//---------------------------------
+			while (rotDeg < 0)
+			{
+				rotDeg += 360.0f;
+			}
+
+			rotDeg = fmod(rotDeg, 360.0f);
+
+			//---------------------------------
+			// 向き判定
+			//---------------------------------
+			if (rotDeg >= 315 ||
+				rotDeg < 45)
+			{
+				enemy->SetDirect(1);
+				// DOWN
+			}
+			else if (
+				rotDeg >= 45 &&
+				rotDeg < 135)
+			{
+				enemy->SetDirect(2);
+				// LEFT
+			}
+			else if (
+				rotDeg >= 135 &&
+				rotDeg < 225)
+			{
+				enemy->SetDirect(3);
+				// UP
+			}
+			else
+			{
+				enemy->SetDirect(0);
+				// RIGHT
+			}
+
+			m_enemy.push_back(
+				enemy);
+		}
+
+		//---------------------------------
+		// 魚
+		//---------------------------------
+		if (obj.type == OBJ_ITEM)
+		{
+			CInstalledItem* item =
+				new CInstalledItem;
+
+			item->Init();
+
+			item->SetPos(pos);
+
+			m_institem.push_back(
+				item);
+		}
+
+		//---------------------------------
+		// 橋
+		//---------------------------------
+		if (obj.type == OBJ_BRIDGE)
+		{
+			CBridge* bridge =
+				new CBridge;
+
+			bridge->Init();
+
+			bridge->SetPos(pos);
+
+			m_bridge.push_back(
+				bridge);
+		}
+
+		//---------------------------------
+		// 設置ブロック
+		//---------------------------------
+		if (obj.type == OBJ_SETBLOCK)
+		{
+			CBlock* block =
+				new CBlock;
+
+			block->Init();
+			VECTOR vec = VGet(pos.x,pos.y+ 1.5f,pos.z);
+			block->SetPos(vec);
+
+			m_blocks.push_back(
+				block);
+		}
+
+		//---------------------------------
+		// 人間
+		//---------------------------------
+		if (obj.type == OBJ_HUMAN)
+		{
+			float worldpos_x = (obj.x + 0.5f) * TILE_SIZE;
+			float worldpos_z = (obj.z + 0.5f) * TILE_SIZE;
+
+			float hight = 10.0f;
+
+			VECTOR vec = VGet(worldpos_x, hight, worldpos_z);
+			m_human.SetPos(vec);
+			m_human.SetRespawn(vec);
+			//---------------------------------
+			// rotY → direction変換
+			//---------------------------------
+			float rotDeg = obj.rotY * 180.0f / DX_PI_F;
+
+			// マイナス対策
+			while (rotDeg < 0)
+			{
+				rotDeg += 360.0f;
+			}
+
+			rotDeg = fmod(rotDeg, 360.0f);
+
+			//---------------------------------
+			// 向き判定
+			//---------------------------------
+			if (rotDeg >= 315 || rotDeg < 45)
+			{
+				m_human.SetDirect(1); // DOWN
+				m_human.Setrot(0.0f);
+				m_startDer = 0.0f;
+			}
+			else if (rotDeg >= 45 && rotDeg < 135)
+			{
+				m_human.SetDirect(2); // LEFT
+				m_human.Setrot(DX_PI_F / 2);
+				m_startDer = DX_PI_F / 2;
+			}
+			else if (rotDeg >= 135 && rotDeg < 225)
+			{
+				m_human.SetDirect(3); // UP
+				m_human.Setrot(DX_PI_F);
+				m_startDer = DX_PI_F;
+			}
+			else
+			{
+				m_human.SetDirect(0); // RIGHT
+				m_human.Setrot(-DX_PI_F / 2);
+				m_startDer = -DX_PI_F / 2;
+			}
+		}
+	}
+
+	//---------------------------------
+	// プレイヤー位置
+	//---------------------------------
+	m_cat.SetPos(
+		m_player_startPos);
+
+	
+}

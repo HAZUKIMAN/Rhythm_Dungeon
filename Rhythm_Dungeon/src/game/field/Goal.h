@@ -1,6 +1,5 @@
 #pragma once
-
-#include "../object/Object.h"
+#include "../../lib/object/Object.h"
 
 class CGoal : public CObject {
 public:

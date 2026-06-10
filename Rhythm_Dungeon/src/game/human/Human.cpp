@@ -4,6 +4,8 @@
 #include "../../lib/Input/Input.h"
 #include "../Anime/Anime.h"
 #include "../common.h"
+#include "../../lib/sound/effectData/effectData.h"
+#include "../effect/effekseer.h"
 
 //	定義関連------------------------------
 static const float MOVE_SPEED	=  0.05f;	// 移動速度
@@ -83,6 +85,13 @@ void CHuman::Load()
 void CHuman::Step()
 {
 
+	if (!m_isActive)
+	{
+		m_vPosition = VGet(m_recpos.x, m_recpos.y, m_recpos.z);
+		Reset();
+		m_isActive = true;
+	}
+
 	if (!m_isActive)return;
 	
 	// 状態に合わせて行動変化
@@ -97,13 +106,19 @@ void CHuman::Step()
 	}
 
 	Direction();
-
 	Move();
 
-	if (m_vPosition.y <= MIN_HIGHT)
+	if (m_isActive == false)
 	{
 		m_vPosition = VGet(m_recpos.x, m_recpos.y, m_recpos.z);
 		Reset();
+		m_isActive = true;
+	}
+
+
+	if (m_vPosition.y <= MIN_HIGHT)
+	{
+		m_isActive = false;
 	}
 
 }
@@ -151,15 +166,23 @@ void CHuman::NormalExec(std::vector<CBlock*>& blocks, std::vector<CInstalledItem
 		//---------------------------------
 		if (m_isMoving)
 		{
+			float addspeed=0.0f;
+
 			VECTOR dir = VSub(m_targetPos, m_vPosition);
+
+
+			if (Input::Controller::Keep(XINPUT_BUTTON_RIGHT_SHOULDER))//早送りしたいのはenemyとhumanのみなので直に書いています
+			{
+				addspeed = 0.2f;
+				m_coolTime = 0.0f;
+			}
 
 			// Y無視
 			dir.y = 0.0f;
-
 			float dist = VSize(dir);
 
 			// 到着
-			if (dist < MOVE_SPEED)
+			if (dist < MOVE_SPEED+ addspeed)
 			{
 				m_vPosition = m_targetPos;
 				m_isMoving = false;
@@ -169,7 +192,7 @@ void CHuman::NormalExec(std::vector<CBlock*>& blocks, std::vector<CInstalledItem
 				// 正規化
 				dir = VNorm(dir);
 				// 少しずつ移動
-				dir = VScale(dir, MOVE_SPEED);
+				dir = VScale(dir, MOVE_SPEED+ addspeed);
 				m_vPosition = VAdd(m_vPosition, dir);
 			}
 
@@ -385,5 +408,22 @@ void CHuman::Reset()
 	{
 		direction = ROTATION_RIGHT;
 	}
+
 	m_targetPos = m_vPosition;
+}
+
+// 当たり判定後の処理
+void CHuman::HitCalc()
+{
+	VECTOR vec = VGet(0.2f,0.2f,0.2f);
+	m_isActive = false;
+
+	//呼び出すエフェクトのID
+	int effectId = CEffectData::GetId(EFFECT_COIN_GET);
+
+	//コインの位置にエフェクトを呼び出す
+	CEffekseerCtrl::Request(effectId, m_vPosition, false);
+	//エフェクトの拡大・縮小
+	CEffekseerCtrl::SetScale(effectId,vec);
+
 }

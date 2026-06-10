@@ -13,8 +13,9 @@ static const float ROT_SPEED = 0.1f;		// 回転速度
 static const float JUMP_POWER = 5.0f;		// ジャンプ力
 static const float GRAVITY = 0.01f;			// 重力
 static const float RADIUS = 5.0f;			// 当たり判定半径
+static const float ANIME_SPEED = 1.0f;	// アニメスピード
 
-static const char CAT_MODEL_PATH[] = { "Data/Character/Cat/cat.mv1" };
+static const char CAT_MODEL_PATH[]	 = { "Data/Character/Cat/cat.mv1" };
 static const char PUTNO_MODEL_PATH[] = { "Data/object/put/Put_No.mv1" };
 static const char PUTOK_MODEL_PATH[] = { "Data/object/put/Put_Ok.mv1" };
 
@@ -40,6 +41,8 @@ CCat::~CCat()
 {
 	// 本来は必要ないけど、念のため
 	Fin();
+
+	DetachAnim(m_iModelHdl);
 
 	if (m_iPutModel[0] != -1)
 	{
@@ -86,6 +89,8 @@ void CCat::Load()
 	MV1SetScale(m_iPutModel[1], Size);
 	CObject::Load(hndl);
 
+	RequestLoop(CAT_STATE_NORMAL, ANIME_SPEED, m_iModelHdl);
+	m_state = CAT_STATE_NORMAL;
 }
 
 
@@ -96,16 +101,68 @@ void CCat::Step(MapEditor& map)
 {
 	if (!m_isActive)return;
 
+	//---------------------------------
+	// 前フレーム位置保存
+	//---------------------------------
+	VECTOR oldPos =m_vPosition;
 
-	// 状態に合わせて行動変化
-	switch (m_state)
+	//---------------------------------
+	// 通常行動
+	//---------------------------------
+	NormalExec(map);
+
+	//---------------------------------
+	// 移動
+	//---------------------------------
+	Move();
+
+	//---------------------------------
+	// 移動量
+	//---------------------------------
+	VECTOR diff =VSub(m_vPosition,oldPos);
+
+	float move =VSize(diff);
+
+	//---------------------------------
+	// 歩き
+	//---------------------------------
+	if (move > 0.1f)
 	{
-	case CAT_STATE_NORMAL:
-		NormalExec(map);
-		break;
+		if (m_state !=
+			CAT_STATE_WALK)
+		{
+			RequestLoop(
+				CAT_STATE_WALK,
+				ANIME_SPEED,
+				m_iModelHdl);
+
+			m_state =
+				CAT_STATE_WALK;
+		}
+	}
+	else
+	{
+		//---------------------------------
+		// 待機
+		//---------------------------------
+		if (m_state !=
+			CAT_STATE_NORMAL)
+		{
+			RequestLoop(
+				CAT_STATE_NORMAL,
+				ANIME_SPEED,
+				m_iModelHdl);
+
+			m_state =
+				CAT_STATE_NORMAL;
+		}
 	}
 
+	//---------------------------------
+	// 移動処理
+	//---------------------------------
 	Move();
+
 }
 
 
@@ -144,25 +201,9 @@ void CCat::Draw()
 //-------------------------------
 void CCat::Move()
 {
-	//// 重力切替
-	//switch (m_moveMode)
-	//{
-	//case MOVE_GROUND:
 	//	重力処理
-		m_speed.y -= GRAVITY;
-	//	break;
-
-	//case MOVE_WALL_X:
-	//	//	重力処理
-	//	m_speed.x += GRAVITY;
-	//	break;
-
-	//case MOVE_WALL_Z:
-	//	//	重力処理
-	//	m_speed.z += GRAVITY;
-	//	break;
-	//}
-
+	m_speed.y -= GRAVITY;
+	
 	// 移動速度加算
 	m_vPosition = VAdd(m_vPosition, m_speed);
 
@@ -209,6 +250,7 @@ void CCat::PlaceBlock(ObjectEditor& objEditor)
 
 	objEditor.AddObject(placeX, mapY, placeZ, OBJ_PUT_BOX);
 }
+
 //------------------------------
 // 床チェック
 //------------------------------
@@ -250,6 +292,13 @@ bool CCat::CheckGround(MapEditor& map)
 		footY,
 		mapZ,
 		mapX) == TILE_FLOOR2)
+	{
+		return true;
+	}
+	if (map.GetMap(
+		footY,
+		mapZ,
+		mapX) == TILE_BRIDGE)
 	{
 		return true;
 	}
@@ -320,6 +369,7 @@ CCat::WallType CCat::CheckWall(MapEditor& map)
 	return WALL_NONE;
 }
 
+
 //------------------------------
 // ブロック設置位置表示
 //------------------------------
@@ -380,6 +430,10 @@ void CCat::DrawPlaceBlockPreview(MapEditor & map)
 		{
 			canPlace = true;
 		}
+		if (map.GetMap(placeY - 1, placeZ, placeX) == TILE_BRIDGE)
+		{
+			canPlace = true;
+		}
 	}
 
 	VECTOR vec = VGet(x, y, z);
@@ -403,62 +457,151 @@ void CCat::DrawPlaceBlockPreview(MapEditor & map)
 void CCat::Operation(MapEditor& map)
 {
 	//---------------------------------
-// 元位置保存
-//---------------------------------
-	VECTOR oldPos = m_vPosition;
+	// 元位置保存
+	//---------------------------------
+	VECTOR oldPos =m_vPosition;
 
 	//---------------------------------
 	// 入力値
 	//---------------------------------
-	float forward = 0.0f;
-	float side = 0.0f;
+	float moveX = 0.0f;
+	float moveZ = 0.0f;
 
 	//---------------------------------
-	// 回転（地上のみ）
+	// 左スティック取得
 	//---------------------------------
-	if (m_moveMode == MOVE_GROUND)
+	float stickX = 0.0f;
+	float stickY = 0.0f;
+
+	Input::Controller::LStickIncline(stickX,stickY);
+
+	//---------------------------------
+	// キーボード入力
+	//---------------------------------
+	if (Input::Key::Keep(KEY_INPUT_A))
 	{
-		if (Input::Key::Keep(KEY_INPUT_D))
-		{
-			m_vRotation.y += ROT_SPEED;
-		}
-
-		if (Input::Key::Keep(KEY_INPUT_A))
-		{
-			m_vRotation.y -= ROT_SPEED;
-		}
+		moveX -= 1.0f;
 	}
 
-	//---------------------------------
-	// 前後入力
-	//---------------------------------
+	if (Input::Key::Keep(KEY_INPUT_D))
+	{
+		moveX += 1.0f;
+	}
+
 	if (Input::Key::Keep(KEY_INPUT_W))
 	{
-		forward = -MOVE_SPEED;
+		moveZ += 1.0f;
 	}
 
 	if (Input::Key::Keep(KEY_INPUT_S))
 	{
-		forward = MOVE_SPEED;
+		moveZ -= 1.0f;
 	}
 
 	//---------------------------------
-	// 左右入力（壁用）
+	// DPad入力
 	//---------------------------------
-	if (Input::Key::Keep(KEY_INPUT_D) /*|| Input::Controller::LStickIncline(100.0f,0.0f)*/)
+	if (Input::Controller::Keep(XINPUT_BUTTON_DPAD_LEFT))
 	{
-		side = MOVE_SPEED;
+		moveX -= 1.0f;
+
 	}
 
-	if (Input::Key::Keep(KEY_INPUT_A))
+	if (Input::Controller::Keep(XINPUT_BUTTON_DPAD_RIGHT))
 	{
-		side = -MOVE_SPEED;
+		moveX += 1.0f;
+	}
+
+	if (Input::Controller::Keep(XINPUT_BUTTON_DPAD_UP))
+	{
+		moveZ += 1.0f;
+	}
+
+	if (Input::Controller::Keep(XINPUT_BUTTON_DPAD_DOWN))
+	{
+		moveZ -= 1.0f;
+	}
+
+	//---------------------------------
+	// 左スティック優先
+	//---------------------------------
+	if (fabs(stickX) > 0.1f)
+	{
+		moveX = stickX;
+	}
+
+	if (fabs(stickY) > 0.1f)
+	{
+		moveZ = stickY;
+	}
+
+
+
+	//---------------------------------
+	// 入力がある
+	//---------------------------------
+	if (fabs(moveX) > 0.01f ||
+		fabs(moveZ) > 0.01f)
+	{
+		//---------------------------------
+		// 目標角度
+		//---------------------------------
+		float targetRot =atan2f(-moveX,-moveZ);
+
+		//---------------------------------
+		// 角度差
+		//---------------------------------
+		float diff =targetRot - m_vRotation.y;
+
+		//---------------------------------
+		// -PI～PI補正
+		//---------------------------------
+		while (diff > DX_PI_F)
+		{
+			diff -=DX_PI_F* 2.0f;
+		}
+
+		while (diff < -DX_PI_F)
+		{
+			diff +=DX_PI_F* 2.0f;
+		}
+
+		//---------------------------------
+		// ヌルっと回転
+		//---------------------------------
+		float rotSpeed =0.2f;
+
+		m_vRotation.y +=diff* rotSpeed;
+
+		//---------------------------------
+		// 斜め速度補正
+		//---------------------------------
+		float len =sqrtf(moveX * moveX +moveZ * moveZ);
+
+		if (len > 0.0f)
+		{
+			moveX /= len;
+			moveZ /= len;
+		}
+
+		//---------------------------------
+		// 地面移動
+		//---------------------------------
+		if (m_moveMode== MOVE_GROUND)
+		{
+			m_vRotation.x =0.0f;
+			m_vRotation.z =0.0f;
+
+			m_vPosition.x +=moveX* MOVE_SPEED;
+			m_vPosition.z +=moveZ* MOVE_SPEED;
+		}
 	}
 
 	//---------------------------------
 	// 向きベクトル
 	//---------------------------------
 	float sinY = sinf(m_vRotation.y);
+
 	float cosY = cosf(m_vRotation.y);
 
 	//---------------------------------
@@ -471,80 +614,50 @@ void CCat::Operation(MapEditor& map)
 	//---------------------------------
 	if (wall == WALL_NONE)
 	{
-		m_moveMode = MOVE_GROUND;
+		m_moveMode =MOVE_GROUND;
 	}
 	else if (wall == WALL_X)
 	{
-		m_moveMode = MOVE_WALL_X;
+		m_moveMode =MOVE_WALL_X;
 	}
 	else if (wall == WALL_Z)
 	{
-		m_moveMode = MOVE_WALL_Z;
+		m_moveMode =MOVE_WALL_Z;
 	}
 
 	//---------------------------------
-	// 地面移動
+	// X方向壁
 	//---------------------------------
-	if (m_moveMode == MOVE_GROUND)
+	if (m_moveMode ==MOVE_WALL_X)
 	{
-		VECTOR move;
-		m_vRotation.x = 0.0f;
-		m_vRotation.z = 0.0f;
-
-		move.x = sinY * forward;
-		move.y = 0.0f;
-		move.z = cosY * forward;
-
-		m_vPosition = VAdd(m_vPosition, move);
-	}
-
-	//---------------------------------
-	// X方向の壁
-	//---------------------------------
-	else if (m_moveMode == MOVE_WALL_X)
-	{
-
 		m_vRotation.z = DX_PI_F / 2;
 		m_vRotation.x = 0.0f;
-		
-		// 上下移動
-		m_vPosition.y -= forward;
+		m_vPosition.y -= moveZ* MOVE_SPEED;
 
-		//// 左右移動
-		//m_vPosition.z -= side;
+		int wallX = (int)floor(m_vPosition.x/ TILE_SIZE);
+		float wallPosX = (wallX + 0.5f)* TILE_SIZE;
 
-		// 壁に吸着
-		int wallX = (int)floor(m_vPosition.x / TILE_SIZE);
-		float wallPosX =(wallX + 0.5f)* TILE_SIZE;
-
-		// 壁面固定
-		m_vPosition.x = wallPosX - 2.5f;
+		m_vPosition.x = wallPosX- 2.5f;
 	}
 
 	//---------------------------------
-	// Z方向の壁
+	// Z方向壁
 	//---------------------------------
-	else if (m_moveMode == MOVE_WALL_Z)
+	else if (m_moveMode ==MOVE_WALL_Z)
 	{
 		m_vRotation.z = 0.0f;
-		m_vRotation.x = DX_PI_F/2;
+		m_vRotation.x = DX_PI_F / 2;
+		m_vPosition.y -= moveZ* MOVE_SPEED;
 
-		// 上下移動
-		m_vPosition.y -= forward;
-
-		//// 左右移動
-		//m_vPosition.x += side;
-
-		// 壁に吸着
-		int wallZ =(int)floor(m_vPosition.z / TILE_SIZE);
-		float wallPosZ =(wallZ + 0.5f)* TILE_SIZE;
-
-		// 壁面固定
-		m_vPosition.z =wallPosZ - 2.5f;
+		int wallZ = (int)floor(m_vPosition.z/ TILE_SIZE);
+		float wallPosZ = (wallZ + 0.5f)* TILE_SIZE;
+		m_vPosition.z = wallPosZ- 2.5f;
 	}
 
-	// 地面モードのみ
-	if (m_moveMode == MOVE_GROUND)
+	//---------------------------------
+	// 落下防止
+	//---------------------------------
+	if (m_moveMode== MOVE_GROUND)
 	{
 		if (!CheckGround(map))
 		{

@@ -4,7 +4,17 @@
 //	タイトルクラス
 class CSceneTitle : public CSceneBase{
 private:
-	int m_hndl;
+
+	enum TITLE_HNDL
+	{
+		HNDL_BASE,
+		HNDL_HUMAN,
+		HNDL_NAME,
+
+		HNDLNUM
+	};
+
+	int m_hndl[HNDLNUM];
 
 public:
 	// 初期化

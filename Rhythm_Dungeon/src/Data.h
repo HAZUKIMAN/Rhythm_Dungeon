@@ -70,22 +70,22 @@ public:
         return STAGE_PATH[m_selectStage];
     }
 
+
+    void NextStage();
+    int GetStageCount();
+
 private:
 
-    Data()
-    {
-        m_selectStage = 0;
-    }
+    Data();
+    ~Data();
 
-    ~Data() {}
+   /* Data(const Data& other);
 
-    Data(const Data& other);
-    Data operator = (const Data& other);
+    Data operator = (const Data& other);*/
 
     static Data* m_instance;
 
-    int m_score;          // スコア
-
 private:
+
     int m_selectStage = 0;// 選択ステージ
 };

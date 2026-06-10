@@ -8,6 +8,7 @@ private:
 	int m_hndl;
 	int m_selectStage;
 	int m_stageMax;
+	int m_inputWait;
 public:
 	// 初期化
 	void Init();
@@ -17,7 +18,7 @@ public:
 	//@戻り値	:	次のシーン(-1なら変更なし)
 	int Step();
 	//ステージのボタン入力処理
-	bool StageSelectUpdate();
+	int  StageSelectUpdate();
 	// 描画
 	void Draw();
 	// 終了処理

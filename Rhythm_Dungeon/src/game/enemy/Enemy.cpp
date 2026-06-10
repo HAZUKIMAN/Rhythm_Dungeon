@@ -6,7 +6,7 @@
 #include "../../lib/Input/Input.h"
 
 //	定義関連------------------------------
-static const float MOVE_SPEED = 0.05f;	// 移動速度
+static const float MOVE_SPEED = 0.1f;	// 移動速度
 static const float ROT_SPEED = 0.03f;	// 回転速度
 static const float JUMP_POWER = 5.0f;	// ジャンプ力
 static const float GRAVITY = 0.01f;		// 重力
@@ -15,7 +15,7 @@ static const float MAXTIME = 10.0f;		// クールタイム
 static const float ANIME_SPEED = 1.0f;	// アニメスピード
 static const float MOVE_HIGHT = 0.0f;	// 動く高さ
 
-static const char HUMAN_MODEL_PATH[] = { "Data/Character/player/player.mv1" };
+static const char HUMAN_MODEL_PATH[] = { "Data/Character/ScondBoss/enemy.mv1" };
 //----------------------------------------
 
 
@@ -104,6 +104,7 @@ void CEnemy::Draw()
 {
 	if (!m_isActive)return;
 	CObject::Draw();
+
 	//DrawFormatString(100, 500, RED, "人間Y角度：%f", m_vRotation.y);
 
 #ifdef MY_DEBUG
@@ -134,7 +135,16 @@ void CEnemy::NormalExec(const std::vector<CBlock*>& blocks, std::vector<CInstall
 		 //---------------------------------
 		if (m_isMoving)
 		{
+			float addspeed = 0.5f;
+
 			VECTOR dir = VSub(m_targetPos, m_vPosition);
+
+
+			if (Input::Controller::Keep(XINPUT_BUTTON_RIGHT_SHOULDER))//早送りしたいのはenemyとhumanのみなので直に書いています
+			{
+				addspeed = 0.8f;
+				m_coolTime = 0.0f;
+			}
 
 			// Y無視
 			dir.y = 0.0f;
@@ -142,7 +152,7 @@ void CEnemy::NormalExec(const std::vector<CBlock*>& blocks, std::vector<CInstall
 			float dist = VSize(dir);
 
 			// 到着
-			if (dist < MOVE_SPEED)
+			if (dist < MOVE_SPEED + addspeed)
 			{
 				m_vPosition = m_targetPos;
 				m_isMoving = false;
@@ -152,7 +162,7 @@ void CEnemy::NormalExec(const std::vector<CBlock*>& blocks, std::vector<CInstall
 				// 正規化
 				dir = VNorm(dir);
 				// 少しずつ移動
-				dir = VScale(dir, MOVE_SPEED);
+				dir = VScale(dir, MOVE_SPEED + addspeed);
 				m_vPosition = VAdd(m_vPosition, dir);
 			}
 

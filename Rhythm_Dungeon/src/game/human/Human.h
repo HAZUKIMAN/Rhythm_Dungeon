@@ -64,6 +64,9 @@ public:
 	//リセット用
 	void Reset();
 
+	// 当たり判定後の処理
+	void HitCalc();
+
 	//方向の確保
 	int  GetDirect() { return direction; }
 

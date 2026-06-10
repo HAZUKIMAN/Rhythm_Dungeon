@@ -467,7 +467,6 @@ bool ObjectEditor::GetMouseHitPosition(VECTOR* outPos)
 bool ObjectEditor::GetGridPos(VECTOR hitPos,int* pos_x,int* pos_z)
 {
     *pos_x =(int)floor(hitPos.x / TILE_SIZE);
-
     *pos_z =(int)floor(hitPos.z / TILE_SIZE);
 
     //---------------------------------

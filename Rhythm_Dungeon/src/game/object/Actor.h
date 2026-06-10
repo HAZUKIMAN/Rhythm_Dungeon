@@ -1,5 +1,5 @@
 #pragma once
-#include "../object/Object.h"
+#include "../../lib/object/Object.h"
 #include <DxLib.h>
 #include"../Anime/Anime.h"
 
@@ -10,7 +10,9 @@ protected:
 	VECTOR	m_speed;		// 移動速度
 	float	m_radius;		// 半径(今回は球なのでfloat)
 	int		m_hitCoolTime;	// クールタイム
+
 public:
+
 	// コンストラクタ・デストラクタ
 	CActor();
 	virtual ~CActor();
@@ -20,13 +22,11 @@ public:
 
 	// 更新したデータを反映させる
 	virtual void Update();
-
-	// 当たり判定後の処理
-	virtual void HitCalc();
 	
 	//===============================
 	//		取得・設定関連
 	//===============================
+	// 
 	// 半径
 	virtual inline float GetRadius(void){ return m_radius; }
 	virtual inline void SetRadius(float rad) { m_radius = rad; }
@@ -39,6 +39,7 @@ public:
 
 	virtual inline int GetHitTime() { return m_hitCoolTime; }
 	virtual inline int SetHitTime(int time) { return m_hitCoolTime = time; }
+
 
 	// 当たり判定に使う中心の座標
 	virtual VECTOR GetCenter();

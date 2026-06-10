@@ -4,7 +4,7 @@
 #include "../human/Human.h"
 #include "../field/BackGroundManager.h"
 #include "../map/MapEditor.h"
-#include "../object/Object.h"
+#include "../../lib/object/Object.h"
 #include "../cat/Cat.h"
 #include "../field/InstalledItem.h"
 #include "../field/Goal.h"
@@ -15,6 +15,12 @@
 //タイトルクラス
 //	@memo	:	継承後も基本はpublicは増やさない
 class CSceneGame : public CSceneBase{
+
+private:
+
+	VECTOR m_player_startPos;
+	float m_startDer;
+
 private:
 
 	CHuman m_human;							// 人間処理
@@ -48,11 +54,22 @@ public:
 private:
 	//ゲーム本体の処理
 	void Calc();
-
+	void Set();
 	void Reset();
 
 	void CatCrry();
 	void CatCrryToBridge();
+
+	//クリアしたかどうか
+	enum ClearMenu
+	{
+		CLEAR_NONE,
+		CLEAR_NEXT,
+		CLEAR_SELECT
+	};
+	bool m_isGoal = false;
+	int m_clearSelect;
+
 
 	enum ObjectType {
 		OBJ_NONE,
@@ -93,6 +110,7 @@ private:
 		TILE_FLOOR = 1,
 		TILE_WALL = 2,
 		TILE_FLOOR2 = 3,
+		TILE_BRIDGE = 4,
 	};
 
 	CarryState m_carryState;

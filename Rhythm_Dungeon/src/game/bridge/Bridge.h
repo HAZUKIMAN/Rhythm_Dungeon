@@ -1,6 +1,5 @@
 #pragma once
-
-#include "../Object/Object.h"
+#include "../../lib/object/Object.h"
 
 class CBridge : public CObject {
 private:

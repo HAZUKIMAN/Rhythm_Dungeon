@@ -6,6 +6,8 @@
 #include "Data.h"
 #include "lib/Input/Input.h"
 #include "game/effect/effekseer.h"
+#include "lib/sound/effectData/effectData.h"
+#include "lib/sound/SoundManager.h"
 
 
 // プログラムは WinMain から始まります
@@ -31,12 +33,22 @@ int  WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance,
 
 	//エフェクトの初期化
 	CEffekseerCtrl::Init(EFFCTNUM, PARTICLENUM);
+	//サウンドマネージャー
+	CSoundManager sound;
+	//音声の初期化
+	sound.Init();
+	//音声のロード
+	sound.LoadAllData();
 
 	// フレームレート初期化
 	CFrameRate::Init();
-
+	//エフェクトデータの初期化
+	CEffectData::Init();
+	//エフェクトデータのロード
+	CEffectData::Load();
 	// オブジェクト作成
 	CSceneManager scene;
+
 	CFade::Alloc();
 
 
@@ -79,7 +91,8 @@ int  WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance,
 
 	// オブジェクト削除
 	CFade::Release();
-
+	//音声の削除
+	sound.Fin();
 	//エフェクト破棄
 	CEffekseerCtrl::Exit();
 

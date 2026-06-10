@@ -1,5 +1,5 @@
 #include "Actor.h"
-#include "Object.h"
+#include "../../lib/object/Object.h"
 #include "../common.h"
 
 
@@ -50,25 +50,15 @@ void CActor::Update()
 
 
 //-------------------------------
-//		当たり判定後の処理
-//-------------------------------
-void CActor::HitCalc()
-{
-	// とりあえずはフラグを消すだけ
-	m_isActive = false;
-}
-
-
-//-------------------------------
 //		当たり判定に使う中心の座標取得
 //-------------------------------
 VECTOR CActor::GetCenter()
 {
 	VECTOR pos = m_vPosition;
 	pos.y += m_radius;
+
 	return pos;
 }
-
 
 
 void  CActor::AddPos(VECTOR Hit)

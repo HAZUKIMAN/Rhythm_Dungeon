@@ -2,7 +2,6 @@
 #include "SceneManager.h"
 #include "SceneTitle.h"
 #include "SceneGame.h"
-#include "SceneClear.h"
 #include "SceneSelect.h"
 #include "../../lib/Fade/Fade.h"
 
