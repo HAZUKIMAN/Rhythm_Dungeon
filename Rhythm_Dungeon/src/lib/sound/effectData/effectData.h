@@ -3,7 +3,10 @@
 
 enum tagEffectKind	//エフェクトの種類
 {
-	EFFECT_COIN_GET,		//コイン獲得エフェクト
+	EFFECT_HIT_ENEMY,		//敵に当たった時エフェクト
+	EFFECT_CAT_WALK,		//猫の歩いている時のエフェクト
+	EFFECT_HUMAN_RESET,		//humanの復活エフェクト
+	EFFECT_GOAL,			//クリア時の空を飛ぶエフェクト
 
 	EFFECT_NUM,				//エフェクトの数
 };

@@ -3,7 +3,55 @@
   "WorkspaceRootPath": "C:\\Users\\2409407\\Desktop\\Github\\Rhythm_Dungeon\\Rhythm_Dungeon\\",
   "Documents": [
     {
+      "AbsoluteMoniker": "D:0:0:{C869AEDC-7CFC-400D-A6B1-FF68B9FBAC38}|Rhythm_Dungeon.vcxproj|C:\\Users\\2409407\\Desktop\\Github\\Rhythm_Dungeon\\Rhythm_Dungeon\\src\\lib\\sound\\effectData\\effectData.cpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}",
+      "RelativeMoniker": "D:0:0:{C869AEDC-7CFC-400D-A6B1-FF68B9FBAC38}|Rhythm_Dungeon.vcxproj|solutionrelative:src\\lib\\sound\\effectData\\effectData.cpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{C869AEDC-7CFC-400D-A6B1-FF68B9FBAC38}|Rhythm_Dungeon.vcxproj|C:\\Users\\2409407\\Desktop\\Github\\Rhythm_Dungeon\\Rhythm_Dungeon\\src\\game\\scene\\SceneGame.cpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}",
+      "RelativeMoniker": "D:0:0:{C869AEDC-7CFC-400D-A6B1-FF68B9FBAC38}|Rhythm_Dungeon.vcxproj|solutionrelative:src\\game\\scene\\SceneGame.cpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{C869AEDC-7CFC-400D-A6B1-FF68B9FBAC38}|Rhythm_Dungeon.vcxproj|C:\\Users\\2409407\\Desktop\\Github\\Rhythm_Dungeon\\Rhythm_Dungeon\\src\\game\\human\\Human.cpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}",
+      "RelativeMoniker": "D:0:0:{C869AEDC-7CFC-400D-A6B1-FF68B9FBAC38}|Rhythm_Dungeon.vcxproj|solutionrelative:src\\game\\human\\Human.cpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{C869AEDC-7CFC-400D-A6B1-FF68B9FBAC38}|Rhythm_Dungeon.vcxproj|C:\\Users\\2409407\\Desktop\\Github\\Rhythm_Dungeon\\Rhythm_Dungeon\\src\\game\\effect\\effekseer.h||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}",
+      "RelativeMoniker": "D:0:0:{C869AEDC-7CFC-400D-A6B1-FF68B9FBAC38}|Rhythm_Dungeon.vcxproj|solutionrelative:src\\game\\effect\\effekseer.h||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{C869AEDC-7CFC-400D-A6B1-FF68B9FBAC38}|Rhythm_Dungeon.vcxproj|C:\\Users\\2409407\\Desktop\\Github\\Rhythm_Dungeon\\Rhythm_Dungeon\\src\\game\\effect\\effekseer.cpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}",
+      "RelativeMoniker": "D:0:0:{C869AEDC-7CFC-400D-A6B1-FF68B9FBAC38}|Rhythm_Dungeon.vcxproj|solutionrelative:src\\game\\effect\\effekseer.cpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{C869AEDC-7CFC-400D-A6B1-FF68B9FBAC38}|Rhythm_Dungeon.vcxproj|C:\\Users\\2409407\\Desktop\\Github\\Rhythm_Dungeon\\Rhythm_Dungeon\\src\\game\\enemy\\Enemy.cpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}",
+      "RelativeMoniker": "D:0:0:{C869AEDC-7CFC-400D-A6B1-FF68B9FBAC38}|Rhythm_Dungeon.vcxproj|solutionrelative:src\\game\\enemy\\Enemy.cpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{C869AEDC-7CFC-400D-A6B1-FF68B9FBAC38}|Rhythm_Dungeon.vcxproj|C:\\Users\\2409407\\Desktop\\Github\\Rhythm_Dungeon\\Rhythm_Dungeon\\src\\lib\\sound\\effectData\\effectData.h||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}",
+      "RelativeMoniker": "D:0:0:{C869AEDC-7CFC-400D-A6B1-FF68B9FBAC38}|Rhythm_Dungeon.vcxproj|solutionrelative:src\\lib\\sound\\effectData\\effectData.h||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}"
+    },
+    {
       "AbsoluteMoniker": "D:0:0:{C869AEDC-7CFC-400D-A6B1-FF68B9FBAC38}|Rhythm_Dungeon.vcxproj|C:\\Users\\2409407\\Downloads\\A1Team\\A1Team\\GameProject\\Source\\Game\\Gimmick\\Rail.h||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{C869AEDC-7CFC-400D-A6B1-FF68B9FBAC38}|Rhythm_Dungeon.vcxproj|C:\\Users\\2409407\\Desktop\\Github\\Rhythm_Dungeon\\Rhythm_Dungeon\\src\\game\\field\\InstalledItem.cpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}",
+      "RelativeMoniker": "D:0:0:{C869AEDC-7CFC-400D-A6B1-FF68B9FBAC38}|Rhythm_Dungeon.vcxproj|solutionrelative:src\\game\\field\\InstalledItem.cpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{C869AEDC-7CFC-400D-A6B1-FF68B9FBAC38}|Rhythm_Dungeon.vcxproj|C:\\Users\\2409407\\Desktop\\Github\\Rhythm_Dungeon\\Rhythm_Dungeon\\src\\game\\human\\Human.h||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}",
+      "RelativeMoniker": "D:0:0:{C869AEDC-7CFC-400D-A6B1-FF68B9FBAC38}|Rhythm_Dungeon.vcxproj|solutionrelative:src\\game\\human\\Human.h||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{C869AEDC-7CFC-400D-A6B1-FF68B9FBAC38}|Rhythm_Dungeon.vcxproj|C:\\Users\\2409407\\Desktop\\Github\\Rhythm_Dungeon\\Rhythm_Dungeon\\src\\game\\enemy\\Enemy.h||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}",
+      "RelativeMoniker": "D:0:0:{C869AEDC-7CFC-400D-A6B1-FF68B9FBAC38}|Rhythm_Dungeon.vcxproj|solutionrelative:src\\game\\enemy\\Enemy.h||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{C869AEDC-7CFC-400D-A6B1-FF68B9FBAC38}|Rhythm_Dungeon.vcxproj|C:\\Users\\2409407\\Desktop\\Github\\Rhythm_Dungeon\\Rhythm_Dungeon\\src\\game\\bridge\\Bridge.h||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}",
+      "RelativeMoniker": "D:0:0:{C869AEDC-7CFC-400D-A6B1-FF68B9FBAC38}|Rhythm_Dungeon.vcxproj|solutionrelative:src\\game\\bridge\\Bridge.h||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{C869AEDC-7CFC-400D-A6B1-FF68B9FBAC38}|Rhythm_Dungeon.vcxproj|C:\\Users\\2409407\\Desktop\\Github\\Rhythm_Dungeon\\Rhythm_Dungeon\\src\\lib\\fade\\Fade.cpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}",
+      "RelativeMoniker": "D:0:0:{C869AEDC-7CFC-400D-A6B1-FF68B9FBAC38}|Rhythm_Dungeon.vcxproj|solutionrelative:src\\lib\\fade\\Fade.cpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}"
     },
     {
       "AbsoluteMoniker": "D:0:0:{C869AEDC-7CFC-400D-A6B1-FF68B9FBAC38}|Rhythm_Dungeon.vcxproj|C:\\Users\\2409407\\Downloads\\A1Team\\A1Team\\GameProject\\Source\\Game\\Gimmick\\Rail.cpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}"
@@ -23,10 +71,6 @@
     {
       "AbsoluteMoniker": "D:0:0:{C869AEDC-7CFC-400D-A6B1-FF68B9FBAC38}|Rhythm_Dungeon.vcxproj|C:\\Users\\2409407\\Desktop\\Github\\Rhythm_Dungeon\\Rhythm_Dungeon\\src\\game\\camera\\CameraBase.cpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}",
       "RelativeMoniker": "D:0:0:{C869AEDC-7CFC-400D-A6B1-FF68B9FBAC38}|Rhythm_Dungeon.vcxproj|solutionrelative:src\\game\\camera\\CameraBase.cpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{C869AEDC-7CFC-400D-A6B1-FF68B9FBAC38}|Rhythm_Dungeon.vcxproj|C:\\Users\\2409407\\Desktop\\Github\\Rhythm_Dungeon\\Rhythm_Dungeon\\src\\game\\scene\\SceneGame.cpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}",
-      "RelativeMoniker": "D:0:0:{C869AEDC-7CFC-400D-A6B1-FF68B9FBAC38}|Rhythm_Dungeon.vcxproj|solutionrelative:src\\game\\scene\\SceneGame.cpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}"
     },
     {
       "AbsoluteMoniker": "D:0:0:{C869AEDC-7CFC-400D-A6B1-FF68B9FBAC38}|Rhythm_Dungeon.vcxproj|C:\\Users\\2409407\\Desktop\\Github\\Rhythm_Dungeon\\Rhythm_Dungeon\\src\\game\\camera\\PlayCamera.h||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}",
@@ -53,10 +97,6 @@
       "RelativeMoniker": "D:0:0:{C869AEDC-7CFC-400D-A6B1-FF68B9FBAC38}|Rhythm_Dungeon.vcxproj|solutionrelative:src\\game\\cat\\Cat.cpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{C869AEDC-7CFC-400D-A6B1-FF68B9FBAC38}|Rhythm_Dungeon.vcxproj|C:\\Users\\2409407\\Desktop\\Github\\Rhythm_Dungeon\\Rhythm_Dungeon\\src\\game\\human\\Human.cpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}",
-      "RelativeMoniker": "D:0:0:{C869AEDC-7CFC-400D-A6B1-FF68B9FBAC38}|Rhythm_Dungeon.vcxproj|solutionrelative:src\\game\\human\\Human.cpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}"
-    },
-    {
       "AbsoluteMoniker": "D:0:0:{C869AEDC-7CFC-400D-A6B1-FF68B9FBAC38}|Rhythm_Dungeon.vcxproj|C:\\Users\\2409407\\Desktop\\Github\\Rhythm_Dungeon\\Rhythm_Dungeon\\src\\game\\collision\\CollisionManager.cpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}",
       "RelativeMoniker": "D:0:0:{C869AEDC-7CFC-400D-A6B1-FF68B9FBAC38}|Rhythm_Dungeon.vcxproj|solutionrelative:src\\game\\collision\\CollisionManager.cpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}"
     },
@@ -81,14 +121,6 @@
       "RelativeMoniker": "D:0:0:{C869AEDC-7CFC-400D-A6B1-FF68B9FBAC38}|Rhythm_Dungeon.vcxproj|solutionrelative:src\\game\\scene\\SceneGame.h||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{C869AEDC-7CFC-400D-A6B1-FF68B9FBAC38}|Rhythm_Dungeon.vcxproj|C:\\Users\\2409407\\Desktop\\Github\\Rhythm_Dungeon\\Rhythm_Dungeon\\src\\game\\human\\Human.h||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}",
-      "RelativeMoniker": "D:0:0:{C869AEDC-7CFC-400D-A6B1-FF68B9FBAC38}|Rhythm_Dungeon.vcxproj|solutionrelative:src\\game\\human\\Human.h||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{C869AEDC-7CFC-400D-A6B1-FF68B9FBAC38}|Rhythm_Dungeon.vcxproj|C:\\Users\\2409407\\Desktop\\Github\\Rhythm_Dungeon\\Rhythm_Dungeon\\src\\game\\enemy\\Enemy.h||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}",
-      "RelativeMoniker": "D:0:0:{C869AEDC-7CFC-400D-A6B1-FF68B9FBAC38}|Rhythm_Dungeon.vcxproj|solutionrelative:src\\game\\enemy\\Enemy.h||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}"
-    },
-    {
       "AbsoluteMoniker": "D:0:0:{C869AEDC-7CFC-400D-A6B1-FF68B9FBAC38}|Rhythm_Dungeon.vcxproj|C:\\Users\\2409407\\Desktop\\Github\\Rhythm_Dungeon\\Rhythm_Dungeon\\src\\game\\cat\\Cat.h||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}",
       "RelativeMoniker": "D:0:0:{C869AEDC-7CFC-400D-A6B1-FF68B9FBAC38}|Rhythm_Dungeon.vcxproj|solutionrelative:src\\game\\cat\\Cat.h||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}"
     },
@@ -99,10 +131,6 @@
     {
       "AbsoluteMoniker": "D:0:0:{C869AEDC-7CFC-400D-A6B1-FF68B9FBAC38}|Rhythm_Dungeon.vcxproj|C:\\Users\\2409407\\Desktop\\Github\\Rhythm_Dungeon\\Rhythm_Dungeon\\src\\game\\map\\ObjectEditor.cpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}",
       "RelativeMoniker": "D:0:0:{C869AEDC-7CFC-400D-A6B1-FF68B9FBAC38}|Rhythm_Dungeon.vcxproj|solutionrelative:src\\game\\map\\ObjectEditor.cpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{C869AEDC-7CFC-400D-A6B1-FF68B9FBAC38}|Rhythm_Dungeon.vcxproj|C:\\Users\\2409407\\Desktop\\Github\\Rhythm_Dungeon\\Rhythm_Dungeon\\src\\game\\enemy\\Enemy.cpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}",
-      "RelativeMoniker": "D:0:0:{C869AEDC-7CFC-400D-A6B1-FF68B9FBAC38}|Rhythm_Dungeon.vcxproj|solutionrelative:src\\game\\enemy\\Enemy.cpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}"
     },
     {
       "AbsoluteMoniker": "D:0:0:{C869AEDC-7CFC-400D-A6B1-FF68B9FBAC38}|Rhythm_Dungeon.vcxproj|C:\\Users\\2409407\\Desktop\\Github\\Rhythm_Dungeon\\Rhythm_Dungeon\\src\\game\\collision\\CollisionManager.h||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}",
@@ -121,24 +149,8 @@
       "RelativeMoniker": "D:0:0:{C869AEDC-7CFC-400D-A6B1-FF68B9FBAC38}|Rhythm_Dungeon.vcxproj|solutionrelative:src\\lib\\fade\\Fade.h||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{C869AEDC-7CFC-400D-A6B1-FF68B9FBAC38}|Rhythm_Dungeon.vcxproj|C:\\Users\\2409407\\Desktop\\Github\\Rhythm_Dungeon\\Rhythm_Dungeon\\src\\lib\\fade\\Fade.cpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}",
-      "RelativeMoniker": "D:0:0:{C869AEDC-7CFC-400D-A6B1-FF68B9FBAC38}|Rhythm_Dungeon.vcxproj|solutionrelative:src\\lib\\fade\\Fade.cpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{C869AEDC-7CFC-400D-A6B1-FF68B9FBAC38}|Rhythm_Dungeon.vcxproj|C:\\Users\\2409407\\Desktop\\Github\\Rhythm_Dungeon\\Rhythm_Dungeon\\src\\game\\field\\InstalledItem.cpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}",
-      "RelativeMoniker": "D:0:0:{C869AEDC-7CFC-400D-A6B1-FF68B9FBAC38}|Rhythm_Dungeon.vcxproj|solutionrelative:src\\game\\field\\InstalledItem.cpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{C869AEDC-7CFC-400D-A6B1-FF68B9FBAC38}|Rhythm_Dungeon.vcxproj|C:\\Users\\2409407\\Desktop\\Github\\Rhythm_Dungeon\\Rhythm_Dungeon\\src\\game\\bridge\\Bridge.h||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}",
-      "RelativeMoniker": "D:0:0:{C869AEDC-7CFC-400D-A6B1-FF68B9FBAC38}|Rhythm_Dungeon.vcxproj|solutionrelative:src\\game\\bridge\\Bridge.h||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}"
-    },
-    {
       "AbsoluteMoniker": "D:0:0:{C869AEDC-7CFC-400D-A6B1-FF68B9FBAC38}|Rhythm_Dungeon.vcxproj|C:\\Users\\2409407\\Desktop\\Github\\Rhythm_Dungeon\\Rhythm_Dungeon\\src\\game\\bridge\\Bridge.cpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}",
       "RelativeMoniker": "D:0:0:{C869AEDC-7CFC-400D-A6B1-FF68B9FBAC38}|Rhythm_Dungeon.vcxproj|solutionrelative:src\\game\\bridge\\Bridge.cpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{C869AEDC-7CFC-400D-A6B1-FF68B9FBAC38}|Rhythm_Dungeon.vcxproj|C:\\Users\\2409407\\Desktop\\Github\\Rhythm_Dungeon\\Rhythm_Dungeon\\src\\game\\effect\\effekseer.cpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}",
-      "RelativeMoniker": "D:0:0:{C869AEDC-7CFC-400D-A6B1-FF68B9FBAC38}|Rhythm_Dungeon.vcxproj|solutionrelative:src\\game\\effect\\effekseer.cpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}"
     },
     {
       "AbsoluteMoniker": "D:0:0:{C869AEDC-7CFC-400D-A6B1-FF68B9FBAC38}|Rhythm_Dungeon.vcxproj|C:\\Users\\2409407\\Desktop\\Github\\Rhythm_Dungeon\\Rhythm_Dungeon\\src\\game\\field\\Block.cpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}",
@@ -147,10 +159,6 @@
     {
       "AbsoluteMoniker": "D:0:0:{C869AEDC-7CFC-400D-A6B1-FF68B9FBAC38}|Rhythm_Dungeon.vcxproj|C:\\Users\\2409407\\Desktop\\Github\\Rhythm_Dungeon\\Rhythm_Dungeon\\src\\game\\field\\Block.h||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}",
       "RelativeMoniker": "D:0:0:{C869AEDC-7CFC-400D-A6B1-FF68B9FBAC38}|Rhythm_Dungeon.vcxproj|solutionrelative:src\\game\\field\\Block.h||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{C869AEDC-7CFC-400D-A6B1-FF68B9FBAC38}|Rhythm_Dungeon.vcxproj|C:\\Users\\2409407\\Desktop\\Github\\Rhythm_Dungeon\\Rhythm_Dungeon\\src\\game\\effect\\effekseer.h||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}",
-      "RelativeMoniker": "D:0:0:{C869AEDC-7CFC-400D-A6B1-FF68B9FBAC38}|Rhythm_Dungeon.vcxproj|solutionrelative:src\\game\\effect\\effekseer.h||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}"
     },
     {
       "AbsoluteMoniker": "D:0:0:{C869AEDC-7CFC-400D-A6B1-FF68B9FBAC38}|Rhythm_Dungeon.vcxproj|C:\\Users\\2409407\\Desktop\\Github\\Rhythm_Dungeon\\Rhythm_Dungeon\\src\\game\\map\\ObjectEditor.h||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}",
@@ -175,14 +183,6 @@
     {
       "AbsoluteMoniker": "D:0:0:{C869AEDC-7CFC-400D-A6B1-FF68B9FBAC38}|Rhythm_Dungeon.vcxproj|C:\\Users\\2409407\\Desktop\\Github\\Rhythm_Dungeon\\Rhythm_Dungeon\\src\\Data.cpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}",
       "RelativeMoniker": "D:0:0:{C869AEDC-7CFC-400D-A6B1-FF68B9FBAC38}|Rhythm_Dungeon.vcxproj|solutionrelative:src\\Data.cpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{C869AEDC-7CFC-400D-A6B1-FF68B9FBAC38}|Rhythm_Dungeon.vcxproj|C:\\Users\\2409407\\Desktop\\Github\\Rhythm_Dungeon\\Rhythm_Dungeon\\src\\lib\\sound\\effectData\\effectData.cpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}",
-      "RelativeMoniker": "D:0:0:{C869AEDC-7CFC-400D-A6B1-FF68B9FBAC38}|Rhythm_Dungeon.vcxproj|solutionrelative:src\\lib\\sound\\effectData\\effectData.cpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{C869AEDC-7CFC-400D-A6B1-FF68B9FBAC38}|Rhythm_Dungeon.vcxproj|C:\\Users\\2409407\\Desktop\\Github\\Rhythm_Dungeon\\Rhythm_Dungeon\\src\\lib\\sound\\effectData\\effectData.h||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}",
-      "RelativeMoniker": "D:0:0:{C869AEDC-7CFC-400D-A6B1-FF68B9FBAC38}|Rhythm_Dungeon.vcxproj|solutionrelative:src\\lib\\sound\\effectData\\effectData.h||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}"
     }
   ],
   "DocumentGroupContainers": [
@@ -192,11 +192,11 @@
       "DocumentGroups": [
         {
           "DockedWidth": 200,
-          "SelectedChildIndex": 1,
+          "SelectedChildIndex": 38,
           "Children": [
             {
               "$type": "Document",
-              "DocumentIndex": 1,
+              "DocumentIndex": 13,
               "Title": "Rail.cpp",
               "DocumentMoniker": "C:\\Users\\2409407\\Downloads\\A1Team\\A1Team\\GameProject\\Source\\Game\\Gimmick\\Rail.cpp",
               "RelativeDocumentMoniker": "..\\..\\..\\..\\Downloads\\A1Team\\A1Team\\GameProject\\Source\\Game\\Gimmick\\Rail.cpp",
@@ -204,25 +204,24 @@
               "RelativeToolTip": "..\\..\\..\\..\\Downloads\\A1Team\\A1Team\\GameProject\\Source\\Game\\Gimmick\\Rail.cpp",
               "ViewState": "AgIAACABAAAAAAAAAAAAAEwBAAAHAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000677|",
-              "WhenOpened": "2026-06-10T03:56:16.389Z",
-              "EditorCaption": ""
+              "WhenOpened": "2026-06-10T03:56:16.389Z"
             },
             {
               "$type": "Document",
-              "DocumentIndex": 0,
+              "DocumentIndex": 7,
               "Title": "Rail.h",
               "DocumentMoniker": "C:\\Users\\2409407\\Downloads\\A1Team\\A1Team\\GameProject\\Source\\Game\\Gimmick\\Rail.h",
               "RelativeDocumentMoniker": "..\\..\\..\\..\\Downloads\\A1Team\\A1Team\\GameProject\\Source\\Game\\Gimmick\\Rail.h",
               "ToolTip": "C:\\Users\\2409407\\Downloads\\A1Team\\A1Team\\GameProject\\Source\\Game\\Gimmick\\Rail.h",
               "RelativeToolTip": "..\\..\\..\\..\\Downloads\\A1Team\\A1Team\\GameProject\\Source\\Game\\Gimmick\\Rail.h",
-              "ViewState": "AgIAAA8AAAAAAAAAAAAAACkAAAAGAAAAAAAAAA==",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAABwAAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000680|",
               "WhenOpened": "2026-06-10T03:56:15.651Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
-              "DocumentIndex": 8,
+              "DocumentIndex": 19,
               "Title": "CameraManager.h",
               "DocumentMoniker": "C:\\Users\\2409407\\Desktop\\Github\\Rhythm_Dungeon\\Rhythm_Dungeon\\src\\game\\camera\\CameraManager.h",
               "RelativeDocumentMoniker": "src\\game\\camera\\CameraManager.h",
@@ -230,12 +229,11 @@
               "RelativeToolTip": "src\\game\\camera\\CameraManager.h",
               "ViewState": "AgIAAAkAAAAAAAAAAAAAACAAAAANAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000680|",
-              "WhenOpened": "2026-06-10T03:43:04.365Z",
-              "EditorCaption": ""
+              "WhenOpened": "2026-06-10T03:43:04.365Z"
             },
             {
               "$type": "Document",
-              "DocumentIndex": 9,
+              "DocumentIndex": 20,
               "Title": "DebugCamera.h",
               "DocumentMoniker": "C:\\Users\\2409407\\Desktop\\Github\\Rhythm_Dungeon\\Rhythm_Dungeon\\src\\game\\camera\\DebugCamera.h",
               "RelativeDocumentMoniker": "src\\game\\camera\\DebugCamera.h",
@@ -243,12 +241,11 @@
               "RelativeToolTip": "src\\game\\camera\\DebugCamera.h",
               "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000680|",
-              "WhenOpened": "2026-06-10T03:42:20.062Z",
-              "EditorCaption": ""
+              "WhenOpened": "2026-06-10T03:42:20.062Z"
             },
             {
               "$type": "Document",
-              "DocumentIndex": 10,
+              "DocumentIndex": 21,
               "Title": "DebugCamera.cpp",
               "DocumentMoniker": "C:\\Users\\2409407\\Desktop\\Github\\Rhythm_Dungeon\\Rhythm_Dungeon\\src\\game\\camera\\DebugCamera.cpp",
               "RelativeDocumentMoniker": "src\\game\\camera\\DebugCamera.cpp",
@@ -256,12 +253,11 @@
               "RelativeToolTip": "src\\game\\camera\\DebugCamera.cpp",
               "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000677|",
-              "WhenOpened": "2026-06-10T03:42:18.646Z",
-              "EditorCaption": ""
+              "WhenOpened": "2026-06-10T03:42:18.646Z"
             },
             {
               "$type": "Document",
-              "DocumentIndex": 11,
+              "DocumentIndex": 22,
               "Title": "CameraBase.h",
               "DocumentMoniker": "C:\\Users\\2409407\\Desktop\\Github\\Rhythm_Dungeon\\Rhythm_Dungeon\\src\\game\\camera\\CameraBase.h",
               "RelativeDocumentMoniker": "src\\game\\camera\\CameraBase.h",
@@ -269,12 +265,11 @@
               "RelativeToolTip": "src\\game\\camera\\CameraBase.h",
               "ViewState": "AgIAAAMAAAAAAAAAAAAAAB0AAAAnAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000680|",
-              "WhenOpened": "2026-06-10T03:41:37.478Z",
-              "EditorCaption": ""
+              "WhenOpened": "2026-06-10T03:41:37.478Z"
             },
             {
               "$type": "Document",
-              "DocumentIndex": 7,
+              "DocumentIndex": 18,
               "Title": "PlayCamera.h",
               "DocumentMoniker": "C:\\Users\\2409407\\Desktop\\Github\\Rhythm_Dungeon\\Rhythm_Dungeon\\src\\game\\camera\\PlayCamera.h",
               "RelativeDocumentMoniker": "src\\game\\camera\\PlayCamera.h",
@@ -282,12 +277,11 @@
               "RelativeToolTip": "src\\game\\camera\\PlayCamera.h",
               "ViewState": "AgIAAAAAAAAAAAAAAAAAAA0AAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000680|",
-              "WhenOpened": "2026-06-10T03:38:31.542Z",
-              "EditorCaption": ""
+              "WhenOpened": "2026-06-10T03:38:31.542Z"
             },
             {
               "$type": "Document",
-              "DocumentIndex": 15,
+              "DocumentIndex": 25,
               "Title": "SceneSelect.cpp",
               "DocumentMoniker": "C:\\Users\\2409407\\Desktop\\Github\\Rhythm_Dungeon\\Rhythm_Dungeon\\src\\game\\scene\\SceneSelect.cpp",
               "RelativeDocumentMoniker": "src\\game\\scene\\SceneSelect.cpp",
@@ -295,12 +289,11 @@
               "RelativeToolTip": "src\\game\\scene\\SceneSelect.cpp",
               "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000677|",
-              "WhenOpened": "2026-06-10T03:06:08.205Z",
-              "EditorCaption": ""
+              "WhenOpened": "2026-06-10T03:06:08.205Z"
             },
             {
               "$type": "Document",
-              "DocumentIndex": 18,
+              "DocumentIndex": 28,
               "Title": "BackGroundManager.h",
               "DocumentMoniker": "C:\\Users\\2409407\\Desktop\\Github\\Rhythm_Dungeon\\Rhythm_Dungeon\\src\\game\\field\\BackGroundManager.h",
               "RelativeDocumentMoniker": "src\\game\\field\\BackGroundManager.h",
@@ -308,12 +301,11 @@
               "RelativeToolTip": "src\\game\\field\\BackGroundManager.h",
               "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000680|",
-              "WhenOpened": "2026-06-10T03:06:04.275Z",
-              "EditorCaption": ""
+              "WhenOpened": "2026-06-10T03:06:04.275Z"
             },
             {
               "$type": "Document",
-              "DocumentIndex": 2,
+              "DocumentIndex": 14,
               "Title": "MapEditor.h",
               "DocumentMoniker": "C:\\Users\\2409407\\Desktop\\Github\\Rhythm_Dungeon\\Rhythm_Dungeon\\src\\game\\map\\MapEditor.h",
               "RelativeDocumentMoniker": "src\\game\\map\\MapEditor.h",
@@ -321,12 +313,11 @@
               "RelativeToolTip": "src\\game\\map\\MapEditor.h",
               "ViewState": "AgIAAC0AAAAAAAAAAAAAABUAAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000680|",
-              "WhenOpened": "2026-06-10T02:46:55.038Z",
-              "EditorCaption": ""
+              "WhenOpened": "2026-06-10T02:46:55.038Z"
             },
             {
               "$type": "Document",
-              "DocumentIndex": 4,
+              "DocumentIndex": 16,
               "Title": "CameraManager.cpp",
               "DocumentMoniker": "C:\\Users\\2409407\\Desktop\\Github\\Rhythm_Dungeon\\Rhythm_Dungeon\\src\\game\\camera\\CameraManager.cpp",
               "RelativeDocumentMoniker": "src\\game\\camera\\CameraManager.cpp",
@@ -334,12 +325,11 @@
               "RelativeToolTip": "src\\game\\camera\\CameraManager.cpp",
               "ViewState": "AgIAAC4AAAAAAAAAAAAewEQAAAAuAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000677|",
-              "WhenOpened": "2026-06-10T01:59:00.74Z",
-              "EditorCaption": ""
+              "WhenOpened": "2026-06-10T01:59:00.74Z"
             },
             {
               "$type": "Document",
-              "DocumentIndex": 5,
+              "DocumentIndex": 17,
               "Title": "CameraBase.cpp",
               "DocumentMoniker": "C:\\Users\\2409407\\Desktop\\Github\\Rhythm_Dungeon\\Rhythm_Dungeon\\src\\game\\camera\\CameraBase.cpp",
               "RelativeDocumentMoniker": "src\\game\\camera\\CameraBase.cpp",
@@ -347,12 +337,11 @@
               "RelativeToolTip": "src\\game\\camera\\CameraBase.cpp",
               "ViewState": "AgIAAAwAAAAAAAAAAAAAACoAAAANAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000677|",
-              "WhenOpened": "2026-06-10T01:57:11.868Z",
-              "EditorCaption": ""
+              "WhenOpened": "2026-06-10T01:57:11.868Z"
             },
             {
               "$type": "Document",
-              "DocumentIndex": 27,
+              "DocumentIndex": 34,
               "Title": "CameraEditor.cpp",
               "DocumentMoniker": "C:\\Users\\2409407\\Desktop\\Github\\Rhythm_Dungeon\\Rhythm_Dungeon\\src\\game\\camera\\CameraEditor.cpp",
               "RelativeDocumentMoniker": "src\\game\\camera\\CameraEditor.cpp",
@@ -360,12 +349,11 @@
               "RelativeToolTip": "src\\game\\camera\\CameraEditor.cpp",
               "ViewState": "AgIAAJkAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000677|",
-              "WhenOpened": "2026-06-10T01:57:05.224Z",
-              "EditorCaption": ""
+              "WhenOpened": "2026-06-10T01:57:05.224Z"
             },
             {
               "$type": "Document",
-              "DocumentIndex": 3,
+              "DocumentIndex": 15,
               "Title": "PlayCamera.cpp",
               "DocumentMoniker": "C:\\Users\\2409407\\Desktop\\Github\\Rhythm_Dungeon\\Rhythm_Dungeon\\src\\game\\camera\\PlayCamera.cpp",
               "RelativeDocumentMoniker": "src\\game\\camera\\PlayCamera.cpp",
@@ -373,12 +361,11 @@
               "RelativeToolTip": "src\\game\\camera\\PlayCamera.cpp",
               "ViewState": "AgIAACEAAAAAAAAAAAAAADQAAAATAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000677|",
-              "WhenOpened": "2026-06-10T01:56:56.197Z",
-              "EditorCaption": ""
+              "WhenOpened": "2026-06-10T01:56:56.197Z"
             },
             {
               "$type": "Document",
-              "DocumentIndex": 22,
+              "DocumentIndex": 30,
               "Title": "Cat.h",
               "DocumentMoniker": "C:\\Users\\2409407\\Desktop\\Github\\Rhythm_Dungeon\\Rhythm_Dungeon\\src\\game\\cat\\Cat.h",
               "RelativeDocumentMoniker": "src\\game\\cat\\Cat.h",
@@ -386,12 +373,11 @@
               "RelativeToolTip": "src\\game\\cat\\Cat.h",
               "ViewState": "AgIAADwAAAAAAAAAAAAAAF4AAAAOAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000680|",
-              "WhenOpened": "2026-06-10T01:53:01.065Z",
-              "EditorCaption": ""
+              "WhenOpened": "2026-06-10T01:53:01.065Z"
             },
             {
               "$type": "Document",
-              "DocumentIndex": 19,
+              "DocumentIndex": 29,
               "Title": "SceneGame.h",
               "DocumentMoniker": "C:\\Users\\2409407\\Desktop\\Github\\Rhythm_Dungeon\\Rhythm_Dungeon\\src\\game\\scene\\SceneGame.h",
               "RelativeDocumentMoniker": "src\\game\\scene\\SceneGame.h",
@@ -399,12 +385,11 @@
               "RelativeToolTip": "src\\game\\scene\\SceneGame.h",
               "ViewState": "AgIAAAAAAAAAAAAAAAAAACIAAAAsAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000680|",
-              "WhenOpened": "2026-06-10T01:50:25.116Z",
-              "EditorCaption": ""
+              "WhenOpened": "2026-06-10T01:50:25.116Z"
             },
             {
               "$type": "Document",
-              "DocumentIndex": 21,
+              "DocumentIndex": 10,
               "Title": "Enemy.h",
               "DocumentMoniker": "C:\\Users\\2409407\\Desktop\\Github\\Rhythm_Dungeon\\Rhythm_Dungeon\\src\\game\\enemy\\Enemy.h",
               "RelativeDocumentMoniker": "src\\game\\enemy\\Enemy.h",
@@ -417,7 +402,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 29,
+              "DocumentIndex": 36,
               "Title": "Fade.h",
               "DocumentMoniker": "C:\\Users\\2409407\\Desktop\\Github\\Rhythm_Dungeon\\Rhythm_Dungeon\\src\\lib\\fade\\Fade.h",
               "RelativeDocumentMoniker": "src\\lib\\fade\\Fade.h",
@@ -425,12 +410,11 @@
               "RelativeToolTip": "src\\lib\\fade\\Fade.h",
               "ViewState": "AgIAAA8AAAAAAAAAAAAAABsAAAAHAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000680|",
-              "WhenOpened": "2026-06-10T01:40:22.261Z",
-              "EditorCaption": ""
+              "WhenOpened": "2026-06-10T01:40:22.261Z"
             },
             {
               "$type": "Document",
-              "DocumentIndex": 30,
+              "DocumentIndex": 12,
               "Title": "Fade.cpp",
               "DocumentMoniker": "C:\\Users\\2409407\\Desktop\\Github\\Rhythm_Dungeon\\Rhythm_Dungeon\\src\\lib\\fade\\Fade.cpp",
               "RelativeDocumentMoniker": "src\\lib\\fade\\Fade.cpp",
@@ -443,20 +427,20 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 31,
+              "DocumentIndex": 8,
               "Title": "InstalledItem.cpp",
               "DocumentMoniker": "C:\\Users\\2409407\\Desktop\\Github\\Rhythm_Dungeon\\Rhythm_Dungeon\\src\\game\\field\\InstalledItem.cpp",
               "RelativeDocumentMoniker": "src\\game\\field\\InstalledItem.cpp",
               "ToolTip": "C:\\Users\\2409407\\Desktop\\Github\\Rhythm_Dungeon\\Rhythm_Dungeon\\src\\game\\field\\InstalledItem.cpp",
               "RelativeToolTip": "src\\game\\field\\InstalledItem.cpp",
-              "ViewState": "AgIAAA8AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000677|",
               "WhenOpened": "2026-06-10T01:40:12.796Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
-              "DocumentIndex": 32,
+              "DocumentIndex": 11,
               "Title": "Bridge.h",
               "DocumentMoniker": "C:\\Users\\2409407\\Desktop\\Github\\Rhythm_Dungeon\\Rhythm_Dungeon\\src\\game\\bridge\\Bridge.h",
               "RelativeDocumentMoniker": "src\\game\\bridge\\Bridge.h",
@@ -469,7 +453,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 33,
+              "DocumentIndex": 37,
               "Title": "Bridge.cpp",
               "DocumentMoniker": "C:\\Users\\2409407\\Desktop\\Github\\Rhythm_Dungeon\\Rhythm_Dungeon\\src\\game\\bridge\\Bridge.cpp",
               "RelativeDocumentMoniker": "src\\game\\bridge\\Bridge.cpp",
@@ -477,12 +461,11 @@
               "RelativeToolTip": "src\\game\\bridge\\Bridge.cpp",
               "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000677|",
-              "WhenOpened": "2026-06-10T01:39:50.198Z",
-              "EditorCaption": ""
+              "WhenOpened": "2026-06-10T01:39:50.198Z"
             },
             {
               "$type": "Document",
-              "DocumentIndex": 36,
+              "DocumentIndex": 39,
               "Title": "Block.h",
               "DocumentMoniker": "C:\\Users\\2409407\\Desktop\\Github\\Rhythm_Dungeon\\Rhythm_Dungeon\\src\\game\\field\\Block.h",
               "RelativeDocumentMoniker": "src\\game\\field\\Block.h",
@@ -490,12 +473,11 @@
               "RelativeToolTip": "src\\game\\field\\Block.h",
               "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000680|",
-              "WhenOpened": "2026-06-10T01:36:25.087Z",
-              "EditorCaption": ""
+              "WhenOpened": "2026-06-10T01:36:25.087Z"
             },
             {
               "$type": "Document",
-              "DocumentIndex": 35,
+              "DocumentIndex": 38,
               "Title": "Block.cpp",
               "DocumentMoniker": "C:\\Users\\2409407\\Desktop\\Github\\Rhythm_Dungeon\\Rhythm_Dungeon\\src\\game\\field\\Block.cpp",
               "RelativeDocumentMoniker": "src\\game\\field\\Block.cpp",
@@ -503,25 +485,24 @@
               "RelativeToolTip": "src\\game\\field\\Block.cpp",
               "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000677|",
-              "WhenOpened": "2026-06-10T01:36:24.185Z",
-              "EditorCaption": ""
+              "WhenOpened": "2026-06-10T01:36:24.185Z"
             },
             {
               "$type": "Document",
-              "DocumentIndex": 37,
+              "DocumentIndex": 3,
               "Title": "effekseer.h",
               "DocumentMoniker": "C:\\Users\\2409407\\Desktop\\Github\\Rhythm_Dungeon\\Rhythm_Dungeon\\src\\game\\effect\\effekseer.h",
               "RelativeDocumentMoniker": "src\\game\\effect\\effekseer.h",
               "ToolTip": "C:\\Users\\2409407\\Desktop\\Github\\Rhythm_Dungeon\\Rhythm_Dungeon\\src\\game\\effect\\effekseer.h",
               "RelativeToolTip": "src\\game\\effect\\effekseer.h",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
+              "ViewState": "AgIAAEUAAAAAAAAAAAAAAHAAAAAdAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000680|",
               "WhenOpened": "2026-06-10T01:36:18.539Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
-              "DocumentIndex": 38,
+              "DocumentIndex": 40,
               "Title": "ObjectEditor.h",
               "DocumentMoniker": "C:\\Users\\2409407\\Desktop\\Github\\Rhythm_Dungeon\\Rhythm_Dungeon\\src\\game\\map\\ObjectEditor.h",
               "RelativeDocumentMoniker": "src\\game\\map\\ObjectEditor.h",
@@ -529,12 +510,11 @@
               "RelativeToolTip": "src\\game\\map\\ObjectEditor.h",
               "ViewState": "AgIAACoAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000680|",
-              "WhenOpened": "2026-06-10T01:36:14.842Z",
-              "EditorCaption": ""
+              "WhenOpened": "2026-06-10T01:36:14.842Z"
             },
             {
               "$type": "Document",
-              "DocumentIndex": 23,
+              "DocumentIndex": 31,
               "Title": "MapEditor.cpp",
               "DocumentMoniker": "C:\\Users\\2409407\\Desktop\\Github\\Rhythm_Dungeon\\Rhythm_Dungeon\\src\\game\\map\\MapEditor.cpp",
               "RelativeDocumentMoniker": "src\\game\\map\\MapEditor.cpp",
@@ -542,12 +522,11 @@
               "RelativeToolTip": "src\\game\\map\\MapEditor.cpp",
               "ViewState": "AgIAAIEAAAAAAAAAAAAAAKAAAAAvAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000677|",
-              "WhenOpened": "2026-06-10T01:33:39.958Z",
-              "EditorCaption": ""
+              "WhenOpened": "2026-06-10T01:33:39.958Z"
             },
             {
               "$type": "Document",
-              "DocumentIndex": 40,
+              "DocumentIndex": 42,
               "Title": "myMath.cpp",
               "DocumentMoniker": "C:\\Users\\2409407\\Desktop\\Github\\Rhythm_Dungeon\\Rhythm_Dungeon\\src\\lib\\math\\myMath.cpp",
               "RelativeDocumentMoniker": "src\\lib\\math\\myMath.cpp",
@@ -555,12 +534,11 @@
               "RelativeToolTip": "src\\lib\\math\\myMath.cpp",
               "ViewState": "AgIAADkAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000677|",
-              "WhenOpened": "2026-06-10T01:31:50.205Z",
-              "EditorCaption": ""
+              "WhenOpened": "2026-06-10T01:31:50.205Z"
             },
             {
               "$type": "Document",
-              "DocumentIndex": 41,
+              "DocumentIndex": 43,
               "Title": "Hit.cpp",
               "DocumentMoniker": "C:\\Users\\2409407\\Desktop\\Github\\Rhythm_Dungeon\\Rhythm_Dungeon\\src\\lib\\math\\Hit.cpp",
               "RelativeDocumentMoniker": "src\\lib\\math\\Hit.cpp",
@@ -568,12 +546,11 @@
               "RelativeToolTip": "src\\lib\\math\\Hit.cpp",
               "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000677|",
-              "WhenOpened": "2026-06-10T01:31:48.973Z",
-              "EditorCaption": ""
+              "WhenOpened": "2026-06-10T01:31:48.973Z"
             },
             {
               "$type": "Document",
-              "DocumentIndex": 20,
+              "DocumentIndex": 9,
               "Title": "Human.h",
               "DocumentMoniker": "C:\\Users\\2409407\\Desktop\\Github\\Rhythm_Dungeon\\Rhythm_Dungeon\\src\\game\\human\\Human.h",
               "RelativeDocumentMoniker": "src\\game\\human\\Human.h",
@@ -586,7 +563,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 26,
+              "DocumentIndex": 33,
               "Title": "CollisionManager.h",
               "DocumentMoniker": "C:\\Users\\2409407\\Desktop\\Github\\Rhythm_Dungeon\\Rhythm_Dungeon\\src\\game\\collision\\CollisionManager.h",
               "RelativeDocumentMoniker": "src\\game\\collision\\CollisionManager.h",
@@ -594,12 +571,11 @@
               "RelativeToolTip": "src\\game\\collision\\CollisionManager.h",
               "ViewState": "AgIAACcAAAAAAAAAAAAAADQAAAAVAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000680|",
-              "WhenOpened": "2026-06-10T01:30:25.937Z",
-              "EditorCaption": ""
+              "WhenOpened": "2026-06-10T01:30:25.937Z"
             },
             {
               "$type": "Document",
-              "DocumentIndex": 14,
+              "DocumentIndex": 24,
               "Title": "CollisionManager.cpp",
               "DocumentMoniker": "C:\\Users\\2409407\\Desktop\\Github\\Rhythm_Dungeon\\Rhythm_Dungeon\\src\\game\\collision\\CollisionManager.cpp",
               "RelativeDocumentMoniker": "src\\game\\collision\\CollisionManager.cpp",
@@ -607,25 +583,24 @@
               "RelativeToolTip": "src\\game\\collision\\CollisionManager.cpp",
               "ViewState": "AgIAABEBAAAAAAAAAAAAADgAAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000677|",
-              "WhenOpened": "2026-06-10T01:26:52.832Z",
-              "EditorCaption": ""
+              "WhenOpened": "2026-06-10T01:26:52.832Z"
             },
             {
               "$type": "Document",
-              "DocumentIndex": 13,
+              "DocumentIndex": 2,
               "Title": "Human.cpp",
               "DocumentMoniker": "C:\\Users\\2409407\\Desktop\\Github\\Rhythm_Dungeon\\Rhythm_Dungeon\\src\\game\\human\\Human.cpp",
               "RelativeDocumentMoniker": "src\\game\\human\\Human.cpp",
               "ToolTip": "C:\\Users\\2409407\\Desktop\\Github\\Rhythm_Dungeon\\Rhythm_Dungeon\\src\\game\\human\\Human.cpp",
               "RelativeToolTip": "src\\game\\human\\Human.cpp",
-              "ViewState": "AgIAAJYBAAAAAAAAAADgv7ABAAAeAAAAAAAAAA==",
+              "ViewState": "AgIAAI4BAAAAAAAAAAAAAKgBAAAyAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000677|",
               "WhenOpened": "2026-06-10T01:26:29.391Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
-              "DocumentIndex": 25,
+              "DocumentIndex": 5,
               "Title": "Enemy.cpp",
               "DocumentMoniker": "C:\\Users\\2409407\\Desktop\\Github\\Rhythm_Dungeon\\Rhythm_Dungeon\\src\\game\\enemy\\Enemy.cpp",
               "RelativeDocumentMoniker": "src\\game\\enemy\\Enemy.cpp",
@@ -638,7 +613,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 12,
+              "DocumentIndex": 23,
               "Title": "Cat.cpp",
               "DocumentMoniker": "C:\\Users\\2409407\\Desktop\\Github\\Rhythm_Dungeon\\Rhythm_Dungeon\\src\\game\\cat\\Cat.cpp",
               "RelativeDocumentMoniker": "src\\game\\cat\\Cat.cpp",
@@ -646,25 +621,24 @@
               "RelativeToolTip": "src\\game\\cat\\Cat.cpp",
               "ViewState": "AgIAAH8AAAAAAAAAAADgvzEBAAABAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000677|",
-              "WhenOpened": "2026-06-10T01:12:59.256Z",
-              "EditorCaption": ""
+              "WhenOpened": "2026-06-10T01:12:59.256Z"
             },
             {
               "$type": "Document",
-              "DocumentIndex": 34,
+              "DocumentIndex": 4,
               "Title": "effekseer.cpp",
               "DocumentMoniker": "C:\\Users\\2409407\\Desktop\\Github\\Rhythm_Dungeon\\Rhythm_Dungeon\\src\\game\\effect\\effekseer.cpp",
               "RelativeDocumentMoniker": "src\\game\\effect\\effekseer.cpp",
               "ToolTip": "C:\\Users\\2409407\\Desktop\\Github\\Rhythm_Dungeon\\Rhythm_Dungeon\\src\\game\\effect\\effekseer.cpp",
               "RelativeToolTip": "src\\game\\effect\\effekseer.cpp",
-              "ViewState": "AgIAAD8CAAAAAAAAAADgvwAAAAAAAAAAAAAAAA==",
+              "ViewState": "AgIAAOkAAAAAAAAAAAArwAYBAAAgAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000677|",
               "WhenOpened": "2026-06-10T01:12:35.083Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
-              "DocumentIndex": 24,
+              "DocumentIndex": 32,
               "Title": "ObjectEditor.cpp",
               "DocumentMoniker": "C:\\Users\\2409407\\Desktop\\Github\\Rhythm_Dungeon\\Rhythm_Dungeon\\src\\game\\map\\ObjectEditor.cpp",
               "RelativeDocumentMoniker": "src\\game\\map\\ObjectEditor.cpp",
@@ -672,12 +646,11 @@
               "RelativeToolTip": "src\\game\\map\\ObjectEditor.cpp",
               "ViewState": "AgIAAL8AAAAAAAAAAADgv8kAAAApAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000677|",
-              "WhenOpened": "2026-06-10T01:12:29.377Z",
-              "EditorCaption": ""
+              "WhenOpened": "2026-06-10T01:12:29.377Z"
             },
             {
               "$type": "Document",
-              "DocumentIndex": 39,
+              "DocumentIndex": 41,
               "Title": "SoundManager.h",
               "DocumentMoniker": "C:\\Users\\2409407\\Desktop\\Github\\Rhythm_Dungeon\\Rhythm_Dungeon\\src\\lib\\sound\\SoundManager.h",
               "RelativeDocumentMoniker": "src\\lib\\sound\\SoundManager.h",
@@ -685,51 +658,50 @@
               "RelativeToolTip": "src\\lib\\sound\\SoundManager.h",
               "ViewState": "AgIAAAAAAAAAAAAAAAAAABMAAAAQAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000680|",
-              "WhenOpened": "2026-06-10T01:11:28.203Z",
-              "EditorCaption": ""
+              "WhenOpened": "2026-06-10T01:11:28.203Z"
             },
             {
               "$type": "Document",
-              "DocumentIndex": 44,
+              "DocumentIndex": 0,
               "Title": "effectData.cpp",
               "DocumentMoniker": "C:\\Users\\2409407\\Desktop\\Github\\Rhythm_Dungeon\\Rhythm_Dungeon\\src\\lib\\sound\\effectData\\effectData.cpp",
               "RelativeDocumentMoniker": "src\\lib\\sound\\effectData\\effectData.cpp",
               "ToolTip": "C:\\Users\\2409407\\Desktop\\Github\\Rhythm_Dungeon\\Rhythm_Dungeon\\src\\lib\\sound\\effectData\\effectData.cpp",
               "RelativeToolTip": "src\\lib\\sound\\effectData\\effectData.cpp",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
+              "ViewState": "AgIAAA8AAAAAAAAAAAAAACUAAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000677|",
               "WhenOpened": "2026-06-10T01:11:26.651Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
-              "DocumentIndex": 45,
+              "DocumentIndex": 6,
               "Title": "effectData.h",
               "DocumentMoniker": "C:\\Users\\2409407\\Desktop\\Github\\Rhythm_Dungeon\\Rhythm_Dungeon\\src\\lib\\sound\\effectData\\effectData.h",
               "RelativeDocumentMoniker": "src\\lib\\sound\\effectData\\effectData.h",
               "ToolTip": "C:\\Users\\2409407\\Desktop\\Github\\Rhythm_Dungeon\\Rhythm_Dungeon\\src\\lib\\sound\\effectData\\effectData.h",
               "RelativeToolTip": "src\\lib\\sound\\effectData\\effectData.h",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAUAAAARAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000680|",
               "WhenOpened": "2026-06-10T01:11:25.474Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
-              "DocumentIndex": 6,
+              "DocumentIndex": 1,
               "Title": "SceneGame.cpp",
               "DocumentMoniker": "C:\\Users\\2409407\\Desktop\\Github\\Rhythm_Dungeon\\Rhythm_Dungeon\\src\\game\\scene\\SceneGame.cpp",
               "RelativeDocumentMoniker": "src\\game\\scene\\SceneGame.cpp",
               "ToolTip": "C:\\Users\\2409407\\Desktop\\Github\\Rhythm_Dungeon\\Rhythm_Dungeon\\src\\game\\scene\\SceneGame.cpp",
               "RelativeToolTip": "src\\game\\scene\\SceneGame.cpp",
-              "ViewState": "AgIAADMAAAAAAAAAAAAewEkAAAAHAAAAAAAAAA==",
+              "ViewState": "AgIAABYFAAAAAAAAAAAmwAMFAAAwAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000677|",
               "WhenOpened": "2026-06-10T00:50:47.963Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
-              "DocumentIndex": 16,
+              "DocumentIndex": 26,
               "Title": "SceneManager.cpp",
               "DocumentMoniker": "C:\\Users\\2409407\\Desktop\\Github\\Rhythm_Dungeon\\Rhythm_Dungeon\\src\\game\\scene\\SceneManager.cpp",
               "RelativeDocumentMoniker": "src\\game\\scene\\SceneManager.cpp",
@@ -737,12 +709,11 @@
               "RelativeToolTip": "src\\game\\scene\\SceneManager.cpp",
               "ViewState": "AgIAAH4AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000677|",
-              "WhenOpened": "2026-06-10T00:50:44.956Z",
-              "EditorCaption": ""
+              "WhenOpened": "2026-06-10T00:50:44.956Z"
             },
             {
               "$type": "Document",
-              "DocumentIndex": 28,
+              "DocumentIndex": 35,
               "Title": "SoundManager.cpp",
               "DocumentMoniker": "C:\\Users\\2409407\\Desktop\\Github\\Rhythm_Dungeon\\Rhythm_Dungeon\\src\\lib\\sound\\SoundManager.cpp",
               "RelativeDocumentMoniker": "src\\lib\\sound\\SoundManager.cpp",
@@ -750,12 +721,11 @@
               "RelativeToolTip": "src\\lib\\sound\\SoundManager.cpp",
               "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000677|",
-              "WhenOpened": "2026-06-10T00:50:01.956Z",
-              "EditorCaption": ""
+              "WhenOpened": "2026-06-10T00:50:01.956Z"
             },
             {
               "$type": "Document",
-              "DocumentIndex": 17,
+              "DocumentIndex": 27,
               "Title": "BackGroundManager.cpp",
               "DocumentMoniker": "C:\\Users\\2409407\\Desktop\\Github\\Rhythm_Dungeon\\Rhythm_Dungeon\\src\\game\\field\\BackGroundManager.cpp",
               "RelativeDocumentMoniker": "src\\game\\field\\BackGroundManager.cpp",
@@ -763,12 +733,11 @@
               "RelativeToolTip": "src\\game\\field\\BackGroundManager.cpp",
               "ViewState": "AgIAAAAAAAAAAAAAAAAAAB0AAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000677|",
-              "WhenOpened": "2026-06-09T04:52:55.616Z",
-              "EditorCaption": ""
+              "WhenOpened": "2026-06-09T04:52:55.616Z"
             },
             {
               "$type": "Document",
-              "DocumentIndex": 42,
+              "DocumentIndex": 44,
               "Title": "Data.h",
               "DocumentMoniker": "C:\\Users\\2409407\\Desktop\\Github\\Rhythm_Dungeon\\Rhythm_Dungeon\\src\\Data.h",
               "RelativeDocumentMoniker": "src\\Data.h",
@@ -776,12 +745,11 @@
               "RelativeToolTip": "src\\Data.h",
               "ViewState": "AgIAADAAAAAAAAAAAAAAAFQAAAAfAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000680|",
-              "WhenOpened": "2026-06-09T04:51:37.783Z",
-              "EditorCaption": ""
+              "WhenOpened": "2026-06-09T04:51:37.783Z"
             },
             {
               "$type": "Document",
-              "DocumentIndex": 43,
+              "DocumentIndex": 45,
               "Title": "Data.cpp",
               "DocumentMoniker": "C:\\Users\\2409407\\Desktop\\Github\\Rhythm_Dungeon\\Rhythm_Dungeon\\src\\Data.cpp",
               "RelativeDocumentMoniker": "src\\Data.cpp",
@@ -789,8 +757,7 @@
               "RelativeToolTip": "src\\Data.cpp",
               "ViewState": "AgIAAAAAAAAAAAAAAAAAAAwAAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000677|",
-              "WhenOpened": "2026-06-09T04:51:33.33Z",
-              "EditorCaption": ""
+              "WhenOpened": "2026-06-09T04:51:33.33Z"
             }
           ]
         }

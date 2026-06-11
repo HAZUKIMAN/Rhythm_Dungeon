@@ -413,16 +413,16 @@ void CHuman::Reset()
 // 当たり判定後の処理
 void CHuman::HitCalc()
 {
-	VECTOR vec = VGet(0.2f,0.2f,0.2f);
 	m_isActive = false;
 
+	//拡大率
+	VECTOR effect_scale = VGet(1.0f, 1.0f, 1.0f);
 	//呼び出すエフェクトのID
-	int effectId = CEffectData::GetId(EFFECT_COIN_GET);
-
+	int effectId = CEffectData::GetId(EFFECT_HIT_ENEMY);
 	//コインの位置にエフェクトを呼び出す
 	CEffekseerCtrl::Request(effectId, m_vPosition, false);
 	//エフェクトの拡大・縮小
-	CEffekseerCtrl::SetScale(effectId,vec);
+	CEffekseerCtrl::SetScale(effectId, effect_scale);
 
 }
 

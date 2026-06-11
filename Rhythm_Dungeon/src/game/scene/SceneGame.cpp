@@ -5,6 +5,8 @@
 #include "../../lib/Input/Input.h"
 #include "../../Data.h"
 #include "../../lib/sound/SoundManager.h"
+#include "../effect/effekseer.h"
+#include "../../lib/sound/effectData/effectData.h"
 
 
 static const float HIGHT_GRID = 2.5f;	// 移動速度
@@ -217,8 +219,19 @@ void CSceneGame::Set()
 			float hight = 10.0f;
 
 			VECTOR vec = VGet(worldpos_x, hight, worldpos_z);
+
 			m_human.SetPos(vec);
 			m_human.SetRespawn(vec);
+
+			//拡大率
+			VECTOR effect_scale = VGet(1.0f, 1.0f, 1.0f);
+			//呼び出すエフェクトのID
+			int effectId = CEffectData::GetId(EFFECT_HIT_ENEMY);
+			//コインの位置にエフェクトを呼び出す
+			CEffekseerCtrl::Request(effectId, vec, false);
+			//エフェクトの拡大・縮小
+			CEffekseerCtrl::SetScale(effectId, effect_scale);
+
 			//---------------------------------
 			// rotY → direction変換
 			//---------------------------------
@@ -259,6 +272,7 @@ void CSceneGame::Set()
 				m_human.Setrot(-DX_PI_F / 2);
 				m_startDer = -DX_PI_F / 2;
 			}
+
 		}
 
 		if (obj.type == OBJ_CAT)
@@ -1117,8 +1131,7 @@ void CSceneGame::Reset()
 	//---------------------------------
 	// オブジェクト再生成
 	//---------------------------------
-	auto& objs =
-		m_objEditor.GetObjects();
+	auto& objs = m_objEditor.GetObjects();
 
 	for (const auto& obj : objs)
 	{
@@ -1266,6 +1279,16 @@ void CSceneGame::Reset()
 			VECTOR vec = VGet(worldpos_x, hight, worldpos_z);
 			m_human.SetPos(vec);
 			m_human.SetRespawn(vec);
+
+			//拡大率
+			VECTOR effect_scale = VGet(1.0f, 1.0f, 1.0f);
+			//呼び出すエフェクトのID
+			int effectId = CEffectData::GetId(EFFECT_HIT_ENEMY);
+			//コインの位置にエフェクトを呼び出す
+			CEffekseerCtrl::Request(effectId, vec, false);
+			//エフェクトの拡大・縮小
+			CEffekseerCtrl::SetScale(effectId, effect_scale);
+
 			//---------------------------------
 			// rotY → direction変換
 			//---------------------------------
