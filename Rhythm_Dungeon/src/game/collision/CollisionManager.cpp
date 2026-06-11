@@ -105,7 +105,7 @@ VECTOR CCollisionManager::HitMap(VECTOR center,float radius, MapEditor& map)
             mapZ,
             mapX);
 
-        if (tile == TILE_FLOOR || tile == TILE_FLOOR2 || tile == TILE_BRIDGE)
+        if (tile == TILE_FLOOR || tile == TILE_FLOOR2 || tile == TILE_BRIDGE|| tile == TILE_STAIRS)
         {
             //----------------------------------
             // è∞ÇÃè„ñ 

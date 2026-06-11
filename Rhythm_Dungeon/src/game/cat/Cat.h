@@ -20,9 +20,8 @@ public:
 	};
 
 private:
-
+	VECTOR m_recpos;
 	int m_iPutModel[2];
-
 	tagCatState m_state;	// 人間の状態
 
 	enum ObjectType {
@@ -37,7 +36,7 @@ private:
 
 	enum Direction
 	{
-		ROTATION_RIGHT = 0,
+		ROTATION_RIGHT,
 		ROTATION_DOWN,
 		ROTATION_LEFT,
 		ROTATION_UP
@@ -51,14 +50,13 @@ private:
 		TILE_BRIDGE = 4,
 	};
 
-	// 階段の種類
-	enum StairsType
+	// 壁の種類
+	enum WallType
 	{
-		Stairs_NONE, // 階段なし
-		Stairs_X,    // 左右の階段
-		Stairs_Z     // 前後の階段
+		WALL_NONE, // 壁なし
+		WALL_X,    // 左右の壁
+		WALL_Z     // 前後の壁
 	};
-
 
 public:
 	// コンストラクタ・デストラクタ
@@ -80,10 +78,12 @@ public:
 	void DrawPlaceBlockPreview(MapEditor& map);
 	// 猫の向き取得
 	int GetDirection();
-	//クリアしたとき
+	//リスポーン地点の取得
+	VECTOR SetRespawn(VECTOR res) { return m_recpos = res; }
+	//猫のクリア処理
 	void Clear();
-private:
 
+private:
 	// 移動計算結果を反映
 	void Move();
 	// 待機･移動中処理

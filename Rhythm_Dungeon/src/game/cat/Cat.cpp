@@ -1,4 +1,4 @@
-#include "Cat.h"
+#include"Cat.h"
 #include <math.h>
 
 #include "../../Data.h"
@@ -13,9 +13,11 @@ static const float ROT_SPEED = 0.1f;		// 回転速度
 static const float JUMP_POWER = 5.0f;		// ジャンプ力
 static const float GRAVITY = 0.01f;			// 重力
 static const float RADIUS = 5.0f;			// 当たり判定半径
-static const float ANIME_SPEED = 1.0f;	// アニメスピード
+static const float ANIME_SPEED = 1.0f;		// アニメスピード
+static const float MIN_HIGHT = -20.0f;		// リスポーン位置に戻す
 
-static const char CAT_MODEL_PATH[]	 = { "Data/Character/Cat/cat.mv1" };
+
+static const char CAT_MODEL_PATH[] = { "Data/Character/Cat/cat.mv1" };
 static const char PUTNO_MODEL_PATH[] = { "Data/object/put/Put_No.mv1" };
 static const char PUTOK_MODEL_PATH[] = { "Data/object/put/Put_Ok.mv1" };
 
@@ -64,6 +66,7 @@ CCat::~CCat()
 void CCat::Init()
 {
 	m_state = CAT_STATE_NORMAL;
+
 	m_radius = RADIUS;
 	m_isActive = true;
 
@@ -80,7 +83,7 @@ void CCat::Load()
 	VECTOR size = VGet(0.02f, 0.02f, 0.02f);
 	VECTOR Size = VGet(0.05f, 0.05f, 0.05f);
 
-	int hndl= MV1LoadModel(CAT_MODEL_PATH);
+	int hndl = MV1LoadModel(CAT_MODEL_PATH);
 
 	MV1SetScale(hndl, size);
 
@@ -98,39 +101,53 @@ void CCat::Load()
 //-------------------------------
 void CCat::Step(MapEditor& map)
 {
-	if (!m_isActive)return;
 
+	if (m_isActive == false)
+	{
+		m_vPosition = VGet(m_recpos.x, m_recpos.y, m_recpos.z);
+		m_isActive = true;
+	}
+
+	if (!m_isActive)return;
 	//---------------------------------
 	// 前フレーム位置保存
 	//---------------------------------
-	VECTOR oldPos =m_vPosition;
+	VECTOR oldPos = m_vPosition;
 
+	//---------------------------------
+	// 重力
+	//---------------------------------
+	m_speed.y -= GRAVITY;
 	//---------------------------------
 	// 通常行動
 	//---------------------------------
 	NormalExec(map);
 
 	//---------------------------------
-	// 移動
-	//---------------------------------
-	Move();
-
-	//---------------------------------
 	// 移動量
 	//---------------------------------
-	VECTOR diff =VSub(m_vPosition,oldPos);
+	VECTOR diff = VSub(m_vPosition, oldPos);
+	float move = VSize(diff);
 
-	float move =VSize(diff);
-
+	if (m_vPosition.y <= MIN_HIGHT)
+	{
+		m_isActive = false;
+	}
 	//---------------------------------
 	// 歩き
 	//---------------------------------
 	if (move > 0.1f)
 	{
-		if (m_state !=CAT_STATE_WALK)
+		if (m_state !=
+			CAT_STATE_WALK)
 		{
-			RequestLoop(CAT_STATE_WALK,ANIME_SPEED,m_iModelHdl);
-			m_state = CAT_STATE_WALK;
+			RequestLoop(
+				CAT_STATE_WALK,
+				ANIME_SPEED,
+				m_iModelHdl);
+
+			m_state =
+				CAT_STATE_WALK;
 		}
 	}
 	else
@@ -138,10 +155,16 @@ void CCat::Step(MapEditor& map)
 		//---------------------------------
 		// 待機
 		//---------------------------------
-		if (m_state != CAT_STATE_NORMAL)
+		if (m_state !=
+			CAT_STATE_NORMAL)
 		{
-			RequestLoop(CAT_STATE_NORMAL,ANIME_SPEED,m_iModelHdl);
-			m_state =CAT_STATE_NORMAL;
+			RequestLoop(
+				CAT_STATE_NORMAL,
+				ANIME_SPEED,
+				m_iModelHdl);
+
+			m_state =
+				CAT_STATE_NORMAL;
 		}
 	}
 
@@ -149,7 +172,9 @@ void CCat::Step(MapEditor& map)
 	// 移動処理
 	//---------------------------------
 	Move();
+
 }
+
 
 //-------------------------------
 //		描画処理
@@ -159,7 +184,7 @@ void CCat::Draw()
 	if (!m_isActive)return;
 	CObject::Draw();
 
-	DrawFormatString(100,600,RED,"ねこのY座標：%f",m_vPosition.y);
+	DrawFormatString(100, 600, RED, "ねこのY座標：%f", m_vPosition.y);
 
 #ifdef MY_DEBUG
 	DrawSphere3D(m_vPos, RADIUS, 16, GetColor(0, 0, 255), GetColor(0, 0, 0), FALSE);
@@ -172,9 +197,6 @@ void CCat::Draw()
 //-------------------------------
 void CCat::Move()
 {
-	//	重力処理
-	m_speed.y -= GRAVITY;
-	
 	// 移動速度加算
 	m_vPosition = VAdd(m_vPosition, m_speed);
 
@@ -225,134 +247,57 @@ void CCat::PlaceBlock(ObjectEditor& objEditor)
 //------------------------------
 // 床チェック
 //------------------------------
-bool CCat::CheckGround(
-	MapEditor& map)
+bool CCat::CheckGround(MapEditor& map)
 {
 	//---------------------------------
-	// 猫座標
+	// 猫の足元を見る
 	//---------------------------------
-	int mapX =
-		(int)floor(
-			m_vPosition.x /
-			TILE_SIZE);
-
-	int mapY =
-		(int)floor(
-			m_vPosition.y /
-			TILE_SIZE);
-
-	int mapZ =
-		(int)floor(
-			m_vPosition.z /
-			TILE_SIZE);
-
-	int footY =
-		mapY - 1;
+	int mapX = (int)floor(m_vPosition.x / TILE_SIZE);
+	int mapY = (int)floor(m_vPosition.y / TILE_SIZE);
+	int mapZ = (int)floor(m_vPosition.z / TILE_SIZE);
 
 	//---------------------------------
-	// 範囲外
+	// 足元
 	//---------------------------------
-	if (mapX < 0 ||
-		mapX >= MAP_W ||
+	int footY = mapY - 1;
 
-		footY < 0 ||
-		footY >= MAP_Y ||
-
-		mapZ < 0 ||
-		mapZ >= MAP_H)
+	//---------------------------------
+	// 範囲外防止
+	//---------------------------------
+	if (mapX < 0 || mapX >= MAP_W ||
+		footY < 0 || footY >= MAP_Y ||
+		mapZ < 0 || mapZ >= MAP_H)
 	{
 		return false;
 	}
 
 	//---------------------------------
-	// 足元タイル
+	// 床があるか
 	//---------------------------------
-	int tile =
-		map.GetMap(
-			footY,
-			mapZ,
-			mapX);
-
-	//---------------------------------
-	// 普通の床
-	//---------------------------------
-	if (tile ==
-		TILE_FLOOR ||
-
-		tile ==
-		TILE_FLOOR2 ||
-
-		tile ==
-		TILE_BRIDGE ||
-
-		tile ==
-		TILE_STAIRS)
+	if (map.GetMap(
+		footY,
+		mapZ,
+		mapX) == TILE_FLOOR)
 	{
 		return true;
 	}
-
-	//---------------------------------
-	// 前方向
-	//---------------------------------
-	float rot = m_vRotation.y;
-
-	int dirX =
-		(int)roundf(
-			sinf(rot));
-
-	int dirZ =
-		(int)roundf(
-			-cosf(rot));
-
-	int frontX =
-		mapX + dirX;
-
-	int frontZ =
-		mapZ + dirZ;
-
-	//---------------------------------
-	// 範囲外
-	//---------------------------------
-	if (frontX < 0 ||
-		frontX >= MAP_W ||
-
-		frontZ < 0 ||
-		frontZ >= MAP_H)
+	if (map.GetMap(
+		footY,
+		mapZ,
+		mapX) == TILE_FLOOR2)
 	{
-		return false;
+		return true;
 	}
-
-	//---------------------------------
-	// 目の前が壁か
-	//---------------------------------
-	int wallTile =
-		map.GetMap(
-			mapY,
-			frontZ,
-			frontX);
-
-	if (wallTile == TILE_STAIRS)
+	if (map.GetMap(
+		footY,
+		mapZ,
+		mapX) == TILE_BRIDGE)
 	{
-		////---------------------------------
-		//// 1マス上に床があるか
-		////---------------------------------
-		//int upperTile =
-		//	map.GetMap(
-		//		mapY + 1,
-		//		frontZ,
-		//		frontX);
-
-		//if (upperTile ==TILE_FLOOR ||
-		//	upperTile ==TILE_FLOOR2)
-		//{
-			//---------------------------------
-			// 上に乗せる
-			//---------------------------------
-			m_vPosition.y +=
-				TILE_SIZE;
-
-			return true;
-		//}
+		return true;
+	}
+	if (map.GetMap(footY,mapZ,mapX) == TILE_STAIRS)
+	{
+		return true;
 	}
 
 	return false;
@@ -362,7 +307,7 @@ bool CCat::CheckGround(
 //------------------------------
 // ブロック設置位置表示
 //------------------------------
-void CCat::DrawPlaceBlockPreview(MapEditor & map)
+void CCat::DrawPlaceBlockPreview(MapEditor& map)
 {
 	//---------------------------------
 	// 今いるマス
@@ -399,9 +344,9 @@ void CCat::DrawPlaceBlockPreview(MapEditor & map)
 	//---------------------------------
 	// ワールド座標
 	//---------------------------------
-	float x = placeX * TILE_SIZE + TILE_SIZE/2;
+	float x = placeX * TILE_SIZE + TILE_SIZE / 2;
 	float y = TILE_SIZE / 2;//placeY * TILE_SIZE + TILE_SIZE/2;
-	float z = placeZ * TILE_SIZE + TILE_SIZE/2;
+	float z = placeZ * TILE_SIZE + TILE_SIZE / 2;
 
 	//---------------------------------
 	// 下の床を確認
@@ -440,15 +385,11 @@ void CCat::DrawPlaceBlockPreview(MapEditor & map)
 
 }
 
-
-//操作関係処理
+//------------------------------
+// 操作関係処理
 //------------------------------
 void CCat::Operation(MapEditor& map)
 {
-	//---------------------------------
-	// 元位置保存
-	//---------------------------------
-	VECTOR oldPos =m_vPosition;
 
 	//---------------------------------
 	// 入力値
@@ -462,7 +403,7 @@ void CCat::Operation(MapEditor& map)
 	float stickX = 0.0f;
 	float stickY = 0.0f;
 
-	Input::Controller::LStickIncline(stickX,stickY);
+	Input::Controller::LStickIncline(stickX, stickY);
 
 	//---------------------------------
 	// キーボード入力
@@ -493,7 +434,6 @@ void CCat::Operation(MapEditor& map)
 	if (Input::Controller::Keep(XINPUT_BUTTON_DPAD_LEFT))
 	{
 		moveX -= 1.0f;
-
 	}
 
 	if (Input::Controller::Keep(XINPUT_BUTTON_DPAD_RIGHT))
@@ -524,7 +464,6 @@ void CCat::Operation(MapEditor& map)
 		moveZ = stickY;
 	}
 
-
 	//---------------------------------
 	// 入力がある
 	//---------------------------------
@@ -534,37 +473,37 @@ void CCat::Operation(MapEditor& map)
 		//---------------------------------
 		// 目標角度
 		//---------------------------------
-		float targetRot =atan2f(-moveX,-moveZ);
+		float targetRot = atan2f(-moveX, -moveZ);
 
 		//---------------------------------
 		// 角度差
 		//---------------------------------
-		float diff =targetRot - m_vRotation.y;
+		float diff = targetRot - m_vRotation.y;
 
 		//---------------------------------
 		// -PI～PI補正
 		//---------------------------------
 		while (diff > DX_PI_F)
 		{
-			diff -=DX_PI_F* 2.0f;
+			diff -= DX_PI_F * 2.0f;
 		}
 
 		while (diff < -DX_PI_F)
 		{
-			diff +=DX_PI_F* 2.0f;
+			diff += DX_PI_F * 2.0f;
 		}
 
 		//---------------------------------
-		// ヌルっと回転
+		// 回転
 		//---------------------------------
-		float rotSpeed =0.2f;
+		float rotSpeed = 0.2f;
 
-		m_vRotation.y +=diff* rotSpeed;
+		m_vRotation.y += diff * rotSpeed;
 
 		//---------------------------------
 		// 斜め速度補正
 		//---------------------------------
-		float len =sqrtf(moveX * moveX +moveZ * moveZ);
+		float len = sqrtf(moveX * moveX + moveZ * moveZ);
 
 		if (len > 0.0f)
 		{
@@ -572,25 +511,63 @@ void CCat::Operation(MapEditor& map)
 			moveZ /= len;
 		}
 
-		m_vRotation.x =0.0f;
-		m_vRotation.z =0.0f;
-
-		m_vPosition.x +=moveX* MOVE_SPEED;
-		m_vPosition.z +=moveZ* MOVE_SPEED;
+		//---------------------------------
+		// 地面移動
+		//---------------------------------
+		m_vPosition.x += moveX * MOVE_SPEED;
+		m_vPosition.z += moveZ * MOVE_SPEED;
+		
 	}
 
 	//---------------------------------
-	// 向きベクトル
+	// 現在マス
 	//---------------------------------
-	float sinY = sinf(m_vRotation.y);
+	int mapX =(int)floor(m_vPosition.x /TILE_SIZE);
+	int mapY =(int)floor(m_vPosition.y /TILE_SIZE);
+	int mapZ =(int)floor(m_vPosition.z /TILE_SIZE);
 
-	float cosY = cosf(m_vRotation.y);
+	//---------------------------------
+	// 向いている方向
+	//---------------------------------
+	int dirX =(int)roundf(-sinf(m_vRotation.y));
+	int dirZ =(int)roundf(-cosf(m_vRotation.y));
+	int frontX =mapX + dirX;
+	int frontZ =mapZ + dirZ;
 
-	
-	if (!CheckGround(map))
+	//---------------------------------
+	// 範囲チェック
+	//---------------------------------
+	if (frontX >= 0 && frontX < MAP_W &&
+		frontZ >= 0 && frontZ < MAP_H)
 	{
-		m_vPosition = oldPos;
+		//---------------------------------
+		// 目の前が階段 → 登る
+		//---------------------------------
+		if (map.GetMap(mapY, frontZ, frontX) == TILE_STAIRS)
+		{
+			float targetY = (mapY + 1) * TILE_SIZE; // 階段の上段高さ
+
+			m_vPosition.x = (frontX + 0.5f) * TILE_SIZE -2.5;
+			m_vPosition.z = (frontZ + 0.5f) * TILE_SIZE -2.5;
+
+			float dy = targetY - m_vPosition.y;
+
+			if (fabs(dy) > 0.001f)
+			{
+				float speed = 0.06f; // ←かなりゆっくり
+
+				if (fabs(dy) < speed)
+				{
+					m_vPosition.y = targetY; // 最後だけピタッと合わせる
+				}
+				else
+				{
+					m_vPosition.y += (dy > 0 ? speed : -speed);
+				}
+			}
+		}
 	}
+
 }
 
 //--------------------------------------
@@ -630,10 +607,9 @@ int CCat::GetDirection()
 	return ROTATION_UP;
 }
 
-//クリアしたとき
+//猫のクリア処理
 void CCat::Clear()
 {
 	RequestLoop(CAT_STATE_DANCE, ANIME_SPEED, m_iModelHdl);
 	m_state = CAT_STATE_DANCE;
 }
-

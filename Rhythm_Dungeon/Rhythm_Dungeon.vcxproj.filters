@@ -225,9 +225,6 @@
     <ClCompile Include="src\lib\sound\effectData\effectData.cpp">
       <Filter>ソース ファイル\lib\effect</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\..\..\Downloads\A1Team\A1Team\GameProject\Source\Game\Gimmick\Rail.cpp">
-      <Filter>ソース ファイル\game\Editor\rail</Filter>
-    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\Data.h">
@@ -343,9 +340,6 @@
     </ClInclude>
     <ClInclude Include="src\lib\sound\effectData\effectData.h">
       <Filter>ソース ファイル\lib\effect</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\..\..\Downloads\A1Team\A1Team\GameProject\Source\Game\Gimmick\Rail.h">
-      <Filter>ソース ファイル\game\Editor\rail</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

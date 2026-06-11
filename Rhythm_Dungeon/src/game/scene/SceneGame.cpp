@@ -281,10 +281,11 @@ void CSceneGame::Set()
 
 		if (obj.type == OBJ_CAT)
 		{
-
-			m_cat.SetPos(VGet(worldpos_x, worldpos_y, worldpos_z));
+			VECTOR catpos = VGet(worldpos_x, worldpos_y, worldpos_z);
+			m_cat.SetPos(catpos);
+			m_cat.SetRespawn(catpos);
 			//猫の初期位置を保存
-			m_player_startPos = VGet(worldpos_x, worldpos_y, worldpos_z);
+			m_player_startPos = catpos;
 
 			m_cat.SetRadius(obj.rotY);
 		}
@@ -1310,6 +1311,5 @@ void CSceneGame::Reset()
 	// プレイヤー位置
 	//---------------------------------
 	m_cat.SetPos(m_player_startPos);
-
 	
 }

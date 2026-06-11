@@ -163,9 +163,9 @@ void CHuman::Move()
 }
 
 
-//-------------------------------
+//---------------------------------
 //		‘Ò‹@¥ˆÚ“®’†ˆ—
-//-------------------------------
+//---------------------------------
 void CHuman::NormalExec(std::vector<CBlock*>& blocks, std::vector<CInstalledItem*> institem, float cat_state)
 {
 	if (m_vPosition.y <= MOVE_HIGHT)
