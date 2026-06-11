@@ -33,7 +33,7 @@ private:
 	enum TileType {
 		TILE_NONE = 0,
 		TILE_FLOOR = 1,
-		TILE_WALL = 2,
+		TILE_STAIRS = 2,
 		TILE_FLOOR2 = 3,
 		TILE_BRIDGE = 4,
 	};

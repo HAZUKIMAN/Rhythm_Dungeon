@@ -10,7 +10,7 @@ public:
 	CEditorCamera();
 	~CEditorCamera() override;
 
-	void Step(CCat& cat);
+	void Step(CCat& cat,bool clear);
 
 	// ’‹“_‚Ìã‰ºˆÚ“®
 	void MoveUpDown();

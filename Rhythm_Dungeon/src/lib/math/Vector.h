@@ -72,7 +72,7 @@ public:
 	static float	GetAngleZ(VECTOR vec1, VECTOR vec2);
 
 	//移動ベクトルと法線ベクトルから跳ね返りを取得
-	//(壁などとの衝突用)
+	//(階段などとの衝突用)
 	//	vSpe	:	反射する物体の移動速度
 	//	norm	:	ぶつかる物体の法線
 	//	ew		:	跳ね返り係数

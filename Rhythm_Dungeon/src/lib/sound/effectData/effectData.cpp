@@ -26,11 +26,11 @@ void CEffectData::Load()
 	const char* EFFECT_PATH[EFFECT_NUM] = {
 		"Data/effect/ef_Hit_enemy.efkefc",
 		"Data/effect/ef_cat_walk_dash.efkefc",
-		"Data/effect/ef_human_spawn.efkefc",
+		"Data/effect/ef_human_spawn.efkefc",//ef.efk
 		"Data/effect/ef_clear_jump.efkefc"
 	};
 
-	// -------------------------------------
+	//-------------------------------------
 
 	//エフェクトのロード
 	for (int effect_i = 0; effect_i < EFFECT_NUM; effect_i++)

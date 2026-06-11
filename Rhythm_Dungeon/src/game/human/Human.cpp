@@ -87,8 +87,20 @@ void CHuman::Step()
 
 	if (!m_isActive)
 	{
-		m_vPosition = VGet(m_recpos.x, m_recpos.y, m_recpos.z);
+		VECTOR pos = VGet(m_recpos.x, m_recpos.y, m_recpos.z);
+
+		m_vPosition = pos;
 		Reset();
+
+		//拡大率
+		VECTOR effect_scale = VGet(0.5f, 0.5f, 0.5f);
+		//呼び出すエフェクトのID
+		int effectId = CEffectData::GetId(EFFECT_HUMAN_RESET);
+		//コインの位置にエフェクトを呼び出す
+		CEffekseerCtrl::Request(effectId, VGet(pos.x,pos.y - 5.0f,pos.z), false);
+		//エフェクトの拡大・縮小
+		CEffekseerCtrl::SetScale(effectId, effect_scale);
+
 		m_isActive = true;
 	}
 

@@ -8,11 +8,14 @@
 class MapEditor
 {
 private:
+	//オブジェクトの回転度
+	float m_currentRotY;
+
 
 	enum TileType {
 		TILE_NONE = 0,
 		TILE_FLOOR = 1,
-		TILE_WALL = 2,
+		TILE_STAIRS = 2,
 		TILE_FLOOR2 = 3,
 		TILE_BRIDGE = 4,
 
@@ -26,6 +29,7 @@ private:
 	{
 		int m_iModelHdl;
 		VECTOR m_vPosition;
+		float rotY;   // 向き
 	};
 
 public:
@@ -34,6 +38,8 @@ public:
 	// 3Dマップ
 	//---------------------------------
 	TileType map[MAP_Y][MAP_H][MAP_W];
+
+	float m_rotMap[MAP_Y][MAP_H][MAP_W];
 
 	int m_iModelHdl[TILE_NUM];		//ステージのモデルハンドル
 
@@ -77,7 +83,7 @@ private:
     //---------------------------------
     // 現在の高さ
     //---------------------------------
-    int m_currentY;
+	int  m_currentY;
 };
 	//グリッドは位置情報の管理のしやすさとマウスを使用したレイキャストを使用したかったため（岡松対策）
 	//バイナリを使用した理由データの軽量化テキストよりバイナリの方が軽くて高速：セーブとか使用したかったのでコンパクトの方がよかった。

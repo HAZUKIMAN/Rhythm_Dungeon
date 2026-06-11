@@ -31,8 +31,11 @@ void MapEditor::Init()
     }
   
     m_currentY = 0;
+    // 現在の角度
+    m_currentRotY = 0.0f;
 
     memset(map, 0, sizeof(map));
+    memset(m_rotMap, 0 ,sizeof(m_rotMap));
 }
 
 //---------------------------------
@@ -55,7 +58,7 @@ void MapEditor::Load(ObjectEditor& objectEditor)
     }
     if (m_iModelHdl[2] == -1)
     {
-        m_iModelHdl[2] = MV1LoadModel( "Data/object/stage/Wall.mv1");
+        m_iModelHdl[2] = MV1LoadModel( "Data/object/stage/stairs.mv1");
     }
     if (m_iModelHdl[3] == -1)
     {
@@ -118,6 +121,18 @@ void MapEditor::Update()
             m_currentY = 0;
         }
     }
+    // 左回転
+    if (Input::Key::Push(KEY_INPUT_8))
+    {
+        m_currentRotY -= DX_PI_F / 2;
+    }
+
+    // 右回転
+    if (Input::Key::Push(KEY_INPUT_9))
+    {
+        m_currentRotY += DX_PI_F / 2;
+    }
+
 
     //---------------------------------
     // マウス
@@ -143,6 +158,7 @@ void MapEditor::Update()
             if (mouseState & MOUSE_INPUT_LEFT)
             {
                 map[m_currentY][gz][gx] = TILE_FLOOR;
+
                 needRebuild = true;
             }
 
@@ -151,7 +167,8 @@ void MapEditor::Update()
             //---------------------------------
             if (mouseState & MOUSE_INPUT_RIGHT)
             {
-                map[m_currentY][gz][gx] = TILE_WALL;
+                map[m_currentY][gz][gx] = TILE_STAIRS;
+                m_rotMap[m_currentY][gz][gx] = m_currentRotY;
                 needRebuild = true;
             }
 
@@ -195,6 +212,8 @@ void MapEditor::Draw()
     for (auto& inst : instances)
     {
         MV1SetPosition(inst.m_iModelHdl, inst.m_vPosition);
+        VECTOR m_vRotation = VGet(0.0f, inst.rotY,0.0f);
+        MV1SetRotationXYZ(inst.m_iModelHdl, m_vRotation);
         MV1DrawModel(inst.m_iModelHdl);
     }
 
@@ -203,6 +222,43 @@ void MapEditor::Draw()
     //---------------------------------
     DrawFormatString(100, 100, RED, "Curredwwant Y : %d", m_currentY);
     DrawString(100,130,"Q/E : Height Change",RED);
+
+    //---------------------------------
+   // 向き表示
+   //---------------------------------
+    const char* dirText = "RIGHT";
+
+    // 0～360に変換
+    float rotDeg = m_currentRotY * 180.0f / DX_PI_F;
+
+    // マイナス対策
+    while (rotDeg < 0)
+    {
+        rotDeg += 360.0f;
+    }
+
+    rotDeg = fmod(rotDeg, 360.0f);
+
+    // 方向判定
+    if (rotDeg >= 315 || rotDeg < 45)
+    {
+        dirText = "DOWN";
+    }
+    else if (rotDeg >= 45 && rotDeg < 135)
+    {
+        dirText = "LEFT";
+    }
+    else if (rotDeg >= 135 && rotDeg < 225)
+    {
+        dirText = "UP";
+    }
+    else
+    {
+        dirText = "RIGHT";
+    }
+
+    DrawFormatString(1220, 280, WHITE, "向き : %s", dirText);
+
 }
 
 //---------------------------------
@@ -233,6 +289,10 @@ void MapEditor::SaveMap(const char* filename,  ObjectEditor& objectEditor)
     // マップ保存
     //---------------------------------
     fwrite(map, sizeof(int), MAP_W * MAP_H * MAP_Y, fp);
+    ////---------------------------------
+    //// 回転情報保存
+    ////---------------------------------
+    //fwrite( m_rotMap, sizeof(float), MAP_W * MAP_H * MAP_Y, fp);
 
     //---------------------------------
     // オブジェクト保存
@@ -271,6 +331,11 @@ void MapEditor::LoadMap(const char* filename, ObjectEditor& objectEditor)
     // マップ読み込み
     //---------------------------------
     fread(map,sizeof(int),MAP_W * MAP_H * MAP_Y,fp);
+
+    ////---------------------------------
+    //// 回転情報保存
+    ////---------------------------------
+    //fwrite(m_rotMap, sizeof(float), MAP_W * MAP_H * MAP_Y, fp);
 
     //---------------------------------
     // オブジェクト削除
@@ -375,11 +440,11 @@ void MapEditor::BuildInstances()
                 }
 
                 //---------------------------------
-                // 壁
+                // 階段
                 //---------------------------------
-                if (map[y][z][x] == TILE_WALL)
+                if (map[y][z][x] == TILE_STAIRS)
                 {
-                    instances.push_back({ m_iModelHdl[2], VGet(worldX, worldY, worldZ)});
+                    instances.push_back({ m_iModelHdl[2], VGet(worldX, worldY, worldZ),  m_rotMap[y][z][x] });
                 }
 
                 //---------------------------------

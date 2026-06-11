@@ -59,10 +59,7 @@ void CCollisionManager::CheckHithumanToEnemy(CHuman& human, CEnemy* enemy)
 //--------------------------------------
 // マップとの当たり判定
 //--------------------------------------
-VECTOR CCollisionManager::HitMap(
-    VECTOR center,
-    float radius,
-    MapEditor& map)
+VECTOR CCollisionManager::HitMap(VECTOR center,float radius, MapEditor& map)
 {
     //--------------------------------------
     // 押し戻し結果
@@ -121,99 +118,6 @@ VECTOR CCollisionManager::HitMap(
             if (footPos < floorTop)
             {
                 result.y = floorTop - footPos;
-            }
-        }
-    }
-
-    //--------------------------------------
-    // 壁判定
-    //--------------------------------------
-    for (int z = -1; z <= 1; z++)
-    {
-        for (int x = -1; x <= 1; x++)
-        {
-            //----------------------------------
-            // チェック座標
-            //----------------------------------
-            int checkX = mapX + x;
-            int checkY = footY; // ←重要
-            int checkZ = mapZ + z;
-
-            //----------------------------------
-            // 範囲外
-            //----------------------------------
-            if (checkX < 0 || checkX >= MAP_W ||
-                checkY < 0 || checkY >= MAP_Y ||
-                checkZ < 0 || checkZ >= MAP_H)
-            {
-                continue;
-            }
-
-            //----------------------------------
-            // 壁以外無視
-            //----------------------------------
-            if (map.GetMap(
-                checkY,
-                checkZ,
-                checkX) != TILE_WALL)
-            {
-                continue;
-            }
-
-            //----------------------------------
-            // 壁ワールド座標
-            //----------------------------------
-            float worldX = (checkX + 0.5f) * TILE_SIZE;
-            float worldY = (checkY + 0.5f) * TILE_SIZE;
-            float worldZ = (checkZ + 0.5f) * TILE_SIZE;
-
-            VECTOR blockPos = VGet( worldX, worldY, worldZ);
-
-            //----------------------------------
-            // 壁半径
-            //----------------------------------
-            float blockRadius = TILE_SIZE * 0.5f;
-
-            //----------------------------------
-            // めり込み量
-            //----------------------------------
-            float hitLen = 0.0f;
-
-            //----------------------------------
-            // 球同士判定
-            //----------------------------------
-            if (CHit::CheckSphereToSphere( center, blockPos, radius, blockRadius, &hitLen))
-            {
-                //----------------------------------
-                // 押し戻し方向
-                //----------------------------------
-                VECTOR dir = VSub( center, blockPos);
-
-                //----------------------------------
-                // XZだけ
-                //----------------------------------
-                dir.y = 0.0f;
-
-                float len = VSize(dir);
-
-                //----------------------------------
-                // 0除算防止
-                //----------------------------------
-                if (len < 0.0001f)
-                {
-                    continue;
-                }
-
-                //----------------------------------
-                // 正規化
-                //----------------------------------
-                dir = VNorm(dir);
-
-                //----------------------------------
-                // 押し戻し
-                //----------------------------------
-                result.x += dir.x * hitLen;
-                result.z +=  dir.z * hitLen;
             }
         }
     }

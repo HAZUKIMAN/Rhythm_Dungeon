@@ -169,10 +169,10 @@ float	CVector::GetAngleZ(VECTOR vec1, VECTOR vec2)
 VECTOR	CVector::Reflect(VECTOR spd, VECTOR norm, float ew, float mew)
 {
 	VECTOR	ret;
-	VECTOR	vp;			// 壁に垂直な速度
-	VECTOR	vr;			// 壁に水平な速度
-	float	vpl;		// 壁に垂直な方向の速度の大きさ
-	float	vrl2;		// 壁に垂直な方向の速度の大きさの二乗
+	VECTOR	vp;			// 階段に垂直な速度
+	VECTOR	vr;			// 階段に水平な速度
+	float	vpl;		// 階段に垂直な方向の速度の大きさ
+	float	vrl2;		// 階段に垂直な方向の速度の大きさの二乗
 	float	f;
 
 	vpl = CVector::VectorDot(spd, norm);

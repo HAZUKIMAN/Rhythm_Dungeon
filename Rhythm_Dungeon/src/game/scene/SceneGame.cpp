@@ -10,6 +10,7 @@
 
 
 static const float HIGHT_GRID = 2.5f;	// 移動速度
+static const float HIGHT_PLUS = 1.5f;
 
 //-------------------------------
 //		コンストラクタ
@@ -90,12 +91,15 @@ int CSceneGame::Step()
 {
 	int ret = -1;
 
-	//---------------------------------
-	// リセット
-	//---------------------------------
-	if (Input::Key::Push(KEY_INPUT_R) || Input::Controller::Push(XINPUT_BUTTON_Y))
+	if (move_box != CARRY)
 	{
-		Reset();
+		//---------------------------------
+		// リセット
+		//---------------------------------
+		if (Input::Key::Push(KEY_INPUT_R) || Input::Controller::Push(XINPUT_BUTTON_Y))
+		{
+			Reset();
+		}
 	}
 
 	//---------------------------------
@@ -211,22 +215,22 @@ void CSceneGame::Set()
 	for (const auto& obj : objs) {
 
 
+		float worldpos_x = (obj.x + 0.5f) * TILE_SIZE;
+		float worldpos_y = (obj.y + 0.5f) * TILE_SIZE;
+		float worldpos_z = (obj.z + 0.5f) * TILE_SIZE;
+
 		if (obj.type == OBJ_HUMAN)
 		{
-			float worldpos_x = (obj.x + 0.5f) * TILE_SIZE;
-			float worldpos_z = (obj.z + 0.5f) * TILE_SIZE;
+			VECTOR player_vec = VGet(worldpos_x, worldpos_y + 5.0f, worldpos_z);
+			VECTOR vec = VGet(worldpos_x, worldpos_y, worldpos_z);
 
-			float hight = 10.0f;
-
-			VECTOR vec = VGet(worldpos_x, hight, worldpos_z);
-
-			m_human.SetPos(vec);
-			m_human.SetRespawn(vec);
+			m_human.SetPos(player_vec);
+			m_human.SetRespawn(player_vec);
 
 			//拡大率
-			VECTOR effect_scale = VGet(1.0f, 1.0f, 1.0f);
+			VECTOR effect_scale = VGet(0.5f, 0.5f, 0.5f);
 			//呼び出すエフェクトのID
-			int effectId = CEffectData::GetId(EFFECT_HIT_ENEMY);
+			int effectId = CEffectData::GetId(EFFECT_HUMAN_RESET);
 			//コインの位置にエフェクトを呼び出す
 			CEffekseerCtrl::Request(effectId, vec, false);
 			//エフェクトの拡大・縮小
@@ -277,12 +281,8 @@ void CSceneGame::Set()
 
 		if (obj.type == OBJ_CAT)
 		{
-			float worldpos_x = (obj.x + 0.5f) * TILE_SIZE;
-			float worldpos_y = (obj.y + 0.5f) * TILE_SIZE;
-			float worldpos_z = (obj.z + 0.5f) * TILE_SIZE;
 
 			m_cat.SetPos(VGet(worldpos_x, worldpos_y, worldpos_z));
-
 			//猫の初期位置を保存
 			m_player_startPos = VGet(worldpos_x, worldpos_y, worldpos_z);
 
@@ -290,11 +290,8 @@ void CSceneGame::Set()
 		}
 		if (obj.type == OBJ_ITEM)
 		{
-			float worldpos_x = (obj.x + 0.5f) * TILE_SIZE;
-			float worldpos_y = (obj.y + 0.5f) * TILE_SIZE + HIGHT_GRID;
-			float worldpos_z = (obj.z + 0.5f) * TILE_SIZE;
 
-			VECTOR pos = VGet(worldpos_x, worldpos_y, worldpos_z);
+			VECTOR pos = VGet(worldpos_x, worldpos_y + HIGHT_GRID, worldpos_z);
 
 			//---------------------------------
 			// 新しいブロック作成
@@ -304,14 +301,10 @@ void CSceneGame::Set()
 			inst->SetPos(pos);
 
 			m_institem.push_back(inst);
-
 		}
 
 		if (obj.type == OBJ_GOAL)
 		{
-			float worldpos_x = (obj.x + 0.5f) * TILE_SIZE;
-			float worldpos_y = (obj.y + 0.5f) * TILE_SIZE;
-			float worldpos_z = (obj.z + 0.5f) * TILE_SIZE;
 
 			VECTOR vec = VGet(worldpos_x, worldpos_y, worldpos_z);
 			m_goal.SetPos(vec);
@@ -322,12 +315,7 @@ void CSceneGame::Set()
 		//---------------------------------
 		if (obj.type == OBJ_SETBLOCK)
 		{
-			
-			float worldpos_x = (obj.x + 0.5f) * TILE_SIZE;
-			float worldpos_y = (obj.y + 0.5f) * TILE_SIZE + HIGHT_GRID;
-			float worldpos_z = (obj.z + 0.5f) * TILE_SIZE;
-
-			VECTOR pos = VGet(worldpos_x, worldpos_y, worldpos_z);
+			VECTOR pos = VGet(worldpos_x, worldpos_y + HIGHT_PLUS, worldpos_z);
 
 			//---------------------------------
 			// 新しいブロック作成
@@ -345,13 +333,8 @@ void CSceneGame::Set()
 		//---------------------------
 		if (obj.type == OBJ_ENEMY)
 		{
-			float worldpos_x =(obj.x + 0.5f) * TILE_SIZE;
-			float worldpos_y =(obj.y + 0.5f) * TILE_SIZE;
-			float worldpos_z =(obj.z + 0.5f) * TILE_SIZE;
 
-			VECTOR pos =
-				VGet(worldpos_x,worldpos_y,worldpos_z);
-
+			VECTOR pos =VGet(worldpos_x, worldpos_y + HIGHT_PLUS, worldpos_z);
 			//---------------------------------
 			// エネミー作成
 			//---------------------------------
@@ -373,8 +356,7 @@ void CSceneGame::Set()
 			//---------------------------------
 			// rotY → direction変換
 			//---------------------------------
-			float rotDeg =
-				obj.rotY * 180.0f / DX_PI_F;
+			float rotDeg = obj.rotY * 180.0f / DX_PI_F;
 
 			//---------------------------------
 			// マイナス対策
@@ -427,11 +409,8 @@ void CSceneGame::Set()
 		//---------------------------
 		if (obj.type == OBJ_BRIDGE)
 		{
-			float worldpos_x = (obj.x + 0.5f) * TILE_SIZE;
-			float worldpos_y = (obj.y + 0.5f) * TILE_SIZE + HIGHT_GRID;
-			float worldpos_z = (obj.z + 0.5f) * TILE_SIZE;
 
-			VECTOR pos = VGet(worldpos_x, worldpos_y, worldpos_z);
+			VECTOR pos = VGet(worldpos_x, worldpos_y + HIGHT_PLUS, worldpos_z);
 
 			//---------------------------------
 			// 新しいブロック作成
@@ -599,13 +578,13 @@ void CSceneGame::Calc()
 
 		for (auto& enemy : m_enemy) { enemy->NormalExec(m_blocks,m_institem, move_box); }
 
-		//  人間と床と壁との当たり判定
+		//  人間と床と階段との当たり判定
 		m_human.AddPos(CCollisionManager::HitMap(m_human.GetCenter(), m_human.GetRadius(), m_mapedit));
 
 		//エネミーとオブジェクトの当たり判定
 		CCollisionManager::HitEnemyToObject(m_enemy, m_objEditor);
 
-		//  猫と床と壁との当たり判定
+		//  猫と床と階段との当たり判定
 		VECTOR vec = VGet(m_cat.GetCenter().x, m_cat.GetCenter().y + 2.0, m_cat.GetCenter().z);
 
 		//猫とマップの当たり判定
@@ -682,6 +661,10 @@ void CSceneGame::Calc()
 			m_mapedit.Step(m_objEditor);
 			m_mapedit.Update();
 		}
+
+		// カメラ更新処理
+		m_cameraManager.Step(m_cat, m_isGoal);
+		m_cameraManager.Update();
 	}
 
 	//デバックカメラ切り替え処理
@@ -696,7 +679,6 @@ void CSceneGame::Calc()
 	//プレイカメラへの切り替え
 	else if (Input::Key::Push(KEY_INPUT_V))
 		m_cameraManager.ChangeCamera(CCameraManager::CAMERA_ID_PLAY);
-
 }
 
 
@@ -706,8 +688,8 @@ void CSceneGame::Calc()
 void CSceneGame::CatCrry()
 {
 	//--------------------------------------------
-		// 箱を拾う
-		//--------------------------------------------
+	// 箱を拾う
+	//--------------------------------------------
 	if (move_box != CARRY)
 	{
 		for (auto& institem : m_institem)
@@ -1124,9 +1106,7 @@ void CSceneGame::Reset()
 	//---------------------------------
 	// マップ再読み込み
 	//---------------------------------
-	m_mapedit.LoadMap(
-		Data::GetInstance()->GetStagePath(),
-		m_objEditor);
+	m_mapedit.LoadMap(Data::GetInstance()->GetStagePath(),m_objEditor);
 
 	//---------------------------------
 	// オブジェクト再生成
@@ -1150,11 +1130,7 @@ void CSceneGame::Reset()
 			(obj.z + 0.5f)
 			* TILE_SIZE;
 
-		VECTOR pos =
-			VGet(
-				worldX,
-				worldY,
-				worldZ);
+		VECTOR pos = VGet(worldX,worldY,worldZ);
 
 		//---------------------------------
 		// エネミー
@@ -1172,8 +1148,7 @@ void CSceneGame::Reset()
 			//---------------------------------
 			// rotY → direction変換
 			//---------------------------------
-			float rotDeg =
-				obj.rotY * 180.0f / DX_PI_F;
+			float rotDeg = obj.rotY * 180.0f / DX_PI_F;
 
 			//---------------------------------
 			// マイナス対策
@@ -1223,8 +1198,7 @@ void CSceneGame::Reset()
 		//---------------------------------
 		if (obj.type == OBJ_ITEM)
 		{
-			CInstalledItem* item =
-				new CInstalledItem;
+			CInstalledItem* item = new CInstalledItem;
 
 			item->Init();
 
@@ -1239,8 +1213,7 @@ void CSceneGame::Reset()
 		//---------------------------------
 		if (obj.type == OBJ_BRIDGE)
 		{
-			CBridge* bridge =
-				new CBridge;
+			CBridge* bridge = new CBridge;
 
 			bridge->Init();
 
@@ -1255,11 +1228,10 @@ void CSceneGame::Reset()
 		//---------------------------------
 		if (obj.type == OBJ_SETBLOCK)
 		{
-			CBlock* block =
-				new CBlock;
+			CBlock* block = new CBlock;
 
 			block->Init();
-			VECTOR vec = VGet(pos.x,pos.y+ 1.5f,pos.z);
+			VECTOR vec = VGet(pos.x, pos.y+ 1.5f,pos.z);
 			block->SetPos(vec);
 
 			m_blocks.push_back(
@@ -1272,18 +1244,20 @@ void CSceneGame::Reset()
 		if (obj.type == OBJ_HUMAN)
 		{
 			float worldpos_x = (obj.x + 0.5f) * TILE_SIZE;
+			float worldpos_y = (obj.x + 0.5f) * TILE_SIZE;
 			float worldpos_z = (obj.z + 0.5f) * TILE_SIZE;
 
-			float hight = 10.0f;
 
-			VECTOR vec = VGet(worldpos_x, hight, worldpos_z);
-			m_human.SetPos(vec);
-			m_human.SetRespawn(vec);
+			VECTOR player_vec = VGet(worldpos_x, worldpos_y +5.0f , worldpos_z);
+			VECTOR vec = VGet(worldpos_x, worldpos_y, worldpos_z);
+
+			m_human.SetPos(player_vec);
+			m_human.SetRespawn(player_vec);
 
 			//拡大率
-			VECTOR effect_scale = VGet(1.0f, 1.0f, 1.0f);
+			VECTOR effect_scale = VGet(0.5f, 0.5f, 0.5f);
 			//呼び出すエフェクトのID
-			int effectId = CEffectData::GetId(EFFECT_HIT_ENEMY);
+			int effectId = CEffectData::GetId(EFFECT_HUMAN_RESET);
 			//コインの位置にエフェクトを呼び出す
 			CEffekseerCtrl::Request(effectId, vec, false);
 			//エフェクトの拡大・縮小
@@ -1335,8 +1309,7 @@ void CSceneGame::Reset()
 	//---------------------------------
 	// プレイヤー位置
 	//---------------------------------
-	m_cat.SetPos(
-		m_player_startPos);
+	m_cat.SetPos(m_player_startPos);
 
 	
 }

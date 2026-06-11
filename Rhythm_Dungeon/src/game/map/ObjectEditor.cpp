@@ -71,6 +71,7 @@ int ObjectEditor::Step()
         {
             m_currentY = 0;
         }
+
     }
 
     //---------------------------------
@@ -102,9 +103,6 @@ int ObjectEditor::Step()
             objstate = OBJ_SETBLOCK;
             break;
 
-      /*  case OBJ_PUT_BOX:
-            objstate = OBJ_SETBLOCK;
-            break;*/
         case OBJ_SETBLOCK:
             objstate = OBJ_BRIDGE;
             break;
@@ -153,6 +151,7 @@ void ObjectEditor::Update()
             if (mouseState & MOUSE_INPUT_MIDDLE)
             {
                 RemoveObject(gx, m_currentY, gz);
+
                 if (m_currentY >= MAP_Y)
                 {
                     m_currentY = MAP_Y - 1;

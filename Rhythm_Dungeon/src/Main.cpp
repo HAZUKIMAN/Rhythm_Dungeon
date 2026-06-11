@@ -25,7 +25,7 @@ int  WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance,
 	SetDrawScreen(DX_SCREEN_BACK);
 	SetTransColor(255, 0, 255);	// “§‰ßFw’è
 	
-	const int EFFCTNUM = 10;
+	const int EFFCTNUM = 100;
 	const int PARTICLENUM = 100000;
 
 	//“ü—Í§Œä‰Šú‰»

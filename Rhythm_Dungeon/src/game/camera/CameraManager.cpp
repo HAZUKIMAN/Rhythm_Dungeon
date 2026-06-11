@@ -112,6 +112,7 @@ void CCameraManager::ChangeCamera(tagCAMERA_ID ID)
 		m_cam[CAMERA_ID_DEBUG]->SetPosition(up);
 	}
 		break;
+
 	case CAMERA_ID_EDITOR:
 
 		VECTOR pos = m_cam[CAMERA_ID_PLAY]->GetPosition();

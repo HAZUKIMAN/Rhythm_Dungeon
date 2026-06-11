@@ -64,7 +64,6 @@ CCat::~CCat()
 void CCat::Init()
 {
 	m_state = CAT_STATE_NORMAL;
-	m_moveMode = MOVE_GROUND;
 	m_radius = RADIUS;
 	m_isActive = true;
 
@@ -150,9 +149,7 @@ void CCat::Step(MapEditor& map)
 	// 移動処理
 	//---------------------------------
 	Move();
-
 }
-
 
 //-------------------------------
 //		描画処理
@@ -163,19 +160,6 @@ void CCat::Draw()
 	CObject::Draw();
 
 	DrawFormatString(100,600,RED,"ねこのY座標：%f",m_vPosition.y);
-	DrawFormatString(500,100,WHITE,"MoveMode = %d",m_moveMode);
-
-	//---------------------------------
-	// モード表示
-	//---------------------------------
-	if (m_moveMode == MOVE_GROUND)
-	{
-		DrawString(100, 100, "GROUND", GREEN);
-	}
-	else
-	{
-		DrawString(100, 100, "WALL", RED);
-	}
 
 #ifdef MY_DEBUG
 	DrawSphere3D(m_vPos, RADIUS, 16, GetColor(0, 0, 255), GetColor(0, 0, 0), FALSE);
@@ -241,114 +225,137 @@ void CCat::PlaceBlock(ObjectEditor& objEditor)
 //------------------------------
 // 床チェック
 //------------------------------
-bool CCat::CheckGround(MapEditor& map)
+bool CCat::CheckGround(
+	MapEditor& map)
 {
 	//---------------------------------
-	// 猫の足元を見る
+	// 猫座標
 	//---------------------------------
-	int mapX =(int)floor(m_vPosition.x / TILE_SIZE);
-	int mapY =(int)floor(m_vPosition.y / TILE_SIZE);
-	int mapZ =(int)floor(m_vPosition.z / TILE_SIZE);
+	int mapX =
+		(int)floor(
+			m_vPosition.x /
+			TILE_SIZE);
+
+	int mapY =
+		(int)floor(
+			m_vPosition.y /
+			TILE_SIZE);
+
+	int mapZ =
+		(int)floor(
+			m_vPosition.z /
+			TILE_SIZE);
+
+	int footY =
+		mapY - 1;
 
 	//---------------------------------
-	// 足元
+	// 範囲外
 	//---------------------------------
-	int footY = mapY - 1;
+	if (mapX < 0 ||
+		mapX >= MAP_W ||
 
-	//---------------------------------
-	// 範囲外防止
-	//---------------------------------
-	if (mapX < 0 || mapX >= MAP_W	|| 
-		footY < 0 || footY >= MAP_Y ||
-		mapZ < 0 || mapZ >= MAP_H)
+		footY < 0 ||
+		footY >= MAP_Y ||
+
+		mapZ < 0 ||
+		mapZ >= MAP_H)
 	{
 		return false;
 	}
 
 	//---------------------------------
-	// 床があるか
+	// 足元タイル
 	//---------------------------------
-	if (map.GetMap(
-		footY,
-		mapZ,
-		mapX) == TILE_FLOOR)
+	int tile =
+		map.GetMap(
+			footY,
+			mapZ,
+			mapX);
+
+	//---------------------------------
+	// 普通の床
+	//---------------------------------
+	if (tile ==
+		TILE_FLOOR ||
+
+		tile ==
+		TILE_FLOOR2 ||
+
+		tile ==
+		TILE_BRIDGE ||
+
+		tile ==
+		TILE_STAIRS)
 	{
 		return true;
 	}
-	if (map.GetMap(
-		footY,
-		mapZ,
-		mapX) == TILE_FLOOR2)
+
+	//---------------------------------
+	// 前方向
+	//---------------------------------
+	float rot = m_vRotation.y;
+
+	int dirX =
+		(int)roundf(
+			sinf(rot));
+
+	int dirZ =
+		(int)roundf(
+			-cosf(rot));
+
+	int frontX =
+		mapX + dirX;
+
+	int frontZ =
+		mapZ + dirZ;
+
+	//---------------------------------
+	// 範囲外
+	//---------------------------------
+	if (frontX < 0 ||
+		frontX >= MAP_W ||
+
+		frontZ < 0 ||
+		frontZ >= MAP_H)
 	{
-		return true;
+		return false;
 	}
-	if (map.GetMap(
-		footY,
-		mapZ,
-		mapX) == TILE_BRIDGE)
+
+	//---------------------------------
+	// 目の前が壁か
+	//---------------------------------
+	int wallTile =
+		map.GetMap(
+			mapY,
+			frontZ,
+			frontX);
+
+	if (wallTile == TILE_STAIRS)
 	{
-		return true;
+		////---------------------------------
+		//// 1マス上に床があるか
+		////---------------------------------
+		//int upperTile =
+		//	map.GetMap(
+		//		mapY + 1,
+		//		frontZ,
+		//		frontX);
+
+		//if (upperTile ==TILE_FLOOR ||
+		//	upperTile ==TILE_FLOOR2)
+		//{
+			//---------------------------------
+			// 上に乗せる
+			//---------------------------------
+			m_vPosition.y +=
+				TILE_SIZE;
+
+			return true;
+		//}
 	}
 
 	return false;
-}
-//------------------------------
-// 壁チェック
-//------------------------------
-CCat::WallType CCat::CheckWall(MapEditor& map)
-{
-	float checkRadius = 5.5f;
-
-	//---------------------------------
-	// チェック位置
-	//---------------------------------
-	VECTOR rightPos = VGet(m_vPosition.x + checkRadius, m_vPosition.y, m_vPosition.z);
-	
-	VECTOR leftPos = VGet(m_vPosition.x - checkRadius, m_vPosition.y, m_vPosition.z);
-
-	VECTOR frontPos = VGet(m_vPosition.x, m_vPosition.y, m_vPosition.z + checkRadius);
-
-	VECTOR backPos = VGet(m_vPosition.x, m_vPosition.y, m_vPosition.z - checkRadius);
-
-	//---------------------------------
-	// X方向の壁
-	//---------------------------------
-	auto CheckPos = [&](VECTOR pos)
-		{
-			int mapX =(int)floor(pos.x / TILE_SIZE);
-			int mapY =(int)floor(pos.y / TILE_SIZE);
-			int mapZ =(int)floor(pos.z / TILE_SIZE);
-
-			//---------------------------------
-			// 範囲外
-			//---------------------------------
-			if (mapX < 0 ||mapX >= MAP_W ||
-				mapY < 0 ||mapY >= MAP_Y ||
-				mapZ < 0 ||mapZ >= MAP_H)
-			{
-				return false;
-			}
-
-			return map.GetMap(mapY,mapZ,mapX) == TILE_WALL;
-		};
-
-	//---------------------------------
-	// 左右壁 → X壁
-	//---------------------------------
-	if (CheckPos(rightPos) || CheckPos(leftPos))
-	{
-		return WALL_X;
-	}
-
-	//---------------------------------
-	// 前後壁 → Z壁
-	//---------------------------------
-	if (CheckPos(frontPos) || CheckPos(backPos))
-	{
-		return WALL_Z;
-	}
-
-	return WALL_NONE;
 }
 
 
@@ -518,7 +525,6 @@ void CCat::Operation(MapEditor& map)
 	}
 
 
-
 	//---------------------------------
 	// 入力がある
 	//---------------------------------
@@ -566,17 +572,11 @@ void CCat::Operation(MapEditor& map)
 			moveZ /= len;
 		}
 
-		//---------------------------------
-		// 地面移動
-		//---------------------------------
-		if (m_moveMode== MOVE_GROUND)
-		{
-			m_vRotation.x =0.0f;
-			m_vRotation.z =0.0f;
+		m_vRotation.x =0.0f;
+		m_vRotation.z =0.0f;
 
-			m_vPosition.x +=moveX* MOVE_SPEED;
-			m_vPosition.z +=moveZ* MOVE_SPEED;
-		}
+		m_vPosition.x +=moveX* MOVE_SPEED;
+		m_vPosition.z +=moveZ* MOVE_SPEED;
 	}
 
 	//---------------------------------
@@ -586,65 +586,10 @@ void CCat::Operation(MapEditor& map)
 
 	float cosY = cosf(m_vRotation.y);
 
-	//---------------------------------
-	// 壁検知
-	//---------------------------------
-	WallType wall = CheckWall(map);
-
-	//---------------------------------
-	// モード切替
-	//---------------------------------
-	if (wall == WALL_NONE)
+	
+	if (!CheckGround(map))
 	{
-		m_moveMode =MOVE_GROUND;
-	}
-	else if (wall == WALL_X)
-	{
-		m_moveMode =MOVE_WALL_X;
-	}
-	else if (wall == WALL_Z)
-	{
-		m_moveMode =MOVE_WALL_Z;
-	}
-
-	//---------------------------------
-	// X方向壁
-	//---------------------------------
-	if (m_moveMode ==MOVE_WALL_X)
-	{
-		m_vRotation.z = DX_PI_F / 2;
-		m_vRotation.x = 0.0f;
-		m_vPosition.y -= moveZ* MOVE_SPEED;
-
-		int wallX = (int)floor(m_vPosition.x/ TILE_SIZE);
-		float wallPosX = (wallX + 0.5f)* TILE_SIZE;
-
-		m_vPosition.x = wallPosX- 2.5f;
-	}
-
-	//---------------------------------
-	// Z方向壁
-	//---------------------------------
-	else if (m_moveMode ==MOVE_WALL_Z)
-	{
-		m_vRotation.z = 0.0f;
-		m_vRotation.x = DX_PI_F / 2;
-		m_vPosition.y -= moveZ* MOVE_SPEED;
-
-		int wallZ = (int)floor(m_vPosition.z/ TILE_SIZE);
-		float wallPosZ = (wallZ + 0.5f)* TILE_SIZE;
-		m_vPosition.z = wallPosZ- 2.5f;
-	}
-
-	//---------------------------------
-	// 落下防止
-	//---------------------------------
-	if (m_moveMode== MOVE_GROUND)
-	{
-		if (!CheckGround(map))
-		{
-			m_vPosition = oldPos;
-		}
+		m_vPosition = oldPos;
 	}
 }
 

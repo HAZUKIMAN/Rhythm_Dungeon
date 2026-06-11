@@ -58,7 +58,7 @@ static constexpr int COMBO_SIZE_Y = 24;
 constexpr int MAP_W = 50;
 constexpr int MAP_H = 50;
 constexpr int MAP_Y = 10;
-constexpr float WALL_HIGHT = 5.0f;
+constexpr float Stairs_HIGHT = 5.0f;
 constexpr float TILE_SIZE = 5.0f;
 constexpr float HIT_TIME = 50.0f;	// ブロックに当たった時のクールタイムの上限
 

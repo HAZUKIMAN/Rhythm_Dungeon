@@ -28,7 +28,7 @@ public:
 	struct Object {
 		int x, z, y;
 		int type;
-		float rotY;   // Œü‚«
+		float rotY;   // Œü‚«ŠK’i‚ÌŒü‚«‚ð•Ï‚¦‚é
 	};
 
 	std::vector<Object> objects;
