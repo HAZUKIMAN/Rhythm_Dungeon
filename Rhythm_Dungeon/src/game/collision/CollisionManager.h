@@ -53,8 +53,10 @@ public:
 	// エネミーとオブジェクトの当たり判定
 	static VECTOR HitEnemyToObject(std::vector<CEnemy*>& enemies, ObjectEditor& object);
 
-	//人間の座標をマップ座標にして計算を行う
+	//マップ座標にして計算を行う
 	static VECTOR HitMap( VECTOR center, float radius, MapEditor& map);
+	//猫の座標をマップ座標にして計算を行う
+	static VECTOR HitCatToMap(VECTOR center, float radius, MapEditor& map);
 
 };
 

@@ -288,11 +288,12 @@ void MapEditor::SaveMap(const char* filename,  ObjectEditor& objectEditor)
     //---------------------------------
     // マップ保存
     //---------------------------------
-    fwrite(map, sizeof(int), MAP_W * MAP_H * MAP_Y, fp);
-    ////---------------------------------
-    //// 回転情報保存
-    ////---------------------------------
-    //fwrite( m_rotMap, sizeof(float), MAP_W * MAP_H * MAP_Y, fp);
+    fwrite( map, sizeof(int), MAP_W * MAP_H * MAP_Y, fp);
+
+    //---------------------------------
+    // 回転情報保存
+    //---------------------------------
+    fwrite( m_rotMap, sizeof(float), MAP_W * MAP_H * MAP_Y, fp);
 
     //---------------------------------
     // オブジェクト保存
@@ -332,10 +333,10 @@ void MapEditor::LoadMap(const char* filename, ObjectEditor& objectEditor)
     //---------------------------------
     fread(map,sizeof(int),MAP_W * MAP_H * MAP_Y,fp);
 
-    ////---------------------------------
-    //// 回転情報保存
-    ////---------------------------------
-    //fwrite(m_rotMap, sizeof(float), MAP_W * MAP_H * MAP_Y, fp);
+    //---------------------------------
+    // 回転情報読み込み
+    //---------------------------------
+    fread( m_rotMap, sizeof(float), MAP_W * MAP_H * MAP_Y, fp);
 
     //---------------------------------
     // オブジェクト削除

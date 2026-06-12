@@ -177,21 +177,21 @@ int CSceneGame::Step()
 		return -1;
 	}
 
-	//---------------------------------
-	// ゴール判定
-	//---------------------------------
-	if (CCollisionManager::CheckHithumanToGoal(m_human, m_goal) && !m_isGoal)
-	{
-		CSoundManager::Stop(CSoundManager::SOUNDID_GAME_BGM);
-		CSoundManager::Play(CSoundManager::SOUNDID_CLEAR_BGM, DX_PLAYTYPE_LOOP);
+	////---------------------------------
+	//// ゴール判定
+	////---------------------------------
+	//if (CCollisionManager::CheckHithumanToGoal(m_human, m_goal) && !m_isGoal)
+	//{
+	//	CSoundManager::Stop(CSoundManager::SOUNDID_GAME_BGM);
+	//	CSoundManager::Play(CSoundManager::SOUNDID_CLEAR_BGM, DX_PLAYTYPE_LOOP);
 
-		//humanのクリア処理
-		m_human.Clear();
-		//猫のクリア処理
-		m_cat.Clear();
+	//	//humanのクリア処理
+	//	m_human.Clear();
+	//	//猫のクリア処理
+	//	m_cat.Clear();
 
-		m_isGoal = true;
-	}
+	//	m_isGoal = true;
+	//}
 
 	// カメラ更新処理
 	m_cameraManager.Step(m_cat, m_isGoal);
@@ -292,7 +292,7 @@ void CSceneGame::Set()
 		if (obj.type == OBJ_ITEM)
 		{
 
-			VECTOR pos = VGet(worldpos_x, worldpos_y + HIGHT_GRID, worldpos_z);
+			VECTOR pos = VGet(worldpos_x, worldpos_y, worldpos_z);
 
 			//---------------------------------
 			// 新しいブロック作成
@@ -411,7 +411,7 @@ void CSceneGame::Set()
 		if (obj.type == OBJ_BRIDGE)
 		{
 
-			VECTOR pos = VGet(worldpos_x, worldpos_y + HIGHT_PLUS, worldpos_z);
+			VECTOR pos = VGet(worldpos_x, worldpos_y, worldpos_z);
 
 			//---------------------------------
 			// 新しいブロック作成
@@ -585,11 +585,8 @@ void CSceneGame::Calc()
 		//エネミーとオブジェクトの当たり判定
 		CCollisionManager::HitEnemyToObject(m_enemy, m_objEditor);
 
-		//  猫と床と階段との当たり判定
-		VECTOR vec = VGet(m_cat.GetCenter().x, m_cat.GetCenter().y + 2.0, m_cat.GetCenter().z);
-
 		//猫とマップの当たり判定
-		m_cat.AddPos(CCollisionManager::HitMap(m_cat.GetCenter(), m_cat.GetRadius(), m_mapedit));
+		m_cat.AddPos(CCollisionManager::HitCatToMap(m_cat.GetCenter(), m_cat.GetRadius(), m_mapedit));
 
 		//エネミーとマップの当たり判定
 		for (auto& enemy : m_enemy)

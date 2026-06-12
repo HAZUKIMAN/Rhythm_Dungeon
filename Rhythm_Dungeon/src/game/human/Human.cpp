@@ -14,7 +14,7 @@ static const float GRAVITY		=0.02f;		// 重力
 static const float RADIUS		=  2.5f;	// 当たり判定半径
 static const float MAXTIME		=  5.0f;	// クールタイム
 static const float ANIME_SPEED	=  1.0f;	// アニメスピード
-static const float MOVE_HIGHT	=  10.0f;	// 動かす高さ
+static const float MOVE_HIGHT	=  20.0f;	// 動かす高さ
 static const float MIN_HIGHT	= -20.0f;	// リスポーン位置に戻す
 
 static const char HUMAN_MODEL_PATH[] = { "Data/Character/player/player.mv1" };
@@ -68,7 +68,7 @@ void CHuman::Init()
 //-------------------------------
 void CHuman::Load()
 {
-	VECTOR size = VGet(0.017f, 0.017f, 0.017f);
+	VECTOR size = VGet(0.02f, 0.02f, 0.02f);
 	int hndl= MV1LoadModel(HUMAN_MODEL_PATH);
 
 	MV1SetScale(hndl, size);

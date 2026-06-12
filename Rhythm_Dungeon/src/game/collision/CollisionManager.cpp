@@ -94,16 +94,12 @@ VECTOR CCollisionManager::HitMap(VECTOR center,float radius, MapEditor& map)
     //--------------------------------------
     // 床判定
     //--------------------------------------
-    if (footY >= 0 &&
-        footY < MAP_Y)
+    if (footY >= 0 && footY < MAP_Y)
     {
         //----------------------------------
         // 床があるか
         //----------------------------------
-        int tile = map.GetMap(
-            footY,
-            mapZ,
-            mapX);
+        int tile = map.GetMap(footY,mapZ,mapX);
 
         if (tile == TILE_FLOOR || tile == TILE_FLOOR2 || tile == TILE_BRIDGE|| tile == TILE_STAIRS)
         {
@@ -125,6 +121,74 @@ VECTOR CCollisionManager::HitMap(VECTOR center,float radius, MapEditor& map)
     return result;
 }
 
+//--------------------------------------------
+// 猫の座標をマップ座標にして計算を行う
+//--------------------------------------------
+VECTOR CCollisionManager::HitCatToMap(VECTOR center, float radius, MapEditor& map)
+{
+    //--------------------------------------
+   // 押し戻し結果
+   //--------------------------------------
+    VECTOR result = VGet(0, 0, 0);
+
+    //--------------------------------------
+    // ワールド座標 → マップ座標
+    //--------------------------------------
+    int mapX = (int)floor(center.x / TILE_SIZE);
+    int mapZ = (int)floor(center.z / TILE_SIZE);
+
+    //--------------------------------------
+    // 足元座標
+    //--------------------------------------
+    float footPos = center.y - radius;
+
+    //--------------------------------------
+    // 足元Y
+    //--------------------------------------
+    int footY = (int)floor(footPos / TILE_SIZE);
+
+    //--------------------------------------
+    // 範囲外防止
+    //--------------------------------------
+    if (mapX < 0 || mapX >= MAP_W ||
+        mapZ < 0 || mapZ >= MAP_H)
+    {
+        return result;
+    }
+
+    //--------------------------------------
+    // 床判定
+    //--------------------------------------
+    if (footY >= 0 &&
+        footY < MAP_Y)
+    {
+        //----------------------------------
+        // 床があるか
+        //----------------------------------
+        int tile = map.GetMap(
+            footY,
+            mapZ,
+            mapX);
+
+        if (tile == TILE_FLOOR || tile == TILE_FLOOR2 || tile == TILE_BRIDGE || tile == TILE_STAIRS)
+        {
+            //----------------------------------
+            // 床の上面
+            //----------------------------------
+            float floorTop = (footY + 1) * TILE_SIZE;
+
+            //----------------------------------
+            // 床にめり込んでいる
+            //----------------------------------
+            if (footPos < floorTop)
+            {
+                result.y = floorTop - footPos;
+            }
+        }
+    }
+
+    return result;
+}
 
 //--------------------------------------
 // エネミーとオブジェクトの当たり判定

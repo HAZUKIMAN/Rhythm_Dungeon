@@ -16,8 +16,7 @@ static const float RADIUS = 5.0f;			// 当たり判定半径
 static const float ANIME_SPEED = 1.0f;		// アニメスピード
 static const float MIN_HIGHT = -20.0f;		// リスポーン位置に戻す
 
-
-static const char CAT_MODEL_PATH[] = { "Data/Character/Cat/cat.mv1" };
+static const char CAT_MODEL_PATH[]	 = { "Data/Character/Cat/cat.mv1" };
 static const char PUTNO_MODEL_PATH[] = { "Data/object/put/Put_No.mv1" };
 static const char PUTOK_MODEL_PATH[] = { "Data/object/put/Put_Ok.mv1" };
 
@@ -172,7 +171,6 @@ void CCat::Step(MapEditor& map)
 	// 移動処理
 	//---------------------------------
 	Move();
-
 }
 
 

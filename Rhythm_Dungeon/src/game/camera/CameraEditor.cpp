@@ -50,6 +50,10 @@ void CEditorCamera::Step(CCat& cat,bool clear)
 	{
 		m_pos.y += 0.2f;
 	}
+	if (Input::Key::Keep(KEY_INPUT_N))
+	{
+		m_pos.y -= 0.2f;
+	}
 }
 
 //-------------------------------
