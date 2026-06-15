@@ -12,6 +12,8 @@
 #include "../enemy/Enemy.h"
 #include "../bridge/Bridge.h"
 
+using namespace std;
+
 //タイトルクラス
 //	@memo	:	継承後も基本はpublicは増やさない
 class CSceneGame : public CSceneBase{
@@ -25,15 +27,15 @@ private:
 
 	CHuman m_human;								// 人間処理
 	CCameraManager m_cameraManager;				// カメラマネージャ
-	CCat m_cat;									//猫（操作キャラ）
-	std::vector < CInstalledItem*> m_institem;	//運べる用のオブジェクト
-	std::vector<CBlock*> m_blocks;				// 設置ブロック
+	CCat m_cat;									// 猫（操作キャラ）
+	vector < CInstalledItem*> m_institem;		// 運べる用のオブジェクト
+	vector<CBlock*> m_blocks;					// 設置ブロック
 	CBackGroundManager m_backgroundManager;		// 背景
-	std::vector<CEnemy*> m_enemy;				//エネミー
-	std::vector<CBridge*> m_bridge;				//橋
-	MapEditor m_mapedit;						//マップエディター
-	ObjectEditor m_objEditor;					//オブジェクトエディター
-	CGoal m_goal;								//ゴール
+	vector<CEnemy*> m_enemy;					// エネミー
+	vector<CBridge*> m_bridge;					// 橋
+	MapEditor m_mapedit;						// マップエディター
+	ObjectEditor m_objEditor;					// オブジェクトエディター
+	CGoal m_goal;								// ゴール
 public:
 	CSceneGame();
 	~CSceneGame();
@@ -55,7 +57,6 @@ private:
 	void Calc();
 	void Set();
 	void Reset();
-
 	void CatCrry();
 	void CatCrryToBridge();
 

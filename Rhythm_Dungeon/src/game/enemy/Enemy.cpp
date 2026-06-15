@@ -126,7 +126,7 @@ void CEnemy::Move()
 }
 
 
-void CEnemy::NormalExec(const std::vector<CBlock*>& blocks, std::vector<CInstalledItem*> institem, float cat_state)
+void CEnemy::NormalExec(const std::vector<CBlock*>& blocks, std::vector<CInstalledItem*>& institem, float cat_state)
 {
 	if (m_vPosition.y >= MOVE_HIGHT)
 	{
@@ -295,7 +295,7 @@ void CEnemy::NormalExec(const std::vector<CBlock*>& blocks, std::vector<CInstall
 			//---------------------------------
 			// 目標地点
 			//---------------------------------
-			m_targetPos = VGet(worldX, 0.0f, worldZ);
+			m_targetPos = VGet(worldX, m_vPosition.y, worldZ);
 			//---------------------------------
 			// 移動開始
 			//---------------------------------

@@ -10,22 +10,23 @@
 //	定義関連------------------------------
 static const float MOVE_SPEED	=  0.09f;	// 移動速度
 static const float ROT_SPEED	= 0.03f;	// 回転速度
-static const float GRAVITY		=0.02f;		// 重力
+static const float GRAVITY		= 0.02f;	// 重力
 static const float RADIUS		=  2.5f;	// 当たり判定半径
-static const float MAXTIME		=  5.0f;	// クールタイム
+static const int   MAXTIME		=  5.0f;	// クールタイム
 static const float ANIME_SPEED	=  1.0f;	// アニメスピード
 static const float MOVE_HIGHT	=  20.0f;	// 動かす高さ
 static const float MIN_HIGHT	= -20.0f;	// リスポーン位置に戻す
 
 static const char HUMAN_MODEL_PATH[] = { "Data/Character/player/player.mv1" };
 //----------------------------------------
-
+//using namespace std;
 
 //-------------------------------
 //		コンストラクタ
 //-------------------------------
 CHuman::CHuman()
 {
+
 }
 
 
@@ -48,6 +49,8 @@ void CHuman::Init()
 	m_radius = RADIUS;
 	m_isActive = true;
 	m_isMoving = false;
+	m_isStairs = false;
+	m_stairTargetY = 0.0f;
 	m_targetPos = m_vPosition;
 	m_moveX = 0;
 	m_moveZ = 0;
@@ -120,13 +123,6 @@ void CHuman::Step()
 	Direction();
 	Move();
 
-	if (m_isActive == false)
-	{
-		m_vPosition = VGet(m_recpos.x, m_recpos.y, m_recpos.z);
-		Reset();
-		m_isActive = true;
-	}
-
 
 	if (m_vPosition.y <= MIN_HIGHT)
 	{
@@ -166,41 +162,107 @@ void CHuman::Move()
 //---------------------------------
 //		待機･移動中処理
 //---------------------------------
-void CHuman::NormalExec(std::vector<CBlock*>& blocks, std::vector<CInstalledItem*> institem, float cat_state)
+void CHuman::NormalExec(vector<CBlock*>& blocks, vector<CInstalledItem*>& institem, MapEditor& map, float cat_state)
 {
 	if (m_vPosition.y <= MOVE_HIGHT)
 	{
 		//---------------------------------
-		// 移動中
-		//---------------------------------
+ // 移動中
+ //---------------------------------
 		if (m_isMoving)
 		{
-			float addspeed=0.0f;
-			VECTOR dir = VSub(m_targetPos, m_vPosition);
+			float addspeed = 0.0f;
 
-			if (Input::Controller::Keep(XINPUT_BUTTON_RIGHT_SHOULDER))//早送りしたいのはenemyとhumanのみなので直に書いています
+			if (Input::Controller::Keep(
+				XINPUT_BUTTON_RIGHT_SHOULDER))
 			{
 				addspeed = 0.2f;
 				m_coolTime = 0.0f;
 			}
 
-			// Y無視
-			dir.y = 0.0f;
-			float dist = VSize(dir);
+			//---------------------------------
+			// 目標方向
+			//---------------------------------
+			VECTOR dir =
+				VSub(
+					m_targetPos,
+					m_vPosition);
 
-			// 到着
-			if (dist < MOVE_SPEED+ addspeed)
+			//---------------------------------
+			// 階段じゃないなら
+			// Y移動しない
+			//---------------------------------
+			if (!m_isStairs)
 			{
-				m_vPosition = m_targetPos;
+				dir.y = 0.0f;
+			}
+
+			//---------------------------------
+			// 距離(XZだけ)
+			//---------------------------------
+			float dist =
+				sqrtf(
+					dir.x * dir.x +
+					dir.z * dir.z);
+
+			//---------------------------------
+			// 階段中はYをゆっくり補間
+			//---------------------------------
+			if (m_isStairs)
+			{
+				float diffY =
+					m_stairTargetY -
+					m_vPosition.y;
+
+				m_vPosition.y +=
+					diffY * 0.15f;
+			}
+
+			//---------------------------------
+			// 到着
+			//---------------------------------
+			if (dist <
+				MOVE_SPEED +
+				addspeed)
+			{
+				m_vPosition.x =
+					m_targetPos.x;
+
+				m_vPosition.z =
+					m_targetPos.z;
+
+				//---------------------------------
+				// 階段ならYも合わせる
+				//---------------------------------
+				if (m_isStairs)
+				{
+					m_vPosition.y =
+						m_stairTargetY;
+				}
+
 				m_isMoving = false;
+				m_isStairs = false;
 			}
 			else
 			{
+				//---------------------------------
 				// 正規化
+				//---------------------------------
 				dir = VNorm(dir);
-				// 少しずつ移動
-				dir = VScale(dir, MOVE_SPEED+ addspeed);
-				m_vPosition = VAdd(m_vPosition, dir);
+
+				//---------------------------------
+				// 移動
+				//---------------------------------
+				dir =
+					VScale(
+						dir,
+						MOVE_SPEED +
+						addspeed);
+
+				m_vPosition =
+					VAdd(
+						m_vPosition,
+						dir);
 			}
 
 			return;
@@ -260,6 +322,29 @@ void CHuman::NormalExec(std::vector<CBlock*>& blocks, std::vector<CInstalledItem
 			int nextZ = mapZ + dirZ;
 
 			//---------------------------------
+			// 移動先の高さ取得
+			//---------------------------------
+			int targetY = 0;
+
+			// 上から下へ探す
+			for (int y = MAP_Y - 1; y >= 0;y--)
+			{
+				int tile = map.GetMap(y, nextZ, nextX);
+
+				//---------------------------------
+				// 床がある
+				//---------------------------------
+				if (tile == TILE_FLOOR ||
+					tile == TILE_FLOOR2||
+					tile == TILE_BRIDGE||
+					tile == TILE_STAIRS )
+				{
+					targetY = y + 1;
+					break;
+				}
+			}
+
+			//---------------------------------
 			// ブロックチェック
 			//---------------------------------
 			bool hitBlock = false;
@@ -275,7 +360,8 @@ void CHuman::NormalExec(std::vector<CBlock*>& blocks, std::vector<CInstalledItem
 				//---------------------------------
 				if (blockX == nextX && blockZ == nextZ)
 				{
-					hitBlock = true;break;
+					hitBlock = true;
+					break;
 				}
 			}
 
@@ -323,15 +409,46 @@ void CHuman::NormalExec(std::vector<CBlock*>& blocks, std::vector<CInstalledItem
 
 				return;
 			}
+
 			//---------------------------------
-			// 中心位置
+			// 階段判定
 			//---------------------------------
-			float worldX = (nextX + 0.5f) * TILE_SIZE;
-			float worldZ = (nextZ + 0.5f) * TILE_SIZE;
+			bool isStairs = false;
+			float stairs_targetY = m_vPosition.y;
+
+			// 今いる高さ
+			int currentY = (int)floor(m_vPosition.y /TILE_SIZE);
+
+			// 目の前のタイル
+			int frontTile = map.GetMap(currentY,nextZ,nextX);
+
+			// 階段なら上る
+			if (frontTile == TILE_STAIRS)
+			{
+				isStairs = true;
+				// 1マス上へ
+				stairs_targetY =(currentY + 1)* TILE_SIZE;
+			}
+
+			// ワールド座標
+			float worldX = (nextX + 0.5f)* TILE_SIZE;
+			float worldZ = (nextZ + 0.5f)* TILE_SIZE;
+
 			//---------------------------------
+			// 階段じゃないなら
+			// 今の高さ維持
+			//---------------------------------
+			if (!isStairs)
+			{
+				stairs_targetY = m_vPosition.y;
+			}
+
 			// 目標地点
-			//---------------------------------
-			m_targetPos = VGet(worldX, 0.0f, worldZ);
+			m_targetPos = VGet(worldX, stairs_targetY,worldZ);
+
+			m_stairTargetY = stairs_targetY;
+			m_isStairs = isStairs;
+
 			//---------------------------------
 			// 移動開始
 			//---------------------------------

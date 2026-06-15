@@ -52,9 +52,6 @@
     <Filter Include="ソース ファイル\game\field\sky">
       <UniqueIdentifier>{8bad29d7-a852-4cb8-bf51-c3d77a3bd99e}</UniqueIdentifier>
     </Filter>
-    <Filter Include="ソース ファイル\game\object">
-      <UniqueIdentifier>{1f7526f0-1208-4906-b5ae-be9ca4443170}</UniqueIdentifier>
-    </Filter>
     <Filter Include="ソース ファイル\game\camera\Editor">
       <UniqueIdentifier>{94e7cd77-23d1-4513-a2f8-e0277fbd04ea}</UniqueIdentifier>
     </Filter>
@@ -63,18 +60,6 @@
     </Filter>
     <Filter Include="ソース ファイル\game\field\Goal">
       <UniqueIdentifier>{14c1304c-b0b8-4700-93ca-81c8da740456}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="ソース ファイル\game\character">
-      <UniqueIdentifier>{8d3d9eeb-b4e2-4730-a869-f885e46c6283}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="ソース ファイル\game\character\cat">
-      <UniqueIdentifier>{38913931-c9d6-45e6-91bb-54f644500965}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="ソース ファイル\game\character\human">
-      <UniqueIdentifier>{e58a5058-b9c9-4925-ae44-a8e7a3d7bdfb}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="ソース ファイル\game\character\enemy">
-      <UniqueIdentifier>{7c1521e2-38e0-4276-9587-797439ea54f1}</UniqueIdentifier>
     </Filter>
     <Filter Include="ソース ファイル\game\Editor">
       <UniqueIdentifier>{087e9390-a3b3-422c-b6d6-1ec291b029c6}</UniqueIdentifier>
@@ -111,6 +96,18 @@
     </Filter>
     <Filter Include="ソース ファイル\game\Editor\rail">
       <UniqueIdentifier>{90c83f92-1de3-4a57-bebb-d9113f53c6fa}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ソース ファイル\game\actor">
+      <UniqueIdentifier>{8d3d9eeb-b4e2-4730-a869-f885e46c6283}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ソース ファイル\game\actor\cat">
+      <UniqueIdentifier>{38913931-c9d6-45e6-91bb-54f644500965}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ソース ファイル\game\actor\human">
+      <UniqueIdentifier>{e58a5058-b9c9-4925-ae44-a8e7a3d7bdfb}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ソース ファイル\game\actor\enemy">
+      <UniqueIdentifier>{7c1521e2-38e0-4276-9587-797439ea54f1}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -159,9 +156,6 @@
     <ClCompile Include="src\game\camera\PlayCamera.cpp">
       <Filter>ソース ファイル\game\camera</Filter>
     </ClCompile>
-    <ClCompile Include="src\game\object\Actor.cpp">
-      <Filter>ソース ファイル\game\object</Filter>
-    </ClCompile>
     <ClCompile Include="src\game\camera\DebugCamera.cpp">
       <Filter>ソース ファイル\game\camera</Filter>
     </ClCompile>
@@ -177,14 +171,11 @@
     <ClCompile Include="src\game\map\MapEditor.cpp">
       <Filter>ソース ファイル\game\Editor\MapEditor</Filter>
     </ClCompile>
-    <ClCompile Include="src\game\Anime\Anime.cpp">
-      <Filter>ソース ファイル\game\object</Filter>
-    </ClCompile>
     <ClCompile Include="src\game\map\ObjectEditor.cpp">
       <Filter>ソース ファイル\game\Editor\objecteditor</Filter>
     </ClCompile>
     <ClCompile Include="src\game\cat\Cat.cpp">
-      <Filter>ソース ファイル\game\character\cat</Filter>
+      <Filter>ソース ファイル\game\actor\cat</Filter>
     </ClCompile>
     <ClCompile Include="src\game\field\InstalledItem.cpp">
       <Filter>ソース ファイル\game\field\Installed item</Filter>
@@ -199,10 +190,10 @@
       <Filter>ソース ファイル\game\field\Goal</Filter>
     </ClCompile>
     <ClCompile Include="src\game\human\Human.cpp">
-      <Filter>ソース ファイル\game\character\human</Filter>
+      <Filter>ソース ファイル\game\actor\human</Filter>
     </ClCompile>
     <ClCompile Include="src\game\enemy\Enemy.cpp">
-      <Filter>ソース ファイル\game\character\enemy</Filter>
+      <Filter>ソース ファイル\game\actor\enemy</Filter>
     </ClCompile>
     <ClCompile Include="src\game\scene\SceneSelect.cpp">
       <Filter>ソース ファイル\game\scene\select</Filter>
@@ -224,6 +215,12 @@
     </ClCompile>
     <ClCompile Include="src\lib\sound\effectData\effectData.cpp">
       <Filter>ソース ファイル\lib\effect</Filter>
+    </ClCompile>
+    <ClCompile Include="src\game\object\Actor.cpp">
+      <Filter>ソース ファイル\game\actor</Filter>
+    </ClCompile>
+    <ClCompile Include="src\game\Anime\Anime.cpp">
+      <Filter>ソース ファイル\game\actor</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -275,9 +272,6 @@
     <ClInclude Include="src\game\common.h">
       <Filter>ソース ファイル</Filter>
     </ClInclude>
-    <ClInclude Include="src\game\object\Actor.h">
-      <Filter>ソース ファイル\game\object</Filter>
-    </ClInclude>
     <ClInclude Include="src\game\camera\DebugCamera.h">
       <Filter>ソース ファイル\game\camera</Filter>
     </ClInclude>
@@ -293,14 +287,11 @@
     <ClInclude Include="src\game\map\MapEditor.h">
       <Filter>ソース ファイル\game\Editor\MapEditor</Filter>
     </ClInclude>
-    <ClInclude Include="src\game\Anime\Anime.h">
-      <Filter>ソース ファイル\game\object</Filter>
-    </ClInclude>
     <ClInclude Include="src\game\map\ObjectEditor.h">
       <Filter>ソース ファイル\game\Editor\objecteditor</Filter>
     </ClInclude>
     <ClInclude Include="src\game\cat\Cat.h">
-      <Filter>ソース ファイル\game\character\cat</Filter>
+      <Filter>ソース ファイル\game\actor\cat</Filter>
     </ClInclude>
     <ClInclude Include="src\game\field\InstalledItem.h">
       <Filter>ソース ファイル\game\field\Installed item</Filter>
@@ -315,10 +306,10 @@
       <Filter>ソース ファイル\game\field\Goal</Filter>
     </ClInclude>
     <ClInclude Include="src\game\human\Human.h">
-      <Filter>ソース ファイル\game\character\human</Filter>
+      <Filter>ソース ファイル\game\actor\human</Filter>
     </ClInclude>
     <ClInclude Include="src\game\enemy\Enemy.h">
-      <Filter>ソース ファイル\game\character\enemy</Filter>
+      <Filter>ソース ファイル\game\actor\enemy</Filter>
     </ClInclude>
     <ClInclude Include="src\game\scene\SceneSelect.h">
       <Filter>ソース ファイル\game\scene\select</Filter>
@@ -340,6 +331,12 @@
     </ClInclude>
     <ClInclude Include="src\lib\sound\effectData\effectData.h">
       <Filter>ソース ファイル\lib\effect</Filter>
+    </ClInclude>
+    <ClInclude Include="src\game\object\Actor.h">
+      <Filter>ソース ファイル\game\actor</Filter>
+    </ClInclude>
+    <ClInclude Include="src\game\Anime\Anime.h">
+      <Filter>ソース ファイル\game\actor</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

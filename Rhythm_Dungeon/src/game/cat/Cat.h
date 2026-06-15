@@ -65,11 +65,10 @@ public:
 
 	// 初期化
 	void Init() override;
-
 	// データロード
 	void Load();
 	// 毎フレーム呼ぶ処理
-	void Step(MapEditor& map);
+	void Step();
 	// 描画処理
 	void Draw() override;
 	//ブロックの設置
@@ -87,9 +86,7 @@ private:
 	// 移動計算結果を反映
 	void Move();
 	// 待機･移動中処理
-	void NormalExec(MapEditor& map);
-	//操作関係処理
-	void Operation(MapEditor& map);
+	void NormalExec();
 	// 床チェック
 	bool CheckGround(MapEditor& map);
 

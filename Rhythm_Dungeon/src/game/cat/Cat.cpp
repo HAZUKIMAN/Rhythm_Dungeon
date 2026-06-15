@@ -98,7 +98,7 @@ void CCat::Load()
 //-------------------------------
 //		毎フレーム呼ぶ処理
 //-------------------------------
-void CCat::Step(MapEditor& map)
+void CCat::Step()
 {
 
 	if (m_isActive == false)
@@ -120,7 +120,7 @@ void CCat::Step(MapEditor& map)
 	//---------------------------------
 	// 通常行動
 	//---------------------------------
-	NormalExec(map);
+	NormalExec();
 
 	//---------------------------------
 	// 移動量
@@ -204,9 +204,134 @@ void CCat::Move()
 //-------------------------------
 //		待機･移動中処理
 //-------------------------------
-void CCat::NormalExec(MapEditor& map)
+void CCat::NormalExec()
 {
-	Operation(map);
+	//---------------------------------
+	// 入力値
+	//---------------------------------
+	float moveX = 0.0f;
+	float moveZ = 0.0f;
+
+	//---------------------------------
+	// 左スティック取得
+	//---------------------------------
+	float stickX = 0.0f;
+	float stickY = 0.0f;
+
+	Input::Controller::LStickIncline(stickX, stickY);
+
+	//---------------------------------
+	// キーボード入力
+	//---------------------------------
+	if (Input::Key::Keep(KEY_INPUT_A))
+	{
+		moveX -= 1.0f;
+	}
+
+	if (Input::Key::Keep(KEY_INPUT_D))
+	{
+		moveX += 1.0f;
+	}
+
+	if (Input::Key::Keep(KEY_INPUT_W))
+	{
+		moveZ += 1.0f;
+	}
+
+	if (Input::Key::Keep(KEY_INPUT_S))
+	{
+		moveZ -= 1.0f;
+	}
+
+	//---------------------------------
+	// DPad入力
+	//---------------------------------
+	if (Input::Controller::Keep(XINPUT_BUTTON_DPAD_LEFT))
+	{
+		moveX -= 1.0f;
+	}
+
+	if (Input::Controller::Keep(XINPUT_BUTTON_DPAD_RIGHT))
+	{
+		moveX += 1.0f;
+	}
+
+	if (Input::Controller::Keep(XINPUT_BUTTON_DPAD_UP))
+	{
+		moveZ += 1.0f;
+	}
+
+	if (Input::Controller::Keep(XINPUT_BUTTON_DPAD_DOWN))
+	{
+		moveZ -= 1.0f;
+	}
+
+	//---------------------------------
+	// 左スティック優先
+	//---------------------------------
+	if (fabs(stickX) > 0.1f)
+	{
+		moveX = stickX;
+	}
+
+	if (fabs(stickY) > 0.1f)
+	{
+		moveZ = stickY;
+	}
+
+	//---------------------------------
+	// 入力がある
+	//---------------------------------
+	if (fabs(moveX) > 0.01f ||
+		fabs(moveZ) > 0.01f)
+	{
+		//---------------------------------
+		// 目標角度
+		//---------------------------------
+		float targetRot = atan2f(-moveX, -moveZ);
+
+		//---------------------------------
+		// 角度差
+		//---------------------------------
+		float diff = targetRot - m_vRotation.y;
+
+		//---------------------------------
+		// -PI～PI補正
+		//---------------------------------
+		while (diff > DX_PI_F)
+		{
+			diff -= DX_PI_F * 2.0f;
+		}
+
+		while (diff < -DX_PI_F)
+		{
+			diff += DX_PI_F * 2.0f;
+		}
+
+		//---------------------------------
+		// 回転
+		//---------------------------------
+		float rotSpeed = 0.2f;
+
+		m_vRotation.y += diff * rotSpeed;
+
+		//---------------------------------
+		// 斜め速度補正
+		//---------------------------------
+		float len = sqrtf(moveX * moveX + moveZ * moveZ);
+
+		if (len > 0.0f)
+		{
+			moveX /= len;
+			moveZ /= len;
+		}
+
+		//---------------------------------
+		// 地面移動
+		//---------------------------------
+		m_vPosition.x += moveX * MOVE_SPEED;
+		m_vPosition.z += moveZ * MOVE_SPEED;
+	}
 }
 
 
@@ -343,7 +468,7 @@ void CCat::DrawPlaceBlockPreview(MapEditor& map)
 	// ワールド座標
 	//---------------------------------
 	float x = placeX * TILE_SIZE + TILE_SIZE / 2;
-	float y = TILE_SIZE / 2;//placeY * TILE_SIZE + TILE_SIZE/2;
+	float y = m_vPosition.y;//placeY * TILE_SIZE + TILE_SIZE/2;
 	float z = placeZ * TILE_SIZE + TILE_SIZE / 2;
 
 	//---------------------------------
@@ -368,7 +493,7 @@ void CCat::DrawPlaceBlockPreview(MapEditor& map)
 		}
 	}
 
-	VECTOR vec = VGet(x, y, z);
+	VECTOR vec = VGet(x, y - TILE_SIZE/2, z);
 
 	if (canPlace)
 	{
@@ -383,190 +508,6 @@ void CCat::DrawPlaceBlockPreview(MapEditor& map)
 
 }
 
-//------------------------------
-// 操作関係処理
-//------------------------------
-void CCat::Operation(MapEditor& map)
-{
-
-	//---------------------------------
-	// 入力値
-	//---------------------------------
-	float moveX = 0.0f;
-	float moveZ = 0.0f;
-
-	//---------------------------------
-	// 左スティック取得
-	//---------------------------------
-	float stickX = 0.0f;
-	float stickY = 0.0f;
-
-	Input::Controller::LStickIncline(stickX, stickY);
-
-	//---------------------------------
-	// キーボード入力
-	//---------------------------------
-	if (Input::Key::Keep(KEY_INPUT_A))
-	{
-		moveX -= 1.0f;
-	}
-
-	if (Input::Key::Keep(KEY_INPUT_D))
-	{
-		moveX += 1.0f;
-	}
-
-	if (Input::Key::Keep(KEY_INPUT_W))
-	{
-		moveZ += 1.0f;
-	}
-
-	if (Input::Key::Keep(KEY_INPUT_S))
-	{
-		moveZ -= 1.0f;
-	}
-
-	//---------------------------------
-	// DPad入力
-	//---------------------------------
-	if (Input::Controller::Keep(XINPUT_BUTTON_DPAD_LEFT))
-	{
-		moveX -= 1.0f;
-	}
-
-	if (Input::Controller::Keep(XINPUT_BUTTON_DPAD_RIGHT))
-	{
-		moveX += 1.0f;
-	}
-
-	if (Input::Controller::Keep(XINPUT_BUTTON_DPAD_UP))
-	{
-		moveZ += 1.0f;
-	}
-
-	if (Input::Controller::Keep(XINPUT_BUTTON_DPAD_DOWN))
-	{
-		moveZ -= 1.0f;
-	}
-
-	//---------------------------------
-	// 左スティック優先
-	//---------------------------------
-	if (fabs(stickX) > 0.1f)
-	{
-		moveX = stickX;
-	}
-
-	if (fabs(stickY) > 0.1f)
-	{
-		moveZ = stickY;
-	}
-
-	//---------------------------------
-	// 入力がある
-	//---------------------------------
-	if (fabs(moveX) > 0.01f ||
-		fabs(moveZ) > 0.01f)
-	{
-		//---------------------------------
-		// 目標角度
-		//---------------------------------
-		float targetRot = atan2f(-moveX, -moveZ);
-
-		//---------------------------------
-		// 角度差
-		//---------------------------------
-		float diff = targetRot - m_vRotation.y;
-
-		//---------------------------------
-		// -PI～PI補正
-		//---------------------------------
-		while (diff > DX_PI_F)
-		{
-			diff -= DX_PI_F * 2.0f;
-		}
-
-		while (diff < -DX_PI_F)
-		{
-			diff += DX_PI_F * 2.0f;
-		}
-
-		//---------------------------------
-		// 回転
-		//---------------------------------
-		float rotSpeed = 0.2f;
-
-		m_vRotation.y += diff * rotSpeed;
-
-		//---------------------------------
-		// 斜め速度補正
-		//---------------------------------
-		float len = sqrtf(moveX * moveX + moveZ * moveZ);
-
-		if (len > 0.0f)
-		{
-			moveX /= len;
-			moveZ /= len;
-		}
-
-		//---------------------------------
-		// 地面移動
-		//---------------------------------
-		m_vPosition.x += moveX * MOVE_SPEED;
-		m_vPosition.z += moveZ * MOVE_SPEED;
-		
-	}
-
-	//---------------------------------
-	// 現在マス
-	//---------------------------------
-	int mapX =(int)floor(m_vPosition.x /TILE_SIZE);
-	int mapY =(int)floor(m_vPosition.y /TILE_SIZE);
-	int mapZ =(int)floor(m_vPosition.z /TILE_SIZE);
-
-	//---------------------------------
-	// 向いている方向
-	//---------------------------------
-	int dirX =(int)roundf(-sinf(m_vRotation.y));
-	int dirZ =(int)roundf(-cosf(m_vRotation.y));
-	int frontX =mapX + dirX;
-	int frontZ =mapZ + dirZ;
-
-	//---------------------------------
-	// 範囲チェック
-	//---------------------------------
-	if (frontX >= 0 && frontX < MAP_W &&
-		frontZ >= 0 && frontZ < MAP_H)
-	{
-		//---------------------------------
-		// 目の前が階段 → 登る
-		//---------------------------------
-		if (map.GetMap(mapY, frontZ, frontX) == TILE_STAIRS)
-		{
-			float targetY = (mapY + 1) * TILE_SIZE; // 階段の上段高さ
-
-			m_vPosition.x = (frontX + 0.5f) * TILE_SIZE -2.5;
-			m_vPosition.z = (frontZ + 0.5f) * TILE_SIZE -2.5;
-
-			float dy = targetY - m_vPosition.y;
-
-			if (fabs(dy) > 0.001f)
-			{
-				float speed = 0.06f; // ←かなりゆっくり
-
-				if (fabs(dy) < speed)
-				{
-					m_vPosition.y = targetY; // 最後だけピタッと合わせる
-				}
-				else
-				{
-					m_vPosition.y += (dy > 0 ? speed : -speed);
-				}
-			}
-		}
-	}
-
-}
 
 //--------------------------------------
 // 猫の向き取得

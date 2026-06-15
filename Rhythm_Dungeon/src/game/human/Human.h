@@ -3,7 +3,13 @@
 #include <vector>
 #include "../field/Block.h"
 #include "../field/InstalledItem.h"
+#include "../Anime/Anime.h"
+#include "../common.h"
+#include "../../lib/sound/effectData/effectData.h"
+#include "../effect/effekseer.h"
+#include "../map/MapEditor.h"
 
+using namespace std;
 
 class CHuman : public CActor
 {
@@ -25,6 +31,14 @@ private:
 		ROTATION_UP,
 	};
 
+	enum TileType {
+		TILE_NONE = 0,
+		TILE_FLOOR = 1,
+		TILE_STAIRS = 2,
+		TILE_FLOOR2 = 3,
+		TILE_BRIDGE = 4,
+	};
+
 	tagDirection direction;
 
 	enum tagMove
@@ -38,14 +52,15 @@ private:
 
 	taghumanState m_state;	// 人間の状態
 
-
 	bool m_isMoving;
-	VECTOR m_targetPos;
 	int m_coolTime;
 	int m_moveX;
 	int m_moveZ;
 	float m_setrot;
+	bool m_isStairs;
+	float m_stairTargetY;
 	VECTOR m_recpos;
+	VECTOR m_targetPos;
 
 public:
 	// コンストラクタ・デストラクタ
@@ -75,6 +90,7 @@ public:
 	int  GetDirect() { return direction; }
 	//クリアしたとき
 	void Clear();
+
 private:
 	// 移動角度処理
 	void Direction();
@@ -83,5 +99,5 @@ private:
 
 public:
 	// 待機･移動中処理
-	void NormalExec(std::vector<CBlock*>& blocks, std::vector<CInstalledItem*> institem, float cat_state);
+	void NormalExec(vector<CBlock*>& blocks, vector<CInstalledItem*>& institem, MapEditor& map, float cat_state);
 };

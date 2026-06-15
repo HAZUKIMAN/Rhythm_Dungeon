@@ -55,8 +55,6 @@ public:
 
 	//マップ座標にして計算を行う
 	static VECTOR HitMap( VECTOR center, float radius, MapEditor& map);
-	//猫の座標をマップ座標にして計算を行う
-	static VECTOR HitCatToMap(VECTOR center, float radius, MapEditor& map);
 
 };
 

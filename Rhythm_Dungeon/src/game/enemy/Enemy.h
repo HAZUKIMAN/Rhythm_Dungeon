@@ -70,5 +70,5 @@ private:
 
 public:
 	// ‘Ò‹@¥ˆÚ“®’†ˆ—
-	void NormalExec(const std::vector<CBlock*>& blocks, std::vector<CInstalledItem*> institem, float cat_state);
+	void NormalExec(const std::vector<CBlock*>& blocks, std::vector<CInstalledItem*>& institem, float cat_state);
 };

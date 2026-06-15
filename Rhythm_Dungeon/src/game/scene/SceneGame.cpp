@@ -568,14 +568,14 @@ void CSceneGame::Calc()
 		}
 
 		// 猫の更新処理
-		m_cat.Step(m_mapedit);
+		m_cat.Step();
 
 		//猫が物を運ぶ処理全般
 		CatCrry();
 		CatCrryToBridge();
 		
 		// 待機･移動中処理 
-		m_human.NormalExec(m_blocks, m_institem, move_box);
+		m_human.NormalExec(m_blocks, m_institem, m_mapedit, move_box);
 
 		for (auto& enemy : m_enemy) { enemy->NormalExec(m_blocks,m_institem, move_box); }
 
@@ -586,7 +586,7 @@ void CSceneGame::Calc()
 		CCollisionManager::HitEnemyToObject(m_enemy, m_objEditor);
 
 		//猫とマップの当たり判定
-		m_cat.AddPos(CCollisionManager::HitCatToMap(m_cat.GetCenter(), m_cat.GetRadius(), m_mapedit));
+		m_cat.AddPos(CCollisionManager::HitMap(m_cat.GetCenter(), m_cat.GetRadius(), m_mapedit));
 
 		//エネミーとマップの当たり判定
 		for (auto& enemy : m_enemy)
@@ -1310,3 +1310,4 @@ void CSceneGame::Reset()
 	m_cat.SetPos(m_player_startPos);
 	
 }
+
