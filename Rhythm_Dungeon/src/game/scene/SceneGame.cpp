@@ -568,7 +568,7 @@ void CSceneGame::Calc()
 		}
 
 		// ”L‚ÌXVˆ—
-		m_cat.Step();
+		m_cat.Step(m_mapedit);
 
 		//”L‚ª•¨‚ğ‰^‚Ôˆ—‘S”Ê
 		CatCrry();

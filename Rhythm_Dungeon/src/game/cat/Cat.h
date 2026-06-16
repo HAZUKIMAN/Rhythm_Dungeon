@@ -20,8 +20,11 @@ public:
 	};
 
 private:
+	bool m_canUseStairs;
 	VECTOR m_recpos;
 	int m_iPutModel[2];
+	bool m_isStairs;
+	float m_stairTargetY;
 	tagCatState m_state;	// 人間の状態
 
 	enum ObjectType {
@@ -68,7 +71,7 @@ public:
 	// データロード
 	void Load();
 	// 毎フレーム呼ぶ処理
-	void Step();
+	void Step(MapEditor& map);
 	// 描画処理
 	void Draw() override;
 	//ブロックの設置
@@ -83,10 +86,10 @@ public:
 	void Clear();
 
 private:
+	// 待機･移動中処理
+	void NormalExec(MapEditor& map);
 	// 移動計算結果を反映
 	void Move();
-	// 待機･移動中処理
-	void NormalExec();
 	// 床チェック
 	bool CheckGround(MapEditor& map);
 

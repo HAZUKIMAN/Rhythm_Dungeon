@@ -68,6 +68,8 @@ void CCat::Init()
 
 	m_radius = RADIUS;
 	m_isActive = true;
+	m_isStairs = false;
+	m_stairTargetY = 0.0f;
 
 	m_iPutModel[0] = MV1LoadModel(PUTNO_MODEL_PATH);
 	m_iPutModel[1] = MV1LoadModel(PUTOK_MODEL_PATH);
@@ -98,7 +100,7 @@ void CCat::Load()
 //-------------------------------
 //		毎フレーム呼ぶ処理
 //-------------------------------
-void CCat::Step()
+void CCat::Step(MapEditor& map)
 {
 
 	if (m_isActive == false)
@@ -117,10 +119,8 @@ void CCat::Step()
 	// 重力
 	//---------------------------------
 	m_speed.y -= GRAVITY;
-	//---------------------------------
-	// 通常行動
-	//---------------------------------
-	NormalExec();
+	
+	NormalExec(map);
 
 	//---------------------------------
 	// 移動量
@@ -137,16 +137,11 @@ void CCat::Step()
 	//---------------------------------
 	if (move > 0.1f)
 	{
-		if (m_state !=
-			CAT_STATE_WALK)
+		if (m_state !=CAT_STATE_WALK)
 		{
-			RequestLoop(
-				CAT_STATE_WALK,
-				ANIME_SPEED,
-				m_iModelHdl);
+			RequestLoop(CAT_STATE_WALK,ANIME_SPEED,m_iModelHdl);
 
-			m_state =
-				CAT_STATE_WALK;
+			m_state =CAT_STATE_WALK;
 		}
 	}
 	else
@@ -154,16 +149,11 @@ void CCat::Step()
 		//---------------------------------
 		// 待機
 		//---------------------------------
-		if (m_state !=
-			CAT_STATE_NORMAL)
+		if (m_state != CAT_STATE_NORMAL)
 		{
-			RequestLoop(
-				CAT_STATE_NORMAL,
-				ANIME_SPEED,
-				m_iModelHdl);
+			RequestLoop(CAT_STATE_NORMAL,ANIME_SPEED,m_iModelHdl);
 
-			m_state =
-				CAT_STATE_NORMAL;
+			m_state = CAT_STATE_NORMAL;
 		}
 	}
 
@@ -184,6 +174,16 @@ void CCat::Draw()
 
 	DrawFormatString(100, 600, RED, "ねこのY座標：%f", m_vPosition.y);
 
+
+	DrawFormatString(
+		50,
+		50,
+		WHITE,
+		"Cat X %.2f Y %.2f Z %.2f",
+		m_vPosition.x,
+		m_vPosition.y,
+		m_vPosition.z);
+
 #ifdef MY_DEBUG
 	DrawSphere3D(m_vPos, RADIUS, 16, GetColor(0, 0, 255), GetColor(0, 0, 0), FALSE);
 #endif
@@ -197,14 +197,13 @@ void CCat::Move()
 {
 	// 移動速度加算
 	m_vPosition = VAdd(m_vPosition, m_speed);
-
 }
 
 
 //-------------------------------
 //		待機･移動中処理
 //-------------------------------
-void CCat::NormalExec()
+void CCat::NormalExec(MapEditor& map)
 {
 	//---------------------------------
 	// 入力値
@@ -331,6 +330,43 @@ void CCat::NormalExec()
 		//---------------------------------
 		m_vPosition.x += moveX * MOVE_SPEED;
 		m_vPosition.z += moveZ * MOVE_SPEED;
+
+		//---------------------------------
+		// 階段チェック（安全版）
+		//---------------------------------
+		m_isStairs = false;
+
+		int mapX =
+			(int)(m_vPosition.x / TILE_SIZE);
+
+		int mapZ =
+			(int)(m_vPosition.z / TILE_SIZE);
+
+		int mapY =
+			(int)(m_vPosition.y / TILE_SIZE);
+
+		// 範囲外防止
+		if (mapX >= 0 &&
+			mapX < MAP_W &&
+			mapZ >= 0 &&
+			mapZ < MAP_H &&
+			mapY + 1 >= 0 &&
+			mapY + 1 < MAP_Y)
+		{
+			int frontTile =
+				map.GetMap(
+					mapY + 1,
+					mapZ,
+					mapX);
+
+			if (frontTile == TILE_STAIRS)
+			{
+				m_isStairs = true;
+
+				m_stairTargetY =
+					(mapY + 1) * TILE_SIZE;
+			}
+		}
 	}
 }
 
@@ -397,24 +433,15 @@ bool CCat::CheckGround(MapEditor& map)
 	//---------------------------------
 	// 床があるか
 	//---------------------------------
-	if (map.GetMap(
-		footY,
-		mapZ,
-		mapX) == TILE_FLOOR)
+	if (map.GetMap(footY,mapZ,mapX) == TILE_FLOOR)
 	{
 		return true;
 	}
-	if (map.GetMap(
-		footY,
-		mapZ,
-		mapX) == TILE_FLOOR2)
+	if (map.GetMap(footY,mapZ,mapX) == TILE_FLOOR2)
 	{
 		return true;
 	}
-	if (map.GetMap(
-		footY,
-		mapZ,
-		mapX) == TILE_BRIDGE)
+	if (map.GetMap(footY,mapZ,mapX) == TILE_BRIDGE)
 	{
 		return true;
 	}
@@ -531,9 +558,9 @@ int CCat::GetDirection()
 	{
 		return ROTATION_DOWN;
 	}
-
+	//front
 	//---------------------------------
-	// 左
+	// 左F
 	//---------------------------------
 	if (fabs(rot - (DX_PI_F / 2)) < 0.1f)
 	{

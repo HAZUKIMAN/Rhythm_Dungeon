@@ -167,8 +167,8 @@ void CHuman::NormalExec(vector<CBlock*>& blocks, vector<CInstalledItem*>& instit
 	if (m_vPosition.y <= MOVE_HIGHT)
 	{
 		//---------------------------------
- // 移動中
- //---------------------------------
+		// 移動中
+		//---------------------------------
 		if (m_isMoving)
 		{
 			float addspeed = 0.0f;
@@ -211,11 +211,16 @@ void CHuman::NormalExec(vector<CBlock*>& blocks, vector<CInstalledItem*>& instit
 			if (m_isStairs)
 			{
 				float diffY =
-					m_stairTargetY -
-					m_vPosition.y;
+					m_stairTargetY - m_vPosition.y;
 
-				m_vPosition.y +=
-					diffY * 0.15f;
+				// 少しずつ近づける（ゆっくり）
+				m_vPosition.y += diffY * 0.08f;
+
+				// 微妙なガタ防止
+				if (fabs(diffY) < 0.05f)
+				{
+					m_vPosition.y = m_stairTargetY;
+				}
 			}
 
 			//---------------------------------
@@ -413,45 +418,38 @@ void CHuman::NormalExec(vector<CBlock*>& blocks, vector<CInstalledItem*>& instit
 			//---------------------------------
 			// 階段判定
 			//---------------------------------
+
 			bool isStairs = false;
+
+			// 今の高さを基準
 			float stairs_targetY = m_vPosition.y;
 
 			// 今いる高さ
-			int currentY = (int)floor(m_vPosition.y /TILE_SIZE);
+			int currentY = (int)floor(m_vPosition.y / TILE_SIZE);
 
 			// 目の前のタイル
-			int frontTile = map.GetMap(currentY,nextZ,nextX);
+			int frontTile = map.GetMap(currentY + 1,nextZ,nextX);
 
-			// 階段なら上る
+			// 階段なら上方向
 			if (frontTile == TILE_STAIRS)
 			{
 				isStairs = true;
-				// 1マス上へ
-				stairs_targetY =(currentY + 1)* TILE_SIZE;
+
+				//---------------------------------
+				// 1段上へ
+				//---------------------------------
+				stairs_targetY =m_vPosition.y + TILE_SIZE;
 			}
 
 			// ワールド座標
-			float worldX = (nextX + 0.5f)* TILE_SIZE;
-			float worldZ = (nextZ + 0.5f)* TILE_SIZE;
+			float worldX =(nextX + 0.5f) * TILE_SIZE;
+			float worldZ =(nextZ + 0.5f) * TILE_SIZE;
 
-			//---------------------------------
-			// 階段じゃないなら
-			// 今の高さ維持
-			//---------------------------------
-			if (!isStairs)
-			{
-				stairs_targetY = m_vPosition.y;
-			}
+			// 目標位置
+			m_targetPos =VGet(worldX,stairs_targetY,worldZ);
+			m_stairTargetY =stairs_targetY;
+			m_isStairs =isStairs;
 
-			// 目標地点
-			m_targetPos = VGet(worldX, stairs_targetY,worldZ);
-
-			m_stairTargetY = stairs_targetY;
-			m_isStairs = isStairs;
-
-			//---------------------------------
-			// 移動開始
-			//---------------------------------
 			m_isMoving = true;
 		}
 	}
