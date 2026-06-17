@@ -73,7 +73,7 @@ void CSceneGame::Load()
 
 	m_mapedit.Load(m_objEditor);
 	m_objEditor.Load();
-
+	//読み込まれた位置に物を配置
 	Set();
 
 	// カメラ更新処理
@@ -758,34 +758,24 @@ void CSceneGame::CatCrry()
 				if (obj.type == OBJ_PUT_BOX)
 				{
 					float worldX = (obj.x + 0.5f) * TILE_SIZE;
-					float worldY = (obj.y + 0.5f) * TILE_SIZE + 2.5f;
+					float worldY = (obj.y + 0.5f) * TILE_SIZE;
 					float worldZ = (obj.z + 0.5f) * TILE_SIZE;
 
 					//---------------------------------
 					// 持ってる箱だけ置く
 					//---------------------------------
 					m_carryItem->SetPos(
-						VGet(
-							worldX,
-							worldY,
-							worldZ));
+						VGet(worldX,worldY,worldZ));
 
 					//---------------------------------
 					// 配置済みとして保存
 					//---------------------------------
-					m_objEditor.AddObject(
-						obj.x,
-						obj.y,
-						obj.z,
-						OBJ_ITEM);
+					m_objEditor.AddObject(obj.x,obj.y,obj.z,OBJ_ITEM);
 
 					//---------------------------------
 					// 設置ポイント削除
 					//---------------------------------
-					m_objEditor.RemoveObject(
-						obj.x,
-						obj.y,
-						obj.z);
+					m_objEditor.RemoveObject(obj.x,obj.y,obj.z);
 
 					break;
 				}
@@ -995,11 +985,7 @@ void CSceneGame::CatCrryToBridge()
 			//---------------------------------
 			// 配置
 			//---------------------------------
-			m_carryBridge->SetPos(
-				VGet(
-					worldX,
-					worldY + 2.5f,
-					worldZ));
+			m_carryBridge->SetPos(VGet(worldX,worldY + 2.5f,worldZ));
 
 			//---------------------------------
 			// 向き
@@ -1251,6 +1237,8 @@ void CSceneGame::Reset()
 
 			m_human.SetPos(player_vec);
 			m_human.SetRespawn(player_vec);
+
+			m_human.Reset();
 
 			//拡大率
 			VECTOR effect_scale = VGet(0.5f, 0.5f, 0.5f);

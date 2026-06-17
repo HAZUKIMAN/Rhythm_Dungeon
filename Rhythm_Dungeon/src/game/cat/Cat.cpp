@@ -66,6 +66,8 @@ void CCat::Init()
 {
 	m_state = CAT_STATE_NORMAL;
 
+	CActor::Init();
+
 	m_radius = RADIUS;
 	m_isActive = true;
 	m_isStairs = false;
@@ -170,19 +172,11 @@ void CCat::Step(MapEditor& map)
 void CCat::Draw()
 {
 	if (!m_isActive)return;
+	CActor::Draw();
 	CObject::Draw();
 
 	DrawFormatString(100, 600, RED, "ねこのY座標：%f", m_vPosition.y);
 
-
-	DrawFormatString(
-		50,
-		50,
-		WHITE,
-		"Cat X %.2f Y %.2f Z %.2f",
-		m_vPosition.x,
-		m_vPosition.y,
-		m_vPosition.z);
 
 #ifdef MY_DEBUG
 	DrawSphere3D(m_vPos, RADIUS, 16, GetColor(0, 0, 255), GetColor(0, 0, 0), FALSE);
@@ -332,39 +326,68 @@ void CCat::NormalExec(MapEditor& map)
 		m_vPosition.z += moveZ * MOVE_SPEED;
 
 		//---------------------------------
-		// 階段チェック（安全版）
+		// 階段チェック
 		//---------------------------------
 		m_isStairs = false;
 
-		int mapX =
-			(int)(m_vPosition.x / TILE_SIZE);
+		// 現在位置
+		int mapX =(int)floor(m_vPosition.x / TILE_SIZE);
+		int mapZ =(int)floor(m_vPosition.z / TILE_SIZE);
+		// 今いる高さ
+		int currentY = (int)floor(m_vPosition.y / TILE_SIZE);
 
-		int mapZ =
-			(int)(m_vPosition.z / TILE_SIZE);
+		//---------------------------------
+		// 前方向
+		//---------------------------------
+		int dirX = 0;
+		int dirZ = 0;
 
-		int mapY =
-			(int)(m_vPosition.y / TILE_SIZE);
-
-		// 範囲外防止
-		if (mapX >= 0 &&
-			mapX < MAP_W &&
-			mapZ >= 0 &&
-			mapZ < MAP_H &&
-			mapY + 1 >= 0 &&
-			mapY + 1 < MAP_Y)
+		if (fabs(moveX) > fabs(moveZ))
 		{
-			int frontTile =
-				map.GetMap(
-					mapY + 1,
-					mapZ,
-					mapX);
+			dirX =(moveX > 0.0f) ? 1 : -1;
+		}
+		else
+		{
+			dirZ =(moveZ > 0.0f) ? 1 : -1;
+		}
 
-			if (frontTile == TILE_STAIRS)
+		// 前マス
+		int nextX = mapX + dirX;
+		int nextZ = mapZ + dirZ;
+
+
+		//---------------------------------
+		// 1段上を見る
+		//---------------------------------
+		int frontTile = map.GetMap(currentY, nextZ, nextX);
+
+		//---------------------------------
+		// 階段
+		//--------------------------------
+		if (frontTile == TILE_STAIRS)
+		{
+			m_isStairs = true;
+
+			//---------------------------------
+			// 階段の高さへ
+			//---------------------------------
+			m_stairTargetY = (currentY + 1) * TILE_SIZE;
+		}
+
+		//---------------------------------
+		// 階段Y補間
+		//---------------------------------
+		if (m_isStairs)
+		{
+			float diffY = m_stairTargetY - m_vPosition.y;
+
+			// ゆっくり登る
+			m_vPosition.y += diffY * 0.15f;
+
+			// ガタ防止
+			if (fabs(diffY) < 0.05f)
 			{
-				m_isStairs = true;
-
-				m_stairTargetY =
-					(mapY + 1) * TILE_SIZE;
+				m_vPosition.y =m_stairTargetY;
 			}
 		}
 	}

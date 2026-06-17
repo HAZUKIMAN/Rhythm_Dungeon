@@ -51,6 +51,8 @@ private:
 		TILE_STAIRS = 2,
 		TILE_FLOOR2 = 3,
 		TILE_BRIDGE = 4,
+
+		TILE_NUM
 	};
 
 	// •Ç‚ÌŽí—Þ

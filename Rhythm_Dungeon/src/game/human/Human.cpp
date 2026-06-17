@@ -26,7 +26,6 @@ static const char HUMAN_MODEL_PATH[] = { "Data/Character/player/player.mv1" };
 //-------------------------------
 CHuman::CHuman()
 {
-
 }
 
 
@@ -46,15 +45,15 @@ CHuman::~CHuman()
 //-------------------------------
 void CHuman::Init()
 {
-	m_radius = RADIUS;
 	m_isActive = true;
 	m_isMoving = false;
 	m_isStairs = false;
 	m_stairTargetY = 0.0f;
 	m_targetPos = m_vPosition;
-	m_moveX = 0;
-	m_moveZ = 0;
 	m_coolTime = MAXTIME;
+	CActor::Init();
+
+	m_radius = RADIUS;
 
 	memset(&m_recpos, 0, sizeof(VECTOR));
 
@@ -91,8 +90,8 @@ void CHuman::Step()
 	if (!m_isActive)
 	{
 		VECTOR pos = VGet(m_recpos.x, m_recpos.y, m_recpos.z);
-
 		m_vPosition = pos;
+
 		Reset();
 
 		//拡大率
@@ -138,6 +137,7 @@ void CHuman::Step()
 void CHuman::Draw()
 {
 	if (!m_isActive)return;
+	CActor::Draw();
 	CObject::Draw();
 
 #ifdef MY_DEBUG
@@ -183,10 +183,7 @@ void CHuman::NormalExec(vector<CBlock*>& blocks, vector<CInstalledItem*>& instit
 			//---------------------------------
 			// 目標方向
 			//---------------------------------
-			VECTOR dir =
-				VSub(
-					m_targetPos,
-					m_vPosition);
+			VECTOR dir =VSub(m_targetPos,m_vPosition);
 
 			//---------------------------------
 			// 階段じゃないなら
@@ -200,18 +197,14 @@ void CHuman::NormalExec(vector<CBlock*>& blocks, vector<CInstalledItem*>& instit
 			//---------------------------------
 			// 距離(XZだけ)
 			//---------------------------------
-			float dist =
-				sqrtf(
-					dir.x * dir.x +
-					dir.z * dir.z);
+			float dist =sqrtf(dir.x * dir.x +dir.z * dir.z);
 
 			//---------------------------------
 			// 階段中はYをゆっくり補間
 			//---------------------------------
 			if (m_isStairs)
 			{
-				float diffY =
-					m_stairTargetY - m_vPosition.y;
+				float diffY = m_stairTargetY - m_vPosition.y;
 
 				// 少しずつ近づける（ゆっくり）
 				m_vPosition.y += diffY * 0.08f;
@@ -226,23 +219,17 @@ void CHuman::NormalExec(vector<CBlock*>& blocks, vector<CInstalledItem*>& instit
 			//---------------------------------
 			// 到着
 			//---------------------------------
-			if (dist <
-				MOVE_SPEED +
-				addspeed)
+			if (dist <MOVE_SPEED +addspeed)
 			{
-				m_vPosition.x =
-					m_targetPos.x;
-
-				m_vPosition.z =
-					m_targetPos.z;
+				m_vPosition.x =m_targetPos.x;
+				m_vPosition.z =m_targetPos.z;
 
 				//---------------------------------
 				// 階段ならYも合わせる
 				//---------------------------------
 				if (m_isStairs)
 				{
-					m_vPosition.y =
-						m_stairTargetY;
+					m_vPosition.y = m_stairTargetY;
 				}
 
 				m_isMoving = false;
@@ -258,16 +245,9 @@ void CHuman::NormalExec(vector<CBlock*>& blocks, vector<CInstalledItem*>& instit
 				//---------------------------------
 				// 移動
 				//---------------------------------
-				dir =
-					VScale(
-						dir,
-						MOVE_SPEED +
-						addspeed);
+				dir =VScale(dir,MOVE_SPEED +addspeed);
 
-				m_vPosition =
-					VAdd(
-						m_vPosition,
-						dir);
+				m_vPosition =VAdd(m_vPosition,dir);
 			}
 
 			return;
@@ -428,7 +408,7 @@ void CHuman::NormalExec(vector<CBlock*>& blocks, vector<CInstalledItem*>& instit
 			int currentY = (int)floor(m_vPosition.y / TILE_SIZE);
 
 			// 目の前のタイル
-			int frontTile = map.GetMap(currentY + 1,nextZ,nextX);
+			int frontTile = map.GetMap(currentY+1, nextZ, nextX);
 
 			// 階段なら上方向
 			if (frontTile == TILE_STAIRS)
@@ -504,7 +484,6 @@ void CHuman::SetDirect(int dir)
 
 void CHuman::Reset()
 {
-	
 	// 0～360に変換
 	float rotDeg = m_setrot * 180.0f / DX_PI_F;
 
@@ -534,6 +513,12 @@ void CHuman::Reset()
 		direction = ROTATION_RIGHT;
 	}
 
+	m_isMoving = false;
+	m_isStairs = false;
+	m_coolTime = MAXTIME;
+	m_stairTargetY = 0.0f;
+
+	//リセット関連
 	m_targetPos = m_vPosition;
 }
 

@@ -10,6 +10,7 @@ protected:
 	VECTOR	m_speed;		// 移動速度
 	float	m_radius;		// 半径(今回は球なのでfloat)
 	int		m_hitCoolTime;	// クールタイム
+	int		m_shadowHdl;	//影のハンドル
 
 public:
 
@@ -19,6 +20,9 @@ public:
 
 	// 初期化
 	virtual void Init();
+
+	// 描画
+	virtual void Draw();
 
 	// 更新したデータを反映させる
 	virtual void Update();

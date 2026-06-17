@@ -117,10 +117,40 @@ VECTOR CCollisionManager::HitMap(VECTOR center,float radius, MapEditor& map)
                 result.y = floorTop - footPos;
             }
         }
+    }
 
-        if (tile == TILE_STAIRS)
+
+    // 今いる高さ
+    int currentY = (int)floor(center.y / TILE_SIZE);
+    // 目の前のタイル
+    int frontTile = map.GetMap(currentY + 1, mapZ, mapX);
+
+    if (frontTile == TILE_FLOOR || frontTile == TILE_FLOOR2)
+    {
+        //----------------------------------
+        // XZ押し出し
+        //----------------------------------
+        float centerX = mapX * TILE_SIZE + TILE_SIZE * 0.5f;
+
+        float centerZ = mapZ * TILE_SIZE + TILE_SIZE * 0.5f;
+
+        VECTOR dir = VSub(center, VGet(centerX, center.y, centerZ));
+
+        //----------------------------------
+        // 正規化
+        //----------------------------------
+        float len = sqrtf(dir.x * dir.x + dir.z * dir.z);
+
+        if (len > 0.001f)
         {
-            int i = 0;
+            dir.x /= len;
+            dir.z /= len;
+
+            //----------------------------------
+            // 少し前へ押す
+            //----------------------------------
+            result.x +=dir.x * 0.4f;
+            result.z +=dir.z * 0.4f;
         }
     }
 
