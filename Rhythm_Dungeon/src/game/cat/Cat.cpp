@@ -16,7 +16,6 @@ static const float RADIUS = 5.0f;			// 当たり判定半径
 static const float ANIME_SPEED = 1.0f;		// アニメスピード
 static const float MIN_HIGHT = -20.0f;		// リスポーン位置に戻す
 
-static const char CAT_MODEL_PATH[]	 = { "Data/Character/Cat/cat.mv1" };
 static const char PUTNO_MODEL_PATH[] = { "Data/object/put/Put_No.mv1" };
 static const char PUTOK_MODEL_PATH[] = { "Data/object/put/Put_Ok.mv1" };
 
@@ -40,9 +39,6 @@ CCat::CCat()
 //-------------------------------
 CCat::~CCat()
 {
-	// 本来は必要ないけど、念のため
-	Fin();
-
 	DetachAnim(m_iModelHdl);
 
 	if (m_iPutModel[0] != -1)
@@ -56,6 +52,9 @@ CCat::~CCat()
 		MV1DeleteModel(m_iPutModel[1]);
 		m_iPutModel[1] = -1;
 	}
+
+	// 本来は必要ないけど、念のため
+	Fin();
 }
 
 
@@ -81,18 +80,16 @@ void CCat::Init()
 //-------------------------------
 //		データロード
 //-------------------------------
-void CCat::Load()
+void CCat::Load(int hndl)
 {
-	VECTOR size = VGet(0.02f, 0.02f, 0.02f);
-	VECTOR Size = VGet(0.05f, 0.05f, 0.05f);
+	VECTOR ground_Size = VGet(0.05f, 0.05f, 0.05f);
+	VECTOR model_size = VGet(0.02f, 0.02f, 0.02f);
 
-	int hndl = MV1LoadModel(CAT_MODEL_PATH);
+	m_iModelHdl = hndl;
+	CObject::Load(m_iModelHdl, model_size);
 
-	MV1SetScale(hndl, size);
-
-	MV1SetScale(m_iPutModel[0], Size);
-	MV1SetScale(m_iPutModel[1], Size);
-	CObject::Load(hndl);
+	MV1SetScale(m_iPutModel[0], ground_Size);
+	MV1SetScale(m_iPutModel[1], ground_Size);
 
 	RequestLoop(CAT_STATE_NORMAL, ANIME_SPEED, m_iModelHdl);
 	m_state = CAT_STATE_NORMAL;
@@ -174,9 +171,6 @@ void CCat::Draw()
 	if (!m_isActive)return;
 	CActor::Draw();
 	CObject::Draw();
-
-	DrawFormatString(100, 600, RED, "ねこのY座標：%f", m_vPosition.y);
-
 
 #ifdef MY_DEBUG
 	DrawSphere3D(m_vPos, RADIUS, 16, GetColor(0, 0, 255), GetColor(0, 0, 0), FALSE);
@@ -392,7 +386,6 @@ void CCat::NormalExec(MapEditor& map)
 		}
 	}
 }
-
 
 //----------------------------
 // ブロック設置

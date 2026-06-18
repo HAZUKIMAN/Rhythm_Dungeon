@@ -11,16 +11,23 @@ CBridge::~CBridge() {
 
 // 初期化
 void CBridge::Init() {
-	m_iModelHdl = MV1LoadModel("Data/object/bridge/bridge.mv1");
-	VECTOR size = VGet(0.08f, 0.08f, 0.08f);
 	memset(&m_vRotation, 0, sizeof(VECTOR));
 	//コリジョン情報
 	MV1SetPosition(m_iModelHdl, m_vPosition);
-	MV1SetScale(m_iModelHdl, size);
 	MV1SetupCollInfo(m_iModelHdl);
 	m_isHitFlag = false;
 
 }
+
+//データのロード
+void CBridge::Load(int hndl)
+{
+	VECTOR model_size = VGet(0.03f, 0.05f, 0.03f);
+	m_iModelHdl = hndl;
+	CObject::Load(m_iModelHdl,model_size);
+	MV1SetupCollInfo(m_iModelHdl);
+}
+
 //更新処理
 void CBridge::Update()
 {

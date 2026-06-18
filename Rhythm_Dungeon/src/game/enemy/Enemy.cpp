@@ -16,7 +16,6 @@ static const float ANIME_SPEED = 1.0f;	// アニメスピード
 static const float MOVE_HIGHT = 0.0f;	// 動く高さ
 static const float MIN_HIGHT = -20.0f;	// リスポーン位置に戻す
 
-static const char HUMAN_MODEL_PATH[] = { "Data/Character/ScondBoss/enemy.mv1" };
 //----------------------------------------
 
 
@@ -25,7 +24,6 @@ static const char HUMAN_MODEL_PATH[] = { "Data/Character/ScondBoss/enemy.mv1" };
 //-------------------------------
 CEnemy::CEnemy()
 {
-	
 }
 
 
@@ -34,9 +32,9 @@ CEnemy::CEnemy()
 //-------------------------------
 CEnemy::~CEnemy()
 {
+	DetachAnim(m_iModelHdl);
 	// 本来は必要ないけど、念のため
 	Fin();
-	DetachAnim(m_iModelHdl);
 }
 
 
@@ -61,16 +59,11 @@ void CEnemy::Init()
 //-------------------------------
 //		データロード
 //-------------------------------
-void CEnemy::Load()
+void CEnemy::Load(int hndl)
 {
-	VECTOR size = VGet(0.015f, 0.015f, 0.015f);
-
-	int hndl = MV1LoadModel(HUMAN_MODEL_PATH);
-
-	MV1DuplicateModel(hndl);
-
-	MV1SetScale(hndl, size);
-	CObject::Load(hndl);
+	VECTOR model_size = VGet(0.01f, 0.01f, 0.01f);
+	m_iModelHdl = hndl;
+	CObject::Load(m_iModelHdl,model_size);
 
 	RequestLoop(ENEMY_STATE_RUN, ANIME_SPEED, m_iModelHdl);
 	m_state = ENEMY_STATE_RUN;
@@ -96,8 +89,9 @@ void CEnemy::Step()
 	}
 
 	Direction();
-	//NormalExec();
 	Move();
+
+	AnimeUpdate(m_iModelHdl);
 }
 
 
@@ -108,8 +102,7 @@ void CEnemy::Draw()
 {
 	if (!m_isActive)return;
 	CObject::Draw();
-
-	//DrawFormatString(100, 500, RED, "人間Y角度：%f", m_vRotation.y);
+	CObject::Draw();
 
 #ifdef MY_DEBUG
 	DrawSphere3D(m_vPos, RADIUS, 16, GetColor(0, 0, 255), GetColor(0, 0, 0), FALSE);

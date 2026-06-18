@@ -10,14 +10,20 @@ CGoal::~CGoal(){
 
 // 初期化
 void CGoal::Init() {
-	m_iModelHdl = MV1LoadModel("Data/object/Flag/Flag.x");
-	VECTOR size = VGet(0.3f, 0.3f, 0.3f);
-	//Data/object/field/field.x
 	//コリジョン情報
 	MV1SetPosition(m_iModelHdl, m_vPosition);
-	MV1SetScale(m_iModelHdl, size);
 	MV1SetupCollInfo(m_iModelHdl);
 	m_isHitFlag = false;
+}
+
+//データのロード
+void CGoal::Load(int hndl)
+{
+	VECTOR size = VGet(0.5f, 0.5f, 0.5f);
+
+	m_iModelHdl = hndl;
+	CObject::Load(m_iModelHdl,size);
+	MV1SetupCollInfo(m_iModelHdl);
 }
 
 // 描画

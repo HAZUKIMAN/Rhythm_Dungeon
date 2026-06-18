@@ -69,9 +69,8 @@ public:
 
 	// 初期化
 	void Init() override;
-
 	// データロード
-	void Load();
+	void Load(int hndl);
 	// 毎フレーム呼ぶ処理
 	void Step();
 	// 描画処理

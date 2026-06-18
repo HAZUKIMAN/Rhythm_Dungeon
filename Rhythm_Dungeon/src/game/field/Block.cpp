@@ -7,21 +7,26 @@ CBlock::CBlock(){}
 CBlock::~CBlock(){
 	MV1TerminateCollInfo(m_iModelHdl);
 	MV1DeleteModel(m_iModelHdl);
-	m_iModelHdl = -1;
+	
 }
 
 // 初期化
 void CBlock::Init() {
 	m_vPosition = VGet(0.0f, 0.0f, 0.0f);
-	m_iModelHdl = MV1LoadModel("Data/object/stop_obj/Stop.mv1");
-
-	VECTOR size = VGet(0.03f, 0.03f, 0.03f);
 
 	//コリジョン情報
 	MV1SetPosition(m_iModelHdl, m_vPosition);
-	MV1SetScale(m_iModelHdl, size);
-	MV1SetupCollInfo(m_iModelHdl);
 	m_isActive = true;
+}
+
+//データのロード
+void CBlock::Load(int hndl)
+{
+	VECTOR model_size = VGet(0.03f, 0.03f, 0.03f);
+
+	m_iModelHdl = hndl;
+	CObject::Load(m_iModelHdl, model_size);
+	MV1SetupCollInfo(m_iModelHdl);
 }
 
 //更新処理

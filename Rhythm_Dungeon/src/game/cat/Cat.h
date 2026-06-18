@@ -71,7 +71,7 @@ public:
 	// 初期化
 	void Init() override;
 	// データロード
-	void Load();
+	void Load(int hndl);
 	// 毎フレーム呼ぶ処理
 	void Step(MapEditor& map);
 	// 描画処理

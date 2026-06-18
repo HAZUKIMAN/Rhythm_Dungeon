@@ -4,14 +4,14 @@
 
 class CEditorCamera : public CCameraBase
 {
-
 public:
 	// コンストラクタ・デストラクタ
 	CEditorCamera();
 	~CEditorCamera() override;
 
-	void Step(CCat& cat,bool clear);
+	void Step(CCat& cat, bool clear);
 
+private:
 	// 注視点の上下移動
 	void MoveUpDown();
 	// 注視点の前後移動

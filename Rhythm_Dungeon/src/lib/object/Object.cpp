@@ -23,9 +23,8 @@ void CObject::Init()
 //------------------------------
 //		ÉçÅ[Éh
 //------------------------------
-void CObject::Load(int hndl)
+void CObject::Load(int hndl,VECTOR size)
 {
-
 	if (hndl != -1) {
 		m_iModelHdl = MV1DuplicateModel(hndl);
 		MV1SetScale(m_iModelHdl, size);

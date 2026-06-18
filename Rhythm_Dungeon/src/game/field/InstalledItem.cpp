@@ -11,16 +11,22 @@ CInstalledItem::~CInstalledItem(){
 
 // 初期化
 void CInstalledItem::Init() {
-	m_iModelHdl = MV1LoadModel("Data/object/inst/Fish.mv1");
-	VECTOR size = VGet(0.03f, 0.03f, 0.03f);
-
 	//コリジョン情報
 	MV1SetPosition(m_iModelHdl, m_vPosition);
-	MV1SetScale(m_iModelHdl, size);
 	MV1SetupCollInfo(m_iModelHdl);
 	m_isHitFlag = false;
 	
 }
+
+//データのロード
+void CInstalledItem::Load(int hndl)
+{
+	VECTOR model_size = VGet(0.03f, 0.03f, 0.03f);
+	m_iModelHdl = hndl;
+	CObject::Load(m_iModelHdl,model_size);
+	MV1SetupCollInfo(m_iModelHdl);
+}
+
 //更新処理
 void CInstalledItem::Update()
 {

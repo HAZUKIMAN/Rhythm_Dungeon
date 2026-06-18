@@ -16,8 +16,6 @@ static const int   MAXTIME		=  5.0f;	// クールタイム
 static const float ANIME_SPEED	=  1.0f;	// アニメスピード
 static const float MOVE_HIGHT	=  30.0f;	// 動かす高さ
 static const float MIN_HIGHT	= -20.0f;	// リスポーン位置に戻す
-
-static const char HUMAN_MODEL_PATH[] = { "Data/Character/player/player.mv1" };
 //----------------------------------------
 //using namespace std;
 
@@ -34,9 +32,9 @@ CHuman::CHuman()
 //-------------------------------
 CHuman::~CHuman()
 {
+	DetachAnim(m_iModelHdl);
 	// 本来は必要ないけど、念のため
 	Fin();
-	DetachAnim(m_iModelHdl);
 }
 
 
@@ -68,15 +66,14 @@ void CHuman::Init()
 //-------------------------------
 //		データロード
 //-------------------------------
-void CHuman::Load()
+void CHuman::Load(int hndl)
 {
-	VECTOR size = VGet(0.02f, 0.02f, 0.02f);
-	int hndl= MV1LoadModel(HUMAN_MODEL_PATH);
+	VECTOR model_size = VGet(0.02f, 0.02f, 0.02f);
 
-	MV1SetScale(hndl, size);
-	CObject::Load(hndl);
+	m_iModelHdl = hndl;
+	CObject::Load(m_iModelHdl, model_size);
 
-	RequestLoop(HUMAN_STATE_RUN, ANIME_SPEED,m_iModelHdl);
+	RequestLoop(HUMAN_STATE_RUN, ANIME_SPEED, m_iModelHdl);
 	m_state = HUMAN_STATE_RUN;
 }
 

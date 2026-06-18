@@ -12,6 +12,8 @@ public:
 
 	// 初期化
 	void Init();
+	// データロード
+	void Load(int hndl);
 	//更新処理
 	void Update();
 	// 描画

@@ -14,12 +14,19 @@ static const float HIGHT_PLUS = 1.5f;
 
 
 static constexpr char MODEL_PATH[][255] =
-{ "Data/Character/FailBoss/Boss.mv1" ,
-"Data/Character/ScondBoss/SecondBoss.mv1", };
+{ 
+"Data/Character/player/player.mv1" ,
+"Data/Character/Cat/cat.mv1", 
+"Data/Character/ScondBoss/enemy.mv1" ,
+"Data/object/inst/Fish.mv1" ,
+"Data/object/bridge/bridge.mv1" ,
+"Data/object/Flag/Flag.x" ,
+"Data/object/stop_obj/Stop.mv1"
+};
 
 /*enum STATE_MODEL
 {
-	MODEL_PLAYER,
+	MODEL_HUMAN,
 	MODEL_CAT,
 	MODEL_ENEMY,
 	MODEL_INSTITEM,
@@ -95,25 +102,58 @@ void CSceneGame::Init()
 void CSceneGame::Load()
 {
 	//モデルのロード
-	for (int load;load< MODEL_NUM ; load++)
+	for (int load = 0;load< MODEL_NUM ; load++)
 	{
 		m_iModelHdl[load] = MV1LoadModel(MODEL_PATH[load]);
-		MV1DeleteModel(m_iModelHdl[load]);
 	}
 
 	//人間モデルのロード
-	m_human.Load();
+	m_human.Load(m_iModelHdl[MODEL_HUMAN]);
 	//猫のモデルのロード
-	m_cat.Load();
+	m_cat.Load(m_iModelHdl[MODEL_CAT]);
+	//ゴールのロード
+	m_goal.Load(m_iModelHdl[MODEL_GOAL]);
+
 	////マップ・オブジェクトエディターののロード
 	m_mapedit.Load(m_objEditor);
 	m_objEditor.Load();
 
+
 	//読み込まれた位置に物を配置
 	Set();
 
+	//エネミーのロード
+	for (auto& enemy : m_enemy)
+	{
+		enemy->Load(m_iModelHdl[MODEL_ENEMY]);
+	}
+
+	//運べるブロックのロード
+	for (auto& institem : m_institem)
+	{
+		institem -> Load(m_iModelHdl[MODEL_INSTITEM]);
+	}
+
+	//ブロックのロード
+	for (auto& block : m_blocks)
+	{
+		block -> Load(m_iModelHdl[MODEL_BLOCKS]);
+	}
+
+	//橋のロード
+	for (auto& bridge : m_bridge)
+	{
+		bridge -> Load(MODEL_BRIDGE);
+	}
+
 	// カメラ更新処理
 	m_cameraManager.Step(m_cat, m_isGoal);
+
+	//モデルのロード
+	for (int load = 0; load < MODEL_NUM; load++)
+	{
+		MV1DeleteModel(m_iModelHdl[load]);
+	}
 
 	//サウンドBGM
 	CSoundManager::Stop(CSoundManager::SOUNDID_CLEAR_BGM);
@@ -372,15 +412,14 @@ void CSceneGame::Set()
 		if (obj.type == OBJ_ENEMY)
 		{
 
-			VECTOR pos =VGet(worldpos_x, worldpos_y + HIGHT_PLUS, worldpos_z);
+			VECTOR pos = VGet(worldpos_x, worldpos_y + HIGHT_PLUS, worldpos_z);
 			//---------------------------------
 			// エネミー作成
 			//---------------------------------
 			CEnemy* enemy = new CEnemy;
 
 			enemy->Init();
-			enemy->Load();
-
+			enemy->Load(m_iModelHdl[MODEL_ENEMY]);
 			//---------------------------------
 			// 位置
 			//---------------------------------
@@ -1142,7 +1181,7 @@ void CSceneGame::Reset()
 				new CEnemy;
 
 			enemy->Init();
-			enemy->Load();
+			enemy->Load(m_iModelHdl[MODEL_ENEMY]);
 
 			enemy->SetPos(pos);
 

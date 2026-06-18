@@ -21,7 +21,7 @@ public:
 	//	‰Šú‰»
 	virtual void Init();
 	//	ƒ[ƒh
-	virtual void Load(int hndl);
+	virtual void Load(int hndl,VECTOR size);
 	//	•`‰æ
 	virtual void Draw();
 	//	I—¹ˆ—

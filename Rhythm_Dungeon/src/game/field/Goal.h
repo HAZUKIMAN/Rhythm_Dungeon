@@ -12,7 +12,8 @@ public:
 
 	// 初期化
 	void Init();
-
+	// データロード
+	void Load(int hndl);
 	// 描画
 	void Draw();
 
