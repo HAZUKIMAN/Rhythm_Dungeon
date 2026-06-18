@@ -12,6 +12,25 @@
 static const float HIGHT_GRID = 2.5f;	// 移動速度
 static const float HIGHT_PLUS = 1.5f;
 
+
+static constexpr char MODEL_PATH[][255] =
+{ "Data/Character/FailBoss/Boss.mv1" ,
+"Data/Character/ScondBoss/SecondBoss.mv1", };
+
+/*enum STATE_MODEL
+{
+	MODEL_PLAYER,
+	MODEL_CAT,
+	MODEL_ENEMY,
+	MODEL_INSTITEM,
+	MODEL_BRIDGE,
+	MODEL_GOAL,
+
+	MODEL_NUM
+};*/
+
+
+
 //-------------------------------
 //		コンストラクタ
 //-------------------------------
@@ -51,15 +70,22 @@ void CSceneGame::Init()
 	m_backgroundManager.Init();
 	//ゴールの初期化
 	m_goal.Init();
-	//マップエディターの初期化
+	//マップ・オブジェクトエディターの初期化
 	m_mapedit.Init();
 	m_objEditor.Init();
 
-	//--------------------
+	//ロードさせるモデルの初期化
+	for (int init = 0; init < MODEL_NUM;init++)
+	{
+		m_iModelHdl[init] = -1;
+	}
+
+	//--各vector型のクリア--------
 	m_bridge.clear();
 	m_institem.clear();
 	m_blocks.clear();
 	m_enemy.clear();
+	//----------------------------
 }
 
 
@@ -68,17 +94,28 @@ void CSceneGame::Init()
 //-------------------------------
 void CSceneGame::Load()
 {
-	m_human.Load();
-	m_cat.Load();
+	//モデルのロード
+	for (int load;load< MODEL_NUM ; load++)
+	{
+		m_iModelHdl[load] = MV1LoadModel(MODEL_PATH[load]);
+		MV1DeleteModel(m_iModelHdl[load]);
+	}
 
+	//人間モデルのロード
+	m_human.Load();
+	//猫のモデルのロード
+	m_cat.Load();
+	////マップ・オブジェクトエディターののロード
 	m_mapedit.Load(m_objEditor);
 	m_objEditor.Load();
+
 	//読み込まれた位置に物を配置
 	Set();
 
 	// カメラ更新処理
 	m_cameraManager.Step(m_cat, m_isGoal);
 
+	//サウンドBGM
 	CSoundManager::Stop(CSoundManager::SOUNDID_CLEAR_BGM);
 	CSoundManager::Play(CSoundManager::SOUNDID_GAME_BGM, DX_PLAYTYPE_LOOP);
 }
@@ -177,21 +214,21 @@ int CSceneGame::Step()
 		return -1;
 	}
 
-	////---------------------------------
-	//// ゴール判定
-	////---------------------------------
-	//if (CCollisionManager::CheckHithumanToGoal(m_human, m_goal) && !m_isGoal)
-	//{
-	//	CSoundManager::Stop(CSoundManager::SOUNDID_GAME_BGM);
-	//	CSoundManager::Play(CSoundManager::SOUNDID_CLEAR_BGM, DX_PLAYTYPE_LOOP);
+	//---------------------------------
+	// ゴール判定
+	//---------------------------------
+	if (CCollisionManager::CheckHithumanToGoal(m_human, m_goal) && !m_isGoal)
+	{
+		CSoundManager::Stop(CSoundManager::SOUNDID_GAME_BGM);
+		CSoundManager::Play(CSoundManager::SOUNDID_CLEAR_BGM, DX_PLAYTYPE_LOOP);
 
-	//	//humanのクリア処理
-	//	m_human.Clear();
-	//	//猫のクリア処理
-	//	m_cat.Clear();
-
-	//	m_isGoal = true;
-	//}
+		//humanのクリア処理
+		m_human.Clear();
+		//猫のクリア処理
+		m_cat.Clear();
+		//ゴールフラグ
+		m_isGoal = true;
+	}
 
 	// カメラ更新処理
 	m_cameraManager.Step(m_cat, m_isGoal);
@@ -411,14 +448,16 @@ void CSceneGame::Set()
 		if (obj.type == OBJ_BRIDGE)
 		{
 
-			VECTOR pos = VGet(worldpos_x, worldpos_y, worldpos_z);
+			VECTOR pos = VGet(worldpos_x, worldpos_y,worldpos_z);
 
 			//---------------------------------
 			// 新しいブロック作成
 			//---------------------------------
 			CBridge* bridge = new CBridge;
+
 			bridge->Init();
 			bridge->SetPos(pos);
+			bridge->SetRotation(obj.rotY);
 
 			m_bridge.push_back(bridge);
 
@@ -880,8 +919,7 @@ void CSceneGame::CatCrryToBridge()
 		//---------------------------------
 		// 安全チェック
 		//---------------------------------
-		if (m_carryBridge ==
-			nullptr)
+		if (m_carryBridge == nullptr)
 		{
 			return;
 		}
@@ -912,7 +950,7 @@ void CSceneGame::CatCrryToBridge()
 			//---------------------------------
 			// 猫の向き
 			//---------------------------------
-			float rot =m_cat.GetRot().y;
+			float rot = m_cat.GetRot().y;
 
 			int dirX =(int)roundf(-sinf(rot));
 			int dirZ =(int)roundf(-cosf(rot));
@@ -952,11 +990,7 @@ void CSceneGame::CatCrryToBridge()
 			//---------------------------------
 			// 1マス先は穴のみ
 			//---------------------------------
-			if (m_mapedit.GetMap(
-				catY,
-				bridgeZ,
-				bridgeX)
-				!= TILE_NONE)
+			if (m_mapedit.GetMap(catY,bridgeZ,bridgeX)!= TILE_NONE)
 			{
 				return;
 			}
@@ -964,11 +998,7 @@ void CSceneGame::CatCrryToBridge()
 			//---------------------------------
 			// 2マス先に床必要
 			//---------------------------------
-			int tile =
-				m_mapedit.GetMap(
-					catY,
-					landZ,
-					landX);
+			int tile =m_mapedit.GetMap(catY,landZ,landX);
 
 			if (tile != TILE_FLOOR && tile != TILE_FLOOR2)
 			{
@@ -979,7 +1009,7 @@ void CSceneGame::CatCrryToBridge()
 			// ワールド座標
 			//---------------------------------
 			float worldX =(bridgeX + 0.5f)* TILE_SIZE;
-			float worldY =catY *TILE_SIZE;
+			float worldY = catY *TILE_SIZE;
 			float worldZ =(bridgeZ + 0.5f)* TILE_SIZE;
 
 			//---------------------------------
@@ -1020,12 +1050,7 @@ void CSceneGame::CatCrryToBridge()
 			//---------------------------------
 			// 床化
 			//---------------------------------
-			m_mapedit.SetMap(
-				catY,
-				bridgeZ,
-				bridgeX,
-				TILE_BRIDGE);//
-
+			m_mapedit.SetMap(catY,bridgeZ,bridgeX,TILE_BRIDGE);//
 			m_mapedit.BuildInstances();
 
 			//---------------------------------
@@ -1102,17 +1127,9 @@ void CSceneGame::Reset()
 		//---------------------------------
 		// ワールド座標変換
 		//---------------------------------
-		float worldX =
-			(obj.x + 0.5f)
-			* TILE_SIZE;
-
-		float worldY =
-			(obj.y + 0.5f)
-			* TILE_SIZE;
-
-		float worldZ =
-			(obj.z + 0.5f)
-			* TILE_SIZE;
+		float worldX =(obj.x + 0.5f)* TILE_SIZE;
+		float worldY =(obj.y + 0.5f)* TILE_SIZE;
+		float worldZ =(obj.z + 0.5f)* TILE_SIZE;
 
 		VECTOR pos = VGet(worldX,worldY,worldZ);
 
@@ -1200,11 +1217,9 @@ void CSceneGame::Reset()
 			CBridge* bridge = new CBridge;
 
 			bridge->Init();
-
 			bridge->SetPos(pos);
 
-			m_bridge.push_back(
-				bridge);
+			m_bridge.push_back(bridge);
 		}
 
 		//---------------------------------

@@ -14,6 +14,7 @@ static const float RADIUS = 2.5f;		// 当たり判定半径
 static const float MAXTIME = 10.0f;		// クールタイム
 static const float ANIME_SPEED = 1.0f;	// アニメスピード
 static const float MOVE_HIGHT = 0.0f;	// 動く高さ
+static const float MIN_HIGHT = -20.0f;	// リスポーン位置に戻す
 
 static const char HUMAN_MODEL_PATH[] = { "Data/Character/ScondBoss/enemy.mv1" };
 //----------------------------------------
@@ -63,7 +64,10 @@ void CEnemy::Init()
 void CEnemy::Load()
 {
 	VECTOR size = VGet(0.015f, 0.015f, 0.015f);
+
 	int hndl = MV1LoadModel(HUMAN_MODEL_PATH);
+
+	MV1DuplicateModel(hndl);
 
 	MV1SetScale(hndl, size);
 	CObject::Load(hndl);
@@ -122,6 +126,11 @@ void CEnemy::Move()
 	m_speed.y -= GRAVITY;
 	// 移動速度加算
 	m_vPosition = VAdd(m_vPosition, m_speed);
+
+	if (m_vPosition.y <= MIN_HIGHT)
+	{
+		m_isActive = false;
+	}
 
 }
 

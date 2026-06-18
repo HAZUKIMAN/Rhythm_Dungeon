@@ -84,7 +84,7 @@ void CPlayCamera::ControlCan(VECTOR targetPos)
 	//---------------------------------
 	m_pos = VGet(
 			targetPos.x - x* CAMERA_LENGTH,
-			CAMERA_OFFSET_Y, // Å©å≈íËçÇÇ≥
+			targetPos.y + CAMERA_OFFSET_Y, // Å©å≈íËçÇÇ≥
 			targetPos.z - z* CAMERA_LENGTH);
 
 	//---------------------------------

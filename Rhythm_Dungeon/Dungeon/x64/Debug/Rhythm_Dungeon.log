@@ -1,2 +1,18 @@
-﻿  Cat.cpp
+﻿  CollisionManager.cpp
+C:\Users\2409407\Desktop\Github\Rhythm_Dungeon\Rhythm_Dungeon\src\lib\sound\SoundManager.h(11,14): warning C4091: 'static ': 変数が何も宣言されていないときは、'CSoundManager::tagSoundID' の左辺を無視します。
+  (ソース ファイル 'src/game/collision/CollisionManager.cpp' をコンパイルしています)
+  
+C:\Users\2409407\Desktop\Github\Rhythm_Dungeon\Rhythm_Dungeon\src\game\collision\CollisionManager.cpp(250,35): warning C4244: '引数': 'const float' から 'int' への変換です。データが失われる可能性があります。
+  Enemy.cpp
+C:\Users\2409407\Desktop\Github\Rhythm_Dungeon\Rhythm_Dungeon\src\game\enemy\Enemy.cpp(54,15): warning C4244: '=': 'float' から 'int' への変換です。データが失われる可能性があります。
+C:\Users\2409407\Desktop\Github\Rhythm_Dungeon\Rhythm_Dungeon\src\game\enemy\Enemy.cpp(155,18): warning C4244: '=': 'float' から 'int' への変換です。データが失われる可能性があります。
+C:\Users\2409407\Desktop\Github\Rhythm_Dungeon\Rhythm_Dungeon\src\game\enemy\Enemy.cpp(191,17): warning C4244: '=': 'float' から 'int' への変換です。データが失われる可能性があります。
+  SceneGame.cpp
+C:\Users\2409407\Desktop\Github\Rhythm_Dungeon\Rhythm_Dungeon\src\lib\sound\SoundManager.h(11,14): warning C4091: 'static ': 変数が何も宣言されていないときは、'CSoundManager::tagSoundID' の左辺を無視します。
+  (ソース ファイル 'src/game/scene/SceneGame.cpp' をコンパイルしています)
+  
+C:\Users\2409407\Desktop\Github\Rhythm_Dungeon\Rhythm_Dungeon\src\game\scene\SceneGame.cpp(580,55): warning C4244: '引数': 'CSceneGame::tagMove' から 'float' への変換です。データが失われる可能性があります。
+C:\Users\2409407\Desktop\Github\Rhythm_Dungeon\Rhythm_Dungeon\src\game\scene\SceneGame.cpp(582,72): warning C4244: '引数': 'CSceneGame::tagMove' から 'float' への変換です。データが失われる可能性があります。
+  SceneManager.cpp
+  コードを生成中...
   Rhythm_Dungeon.vcxproj -> C:\Users\2409407\Desktop\Github\Rhythm_Dungeon\Rhythm_Dungeon\x64\Debug\Dungeon.exe

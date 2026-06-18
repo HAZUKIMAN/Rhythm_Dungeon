@@ -24,7 +24,7 @@ void CBridge::Init() {
 //XVˆ—
 void CBridge::Update()
 {
-	VECTOR vec = VGet(0.0f, m_vRotation.y,0.0f);
+	VECTOR vec = VGet(0.0f, m_vRotation.y, 0.0f);
 	// ƒ‚ƒfƒ‹‚Ö”½‰f
 	MV1SetRotationXYZ(m_iModelHdl, vec);
 	MV1SetPosition(m_iModelHdl, m_vPosition);

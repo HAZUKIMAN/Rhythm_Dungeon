@@ -25,7 +25,11 @@ void CObject::Init()
 //------------------------------
 void CObject::Load(int hndl)
 {
-	m_iModelHdl = hndl;
+
+	if (hndl != -1) {
+		m_iModelHdl = MV1DuplicateModel(hndl);
+		MV1SetScale(m_iModelHdl, size);
+	}
 }
 
 //------------------------------
@@ -49,7 +53,7 @@ void CObject::Fin()
 		MV1DeleteModel(m_iModelHdl);
 		m_iModelHdl = -1;
 	}
-} //m_vPosition = pos;
+} 
 
 void CObject::SetPos(VECTOR pos)
 {

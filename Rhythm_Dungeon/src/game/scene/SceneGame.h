@@ -20,8 +20,22 @@ class CSceneGame : public CSceneBase{
 
 private:
 
-	VECTOR m_player_startPos;
-	float m_startDer;
+	enum STATE_MODEL
+	{
+		MODEL_PLAYER,
+		MODEL_CAT,
+		MODEL_ENEMY,
+		MODEL_INSTITEM,
+		MODEL_BRIDGE,
+		MODEL_GOAL,
+
+		MODEL_NUM
+	};
+
+
+	VECTOR	m_player_startPos;
+	float	m_startDer;
+	int		m_iModelHdl[MODEL_NUM];	//ƒ‚ƒfƒ‹ƒnƒ“ƒhƒ‹
 
 private:
 
@@ -67,7 +81,8 @@ private:
 		CLEAR_NEXT,
 		CLEAR_SELECT
 	};
-	bool m_isGoal = false;
+
+	bool m_isGoal;
 	int m_clearSelect;
 
 
