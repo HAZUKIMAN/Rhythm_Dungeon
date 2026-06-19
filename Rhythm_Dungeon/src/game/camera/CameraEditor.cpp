@@ -3,15 +3,15 @@
 #include <corecrt_math.h>
 
 //	定義関連------------------------------
-static const float CAMERA_LENGTH = 60.0f;		// 注視点から視点までの距離
-static const float CAMERA_OFFSET_Y = 30.0f;		// 視点の高さ
+constexpr float CAMERA_LENGTH = 60.0f;		// 注視点から視点までの距離
+constexpr float CAMERA_OFFSET_Y = 30.0f;		// 視点の高さ
 //----------------------------------------
 //	定義関連------------------------------
 #define DEG_TO_RAD(a)	(a * DX_PI_F / 180.0f)
-static const float FOCUS_Y_MAX = 40.0f;			// 注視点の上移動限界
-static const float FOCUS_Y_MIN = 0.0f;			// 注視点の下移動限界
-static const float FOCUS_Y_SPEED = 1.0f;		// 注視点の上下移動速度
-static const float CAMERA_SPEED = 1.0f;			// カメラの前後左右移動速度
+constexpr float FOCUS_Y_MAX = 40.0f;			// 注視点の上移動限界
+constexpr float FOCUS_Y_MIN = 0.0f;			// 注視点の下移動限界
+constexpr float FOCUS_Y_SPEED = 1.0f;		// 注視点の上下移動速度
+constexpr float CAMERA_SPEED = 1.0f;			// カメラの前後左右移動速度
 //----------------------------------------
 
 //-------------------------------

@@ -12,6 +12,7 @@ CBlock::~CBlock(){
 
 // ‰Šú‰»
 void CBlock::Init() {
+	CObject::Init();
 	m_vPosition = VGet(0.0f, 0.0f, 0.0f);
 
 	//ƒRƒŠƒWƒ‡ƒ“î•ñ

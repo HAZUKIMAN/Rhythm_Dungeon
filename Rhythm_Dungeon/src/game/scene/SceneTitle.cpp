@@ -4,9 +4,9 @@
 #include "../../lib/Input/Input.h"
 #include "../../lib/sound/SoundManager.h"
 
-static const char BASE_HNDL[] = "Data/Title/Title02.png";
-static const char HUMAN_HNDL[] = "Data/Title/TitleCharacter.png";
-static const char NAME_HNDL[] = "Data/Title/TitleName.png";
+constexpr char BASE_HNDL[] = "Data/Title/Title02.png";
+constexpr char HUMAN_HNDL[] = "Data/Title/TitleCharacter.png";
+constexpr char NAME_HNDL[] = "Data/Title/TitleName.png";
 
 //-------------------------------
 //		èâä˙âª
@@ -66,7 +66,7 @@ void CSceneTitle::Draw()
 	DrawRotaGraph(WINDOW_WIDTH_HALF, WINDOW_HEIGHT_HALF, 1, 0,m_hndl[HNDL_HUMAN], TRUE,TRUE);
 	DrawRotaGraph(WINDOW_WIDTH_HALF, WINDOW_HEIGHT_HALF, 1, 0,m_hndl[HNDL_NAME], TRUE);
 
-	DrawString(1000, 16 , "Title" , GetColor(255, 0, 0));
+	//DrawString(1000, 16 , "Title" , GetColor(255, 0, 0));
 }
 
 

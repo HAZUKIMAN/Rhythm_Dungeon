@@ -8,6 +8,7 @@ class CEnemy : public CActor
 {
 private:
 
+	//エネミーの状態
 	enum tagEnemyState {
 		ENEMY_STATE_NORMAL,	// 待機
 		ENEMY_STATE_RUN,		// 歩き中
@@ -16,6 +17,7 @@ private:
 		HUMAN_STATE_NUM
 	};
 
+	//エネミーの角度
 	enum tagDirection
 	{
 		ROTATION_RIGHT,
@@ -26,6 +28,7 @@ private:
 
 	tagDirection direction;
 
+	//猫が箱をどのようにしているか
 	enum tagMove
 	{
 		NONE,

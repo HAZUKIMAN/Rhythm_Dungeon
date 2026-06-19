@@ -55,7 +55,7 @@ public:
 	// 実行処理
 	int  Step(ObjectEditor& objectEditor);
 	// 描画
-	void Draw();
+	void Draw(bool mood_chang);
 	// 更新処理
 	void Update();
 	// 終了処理

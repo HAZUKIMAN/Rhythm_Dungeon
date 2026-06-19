@@ -7,20 +7,20 @@
 #include "../../lib/sound/effectData/effectData.h"
 #include "../effect/effekseer.h"
 
-//	定義関連------------------------------
-static const float MOVE_SPEED	=  0.09f;	// 移動速度
-static const float ROT_SPEED	= 0.03f;	// 回転速度
-static const float GRAVITY		= 0.02f;	// 重力
-static const float RADIUS		=  2.5f;	// 当たり判定半径
-static const int   MAXTIME		=  5.0f;	// クールタイム
-static const float ANIME_SPEED	=  1.0f;	// アニメスピード
-static const float MOVE_HIGHT	=  30.0f;	// 動かす高さ
-static const float MIN_HIGHT	= -20.0f;	// リスポーン位置に戻す
+// 定義関連------------------------------
+constexpr float MOVE_SPEED	=  0.09f;	// 移動速度
+constexpr float ROT_SPEED	= 0.03f;	// 回転速度
+constexpr float GRAVITY		= 0.02f;	// 重力
+constexpr float RADIUS		=  2.5f;	// 当たり判定半径
+constexpr int   MAXTIME		=  5.0f;	// クールタイム
+constexpr float ANIME_SPEED	=  1.0f;	// アニメスピード
+constexpr float MOVE_HIGHT	=  30.0f;	// 動かす高さ
+constexpr float MIN_HIGHT	= -20.0f;	// リスポーン位置に戻す
 //----------------------------------------
 //using namespace std;
 
 //-------------------------------
-//		コンストラクタ
+//	コンストラクタ
 //-------------------------------
 CHuman::CHuman()
 {
@@ -28,7 +28,7 @@ CHuman::CHuman()
 
 
 //-------------------------------
-//		デストラクタ
+//	デストラクタ
 //-------------------------------
 CHuman::~CHuman()
 {
@@ -68,22 +68,24 @@ void CHuman::Init()
 //-------------------------------
 void CHuman::Load(int hndl)
 {
+	//サイズ変換用
 	VECTOR model_size = VGet(0.02f, 0.02f, 0.02f);
 
 	m_iModelHdl = hndl;
 	CObject::Load(m_iModelHdl, model_size);
 
+	//アニメーションの設定
 	RequestLoop(HUMAN_STATE_RUN, ANIME_SPEED, m_iModelHdl);
 	m_state = HUMAN_STATE_RUN;
 }
 
 
-//-------------------------------
+//---------------------------------
 //		毎フレーム呼ぶ処理
-//-------------------------------
+//---------------------------------
 void CHuman::Step()
 {
-
+	//生存フラグがfalseの時
 	if (!m_isActive)
 	{
 		VECTOR pos = VGet(m_recpos.x, m_recpos.y, m_recpos.z);
@@ -143,9 +145,9 @@ void CHuman::Draw()
 }
 
 
-//-------------------------------
+//---------------------------------
 //		移動計算結果を反映
-//-------------------------------
+//---------------------------------
 void CHuman::Move()
 {
 	//	重力処理
@@ -182,10 +184,6 @@ void CHuman::NormalExec(vector<CBlock*>& blocks, vector<CInstalledItem*>& instit
 			//---------------------------------
 			VECTOR dir =VSub(m_targetPos,m_vPosition);
 
-			//---------------------------------
-			// 階段じゃないなら
-			// Y移動しない
-			//---------------------------------
 			if (!m_isStairs)
 			{
 				dir.y = 0.0f;
@@ -197,13 +195,13 @@ void CHuman::NormalExec(vector<CBlock*>& blocks, vector<CInstalledItem*>& instit
 			float dist =sqrtf(dir.x * dir.x +dir.z * dir.z);
 
 			//---------------------------------
-			// 階段中はYをゆっくり補間
+			// 階段中はYを補間
 			//---------------------------------
 			if (m_isStairs)
 			{
 				float diffY = m_stairTargetY - m_vPosition.y;
 
-				// 少しずつ近づける（ゆっくり）
+				// 少しずつ近づける
 				m_vPosition.y += diffY * 0.08f;
 
 				// 微妙なガタ防止
@@ -459,6 +457,9 @@ void CHuman::Direction()
 }
 
 
+//----------------------------
+//		角度の変更
+//----------------------------
 void CHuman::SetDirect(int dir)
 {
 	switch (dir)
@@ -479,6 +480,9 @@ void CHuman::SetDirect(int dir)
 }
 
 
+//--------------------------------
+//		リセットさせる時の処理
+//--------------------------------
 void CHuman::Reset()
 {
 	// 0～360に変換

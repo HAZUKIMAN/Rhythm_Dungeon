@@ -8,6 +8,7 @@ class CCat : public CActor
 {
 public:
 
+	//猫の状態
 	enum tagCatState {
 		CAT_STATE_NORMAL,	// 待機
 		CAT_STATE_WIDEMOVE,	// 横揺れ
@@ -27,6 +28,7 @@ private:
 	float m_stairTargetY;
 	tagCatState m_state;	// 人間の状態
 
+	//オブジェクトのタイプ
 	enum ObjectType {
 		OBJ_NONE,
 		OBJ_HUMAN,
@@ -37,6 +39,7 @@ private:
 		OBJ_SETBLOCK
 	};
 
+	//h方向のタイプ
 	enum Direction
 	{
 		ROTATION_RIGHT,
@@ -45,6 +48,7 @@ private:
 		ROTATION_UP
 	};
 
+	//床のタイプ
 	enum TileType {
 		TILE_NONE = 0,
 		TILE_FLOOR = 1,

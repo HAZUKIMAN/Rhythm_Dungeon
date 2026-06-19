@@ -8,7 +8,7 @@ class CSoundManager
 {
 public:
 
-	static enum tagSoundID{
+	static const enum tagSoundID{
 		SOUNDID_TITLE_BGM,				//	タイトルBGM
 		SOUNDID_SELECT_BGM,				//	セレクトBGM
 		SOUNDID_GAME_BGM,				//	プレイゲームBGM

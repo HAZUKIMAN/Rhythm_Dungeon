@@ -3,7 +3,7 @@
 
 #define WAITTIME (60)
 
-static constexpr int  ENEMY__NUM(50);
+constexpr int  ENEMY__NUM(50);
 
 // デストラクタ
 CObject::~CObject() {
@@ -20,6 +20,8 @@ void CObject::Init()
 
 	m_iModelHdl = -1;
 }
+
+
 //------------------------------
 //		ロード
 //------------------------------

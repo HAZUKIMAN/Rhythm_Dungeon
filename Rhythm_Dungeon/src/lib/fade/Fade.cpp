@@ -98,7 +98,7 @@ void	CFade::Draw(void)
 
 	SetDrawBlendMode(DX_BLENDMODE_ALPHA, (int)m_cnt);
 	DrawBox(0, 0, m_windowX, m_windowY, GetColor(0, 0, 0), TRUE);
-	DrawString(1000, 16, "フェイド中", GetColor(255, 0, 0));
+	//DrawString(1000, 16, "フェイド中", GetColor(255, 0, 0));
 	SetDrawBlendMode(DX_BLENDMODE_NOBLEND, 0);
 }
 

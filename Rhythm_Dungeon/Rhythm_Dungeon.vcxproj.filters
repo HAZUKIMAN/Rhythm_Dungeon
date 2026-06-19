@@ -31,9 +31,6 @@
     <Filter Include="ソース ファイル\lib\math">
       <UniqueIdentifier>{494e0497-8d11-4194-9567-9bca9d67f9bf}</UniqueIdentifier>
     </Filter>
-    <Filter Include="ソース ファイル\game\score">
-      <UniqueIdentifier>{b2a191e8-0e9b-48af-adf1-0a733a823ede}</UniqueIdentifier>
-    </Filter>
     <Filter Include="ソース ファイル\game\scene">
       <UniqueIdentifier>{9186c726-c435-4437-9f60-b388209c9393}</UniqueIdentifier>
     </Filter>
@@ -94,9 +91,6 @@
     <Filter Include="ソース ファイル\lib\effect">
       <UniqueIdentifier>{7fa3ee38-3332-4cab-a8fa-ca5706366925}</UniqueIdentifier>
     </Filter>
-    <Filter Include="ソース ファイル\game\Editor\rail">
-      <UniqueIdentifier>{90c83f92-1de3-4a57-bebb-d9113f53c6fa}</UniqueIdentifier>
-    </Filter>
     <Filter Include="ソース ファイル\game\actor">
       <UniqueIdentifier>{8d3d9eeb-b4e2-4730-a869-f885e46c6283}</UniqueIdentifier>
     </Filter>
@@ -108,6 +102,9 @@
     </Filter>
     <Filter Include="ソース ファイル\game\actor\enemy">
       <UniqueIdentifier>{7c1521e2-38e0-4276-9587-797439ea54f1}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ソース ファイル\lib\score">
+      <UniqueIdentifier>{b2a191e8-0e9b-48af-adf1-0a733a823ede}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -131,9 +128,6 @@
     </ClCompile>
     <ClCompile Include="src\lib\fade\Fade.cpp">
       <Filter>ソース ファイル\lib\fade</Filter>
-    </ClCompile>
-    <ClCompile Include="src\game\score\Score.cpp">
-      <Filter>ソース ファイル\game\score</Filter>
     </ClCompile>
     <ClCompile Include="src\game\scene\SceneManager.cpp">
       <Filter>ソース ファイル\game\scene</Filter>
@@ -222,6 +216,9 @@
     <ClCompile Include="src\game\Anime\Anime.cpp">
       <Filter>ソース ファイル\game\actor</Filter>
     </ClCompile>
+    <ClCompile Include="src\lib\score\Score.cpp">
+      <Filter>ソース ファイル\lib\score</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\Data.h">
@@ -241,9 +238,6 @@
     </ClInclude>
     <ClInclude Include="src\lib\fade\Fade.h">
       <Filter>ソース ファイル\lib\fade</Filter>
-    </ClInclude>
-    <ClInclude Include="src\game\score\Score.h">
-      <Filter>ソース ファイル\game\score</Filter>
     </ClInclude>
     <ClInclude Include="src\game\scene\SceneBase.h">
       <Filter>ソース ファイル\game\scene</Filter>
@@ -337,6 +331,9 @@
     </ClInclude>
     <ClInclude Include="src\game\Anime\Anime.h">
       <Filter>ソース ファイル\game\actor</Filter>
+    </ClInclude>
+    <ClInclude Include="src\lib\score\Score.h">
+      <Filter>ソース ファイル\lib\score</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

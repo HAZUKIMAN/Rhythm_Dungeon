@@ -34,7 +34,7 @@ private:
 	};
 
 
-	VECTOR	m_player_startPos;
+	VECTOR	m_human_startPos;
 	float	m_startDer;
 	int		m_iModelHdl[MODEL_NUM];	//ƒ‚ƒfƒ‹ƒnƒ“ƒhƒ‹
 

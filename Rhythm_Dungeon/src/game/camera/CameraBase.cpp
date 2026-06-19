@@ -1,7 +1,7 @@
 #include "CameraBase.h"
 
 
-static const VECTOR VECTOR_ZERO = { 0.0f, 0.0f, 0.0f };
+constexpr VECTOR VECTOR_ZERO = { 0.0f, 0.0f, 0.0f };
 
 //-------------------------------
 //		コンストラクタ

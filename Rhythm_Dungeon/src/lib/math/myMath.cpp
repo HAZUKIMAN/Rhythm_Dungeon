@@ -2,7 +2,7 @@
 #define _USE_MATH_DEFINES
 #include <math.h>
 
-//一時的な変数で計算で計算してもいいかも
+//一時的な変数で計算で計算してもいいかも(libを肥やすために書きました)
 MATRIX MyMath::m_matrix[(int)MyMath::Matrix_Index::Matrix_Max_Num];
 
 //２から１への進行方向と移動量：向かう場所XY1  動かしたいものXY2  XとYのどちらを出すか  増加量

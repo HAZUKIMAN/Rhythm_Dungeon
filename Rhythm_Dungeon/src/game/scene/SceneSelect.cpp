@@ -7,7 +7,7 @@
 
 
 
-static const char FILE_NAME[] = "Data/StageSelect/StageSelectBase.png";
+constexpr char FILE_NAME[] = "Data/StageSelect/StageSelectBase.png";
 
 
 //-------------------------------
@@ -98,8 +98,8 @@ void CSceneSelect::Draw()
 
 	DrawString(500,650,"← → Select  Enter Start",WHITE);
 
-	DrawString(560, 100, "STAGE SELECT", WHITE);
-	DrawString(1000, 30, "vでタイトルへ", RED);
+	//DrawString(560, 100, "STAGE SELECT", WHITE);
+	//DrawString(1000, 30, "vでタイトルへ", RED);
 }
 
 

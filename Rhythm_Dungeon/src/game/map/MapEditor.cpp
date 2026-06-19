@@ -204,7 +204,7 @@ void MapEditor::Update()
 //---------------------------------
 // 描画
 //---------------------------------
-void MapEditor::Draw()
+void MapEditor::Draw(bool mood_chang)
 {
     //---------------------------------
     // インスタンス描画
@@ -217,47 +217,51 @@ void MapEditor::Draw()
         MV1DrawModel(inst.m_iModelHdl);
     }
 
-    //---------------------------------
-    // UI
-    //---------------------------------
-    DrawFormatString(100, 100, RED, "Curredwwant Y : %d", m_currentY);
-    DrawString(100,130,"Q/E : Height Change",RED);
-
-    //---------------------------------
-   // 向き表示
-   //---------------------------------
-    const char* dirText = "RIGHT";
-
-    // 0～360に変換
-    float rotDeg = m_currentRotY * 180.0f / DX_PI_F;
-
-    // マイナス対策
-    while (rotDeg < 0)
+    if (mood_chang)
     {
-        rotDeg += 360.0f;
-    }
+        //---------------------------------
+        // UI
+        //---------------------------------
+        DrawFormatString(100, 100, RED, "Curredwant Y : %d", m_currentY);
+        DrawString(100, 130, "Q/E : Height Change", RED);
 
-    rotDeg = fmod(rotDeg, 360.0f);
 
-    // 方向判定
-    if (rotDeg >= 315 || rotDeg < 45)
-    {
-        dirText = "DOWN";
-    }
-    else if (rotDeg >= 45 && rotDeg < 135)
-    {
-        dirText = "LEFT";
-    }
-    else if (rotDeg >= 135 && rotDeg < 225)
-    {
-        dirText = "UP";
-    }
-    else
-    {
-        dirText = "RIGHT";
-    }
+        //---------------------------------
+       // 向き表示
+       //---------------------------------
+        const char* dirText = "RIGHT";
 
-    DrawFormatString(1220, 280, WHITE, "向き : %s", dirText);
+        // 0～360に変換
+        float rotDeg = m_currentRotY * 180.0f / DX_PI_F;
+
+        // マイナス対策
+        while (rotDeg < 0)
+        {
+            rotDeg += 360.0f;
+        }
+
+        rotDeg = fmod(rotDeg, 360.0f);
+
+        // 方向判定
+        if (rotDeg >= 315 || rotDeg < 45)
+        {
+            dirText = "DOWN";
+        }
+        else if (rotDeg >= 45 && rotDeg < 135)
+        {
+            dirText = "LEFT";
+        }
+        else if (rotDeg >= 135 && rotDeg < 225)
+        {
+            dirText = "UP";
+        }
+        else
+        {
+            dirText = "RIGHT";
+        }
+
+        DrawFormatString(1220, 280, WHITE, "向き : %s", dirText);
+    }
 
 }
 

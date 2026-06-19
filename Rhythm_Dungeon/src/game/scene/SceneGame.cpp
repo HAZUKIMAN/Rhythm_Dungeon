@@ -9,13 +9,13 @@
 #include "../../lib/sound/effectData/effectData.h"
 
 
-static const float HIGHT_GRID = 2.5f;	// 移動速度
-static const float HIGHT_PLUS = 1.5f;
+constexpr float HIGHT_GRID = 2.5f;	// 移動速度
+constexpr float HIGHT_PLUS = 1.5f;
 
 
-static constexpr char MODEL_PATH[][255] =
+constexpr char MODEL_PATH[][255] =
 { 
-"Data/Character/player/player.mv1" ,
+"Data/Character/human/human.mv1" ,
 "Data/Character/Cat/cat.mv1", 
 "Data/Character/ScondBoss/enemy.mv1" ,
 "Data/object/inst/Fish.mv1" ,
@@ -23,19 +23,6 @@ static constexpr char MODEL_PATH[][255] =
 "Data/object/Flag/Flag.x" ,
 "Data/object/stop_obj/Stop.mv1"
 };
-
-/*enum STATE_MODEL
-{
-	MODEL_HUMAN,
-	MODEL_CAT,
-	MODEL_ENEMY,
-	MODEL_INSTITEM,
-	MODEL_BRIDGE,
-	MODEL_GOAL,
-
-	MODEL_NUM
-};*/
-
 
 
 //-------------------------------
@@ -47,6 +34,7 @@ CSceneGame::CSceneGame()
 	m_carryState	= PUT_NONE;
 	m_clearSelect	= CLEAR_NEXT;
 	m_editMode		= EDIT_MAP;
+	m_isGoal		= false; 
 }
 
 
@@ -55,15 +43,15 @@ CSceneGame::CSceneGame()
 //-------------------------------
 CSceneGame::~CSceneGame()
 {
-}
 
+}
 
 //-------------------------------
 //		初期化
 //-------------------------------
 void CSceneGame::Init()
 {
-	memset(&m_player_startPos, 0, sizeof(VECTOR));
+	memset(&m_human_startPos, 0, sizeof(VECTOR));
 
 	// カメラ初期化
 	m_cameraManager.Init();
@@ -143,7 +131,7 @@ void CSceneGame::Load()
 	//橋のロード
 	for (auto& bridge : m_bridge)
 	{
-		bridge -> Load(MODEL_BRIDGE);
+		bridge -> Load(m_iModelHdl[MODEL_BRIDGE]);
 	}
 
 	// カメラ更新処理
@@ -362,7 +350,7 @@ void CSceneGame::Set()
 			m_cat.SetPos(catpos);
 			m_cat.SetRespawn(catpos);
 			//猫の初期位置を保存
-			m_player_startPos = catpos;
+			m_human_startPos = catpos;
 
 			m_cat.SetRadius(obj.rotY);
 		}
@@ -509,10 +497,18 @@ void CSceneGame::Set()
 //-------------------------------
 void CSceneGame::Draw()
 {
+	bool chang_editor = false;
+
+	if (m_cameraManager.GetCameraID() == CCameraManager::CAMERA_ID_EDITOR)
+	{
+		chang_editor = true;
+	}
+
 	//空の描画
 	m_backgroundManager.Draw();
+
 	//マップの描画
-	m_mapedit.Draw();
+	m_mapedit.Draw(chang_editor);
 	//カメラの描画
 	m_cameraManager.Draw();
 	//humanの描画
@@ -585,8 +581,8 @@ void CSceneGame::Draw()
 	}
 
 	//カメラの切り替え表示
-	DrawFormatString(1200,20,WHITE,"デバックカメラ切り替え処理:Key C \nエディターカメラ切り替え処理:Key B\nプレイカメラへの切り替え:key V");
-	DrawFormatString(700, 100, RED, "人間のＸ軸：%f\n 人間のY軸：%f\n人間のZ軸：%f", m_human.GetPos().x, m_human.GetPos().y, m_human.GetPos().z);
+	//DrawFormatString(1200,20,WHITE,"デバックカメラ切り替え処理:Key C \nエディターカメラ切り替え処理:Key B\nプレイカメラへの切り替え:key V");
+	//DrawFormatString(700, 100, RED, "人間のＸ軸：%f\n 人間のY軸：%f\n人間のZ軸：%f", m_human.GetPos().x, m_human.GetPos().y, m_human.GetPos().z);
 }
 
 
@@ -653,9 +649,9 @@ void CSceneGame::Calc()
 		CatCrryToBridge();
 		
 		// 待機･移動中処理 
-		m_human.NormalExec(m_blocks, m_institem, m_mapedit, move_box);
+		m_human.NormalExec(m_blocks, m_institem, m_mapedit, (float)move_box);
 
-		for (auto& enemy : m_enemy) { enemy->NormalExec(m_blocks,m_institem, move_box); }
+		for (auto& enemy : m_enemy) { enemy->NormalExec(m_blocks,m_institem,(float) move_box); }
 
 		//  人間と床と階段との当たり判定
 		m_human.AddPos(CCollisionManager::HitMap(m_human.GetCenter(), m_human.GetRadius(), m_mapedit));
@@ -1122,6 +1118,7 @@ void CSceneGame::Reset()
 	{
 		delete enemy;
 	}
+
 	m_enemy.clear();
 
 	//---------------------------------
@@ -1131,6 +1128,7 @@ void CSceneGame::Reset()
 	{
 		delete item;
 	}
+
 	m_institem.clear();
 
 	//---------------------------------
@@ -1140,6 +1138,7 @@ void CSceneGame::Reset()
 	{
 		delete bridge;
 	}
+
 	m_bridge.clear();
 
 	//---------------------------------
@@ -1155,6 +1154,7 @@ void CSceneGame::Reset()
 	// マップ再読み込み
 	//---------------------------------
 	m_mapedit.LoadMap(Data::GetInstance()->GetStagePath(),m_objEditor);
+	m_objEditor.Load();
 
 	//---------------------------------
 	// オブジェクト再生成
@@ -1177,9 +1177,7 @@ void CSceneGame::Reset()
 		//---------------------------------
 		if (obj.type == OBJ_ENEMY)
 		{
-			CEnemy* enemy =
-				new CEnemy;
-
+			CEnemy* enemy = new CEnemy;
 			enemy->Init();
 			enemy->Load(m_iModelHdl[MODEL_ENEMY]);
 
@@ -1203,34 +1201,24 @@ void CSceneGame::Reset()
 			//---------------------------------
 			// 向き判定
 			//---------------------------------
-			if (rotDeg >= 315 ||
-				rotDeg < 45)
+			if (rotDeg >= 315 ||rotDeg < 45)
 			{
-				enemy->SetDirect(1);
-				// DOWN
+				enemy->SetDirect(1); // DOWN
 			}
-			else if (
-				rotDeg >= 45 &&
-				rotDeg < 135)
+			else if (rotDeg >= 45 &&rotDeg < 135)
 			{
-				enemy->SetDirect(2);
-				// LEFT
+				enemy->SetDirect(2); // LEFT
 			}
-			else if (
-				rotDeg >= 135 &&
-				rotDeg < 225)
+			else if (rotDeg >= 135 &&rotDeg < 225)
 			{
-				enemy->SetDirect(3);
-				// UP
+				enemy->SetDirect(3); // UP
 			}
 			else
 			{
-				enemy->SetDirect(0);
-				// RIGHT
+				enemy->SetDirect(0); // RIGHT
 			}
 
-			m_enemy.push_back(
-				enemy);
+			m_enemy.push_back(enemy);
 		}
 
 		//---------------------------------
@@ -1244,8 +1232,7 @@ void CSceneGame::Reset()
 
 			item->SetPos(pos);
 
-			m_institem.push_back(
-				item);
+			m_institem.push_back(item);
 		}
 
 		//---------------------------------
@@ -1272,8 +1259,7 @@ void CSceneGame::Reset()
 			VECTOR vec = VGet(pos.x, pos.y+ 1.5f,pos.z);
 			block->SetPos(vec);
 
-			m_blocks.push_back(
-				block);
+			m_blocks.push_back(block);
 		}
 
 		//---------------------------------
@@ -1344,12 +1330,51 @@ void CSceneGame::Reset()
 				m_startDer = -DX_PI_F / 2;
 			}
 		}
+
+		//-----------------------------------
+		// 各モデルのロード
+		//-----------------------------------
+		//モデルのロード
+		for (int load = 0;load < MODEL_NUM; load++)
+		{
+			m_iModelHdl[load] = MV1LoadModel(MODEL_PATH[load]);
+		}
+
+		//エネミーのロード
+		for (auto& enemy : m_enemy)
+		{
+			enemy->Load(m_iModelHdl[MODEL_ENEMY]);
+		}
+
+		//運べるブロックのロード
+		for (auto& institem : m_institem)
+		{
+			institem->Load(m_iModelHdl[MODEL_INSTITEM]);
+		}
+
+		//ブロックのロード
+		for (auto& block : m_blocks)
+		{
+			block->Load(m_iModelHdl[MODEL_BLOCKS]);
+		}
+
+		//橋のロード
+		for (auto& bridge : m_bridge)
+		{
+			bridge->Load(m_iModelHdl[MODEL_BRIDGE]);
+		}
+
+		//モデルのロード
+		for (int load = 0; load < MODEL_NUM; load++)
+		{
+			MV1DeleteModel(m_iModelHdl[load]);
+		}
 	}
 
 	//---------------------------------
 	// プレイヤー位置
 	//---------------------------------
-	m_cat.SetPos(m_player_startPos);
+	m_cat.SetPos(m_human_startPos);
 	
 }
 

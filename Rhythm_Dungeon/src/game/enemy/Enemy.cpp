@@ -6,15 +6,15 @@
 #include "../../lib/Input/Input.h"
 
 //	定義関連------------------------------
-static const float MOVE_SPEED = 0.1f;	// 移動速度
-static const float ROT_SPEED = 0.03f;	// 回転速度
-static const float JUMP_POWER = 5.0f;	// ジャンプ力
-static const float GRAVITY = 0.01f;		// 重力
-static const float RADIUS = 2.5f;		// 当たり判定半径
-static const float MAXTIME = 10.0f;		// クールタイム
-static const float ANIME_SPEED = 1.0f;	// アニメスピード
-static const float MOVE_HIGHT = 0.0f;	// 動く高さ
-static const float MIN_HIGHT = -20.0f;	// リスポーン位置に戻す
+constexpr float MOVE_SPEED = 0.1f;	// 移動速度
+constexpr float ROT_SPEED = 0.03f;	// 回転速度
+constexpr float JUMP_POWER = 5.0f;	// ジャンプ力
+constexpr float GRAVITY = 0.01f;		// 重力
+constexpr float RADIUS = 2.5f;		// 当たり判定半径
+constexpr float MAXTIME = 10.0f;		// クールタイム
+constexpr float ANIME_SPEED = 1.0f;	// アニメスピード
+constexpr float MOVE_HIGHT = 0.0f;	// 動く高さ
+constexpr float MIN_HIGHT = -20.0f;	// リスポーン位置に戻す
 
 //----------------------------------------
 
@@ -101,7 +101,7 @@ void CEnemy::Step()
 void CEnemy::Draw()
 {
 	if (!m_isActive)return;
-	CObject::Draw();
+	CActor::Draw();
 	CObject::Draw();
 
 #ifdef MY_DEBUG
@@ -122,12 +122,16 @@ void CEnemy::Move()
 
 	if (m_vPosition.y <= MIN_HIGHT)
 	{
+		//生存フラグの切り替え
 		m_isActive = false;
 	}
 
 }
 
 
+//---------------------------------
+// 待機･移動中処理
+//---------------------------------
 void CEnemy::NormalExec(const std::vector<CBlock*>& blocks, std::vector<CInstalledItem*>& institem, float cat_state)
 {
 	if (m_vPosition.y >= MOVE_HIGHT)
@@ -141,8 +145,8 @@ void CEnemy::NormalExec(const std::vector<CBlock*>& blocks, std::vector<CInstall
 
 			VECTOR dir = VSub(m_targetPos, m_vPosition);
 
-
-			if (Input::Controller::Keep(XINPUT_BUTTON_RIGHT_SHOULDER))//早送りしたいのはenemyとhumanのみなので直に書いています
+			//早送りしたいのはenemyとhumanのみなので直に書いています
+			if (Input::Controller::Keep(XINPUT_BUTTON_RIGHT_SHOULDER))
 			{
 				addspeed = 0.8f;
 				m_coolTime = 0.0f;
@@ -262,7 +266,6 @@ void CEnemy::NormalExec(const std::vector<CBlock*>& blocks, std::vector<CInstall
 				}
 			}
 
-
 			//---------------------------------
 			// ブロックに当たる
 			//---------------------------------
@@ -333,6 +336,9 @@ void CEnemy::Direction()
 }
 
 
+//-------------------------------
+// 方向の変更
+//-------------------------------
 void CEnemy::SetDirect(int dir)
 {
 	switch (dir)

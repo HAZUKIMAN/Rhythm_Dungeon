@@ -8,16 +8,16 @@
 #include "../../lib/math/MyMatrix.h"
 
 //	定義関連------------------------------
-static const float MOVE_SPEED = 0.25f;		// 移動速度
-static const float ROT_SPEED = 0.1f;		// 回転速度
-static const float JUMP_POWER = 5.0f;		// ジャンプ力
-static const float GRAVITY = 0.01f;			// 重力
-static const float RADIUS = 5.0f;			// 当たり判定半径
-static const float ANIME_SPEED = 1.0f;		// アニメスピード
-static const float MIN_HIGHT = -20.0f;		// リスポーン位置に戻す
+constexpr float MOVE_SPEED = 0.25f;		// 移動速度
+constexpr float ROT_SPEED = 0.1f;		// 回転速度
+constexpr float JUMP_POWER = 5.0f;		// ジャンプ力
+constexpr float GRAVITY = 0.05f;		// 重力
+constexpr float RADIUS = 5.0f;			// 当たり判定半径
+constexpr float ANIME_SPEED = 1.0f;		// アニメスピード
+constexpr float MIN_HIGHT = -1.0f;		// リスポーン位置に戻す
 
-static const char PUTNO_MODEL_PATH[] = { "Data/object/put/Put_No.mv1" };
-static const char PUTOK_MODEL_PATH[] = { "Data/object/put/Put_Ok.mv1" };
+constexpr char PUTNO_MODEL_PATH[] = { "Data/object/put/Put_No.mv1" }; // 床にバツ印
+constexpr char PUTOK_MODEL_PATH[] = { "Data/object/put/Put_Ok.mv1" }; // 床の丸モデル	
 
 //----------------------------------------
 
@@ -28,9 +28,6 @@ static const char PUTOK_MODEL_PATH[] = { "Data/object/put/Put_Ok.mv1" };
 CCat::CCat()
 {
 	Init();
-
-	m_iPutModel[0] = -1;
-	m_iPutModel[1] = -1;
 }
 
 
@@ -39,14 +36,17 @@ CCat::CCat()
 //-------------------------------
 CCat::~CCat()
 {
+	//アニメのデタッチ
 	DetachAnim(m_iModelHdl);
 
+	//モデルの削除
 	if (m_iPutModel[0] != -1)
 	{
 		MV1DeleteModel(m_iPutModel[0]);
 		m_iPutModel[0] = -1;
 	}
 
+	//モデルの削除
 	if (m_iPutModel[1] != -1)
 	{
 		MV1DeleteModel(m_iPutModel[1]);
@@ -67,10 +67,12 @@ void CCat::Init()
 
 	CActor::Init();
 
-	m_radius = RADIUS;
-	m_isActive = true;
-	m_isStairs = false;
-	m_stairTargetY = 0.0f;
+	m_radius = RADIUS;		// 半径
+	m_isActive = true;		// 生存フラグ
+	m_isStairs = false;		// 階段用のフラグ
+	m_stairTargetY = 0.0f;  // 階段の時の高さ
+	m_iPutModel[0] = -1;	
+	m_iPutModel[1] = -1;
 
 	m_iPutModel[0] = MV1LoadModel(PUTNO_MODEL_PATH);
 	m_iPutModel[1] = MV1LoadModel(PUTOK_MODEL_PATH);
@@ -82,12 +84,15 @@ void CCat::Init()
 //-------------------------------
 void CCat::Load(int hndl)
 {
+	//サイズ用の変数
 	VECTOR ground_Size = VGet(0.05f, 0.05f, 0.05f);
 	VECTOR model_size = VGet(0.02f, 0.02f, 0.02f);
 
+	//モデルの読み込み
 	m_iModelHdl = hndl;
 	CObject::Load(m_iModelHdl, model_size);
 
+	//サイズ変換
 	MV1SetScale(m_iPutModel[0], ground_Size);
 	MV1SetScale(m_iPutModel[1], ground_Size);
 
@@ -131,6 +136,7 @@ void CCat::Step(MapEditor& map)
 	{
 		m_isActive = false;
 	}
+
 	//---------------------------------
 	// 歩き
 	//---------------------------------
@@ -363,7 +369,7 @@ void CCat::NormalExec(MapEditor& map)
 			m_isStairs = true;
 
 			//---------------------------------
-			// 階段の高さへ
+			// 階段の高さ
 			//---------------------------------
 			m_stairTargetY = (currentY + 1) * TILE_SIZE;
 		}
@@ -375,7 +381,7 @@ void CCat::NormalExec(MapEditor& map)
 		{
 			float diffY = m_stairTargetY - m_vPosition.y;
 
-			// ゆっくり登る
+			// 登る
 			m_vPosition.y += diffY * 0.15f;
 
 			// ガタ防止
@@ -410,9 +416,9 @@ void CCat::PlaceBlock(ObjectEditor& objEditor)
 	if (placeX >= MAP_W || placeZ >= MAP_H)
 		return;
 
-	//---------------------------------
+	//-----------------------------------
 	// 既にオブジェクトがあるなら置かない
-	//---------------------------------
+	//-----------------------------------
 	if (objEditor.IsObjectAt(placeX, mapY, placeZ))
 		return;
 
@@ -507,6 +513,7 @@ void CCat::DrawPlaceBlockPreview(MapEditor& map)
 		return;
 	}
 
+
 	//---------------------------------
 	// ワールド座標
 	//---------------------------------
@@ -576,7 +583,7 @@ int CCat::GetDirection()
 	}
 	//front
 	//---------------------------------
-	// 左F
+	// 左
 	//---------------------------------
 	if (fabs(rot - (DX_PI_F / 2)) < 0.1f)
 	{

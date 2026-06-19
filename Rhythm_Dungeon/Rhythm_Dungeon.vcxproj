@@ -168,7 +168,6 @@
     <ClCompile Include="src\game\scene\SceneManager.cpp" />
     <ClCompile Include="src\game\scene\SceneSelect.cpp" />
     <ClCompile Include="src\game\scene\SceneTitle.cpp" />
-    <ClCompile Include="src\game\score\Score.cpp" />
     <ClCompile Include="src\lib\fade\Fade.cpp" />
     <ClCompile Include="src\lib\frame\Frame.cpp" />
     <ClCompile Include="src\lib\Input\Input.cpp" />
@@ -177,6 +176,7 @@
     <ClCompile Include="src\lib\math\MyMatrix.cpp" />
     <ClCompile Include="src\lib\math\Vector.cpp" />
     <ClCompile Include="src\lib\object\Object.cpp" />
+    <ClCompile Include="src\lib\score\Score.cpp" />
     <ClCompile Include="src\lib\sound\effectData\effectData.cpp" />
     <ClCompile Include="src\lib\sound\SoundManager.cpp" />
     <ClCompile Include="src\Main.cpp" />
@@ -209,7 +209,6 @@
     <ClInclude Include="src\game\scene\SceneManager.h" />
     <ClInclude Include="src\game\scene\SceneSelect.h" />
     <ClInclude Include="src\game\scene\SceneTitle.h" />
-    <ClInclude Include="src\game\score\Score.h" />
     <ClInclude Include="src\lib\fade\Fade.h" />
     <ClInclude Include="src\lib\frame\Frame.h" />
     <ClInclude Include="src\lib\Input\Input.h" />
@@ -218,6 +217,7 @@
     <ClInclude Include="src\lib\math\MyMatrix.h" />
     <ClInclude Include="src\lib\math\Vector.h" />
     <ClInclude Include="src\lib\object\Object.h" />
+    <ClInclude Include="src\lib\score\Score.h" />
     <ClInclude Include="src\lib\sound\effectData\effectData.h" />
     <ClInclude Include="src\lib\sound\SoundManager.h" />
   </ItemGroup>
