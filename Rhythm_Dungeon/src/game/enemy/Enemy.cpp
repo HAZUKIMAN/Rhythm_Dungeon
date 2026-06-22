@@ -32,7 +32,6 @@ CEnemy::CEnemy()
 //-------------------------------
 CEnemy::~CEnemy()
 {
-	DetachAnim(m_iModelHdl);
 	// 本来は必要ないけど、念のため
 	Fin();
 }
@@ -51,7 +50,7 @@ void CEnemy::Init()
 	m_moveZ = 0;
 	m_coolTime = MAXTIME;
 
-    m_state = ENEMY_STATE_NORMAL;
+    m_state = ENEMY_STATE_RUN;
     direction = ROTATION_RIGHT;
 }
 
@@ -81,17 +80,16 @@ void CEnemy::Step()
 	switch (m_state)
 	{
 	case ENEMY_STATE_NORMAL:
+		Direction();
+		Move();
 		break;
 	case ENEMY_STATE_RUN:
+		Direction();
+		Move();
 		break;
 	case ENEMY_STATE_HIT:
 		break;
 	}
-
-	Direction();
-	Move();
-
-	AnimeUpdate(m_iModelHdl);
 }
 
 
@@ -134,11 +132,12 @@ void CEnemy::Move()
 //---------------------------------
 void CEnemy::NormalExec(const std::vector<CBlock*>& blocks, std::vector<CInstalledItem*>& institem, float cat_state)
 {
+
 	if (m_vPosition.y >= MOVE_HIGHT)
 	{
 		//---------------------------------
-		 // 移動中
-		 //---------------------------------
+		// 移動中
+		//---------------------------------
 		if (m_isMoving)
 		{
 			float addspeed = 0.5f;
@@ -236,6 +235,7 @@ void CEnemy::NormalExec(const std::vector<CBlock*>& blocks, std::vector<CInstall
 			for (auto block : blocks)
 			{
 				if (block == nullptr)continue;
+
 				int blockX = (int)floor(block->GetPos().x / TILE_SIZE);
 				int blockZ = (int)floor(block->GetPos().z / TILE_SIZE);
 
@@ -292,15 +292,18 @@ void CEnemy::NormalExec(const std::vector<CBlock*>& blocks, std::vector<CInstall
 
 				return;
 			}
+
 			//---------------------------------
 			// 中心位置
 			//---------------------------------
 			float worldX = (nextX + 0.5f) * TILE_SIZE;
 			float worldZ = (nextZ + 0.5f) * TILE_SIZE;
+
 			//---------------------------------
 			// 目標地点
 			//---------------------------------
 			m_targetPos = VGet(worldX, m_vPosition.y, worldZ);
+
 			//---------------------------------
 			// 移動開始
 			//---------------------------------
@@ -355,6 +358,7 @@ void CEnemy::SetDirect(int dir)
 	case 3:
 		direction = ROTATION_DOWN;
 		break;
+
 	default:
 		break;
 	}

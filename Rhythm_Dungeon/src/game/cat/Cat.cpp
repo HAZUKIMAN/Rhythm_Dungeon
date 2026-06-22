@@ -106,7 +106,8 @@ void CCat::Load(int hndl)
 //-------------------------------
 void CCat::Step(MapEditor& map)
 {
-
+	if (m_state == CAT_STATE_DANCE)return;
+	
 	if (m_isActive == false)
 	{
 		m_vPosition = VGet(m_recpos.x, m_recpos.y, m_recpos.z);
@@ -145,7 +146,6 @@ void CCat::Step(MapEditor& map)
 		if (m_state !=CAT_STATE_WALK)
 		{
 			RequestLoop(CAT_STATE_WALK,ANIME_SPEED,m_iModelHdl);
-
 			m_state =CAT_STATE_WALK;
 		}
 	}
@@ -157,9 +157,9 @@ void CCat::Step(MapEditor& map)
 		if (m_state != CAT_STATE_NORMAL)
 		{
 			RequestLoop(CAT_STATE_NORMAL,ANIME_SPEED,m_iModelHdl);
-
 			m_state = CAT_STATE_NORMAL;
 		}
+
 	}
 
 	//---------------------------------

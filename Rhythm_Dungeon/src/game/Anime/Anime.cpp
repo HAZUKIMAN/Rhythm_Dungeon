@@ -83,8 +83,9 @@ void  CAnime::AnimeUpdate(int hndl)
 			break;
 		}
 	}
+
 	//çƒê∂éûä‘
-	MV1SetAttachAnimTime(hndl, m_sAnimeData.m_iHndl, m_sAnimeData.m_fFrm);
+	int i = MV1SetAttachAnimTime(hndl, m_sAnimeData.m_iHndl, m_sAnimeData.m_fFrm);
 }
 
 //------------------------------

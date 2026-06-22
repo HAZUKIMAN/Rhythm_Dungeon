@@ -10,7 +10,7 @@ private:
 
 	//エネミーの状態
 	enum tagEnemyState {
-		ENEMY_STATE_NORMAL,	// 待機
+		ENEMY_STATE_NORMAL,		// 待機
 		ENEMY_STATE_RUN,		// 歩き中
 		ENEMY_STATE_HIT,		// ジャンプ中
 

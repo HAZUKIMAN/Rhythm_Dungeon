@@ -198,7 +198,7 @@ int CSceneGame::Step()
 			//---------------------------------
 			// 次ステージ
 			//---------------------------------
-			if (m_clearSelect ==CLEAR_NEXT)
+			if (m_clearSelect == CLEAR_NEXT)
 			{
 				int stage = Data::GetInstance()->GetSelectStage();
 				int maxStage = Data::GetInstance()->GetStageCount();
@@ -258,15 +258,16 @@ int CSceneGame::Step()
 		m_isGoal = true;
 	}
 
-	// カメラ更新処理
-	m_cameraManager.Step(m_cat, m_isGoal);
-	m_cameraManager.Update();
 
 	//---------------------------------
 	// 通常更新
 	//---------------------------------
 	Calc();
 
+
+	// カメラ更新処理
+	m_cameraManager.Step(m_cat, m_isGoal);
+	m_cameraManager.Update();
 
 	return ret;
 }
