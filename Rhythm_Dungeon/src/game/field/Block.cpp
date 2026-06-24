@@ -25,8 +25,8 @@ void CBlock::Load(int hndl)
 {
 	VECTOR model_size = VGet(0.03f, 0.03f, 0.03f);
 
-	m_iModelHdl = hndl;
-	CObject::Load(m_iModelHdl, model_size);
+	CObject::Load(hndl, model_size);
+
 	MV1SetupCollInfo(m_iModelHdl);
 }
 

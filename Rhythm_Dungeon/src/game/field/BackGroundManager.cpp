@@ -33,6 +33,7 @@ void CBackGroundManager::Init()
 //-------------------------------
 void CBackGroundManager::Load()
 {
+
 }
 
 
@@ -41,6 +42,7 @@ void CBackGroundManager::Load()
 //-------------------------------
 int  CBackGroundManager::Step()
 {
+
 	return 0;
 }
 

@@ -1,9 +1,8 @@
 #include <math.h>
 #include "../../Data.h"
-#include "../Anime/Anime.h"
-#include "../common.h"
 #include"Enemy.h"
 #include "../../lib/Input/Input.h"
+#include "../common.h"
 
 //	定義関連------------------------------
 constexpr float MOVE_SPEED = 0.1f;	// 移動速度
@@ -60,12 +59,14 @@ void CEnemy::Init()
 //-------------------------------
 void CEnemy::Load(int hndl)
 {
+	//モデルのサイズ
 	VECTOR model_size = VGet(0.01f, 0.01f, 0.01f);
-	m_iModelHdl = hndl;
-	CObject::Load(m_iModelHdl,model_size);
 
-	RequestLoop(ENEMY_STATE_RUN, ANIME_SPEED, m_iModelHdl);
+	CObject::Load(hndl, model_size);
+
+	RequestLoop(1, ANIME_SPEED, m_iModelHdl);
 	m_state = ENEMY_STATE_RUN;
+
 }
 
 
@@ -83,10 +84,12 @@ void CEnemy::Step()
 		Direction();
 		Move();
 		break;
+
 	case ENEMY_STATE_RUN:
 		Direction();
 		Move();
 		break;
+
 	case ENEMY_STATE_HIT:
 		break;
 	}

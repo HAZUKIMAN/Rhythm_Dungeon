@@ -7,16 +7,17 @@ CSky::~CSky() {}
 
 // èâä˙âª
 void CSky::Init() {
-	m_vPosition = VGet(0.0f, 0.0f, 0.0f);
-	m_Rot= VGet(0.0f, 0.0f, 0.0f);
-	m_iModelHdl = MV1LoadModel("Data/object/sky/Sky.mv1");//"data/object/sky/sky.mv1"
+	
+
+	m_iModelHdl = MV1LoadModel("Data/object/sky/Sky.mv1");
 	MV1SetPosition(m_iModelHdl, m_vPosition);
 	MV1SetScale(m_iModelHdl, VGet(8.8f, 8.8f, 8.8f));
 }
 
 // ï`âÊ
 void CSky::Draw() {
-	m_Rot.y+= 0.0001f;
-	MV1SetRotationXYZ(m_iModelHdl, m_Rot);
+	m_vRotation.y+= 0.0001f;
+
+	MV1SetRotationXYZ(m_iModelHdl, m_vRotation);
 	MV1DrawModel(m_iModelHdl);
 }

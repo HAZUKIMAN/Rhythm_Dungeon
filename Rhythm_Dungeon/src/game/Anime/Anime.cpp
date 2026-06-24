@@ -1,10 +1,5 @@
 #include"Anime.h"
 
-//RequestLoop(human_STATE_WALK, 0.5f, m_iModelHdl); 
-//m_eState = human_STATE_WALK;
-//DetachAnim(m_iModelHdl);
-
-
 //---------------------------
 //		アニメリクエスト
 //----------------------------

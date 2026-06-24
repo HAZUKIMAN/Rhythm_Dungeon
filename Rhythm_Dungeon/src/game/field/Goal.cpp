@@ -21,8 +21,8 @@ void CGoal::Load(int hndl)
 {
 	VECTOR size = VGet(0.5f, 0.5f, 0.5f);
 
-	m_iModelHdl = hndl;
-	CObject::Load(m_iModelHdl,size);
+	CObject::Load(hndl,size);
+
 	MV1SetupCollInfo(m_iModelHdl);
 }
 

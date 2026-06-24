@@ -6,8 +6,9 @@
 //#define FLAG_NUM	(5)
 
 class CSky : public CObject {
+
 private:
-	VECTOR m_Rot;
+
 public:
 	// コンストラクタ・デストラクタ
 	CSky();

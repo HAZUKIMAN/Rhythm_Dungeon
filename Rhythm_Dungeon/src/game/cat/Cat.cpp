@@ -1,9 +1,7 @@
 #include"Cat.h"
 #include <math.h>
-
 #include "../../Data.h"
 #include "../../lib/Input/Input.h"
-#include "../Anime/Anime.h"
 #include "../common.h"
 #include "../../lib/math/MyMatrix.h"
 
@@ -36,9 +34,6 @@ CCat::CCat()
 //-------------------------------
 CCat::~CCat()
 {
-	//アニメのデタッチ
-	DetachAnim(m_iModelHdl);
-
 	//モデルの削除
 	if (m_iPutModel[0] != -1)
 	{
@@ -89,8 +84,7 @@ void CCat::Load(int hndl)
 	VECTOR model_size = VGet(0.02f, 0.02f, 0.02f);
 
 	//モデルの読み込み
-	m_iModelHdl = hndl;
-	CObject::Load(m_iModelHdl, model_size);
+	CObject::Load(hndl, model_size);
 
 	//サイズ変換
 	MV1SetScale(m_iPutModel[0], ground_Size);

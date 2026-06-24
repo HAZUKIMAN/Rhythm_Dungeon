@@ -27,7 +27,7 @@ public:
 	virtual void Fin();
 
 	// 毎フレーム呼ぶ処理
-	virtual void Step(CCat& cat,bool clear);
+	virtual void Step(CCat& cat);
 	// 更新処理
 	virtual void Update();
 	// 描画

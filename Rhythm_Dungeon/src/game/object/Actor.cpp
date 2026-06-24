@@ -19,7 +19,7 @@ CActor::CActor()
 //-------------------------------
 CActor::~CActor()
 {
-    DetachAnim(m_iModelHdl);
+   DetachAnim(m_iModelHdl);
 
     if (m_shadowHdl != -1)
     {

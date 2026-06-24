@@ -12,6 +12,7 @@
 constexpr float HIGHT_GRID = 2.5f;	// 移動速度
 constexpr float HIGHT_PLUS = 1.5f;
 
+//"Data/Character/ScondBoss/enemy.mv1" 
 
 constexpr char MODEL_PATH[][255] =
 { 
@@ -43,7 +44,11 @@ CSceneGame::CSceneGame()
 //-------------------------------
 CSceneGame::~CSceneGame()
 {
-
+	//モデルの削除
+	for (int load = 0; load < MODEL_NUM; load++)
+	{
+		MV1DeleteModel(m_iModelHdl[load]);
+	}
 }
 
 //-------------------------------
@@ -89,8 +94,9 @@ void CSceneGame::Init()
 //-------------------------------
 void CSceneGame::Load()
 {
+
 	//モデルのロード
-	for (int load = 0;load< MODEL_NUM ; load++)
+	for (int load = 0;load < MODEL_NUM; load++)
 	{
 		m_iModelHdl[load] = MV1LoadModel(MODEL_PATH[load]);
 	}
@@ -109,12 +115,6 @@ void CSceneGame::Load()
 
 	//読み込まれた位置に物を配置
 	Set();
-
-	//エネミーのロード
-	for (auto& enemy : m_enemy)
-	{
-		enemy->Load(m_iModelHdl[MODEL_ENEMY]);
-	}
 
 	//運べるブロックのロード
 	for (auto& institem : m_institem)
@@ -135,13 +135,7 @@ void CSceneGame::Load()
 	}
 
 	// カメラ更新処理
-	m_cameraManager.Step(m_cat, m_isGoal);
-
-	//モデルのロード
-	for (int load = 0; load < MODEL_NUM; load++)
-	{
-		MV1DeleteModel(m_iModelHdl[load]);
-	}
+	m_cameraManager.Step(m_cat);
 
 	//サウンドBGM
 	CSoundManager::Stop(CSoundManager::SOUNDID_CLEAR_BGM);
@@ -264,9 +258,8 @@ int CSceneGame::Step()
 	//---------------------------------
 	Calc();
 
-
 	// カメラ更新処理
-	m_cameraManager.Step(m_cat, m_isGoal);
+	m_cameraManager.Step(m_cat);
 	m_cameraManager.Update();
 
 	return ret;
@@ -736,7 +729,7 @@ void CSceneGame::Calc()
 		}
 
 		// カメラ更新処理
-		m_cameraManager.Step(m_cat, m_isGoal);
+		m_cameraManager.Step(m_cat);
 		m_cameraManager.Update();
 	}
 
@@ -1331,45 +1324,28 @@ void CSceneGame::Reset()
 				m_startDer = -DX_PI_F / 2;
 			}
 		}
+	}
 
-		//-----------------------------------
-		// 各モデルのロード
-		//-----------------------------------
-		//モデルのロード
-		for (int load = 0;load < MODEL_NUM; load++)
-		{
-			m_iModelHdl[load] = MV1LoadModel(MODEL_PATH[load]);
-		}
-
-		//エネミーのロード
-		for (auto& enemy : m_enemy)
-		{
-			enemy->Load(m_iModelHdl[MODEL_ENEMY]);
-		}
+	//-----------------------------------
+	// 各モデルのロード
+	//-----------------------------------
 
 		//運べるブロックのロード
-		for (auto& institem : m_institem)
-		{
-			institem->Load(m_iModelHdl[MODEL_INSTITEM]);
-		}
+	for (auto& institem : m_institem)
+	{
+		institem->Load(m_iModelHdl[MODEL_INSTITEM]);
+	}
 
-		//ブロックのロード
-		for (auto& block : m_blocks)
-		{
-			block->Load(m_iModelHdl[MODEL_BLOCKS]);
-		}
+	//ブロックのロード
+	for (auto& block : m_blocks)
+	{
+		block->Load(m_iModelHdl[MODEL_BLOCKS]);
+	}
 
-		//橋のロード
-		for (auto& bridge : m_bridge)
-		{
-			bridge->Load(m_iModelHdl[MODEL_BRIDGE]);
-		}
-
-		//モデルのロード
-		for (int load = 0; load < MODEL_NUM; load++)
-		{
-			MV1DeleteModel(m_iModelHdl[load]);
-		}
+	//橋のロード
+	for (auto& bridge : m_bridge)
+	{
+		bridge->Load(m_iModelHdl[MODEL_BRIDGE]);
 	}
 
 	//---------------------------------

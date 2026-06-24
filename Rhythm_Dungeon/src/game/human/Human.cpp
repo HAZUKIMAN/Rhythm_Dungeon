@@ -2,7 +2,6 @@
 #include <math.h>
 #include "../../Data.h"
 #include "../../lib/Input/Input.h"
-#include "../Anime/Anime.h"
 #include "../common.h"
 #include "../../lib/sound/effectData/effectData.h"
 #include "../effect/effekseer.h"
@@ -32,7 +31,6 @@ CHuman::CHuman()
 //-------------------------------
 CHuman::~CHuman()
 {
-	DetachAnim(m_iModelHdl);
 	// 本来は必要ないけど、念のため
 	Fin();
 }
@@ -71,8 +69,7 @@ void CHuman::Load(int hndl)
 	//サイズ変換用
 	VECTOR model_size = VGet(0.02f, 0.02f, 0.02f);
 
-	m_iModelHdl = hndl;
-	CObject::Load(m_iModelHdl, model_size);
+	CObject::Load(hndl, model_size);
 
 	//アニメーションの設定
 	RequestLoop(HUMAN_STATE_RUN, ANIME_SPEED, m_iModelHdl);

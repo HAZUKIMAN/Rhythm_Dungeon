@@ -26,4 +26,5 @@ public:
 private:
 
 	CSky   c_sky;		//‹ó
+
 };

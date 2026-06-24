@@ -3,10 +3,10 @@
 #include <math.h>
 #include "../../lib/Input/Input.h"
 
-//	定義関連------------------------------
+//-----------定義関連-----------------------
 static const float CAMERA_LENGTH = 40.0f;		// 注視点から視点までの距離
 static const float CAMERA_OFFSET_Y = 30.0f;		// 視点の高さ
-//----------------------------------------
+//------------------------------------------
 
 
 //-------------------------------
@@ -16,6 +16,7 @@ CPlayCamera::CPlayCamera()
 {
 	m_cameraRotY = -DX_PI_F / 4.0f;
 	m_cameraRotX = 3.0f;
+
 }
 
 
@@ -30,7 +31,7 @@ CPlayCamera::~CPlayCamera()
 //-------------------------------
 //		毎フレーム呼ぶ処理
 //-------------------------------
-void CPlayCamera::Step(CCat& cat,bool clear)
+void CPlayCamera::Step(CCat& cat)
 {
  
 	//---------------------------------
@@ -48,10 +49,6 @@ void CPlayCamera::Step(CCat& cat,bool clear)
 	//---------------------------------
 	ControlCan(focus);
 
-	if (clear)
-	{
-		//スプライト曲線を使い空に飛ばす
-	}
 }
 
 
@@ -68,9 +65,9 @@ void CPlayCamera::ControlCan(VECTOR targetPos)
 	//---------------------------------
 	// 左右回転のみ
 	//---------------------------------
-	float rotSpeed =0.40f;
+	float rotSpeed = 0.5f;
 
-	m_cameraRotY = -DX_PI_F / 4.0f;
+	m_cameraRotY = -DX_PI_F / 4.0f;		//そこまでカメラを動かしたくないので少しだけ
 	m_cameraRotY += stickX * rotSpeed;
 
 	//---------------------------------

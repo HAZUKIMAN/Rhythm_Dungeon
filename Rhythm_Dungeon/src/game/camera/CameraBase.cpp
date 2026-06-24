@@ -42,7 +42,7 @@ void CCameraBase::Fin()
 //-------------------------------
 //		–ˆƒtƒŒ[ƒ€ŒÄ‚Ôˆ—
 //-------------------------------
-void CCameraBase::Step(CCat& cat, bool clear)
+void CCameraBase::Step(CCat& cat)
 {
 }
 
